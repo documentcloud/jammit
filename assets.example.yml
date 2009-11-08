@@ -1,0 +1,22 @@
+javascripts:
+  workspace:
+    - public/javascripts/vendor/*.js
+    - public/javascripts/application.js
+    - public/javascripts/lib/bindable.js
+    - public/javascripts/lib/set.js
+    - public/javascripts/lib/*.js
+    - public/javascripts/**/*.js
+
+stylesheets:
+  app:
+    - public/stylesheets/reset.css
+    - public/stylesheets/aristo.css
+    - public/stylesheets/*.css
+  workspace:
+    - public/stylesheets/pages/workspace.css
+  empty:
+    - public/stylesheets/pages/empty.css
+  
+jst:
+  complete:
+    - app/views/jst/**/*.jst
