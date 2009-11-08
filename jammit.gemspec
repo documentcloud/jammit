@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = 'jammit'
   
   s.require_paths     = ['lib']
+  s.executables       = ['jammit']
     
   s.has_rdoc          = true
   s.extra_rdoc_files  = ['README']
@@ -23,7 +24,7 @@ Gem::Specification.new do |s|
                          '--all'
   
   s.add_dependency 'rails'
-  s.add_dependency 'yui-compressor', ['>= 0.9.2']
+  s.add_dependency 'yui-compressor', ['>= 0.9.1']
   
   s.files = %w(
 jammit.gemspec
