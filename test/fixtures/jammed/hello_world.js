@@ -1,1 +1,0 @@
-var myself={sayHi:function(a){console.log("hello, "+a)}};

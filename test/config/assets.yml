@@ -1,0 +1,4 @@
+javascripts:
+  
+  test_package:
+    - fixtures/src/hello_world.js
