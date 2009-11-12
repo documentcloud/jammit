@@ -28,9 +28,9 @@ module Jammit
       compiled = paths.map { |path|
         template_name = path.match(JST_NAMER)[1]
         contents      = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
-        "window.JST.#{template_name} = #{Jammit.jst_compiler}('#{contents}');"
+        "window.JST.#{template_name} = #{Jammit.template_function}('#{contents}');"
       }.join("\n")
-      (Jammit.jst_compiler == JST_COMPILER ? JST_SCRIPT : '') + compiled
+      (Jammit.template_function == JST_COMPILER ? JST_SCRIPT : '') + compiled
     end
 
 

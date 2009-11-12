@@ -23,9 +23,8 @@ module Jammit
 
     private
 
-    def versioned_url(package, suffix)
-      version_part = Jammit.asset_version ? "-v#{Jammit.asset_version}" : ''
-      "/assets/#{package}#{version_part}.#{suffix}"
+    def versioned_url(package, extension)
+      File.join('/assets', Jammit.filename(package, extension))
     end
 
   end

@@ -6,28 +6,30 @@ module Jammit
 
   ROOT = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  DEV = RAILS_ENV == 'development'
+  DEV = defined?(RAILS_ENV) && RAILS_ENV == 'development'
 
   JST_SCRIPT = File.read(ROOT + '/lib/jammit/jst.js')
 
   JST_COMPILER = "JST.compile"
 
-  def self.load_configuration
-    YAML.load_file("#{RAILS_ROOT}/config/assets.yml").symbolize_keys
+  class << self
+    attr_reader :configuration, :asset_version, :template_function
   end
 
-  ASSET_CONFIG = load_configuration
+  def self.load_configuration(config_path)
+    return unless File.exists?(config_path)
+    @configuration = YAML.load_file(config_path).symbolize_keys
+    @asset_version = @configuration[:version]
+    @template_function  = @configuration[:template_function] || JST_COMPILER
+  end
 
   def self.packager
-    @packager ||= Packager.new
+    Thread.current[:jammit_packager] ||= Packager.new
   end
 
-  def self.asset_version
-    ASSET_CONFIG[:version]
-  end
-
-  def self.jst_compiler
-    ASSET_CONFIG[:jst_compiler] || JST_COMPILER
+  def self.filename(package, suffix)
+    version_part = asset_version ? "v#{asset_version}/" : ''
+    "#{version_part}#{package}.#{suffix}"
   end
 
   class PackageNotFound < NameError
@@ -35,11 +37,19 @@ module Jammit
 
 end
 
+require 'zlib'
+require 'fileutils'
 require 'yui/compressor'
-require 'jammit/controller'
-require 'jammit/compressor'
-require 'jammit/helper'
-require 'jammit/packager'
-require 'jammit/routes'
+require 'activesupport'
 
-ActionView::Base.send(:include, Jammit::Helper)
+Jammit.load_configuration("#{RAILS_ROOT}/config/assets.yml") if defined?(RAILS_ROOT)
+
+require 'jammit/compressor'
+require 'jammit/packager'
+
+if defined?(RAILS_ENV)
+  require 'jammit/controller'
+  require 'jammit/helper'
+  require 'jammit/routes'
+  ActionView::Base.send(:include, Jammit::Helper)
+end

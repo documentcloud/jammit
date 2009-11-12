@@ -8,29 +8,31 @@ Gem::Specification.new do |s|
   s.description = <<-EOS
     Lorem Ipsum.
   EOS
-  
+
   s.authors           = ['Jeremy Ashkenas']
   s.email             = 'jeremy@documentcloud.org'
   s.rubyforge_project = 'jammit'
-  
+
   s.require_paths     = ['lib']
   s.executables       = ['jammit']
-    
+
   s.has_rdoc          = true
   s.extra_rdoc_files  = ['README']
   s.rdoc_options      << '--title'    << 'Jammit' <<
                          '--exclude'  << 'test' <<
                          '--main'     << 'README' <<
                          '--all'
-  
+
   s.add_dependency 'rails'
   s.add_dependency 'yui-compressor', ['>= 0.9.1']
-  
+
   s.files = %w(
+bin/jammit
 jammit.gemspec
 lib/jammit.rb
-lib/jammit/controller.rb
+lib/jammit/command_line.rb
 lib/jammit/compressor.rb
+lib/jammit/controller.rb
 lib/jammit/helper.rb
 lib/jammit/jst.js
 lib/jammit/packager.rb
