@@ -1,15 +1,13 @@
 module Jammit
-  
+
   module Routes
-    
+
+    # We use only a single route in order to slow down Rails' routing speed
+    # by the absolute minimum.
     def self.draw(map)
-      map.with_options :controller => 'jammit' do |jammit|
-        jammit.connect '/assets/:package.js',  :action => 'javascripts'
-        jammit.connect '/assets/:package.css', :action => 'stylesheets'
-        jammit.connect '/assets/:package.jst', :action => 'jst'
-      end
+      map.jammit '/assets/:package.:format' :controller => 'jammit', :action => 'package'
     end
-    
+
   end
-  
+
 end

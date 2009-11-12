@@ -1,3 +1,6 @@
+version: 3
+jst_compiler: _.template
+
 javascripts:
   workspace:
     - public/javascripts/vendor/*.js
@@ -16,7 +19,7 @@ stylesheets:
     - public/stylesheets/pages/workspace.css
   empty:
     - public/stylesheets/pages/empty.css
-  
+
 jst:
   complete:
     - app/views/jst/**/*.jst
