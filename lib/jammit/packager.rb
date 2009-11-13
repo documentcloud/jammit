@@ -40,22 +40,22 @@ module Jammit
       template_packages[package][:urls]
     end
 
-    def pack_stylesheets(package)
+    def pack_stylesheets(package, variant=nil)
       pack = stylesheet_packages[package]
       raise PackageNotFound, "assets.yml does not contain a '#{package}' stylesheet package" if !pack
-      @compressor.compress_css(*pack[:paths])
+      @compressor.compress_css(pack[:paths], variant)
     end
 
     def pack_javascripts(package)
       pack = javascript_packages[package]
       raise PackageNotFound, "assets.yml does not contain a '#{package}' javascript package" if !pack
-      @compressor.compress_js(*pack[:paths])
+      @compressor.compress_js(pack[:paths])
     end
 
     def pack_templates(package)
       pack = template_packages[package]
       raise PackageNotFound, "assets.yml does not contain a '#{package}' jst package" if !pack
-      @compressor.compile_jst(*pack[:paths])
+      @compressor.compile_jst(pack[:paths])
     end
 
     def stylesheet_packages

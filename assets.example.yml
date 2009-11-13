@@ -1,5 +1,6 @@
 version: 3
 template_function: _.template
+embed_images: yes
 
 javascripts:
   workspace:

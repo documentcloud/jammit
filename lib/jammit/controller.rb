@@ -2,29 +2,36 @@ module Jammit
 
   class Controller < ActionController::Base
 
-    VERSION_STRIPPER = /-v\d+\Z/
+    FORMAT_STRIPPER  = /\.(js|css|jst)\Z/
+    SUFFIX_STRIPPER  = /-(datauri|mhtml)\Z/
 
     caches_page :package
 
     # Dispatch to the appropriate packaging method for the filetype.
     def package
-      case params[:format]
-      when 'js'
-        render :js => Jammit.packager.pack_javascripts(package)
-      when 'css'
-        render :text => Jammit.packager.pack_stylesheets(package), :content_type => 'text/css'
-      when 'jst'
-        render :js => Jammit.packager.pack_templates(package)
-      else
-        unsupported_media_type
+      jam = Jammit.packager
+      parse_request
+      case @format
+      when :js  then render :js   => jam.pack_javascripts(@package)
+      when :css then render :text => jam.pack_stylesheets(@package, @variant), :content_type => 'text/css'
+      when :jst then render :js   => jam.pack_templates(@package)
+      else           unsupported_media_type
       end
     end
 
 
     private
 
-    def package
-      params[:args].last.sub(VERSION_STRIPPER, '').to_sym
+    def parse_request
+      pack = params[:args].last
+      @format = pack.match(FORMAT_STRIPPER)[1].to_sym
+      pack.sub!(FORMAT_STRIPPER, '')
+      if Jammit.embed_images
+        suffix_match = pack.match(SUFFIX_STRIPPER)
+        @variant = Jammit.embed_images && suffix_match && suffix_match[1].to_sym
+        pack.sub!(SUFFIX_STRIPPER, '')
+      end
+      @package = pack.to_sym
     end
 
     def unsupported_media_type
