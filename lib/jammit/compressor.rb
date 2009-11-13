@@ -13,7 +13,7 @@ module Jammit
       '.tiff' => 'image/tiff'
     }
 
-    URL_DETECTOR = /url\(['"]?([^\s)]+)['"]?\)/
+    URL_DETECTOR = /url\(['"]?(\/images\/embed\/[^\s)]+)['"]?\)/
 
     JST_NAMER = /\/(\w+)\.jst\Z/
 
