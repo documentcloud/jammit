@@ -9,18 +9,27 @@ module Jammit
 
     # Dispatch to the appropriate packaging method for the filetype.
     def package
-      jam = Jammit.packager
       parse_request
       case @format
-      when :js  then render :js   => jam.pack_javascripts(@package)
-      when :css then render :text => jam.pack_stylesheets(@package, @variant), :content_type => 'text/css'
-      when :jst then render :js   => jam.pack_templates(@package)
+      when :js  then render :js   => Jammit.packager.pack_javascripts(@package)
+      when :css then render :text => generate_stylesheets, :content_type => 'text/css'
+      when :jst then render :js   => Jammit.packager.pack_templates(@package)
       else           unsupported_media_type
       end
     end
 
 
     private
+
+    def generate_stylesheets
+      css = Jammit.packager.pack_stylesheets(@package, @variant)
+      css.gsub('REQUEST_URL', request_url)
+    end
+
+    def request_url
+      host = request.port == 80 ? request.host : request.host_with_port
+      "#{request.protocol}#{host}#{request.request_uri}"
+    end
 
     def parse_request
       pack = params[:args].last

@@ -13,9 +13,13 @@ module Jammit
       '.tiff' => 'image/tiff'
     }
 
-    URL_DETECTOR = /url\(['"]?(\/[^\s)]*embed\/[^\s)]+)['"]?\)/
+    URL_DETECTOR    = /url\(['"]?(\/[^\s)]*embed\/[^\s)]+)['"]?\)/
 
-    JST_NAMER = /\/(\w+)\.jst\Z/
+    JST_NAMER       = /\/(\w+)\.jst\Z/
+
+    MHTML_START     = "/*\r\nContent-Type: multipart/related; boundary=\"JAMMIT_MHTML_SEPARATOR\"\r\n\r\n"
+    MHTML_SEPARATOR = "--JAMMIT_MHTML_SEPARATOR\r\n"
+    MHTML_END       = "*/\r\n"
 
     def initialize
       @yui_js  = YUI::JavaScriptCompressor.new(:munge => true)
@@ -28,7 +32,7 @@ module Jammit
     end
 
     # Delegates to the YUI compressor.
-    def compress_css(paths, variant)
+    def compress_css(paths, variant, stylesheet_url=nil)
       compressed_css = @yui_css.compress(concatenate(paths))
       case variant
       when nil      then compressed_css
@@ -53,17 +57,30 @@ module Jammit
     private
 
     # TODO: See if we can fix to work with relative URLs, and still YUI in-advance.
+
     def with_data_uris(css)
       css.gsub(URL_DETECTOR) do |url|
         image_path = "#{RAILS_ROOT}/public#{$1}"
-        image_contents = Base64.encode64(File.read(image_path)).gsub(/\n/, '')
-        'url("data:' + mime_type(image_path) + ';base64,' + image_contents + '")'
+        "url(\"data:#{mime_type(image_path)};base64,#{encoded_contents(image_path)}\")"
       end
     end
 
-    # TODO: Implement MHTML.
     def with_mhtml(css)
-      css
+      paths = {}
+      css = css.gsub(URL_DETECTOR) do |url|
+        identifier = $1
+        paths[identifier] ||= "#{RAILS_ROOT}/public#{identifier}"
+        "url(\"mhtml:REQUEST_URL!#{identifier}\")"
+      end
+      mhtml = paths.map do |identifier, path|
+        mime, contents = mime_type(path), encoded_contents(path)
+        [MHTML_SEPARATOR, "Content-Location: #{identifier}\r\n", "Content-Type: #{mime}\r\n", "Content-Transfer-Encoding: base64\r\n\r\n", contents, "\r\n"]
+      end
+      [MHTML_START, mhtml, MHTML_END, css].flatten.join('')
+    end
+
+    def encoded_contents(image_path)
+      Base64.encode64(File.read(image_path)).gsub(/\n/, '')
     end
 
     def mime_type(image_path)
