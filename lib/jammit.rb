@@ -16,11 +16,17 @@ module Jammit
 
   def self.load_configuration(config_path)
     return unless File.exists?(config_path)
-    @configuration      = YAML.load_file(config_path).symbolize_keys
+    @config_path        = config_path
+    @configuration      = YAML.load_file(@config_path).symbolize_keys
     @asset_version      = @configuration[:version]
     @template_function  = @configuration[:template_function] || JST_COMPILER
     @embed_images       = !!@configuration[:embed_images]
     @force_packaging    = !!@configuration[:force_packaging]
+  end
+
+  def self.reload!
+    Thread.current[:jammit_packager] = nil
+    load_configuration(@config_path)
   end
 
   def self.packager
@@ -28,7 +34,8 @@ module Jammit
   end
 
   def self.development?
-    @dev_mode ||= !@force_packaging && defined?(RAILS_ENV) && RAILS_ENV == 'development'
+    @dev_env ||= defined?(RAILS_ENV) && RAILS_ENV == 'development'
+    !@force_packaging && @dev_env
   end
 
   def self.filename(package, extension, suffix=nil)

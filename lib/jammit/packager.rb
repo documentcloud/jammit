@@ -84,6 +84,7 @@ module Jammit
       packages = {}
       return packages if !config
       config.each do |name, globs|
+        globs ||= []
         packages[name] = {}
         paths = packages[name][:paths] = unique_paths(globs)
         packages[name][:urls]  = paths_to_urls(paths)
