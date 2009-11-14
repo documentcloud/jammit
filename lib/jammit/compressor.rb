@@ -60,7 +60,7 @@ module Jammit
 
     def with_data_uris(css)
       css.gsub(URL_DETECTOR) do |url|
-        image_path = "#{RAILS_ROOT}/public#{$1}"
+        image_path = "public#{$1}"
         "url(\"data:#{mime_type(image_path)};base64,#{encoded_contents(image_path)}\")"
       end
     end
@@ -69,7 +69,7 @@ module Jammit
       paths = {}
       css = css.gsub(URL_DETECTOR) do |url|
         identifier = $1
-        paths[identifier] ||= "#{RAILS_ROOT}/public#{identifier}"
+        paths[identifier] ||= "public#{identifier}"
         "url(\"mhtml:REQUEST_URL!#{identifier}\")"
       end
       mhtml = paths.map do |identifier, path|

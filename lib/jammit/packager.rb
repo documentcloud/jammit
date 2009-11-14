@@ -17,15 +17,18 @@ module Jammit
       output_dir ||= DEFAULT_OUTPUT_DIRECTORY
       versioned_dir = output_dir + (Jammit.asset_version ? "/v#{Jammit.asset_version}" : '')
       FileUtils.mkdir_p(versioned_dir) unless File.exists?(versioned_dir)
-      @css_config.keys.each {|p| precache(p, 'css', pack_stylesheets(p), output_dir) }
       @js_config.keys.each  {|p| precache(p, 'js',  pack_javascripts(p), output_dir) }
       @jst_config.keys.each {|p| precache(p, 'jst', pack_templates(p),  output_dir) }
+      @css_config.keys.each {|p| precache(p, 'css', pack_stylesheets(p), output_dir) }
+      @css_config.keys.each {|p| precache(p, 'css', pack_stylesheets(p, :datauri), output_dir, 'datauri') } if Jammit.embed_images
     end
 
-    def precache(package, extension, contents, output_dir)
-      filename = File.join(output_dir, Jammit.filename(package, extension))
-      File.open(filename, 'w+')         {|f| f.write(contents) }
-      File.open("#{filename}.gz", 'w+') {|f| f.write(compress(contents)) }
+    def precache(package, extension, contents, output_dir, suffix=nil)
+      filename = File.join(output_dir, Jammit.filename(package, extension, suffix))
+      zip_name = "#{filename}.gz"
+      File.open(filename, 'w+') {|f| f.write(contents) }
+      Zlib::GzipWriter.open(zip_name, Zlib::BEST_COMPRESSION) {|f| f.write(contents) }
+      FileUtils.touch([filename, zip_name])
     end
 
     def stylesheet_urls(package)
@@ -72,13 +75,6 @@ module Jammit
 
 
     private
-
-    def compress(contents)
-      deflater = Zlib::Deflate.new(Zlib::BEST_COMPRESSION)
-      compressed = deflater.deflate(contents, Zlib::FINISH)
-      deflater.close
-      compressed
-    end
 
     def create_packages(config)
       packages = {}
