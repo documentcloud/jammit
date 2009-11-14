@@ -36,12 +36,12 @@ module Jammit
 
     # Delegates to the YUI compressor. When compressing a "datauri" or "mhtml"
     # variant, post-processes the result to embed referenced images.
-    def compress_css(paths, variant=nil, stylesheet_url=nil)
+    def compress_css(paths, variant=nil, asset_url=nil)
       compressed_css = @yui_css.compress(concatenate(paths))
       case variant
       when nil      then compressed_css
       when :datauri then with_data_uris(compressed_css)
-      when :mhtml   then with_mhtml(compressed_css)
+      when :mhtml   then with_mhtml(compressed_css, asset_url)
       end
     end
 
@@ -75,11 +75,11 @@ module Jammit
     # Re-write all enabled image URLs in a stylesheet with the MHTML equivalent.
     # The newlines (\r\n) in the following method are critical. Without them
     # your MHTML will appear identical, but won't work.
-    def with_mhtml(css)
+    def with_mhtml(css, asset_url)
       paths = {}
       css = css.gsub(IMAGE_DETECTOR) do |url|
         paths[$1] ||= "public#{$1}"
-        "url(\"mhtml:REQUEST_URL!#{$1}\")"
+        "url(mhtml:#{asset_url}!#{$1})"
       end
       mhtml = paths.map do |identifier, path|
         mime, contents = mime_type(path), encoded_contents(path)

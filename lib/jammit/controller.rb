@@ -29,8 +29,8 @@ module Jammit
     # If we're generating MHTML/CSS, we need to fix up the absolute URLs with
     # the correct request URL.
     def generate_stylesheets
-      css = Jammit.packager.pack_stylesheets(@package, @variant)
-      @variant == :mhtml ? css.gsub('REQUEST_URL', request_url) : css
+      base_url = @variant == :mhtml ? request_url : nil
+      css = Jammit.packager.pack_stylesheets(@package, @variant, base_url)
     end
 
     # Get the fully-qualified URL for the current request. This may not work

@@ -27,24 +27,33 @@ module Jammit
     end
 
     # Ask the packager to precache all defined assets, along with their gzip'd
-    # versions. We can't prebuild the 'mhtml' stylesheets, because they need
-    # to reference their own absolute URL.
-    def precache_all(output_dir=nil)
+    # versions. In order to prebuild the MHTML stylesheets, we need to know the
+    # base_url, because IE only supports MHTML with absolute references.
+    def precache_all(output_dir=nil, base_url=nil)
       output_dir ||= DEFAULT_OUTPUT_DIRECTORY
       FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
       @config[:js].keys.each  {|p| precache(p, 'js',  pack_javascripts(p), output_dir) }
       @config[:jst].keys.each {|p| precache(p, 'jst', pack_templates(p),  output_dir) }
-      @config[:css].keys.each {|p| precache(p, 'css', pack_stylesheets(p), output_dir) }
-      @config[:css].keys.each {|p| precache(p, 'css', pack_stylesheets(p, :datauri), output_dir, 'datauri') } if Jammit.embed_images
+      @config[:css].keys.each do |p|
+        precache(p, 'css', pack_stylesheets(p), output_dir)
+        if Jammit.embed_images
+          precache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
+          if base_url
+            mtime = Time.now
+            asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml)}?#{mtime.to_i}"
+            precache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
+          end
+        end
+      end
     end
 
     # Prebuild a single asset package.
-    def precache(package, extension, contents, output_dir, suffix=nil)
+    def precache(package, extension, contents, output_dir, suffix=nil, mtime=Time.now)
       filename = File.join(output_dir, Jammit.filename(package, extension, suffix))
       zip_name = "#{filename}.gz"
       File.open(filename, 'w+') {|f| f.write(contents) }
       Zlib::GzipWriter.open(zip_name, Zlib::BEST_COMPRESSION) {|f| f.write(contents) }
-      FileUtils.touch([filename, zip_name])
+      File.utime(mtime, mtime, filename, zip_name)
     end
 
     # Get the original list of individual assets for a package.
@@ -53,10 +62,10 @@ module Jammit
     end
 
     # Return the compressed contents of a stylesheet package.
-    def pack_stylesheets(package, variant=nil)
+    def pack_stylesheets(package, variant=nil, asset_url=nil)
       pack = @packages[:css][package]
       raise PackageNotFound, "assets.yml does not contain a '#{package}' stylesheet package" if !pack
-      @compressor.compress_css(pack[:paths], variant)
+      @compressor.compress_css(pack[:paths], variant, asset_url)
     end
 
     # Return the compressed contents of a javascript package.

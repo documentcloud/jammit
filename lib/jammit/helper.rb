@@ -21,7 +21,7 @@ module Jammit
     # except in development, where it references the individual links.
     def include_javascripts(*packages)
       tags = packages.map do |pack|
-        Jammit.package_assets? ? asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
+        Jammit.package_assets? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       end
       javascript_include_tag(tags.flatten)
     end
@@ -29,16 +29,11 @@ module Jammit
     # Writes out the URL to the concatenated and compiled JST file -- we always
     # have to pre-process it, even in development.
     def include_jst(*packages)
-      javascript_include_tag(packages.map {|pack| asset_url(pack, :jst) })
+      javascript_include_tag(packages.map {|pack| Jammit.asset_url(pack, :jst) })
     end
 
 
     private
-
-    # Generate the rooted URL to the packaged asset.
-    def asset_url(package, extension, suffix=nil)
-      "/assets/#{Jammit.filename(package, extension, suffix)}"
-    end
 
     # HTML tags, in order, for all of the individual stylesheets.
     def individual_stylesheets(packages)
@@ -47,14 +42,14 @@ module Jammit
 
     # HTML tags for the stylesheet packages.
     def packaged_stylesheets(packages)
-      stylesheet_link_tag(packages.map {|p| asset_url(p, :css) })
+      stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css) })
     end
 
     # HTML tags for the 'datauri', and 'mhtml' versions of the packaged
     # stylesheets, using conditional comments to load the correct variant.
     def embedded_image_stylesheets(packages)
-      css_tags = stylesheet_link_tag(packages.map {|p| asset_url(p, :css, :datauri) })
-      ie_tags  = stylesheet_link_tag(packages.map {|p| asset_url(p, :css, :mhtml) })
+      css_tags = stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css, :datauri) })
+      ie_tags  = stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css, :mhtml) })
       [NO_IE_START, css_tags, NO_IE_END, IE_START, ie_tags, IE_END].join("\n")
     end
 

@@ -56,6 +56,11 @@ module Jammit
     "#{package}#{suffix_part}.#{extension}"
   end
 
+  # Generate the rooted URL to the packaged asset.
+  def self.asset_url(package, extension, suffix=nil)
+    "/assets/#{filename(package, extension, suffix)}"
+  end
+
 end
 
 # Standard Library Dependencies:
