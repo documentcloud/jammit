@@ -9,7 +9,7 @@ module Jammit
 
     SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
 
-    caches_page :package
+    after_filter :cache_package
 
     # Dispatch to the appropriate packaging method for the filetype.
     def package
@@ -26,19 +26,28 @@ module Jammit
 
     private
 
+    # We can't just use the built-in cache_page because we need to ensure that
+    # the timestamp that ends up in the MHTML is also on the cached file.
+    def cache_package
+      cache_page(response.body, request.path)
+      if @mtime
+        cache_path = page_cache_directory + URI.unescape(request.path.chomp('/'))
+        File.utime(@mtime, @mtime, cache_path)
+      end
+    end
+
+    # Generate the complete MHTML url to be written into the cached stylesheet.
+    def asset_url
+      return nil unless perform_caching && @variant == :mhtml
+      @mtime = Time.now
+      host = request.port == 80 ? request.host : request.host_with_port
+      "#{request.protocol}#{host}#{Jammit.asset_url(@package, @format, @variant, @mtime)}"
+    end
+
     # If we're generating MHTML/CSS, we need to fix up the absolute URLs with
     # the correct request URL.
     def generate_stylesheets
-      base_url = @variant == :mhtml ? request_url : nil
-      css = Jammit.packager.pack_stylesheets(@package, @variant, base_url)
-    end
-
-    # Get the fully-qualified URL for the current request. This may not work
-    # behind certain configurations of proxies, if they don't send down the
-    # correct headers. In those cases, specify the asset_host in assets.yml.
-    def request_url
-      host = request.port == 80 ? request.host : request.host_with_port
-      "#{request.protocol}#{host}#{request.request_uri}"
+      css = Jammit.packager.pack_stylesheets(@package, @variant, asset_url)
     end
 
     # We extract the package name, format (css, js, jst), and

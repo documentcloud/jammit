@@ -40,7 +40,7 @@ module Jammit
           precache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
           if base_url
             mtime = Time.now
-            asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml)}?#{mtime.to_i}"
+            asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml, mtime)}"
             precache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
           end
         end
@@ -51,7 +51,7 @@ module Jammit
     def precache(package, extension, contents, output_dir, suffix=nil, mtime=Time.now)
       filename = File.join(output_dir, Jammit.filename(package, extension, suffix))
       zip_name = "#{filename}.gz"
-      File.open(filename, 'w+') {|f| f.write(contents) }
+      File.open(filename, 'wb+') {|f| f.write(contents) }
       Zlib::GzipWriter.open(zip_name, Zlib::BEST_COMPRESSION) {|f| f.write(contents) }
       File.utime(mtime, mtime, filename, zip_name)
     end

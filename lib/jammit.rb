@@ -57,8 +57,9 @@ module Jammit
   end
 
   # Generate the rooted URL to the packaged asset.
-  def self.asset_url(package, extension, suffix=nil)
-    "/assets/#{filename(package, extension, suffix)}"
+  def self.asset_url(package, extension, suffix=nil, mtime=nil)
+    timestamp = mtime ? "?#{mtime.to_i}" : ''
+    "/assets/#{filename(package, extension, suffix)}#{timestamp}"
   end
 
 end
