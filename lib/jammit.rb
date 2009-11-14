@@ -62,7 +62,6 @@ require 'jammit/packager'
 
 if defined?(RAILS_ENV)
   require 'jammit/controller'
-  # require 'jammit/helper'
+  require 'jammit/helper'
   require 'jammit/routes'
-  ActionView::Base.send(:include, Jammit::Helper)
 end

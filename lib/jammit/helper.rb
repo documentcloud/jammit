@@ -58,4 +58,6 @@ module Jammit
 
   end
 
+  ::ActionView::Base.send(:include, Helper)
+
 end

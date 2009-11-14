@@ -32,7 +32,7 @@ module Jammit
     end
 
     # Delegates to the YUI compressor.
-    def compress_css(paths, variant, stylesheet_url=nil)
+    def compress_css(paths, variant=nil, stylesheet_url=nil)
       compressed_css = @yui_css.compress(concatenate(paths))
       case variant
       when nil      then compressed_css

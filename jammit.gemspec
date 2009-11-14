@@ -4,9 +4,9 @@ Gem::Specification.new do |s|
   s.date      = '2009-11-06'
 
   s.homepage    = "http://wiki.github.com/documentcloud/jammit"
-  s.summary     = "Asset Packaging, Javascript Templates, YUI Compressed"
+  s.summary     = "Industrial-Strength Asset Packaging for Rails"
   s.description = <<-EOS
-    Lorem Ipsum.
+    To be described...
   EOS
 
   s.authors           = ['Jeremy Ashkenas']
