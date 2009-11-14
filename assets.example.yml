@@ -1,4 +1,3 @@
-version: 3
 template_function: _.template
 embed_images: yes
 asset_host: http://asset1.example.com

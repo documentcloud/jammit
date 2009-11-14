@@ -1,5 +1,6 @@
 module Jammit
 
+  # Helper methods for writing out the environment-appropriate asset tags.
   module Helper
 
     NO_IE_START = "<!--[if !IE]><!-->"
@@ -11,7 +12,7 @@ module Jammit
     # versions of the stylesheet package, otherwise the package is regular
     # compressed CSS, and in development the stylesheet URLs are passed verbatim.
     def include_stylesheets(*packages)
-      return individual_stylesheets(packages) if Jammit.development?
+      return individual_stylesheets(packages) unless Jammit.package_assets?
       return embedded_image_stylesheets(packages) if Jammit.embed_images
       return packaged_stylesheets(packages)
     end
@@ -20,7 +21,7 @@ module Jammit
     # except in development, where it references the individual links.
     def include_javascripts(*packages)
       tags = packages.map do |pack|
-        Jammit.development? ? Jammit.packager.javascript_urls(pack.to_sym) : versioned_url(pack, 'js')
+        Jammit.package_assets? ? asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       end
       javascript_include_tag(tags.flatten)
     end
@@ -28,36 +29,38 @@ module Jammit
     # Writes out the URL to the concatenated and compiled JST file -- we always
     # have to pre-process it, even in development.
     def include_jst(*packages)
-      javascript_include_tag(packages.map {|pack| versioned_url(pack, 'jst') })
+      javascript_include_tag(packages.map {|pack| asset_url(pack, :jst) })
     end
 
 
     private
 
-    def versioned_url(package, extension, suffix=nil)
-      File.join('/assets', Jammit.filename(package, extension, suffix))
+    # Generate the rooted URL to the packaged asset.
+    def asset_url(package, extension, suffix=nil)
+      "/assets/#{Jammit.filename(package, extension, suffix)}"
     end
 
+    # HTML tags, in order, for all of the individual stylesheets.
     def individual_stylesheets(packages)
-      stylesheet_link_tag(packages.map {|p| Jammit.packager.stylesheet_urls(p.to_sym) }.flatten)
+      stylesheet_link_tag(packages.map {|p| Jammit.packager.individual_urls(p.to_sym, :css) }.flatten)
     end
 
+    # HTML tags for the stylesheet packages.
     def packaged_stylesheets(packages)
-      stylesheet_link_tag(packages.map {|p| versioned_url(p, 'css') })
+      stylesheet_link_tag(packages.map {|p| asset_url(p, :css) })
     end
 
+    # HTML tags for the 'datauri', and 'mhtml' versions of the packaged
+    # stylesheets, using conditional comments to load the correct variant.
     def embedded_image_stylesheets(packages)
-      [ NO_IE_START,
-        stylesheet_link_tag(packages.map {|p| versioned_url(p, 'css', 'datauri') }),
-        NO_IE_END,
-        IE_START,
-        stylesheet_link_tag(packages.map {|p| versioned_url(p, 'css', 'mhtml') }),
-        IE_END
-      ].join("\n")
+      css_tags = stylesheet_link_tag(packages.map {|p| asset_url(p, :css, :datauri) })
+      ie_tags  = stylesheet_link_tag(packages.map {|p| asset_url(p, :css, :mhtml) })
+      [NO_IE_START, css_tags, NO_IE_END, IE_START, ie_tags, IE_END].join("\n")
     end
 
   end
 
-  ::ActionView::Base.send(:include, Helper)
-
 end
+
+# Include the Jammit asset helpers in all views, a-la ApplicationHelper.
+::ActionView::Base.send(:include, Jammit::Helper)
