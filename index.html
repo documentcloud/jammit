@@ -68,11 +68,17 @@
         border-left: 6px solid #99aabb;
         margin: 0px 0 30px;
       }
+    #diagram {
+      position: absolute;
+      left: 650px; top: 220px;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
+
+    <img id="diagram" src="http://jashkenas.s3.amazonaws.com/images/jammit/jammit_diagram.jpg" alt="Jammit Diagram" />
 
     <p>
       <img src="http://jashkenas.s3.amazonaws.com/images/jammit/jammit.png" alt="Jammit" />
@@ -184,15 +190,16 @@ templates:
       </tr>
       <tr>
         <td><b>template_function</b></td>
-        <td></td>
+        <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;...</tt></td>
         <td class="definition">
           The JavaScript function that compiles your JavaScript templates (<b>JST</b>).
-          If left blank, defaults to a bundled variant of
+          Defaults to <b>on</b>, which uses a bundled variant of
           <a href="http://ejohn.org/blog/javascript-micro-templating/">Micro-Templating</a>.
-          Set it to <b>_.template</b> for
+          Set it to <b>_.template</b> if you use
           <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>,
           or <b>new&nbsp;Template</b> for
-          <a href="http://www.prototypejs.org/">Prototype</a>.
+          <a href="http://www.prototypejs.org/">Prototype</a>. Turn it <b>off</b>
+          to pass through the template strings unaltered.
         </td>
       </tr>
       <tr>
@@ -210,7 +217,7 @@ templates:
     <h2 id="usage">Usage</h2>
 
     <p>
-      To access your packages in views, use the corresponding helper. The 
+      To access your packages in views, use the corresponding helper. The
       helper methods can include multiple packages at once:
     </p>
 
@@ -229,10 +236,10 @@ templates:
     <h2 id="precaching">Precaching Assets</h2>
 
     <p>
-      Installing the Jammit gem provides the optional but handy <tt>jammit</tt> command-line utility, 
-      which can be hooked into your deployment process. The <tt>jammit</tt> 
-      command reads in your configuration file, generates all of the defined 
-      packages, and gzips them at the highest compression setting. In order to 
+      Installing the Jammit gem provides the optional but handy <tt>jammit</tt> command-line utility,
+      which can be hooked into your deployment process. The <tt>jammit</tt>
+      command reads in your configuration file, generates all of the defined
+      packages, and gzips them at the highest compression setting. In order to
       serve these static gzipped versions, configure your <b>Nginx</b>
       <a href="http://wiki.nginx.org/NginxHttpGzipStaticModule">http_gzip_static_module</a>,
       or your <b>Apache</b>
@@ -351,7 +358,7 @@ templates:
       Including the asset package makes this template available to your
       JavaScript as the <b>JST.license</b> function.
     </p>
-    
+
 <pre>
 JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
 </pre>
@@ -362,7 +369,7 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
       To use <a href="http://www.prototypejs.org/">Prototype</a> templates, set
       it to "<b>new Template</b>".<br />To use
       <a href="http://github.com/janl/mustache.js">Mustache.js</a> templates,
-      you'll need 
+      you'll need
       <a href="http://gist.github.com/234982">a little extra setup</a>.
     </p>
 

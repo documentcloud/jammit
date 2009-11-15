@@ -31,18 +31,11 @@ module Jammit
     return unless config_path && File.exists?(config_path)
     @config_path        = config_path
     @configuration      = conf = YAML.load_file(@config_path).symbolize_keys
-    @template_function  = conf[:template_function] || DEFAULT_JST_COMPILER
     @package_path       = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_images       = conf[:embed_images]
     @mhtml_enabled      = @embed_images && @embed_images != "datauri"
-    @include_jst_script = @template_function == DEFAULT_JST_COMPILER
-    package_env         = !defined?(RAILS_ENV) || RAILS_ENV != 'development'
-    @package_assets     = case conf[:package_assets]
-      when 'always'     then true
-      when false        then false
-      when true         then package_env
-      when nil          then package_env
-    end
+    set_package_assets(conf[:package_assets])
+    set_template_function(conf[:template_function])
   end
 
   # Force a reload by resetting the Packager and reloading the configuration.
@@ -66,6 +59,29 @@ module Jammit
   def self.asset_url(package, extension, suffix=nil, mtime=nil)
     timestamp = mtime ? "?#{mtime.to_i}" : ''
     "/#{package_path}/#{filename(package, extension, suffix)}#{timestamp}"
+  end
+
+
+  private
+
+  def self.set_package_assets(value)
+    package_env     = !defined?(RAILS_ENV) || RAILS_ENV != 'development'
+    @package_assets = case value
+    when 'always'     then true
+    when false        then false
+    when true         then package_env
+    when nil          then package_env
+    end
+  end
+
+  def self.set_template_function(value)
+    @template_function = case value
+    when false then ''
+    when true  then DEFAULT_JST_COMPILER
+    when nil   then DEFAULT_JST_COMPILER
+    else            value
+    end
+    @include_jst_script = @template_function == DEFAULT_JST_COMPILER
   end
 
 end
