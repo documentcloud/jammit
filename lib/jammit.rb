@@ -36,10 +36,12 @@ module Jammit
     @embed_images       = conf[:embed_images]
     @mhtml_enabled      = @embed_images && @embed_images != "datauri"
     @include_jst_script = @template_function == DEFAULT_JST_COMPILER
+    package_env         = !defined?(RAILS_ENV) || RAILS_ENV != 'development'
     @package_assets     = case conf[:package_assets]
-      when 'always' then true
-      when false    then false
-      when true     then !defined?(RAILS_ENV) || RAILS_ENV != 'development'
+      when 'always'     then true
+      when false        then false
+      when true         then package_env
+      when nil          then package_env
     end
   end
 
