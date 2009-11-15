@@ -19,9 +19,14 @@ module Jammit
     # Detect all image URLs that are inside of an "embed" folder.
     IMAGE_DETECTOR  = /url\(['"]?(\/[^\s)]*embed\/[^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
 
+    # MHTML file constants.
     MHTML_START     = "/*\r\nContent-Type: multipart/related; boundary=\"JAMMIT_MHTML_SEPARATOR\"\r\n\r\n"
     MHTML_SEPARATOR = "--JAMMIT_MHTML_SEPARATOR\r\n"
     MHTML_END       = "*/\r\n"
+
+    # JST file constants.
+    JST_START       = "(function(){window.JST = window.JST || {};"
+    JST_END         = "})();"
 
     # Uses the "yui-compressor" gem.
     def initialize
@@ -55,7 +60,8 @@ module Jammit
         contents      = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
         "window.JST.#{template_name} = #{Jammit.template_function}('#{contents}');"
       end
-      (Jammit.include_jst_compiler? ? File.read(DEFAULT_JST_SCRIPT) : '') + compiled.join("\n")
+      compiler = Jammit.include_jst_script ? File.read(DEFAULT_JST_SCRIPT) : '';
+      [JST_START, compiler, compiled, JST_END].flatten.join("\n")
     end
 
 

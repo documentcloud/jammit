@@ -38,7 +38,7 @@ module Jammit
         precache(p, 'css', pack_stylesheets(p), output_dir)
         if Jammit.embed_images
           precache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
-          if base_url
+          if Jammit.mhtml_enabled && base_url
             mtime = Time.now
             asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml, mtime)}"
             precache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
@@ -58,32 +58,32 @@ module Jammit
 
     # Get the original list of individual assets for a package.
     def individual_urls(package, extension)
-      @packages[extension][package][:urls]
+      package_for(package, extension)[:urls]
     end
 
     # Return the compressed contents of a stylesheet package.
     def pack_stylesheets(package, variant=nil, asset_url=nil)
-      pack = @packages[:css][package]
-      raise PackageNotFound, "assets.yml does not contain a '#{package}' stylesheet package" if !pack
-      @compressor.compress_css(pack[:paths], variant, asset_url)
+      @compressor.compress_css(package_for(package, :css)[:paths], variant, asset_url)
     end
 
     # Return the compressed contents of a javascript package.
     def pack_javascripts(package)
-      pack = @packages[:js][package]
-      raise PackageNotFound, "assets.yml does not contain a '#{package}' javascript package" if !pack
-      @compressor.compress_js(pack[:paths])
+      @compressor.compress_js(package_for(package, :js)[:paths])
     end
 
     # Return the compiled contents of a JST package.
     def pack_templates(package)
-      pack = @packages[:jst][package]
-      raise PackageNotFound, "assets.yml does not contain a '#{package}' jst package" if !pack
-      @compressor.compile_jst(pack[:paths])
+      @compressor.compile_jst(package_for(package, :jst)[:paths])
     end
 
 
     private
+
+    # Access a package asset list, raises an exception if the package is MIA.
+    def package_for(package, extension)
+      pack = @packages[extension] && @packages[extension][package]
+      pack || not_found(package, extension)
+    end
 
     # Compiles the list of assets that goes into a package. Runs an ordered
     # list of Dir.globs, taking the unique, concatenated result.
@@ -98,6 +98,11 @@ module Jammit
         packages[name][:urls]  = paths.map {|path| path.sub(PATH_TO_URL, '') }
       end
       packages
+    end
+
+    # Raise a 404 for missing packages...
+    def not_found(package, extension)
+      raise PackageNotFound, "assets.yml does not contain a \"#{package}\" #{extension.to_s.upcase} package"
     end
 
   end

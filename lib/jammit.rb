@@ -10,22 +10,31 @@ module Jammit
 
   DEFAULT_JST_SCRIPT   = "#{ROOT}/lib/jammit/jst.js"
 
-  DEFAULT_JST_COMPILER = "JST.compile"
+  DEFAULT_JST_COMPILER = "template"
 
   class PackageNotFound < NameError; end
 
   class << self
-    attr_reader :configuration, :template_function, :embed_images
+    # Configuration reader attributes.
+    attr_reader :configuration, :template_function, :embed_images,
+                :package_assets, :mhtml_enabled, :include_jst_script
   end
 
   # Load (or reload) the complete asset configuration from the specified path.
   def self.load_configuration(config_path)
-    return unless File.exists?(config_path)
+    @configuration      ||= {}
+    return unless config_path && File.exists?(config_path)
     @config_path        = config_path
     @configuration      = YAML.load_file(@config_path).symbolize_keys
     @template_function  = @configuration[:template_function] || DEFAULT_JST_COMPILER
-    @embed_images       = !!@configuration[:embed_images]
-    @force_packaging    = !!@configuration[:force_packaging]
+    @embed_images       = @configuration[:embed_images]
+    @mhtml_enabled      = @embed_images && @embed_images != "data-uri"
+    @include_jst_script = @template_function == DEFAULT_JST_COMPILER
+    @package_assets     = case @configuration[:package_assets]
+      when 'always' then true
+      when false    then false
+      when true     then !defined?(RAILS_ENV) || RAILS_ENV != 'development'
+    end
   end
 
   # Force a reload by resetting the Packager and reloading the configuration.
@@ -37,17 +46,6 @@ module Jammit
   # Keep a global reference to a Packager, to avoid recomputing asset lists.
   def self.packager
     Thread.current[:jammit_packager] ||= Packager.new
-  end
-
-  # Jammit packages all assets unless we're running in development mode.
-  def self.package_assets?
-    @dev_env ||= defined?(RAILS_ENV) && RAILS_ENV == 'development'
-    @force_packaging || !@dev_env
-  end
-
-  # We include the JST compilation function unless overridden.
-  def self.include_jst_compiler?
-    Jammit.template_function == DEFAULT_JST_COMPILER
   end
 
   # Generate the filename for a version of a given package.

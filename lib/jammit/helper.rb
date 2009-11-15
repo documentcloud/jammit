@@ -12,7 +12,7 @@ module Jammit
     # versions of the stylesheet package, otherwise the package is regular
     # compressed CSS, and in development the stylesheet URLs are passed verbatim.
     def include_stylesheets(*packages)
-      return individual_stylesheets(packages) unless Jammit.package_assets?
+      return individual_stylesheets(packages) unless Jammit.package_assets
       return embedded_image_stylesheets(packages) if Jammit.embed_images
       return packaged_stylesheets(packages)
     end
@@ -21,7 +21,7 @@ module Jammit
     # except in development, where it references the individual links.
     def include_javascripts(*packages)
       tags = packages.map do |pack|
-        Jammit.package_assets? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
+        Jammit.package_assets ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       end
       javascript_include_tag(tags.flatten)
     end
@@ -49,7 +49,11 @@ module Jammit
     # stylesheets, using conditional comments to load the correct variant.
     def embedded_image_stylesheets(packages)
       css_tags = stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css, :datauri) })
-      ie_tags  = stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css, :mhtml) })
+      ie_tags = if Jammit.mhtml_enabled
+        stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css, :mhtml) })
+      else
+        packaged_stylesheets(packages)
+      end
       [NO_IE_START, css_tags, NO_IE_END, IE_START, ie_tags, IE_END].join("\n")
     end
 

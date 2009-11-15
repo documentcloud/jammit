@@ -1,7 +1,6 @@
-template_function: _.template
-embed_images: yes
-asset_host: http://asset1.example.com
-force_packaging: yes
+package_assets: on            # (on, off, always)
+embed_images: on              # (on, off, data-uri)
+template_function: _.template # (uses the built-in micro-templating)
 
 javascripts:
   workspace:
