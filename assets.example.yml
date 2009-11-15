@@ -1,6 +1,7 @@
 package_assets: on            # (on, off, always)
-embed_images: on              # (on, off, data-uri)
-template_function: _.template # (uses the built-in micro-templating)
+embed_images: on              # (on, off, datauri)
+template_function: _.template # (defaults to the built-in micro-templating)
+package_path: packages        # (defaults to assets)
 
 javascripts:
   workspace:
@@ -12,15 +13,16 @@ javascripts:
     - public/javascripts/**/*.js
 
 stylesheets:
-  app:
-    - public/stylesheets/reset.css
-    - public/stylesheets/aristo.css
-    - public/stylesheets/*.css
+  common:
+    - public/stylesheets/vendor/reset.css
+    - public/stylesheets/ui/*.css
   workspace:
     - public/stylesheets/pages/workspace.css
   empty:
     - public/stylesheets/pages/empty.css
 
 templates:
-  complete:
+  admin:
     - app/views/jst/**/*.jst
+  public:
+    - app/views/jst/public/*.jst

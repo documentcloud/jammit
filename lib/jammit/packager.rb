@@ -4,9 +4,6 @@ module Jammit
   # a single asset package.
   class Packager
 
-    # The output directory can be overriden as an argument to 'jammit'.
-    DEFAULT_OUTPUT_DIRECTORY = 'public/assets'
-
     # In Rails, the difference between a path and an asset URL is "public".
     PATH_TO_URL = /\A\/?public/
 
@@ -30,7 +27,7 @@ module Jammit
     # versions. In order to prebuild the MHTML stylesheets, we need to know the
     # base_url, because IE only supports MHTML with absolute references.
     def precache_all(output_dir=nil, base_url=nil)
-      output_dir ||= DEFAULT_OUTPUT_DIRECTORY
+      output_dir ||= "public/#{Jammit.package_path}"
       FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
       @config[:js].keys.each  {|p| precache(p, 'js',  pack_javascripts(p), output_dir) }
       @config[:jst].keys.each {|p| precache(p, 'jst', pack_templates(p),  output_dir) }

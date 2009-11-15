@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Jammit: Industrial-Strength Asset Packaging</title>
+  <style>
+    body {
+      font-size: 16px;
+      line-height: 24px;
+      background: #fafcff;
+      color: #192535;
+      font-family: Arial;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
+    }
+    div.container {
+      width: 720px;
+      margin: 50px 0 50px 50px;
+    }
+    p, li {
+      margin: 16px 0 16px 0;
+      width: 550px;
+    }
+    a, a:visited {
+      padding: 0 2px;
+      text-decoration: none;
+      background: #cadaea;
+      color: #192535;
+    }
+    a:active, a:hover {
+      color: #000;
+      background: #bacada;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 40px;
+    }
+    b.header {
+      font-size: 18px;
+    }
+    span.alias {
+      font-size: 14px;
+      font-style: italic;
+      margin-left: 20px;
+    }
+    table {
+      margin: 16px 0; padding: 0;
+    }
+      tr, td {
+        margin: 0; padding: 0;
+      }
+        td {
+          padding: 9px 15px 9px 0;
+        }
+          td.definition {
+            line-height: 18px;
+            font-size: 14px;
+          }
+    code, pre, tt {
+      font-family: Monaco, Consolas, "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      color: #294555;
+    }
+      code {
+        margin-left: 20px;
+      }
+      pre {
+        font-size: 12px;
+        padding: 2px 0 2px 12px;
+        border-left: 6px solid #99aabb;
+        margin: 0px 0 30px;
+      }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <p>
+      <img src="http://jashkenas.s3.amazonaws.com/images/jammit/jammit.png" alt="Jammit" />
+    </p>
+
+    <p>
+      <a href="http://github.com/documentcloud/jammit/">Jammit</a> is an
+      industrial-strength asset packaging library for <b>Rails</b>, providing
+      both the CSS and JavaScript concatenation and compression
+      that you'd expect, as well as ahead-of-time gzipping, built-in JavaScript template
+      support, and optional <b>Data-URI / MHTML image embedding</b>.
+      All packaged assets are passed through the
+      <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>
+      for safe, best-in-class compression.
+    </p>
+
+    <h2>Table of Contents</h2>
+
+    <p style="line-height: 30px;">
+      <a href="#installation">Installation</a>    |
+      <a href="#configuration">Configuration</a>  |
+      <a href="#usage">Usage</a>                  |
+      <a href="#precaching">Precaching Assets</a> <br />
+      <a href="#embedding">Embedding Images</a> |
+      <a href="#jst">JavaScript Templates</a> |
+      <a href="#changes">Change Log</a>
+    </p>
+
+    <h2 id="installation">Installation</h2>
+
+    <ol>
+      <li>
+        Grab the gem:<br />
+        <tt>gem install jammit</tt>
+      </li>
+      <li>
+        Add the gem to your Rails environment inside of your initializer:<br />
+        <tt>config.gem "jammit"</tt>
+      </li>
+      <li>
+        Edit <b>config/routes.rb</b> to give Jammit a route
+        ( <b>/assets</b> by default) for dynamic asset packaging and caching:
+        <br /><br />
+
+<pre>
+ActionController::Routing::Routes.draw do |map|
+  ...
+  Jammit::Routes.draw(map)
+  ...
+end</pre>
+      </li>
+    </ol>
+
+    <h2 id="configuration">Configuration</h2>
+
+    <p>
+      Jammit uses the <b>config/assets.yml</b> YAML configuration file to define
+      packages and to set extra options. A package is an ordered set of directory glob
+      rules that will be expanded into a unique list of files. An example of
+      a complete <b>assets.yml</b> follows:
+    </p>
+
+<pre>
+embed_images: on
+
+javascripts:
+  workspace:
+    - public/javascripts/vendor/jquery.js
+    - public/javascripts/lib/*.js
+    - public/javascripts/views/**/*.js
+
+stylesheets:
+  common:
+    - public/stylesheets/reset.css
+    - public/stylesheets/widgets/*.css
+  workspace:
+    - public/stylesheets/pages/workspace.css
+  empty:
+    - public/stylesheets/pages/empty.css
+
+templates:
+  everything:
+    - app/views/jst/**/*.jst</pre>
+
+    <p>
+      There are a number of extra configuration options that you may add to the
+      <b>assets.yml</b> configuration file to customize the way Jammit behaves:
+    </p>
+
+    <table>
+      <tr>
+        <td><b>package_assets</b></td>
+        <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;always</tt></td>
+        <td class="definition">
+          Defaults to <b>on</b>, packaging and caching assets in every environment but development.
+          Never packages when <b>off</b>, always packages when <b>always</b>.
+        </td>
+      </tr>
+      <tr>
+        <td><b>embed_images</b></td>
+        <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;datauri</tt></td>
+        <td class="definition">
+          Defaults to <b>off</b>. When <b>on</b>, packages and caches Data-URI
+          and MTHML variants of your stylesheets, with whitelisted images
+          embedded inline. Using <b>datauri</b> serves embedded images only
+          to browsers that support Data-URIs, and serves unmodified stylesheets
+          to Internet Explorer.
+        </td>
+      </tr>
+      <tr>
+        <td><b>template_function</b></td>
+        <td></td>
+        <td class="definition">
+          The JavaScript function that compiles your JavaScript templates (<b>JST</b>).
+          If left blank, defaults to a bundled variant of
+          <a href="http://ejohn.org/blog/javascript-micro-templating/">Micro-Templating</a>.
+          Set it to <b>_.template</b> for
+          <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>,
+          or <b>new&nbsp;Template</b> for
+          <a href="http://www.prototypejs.org/">Prototype</a>.
+        </td>
+      </tr>
+      <tr>
+        <td><b>package_path</b></td>
+        <td></td>
+        <td class="definition">
+          The URL at which packaged assets are cached and made available.
+          Defaults to <b>assets</b>, but if you already have an existing
+          AssetsController with a different purpose, you could change it to, say,
+          <b>packages</b>.
+        </td>
+      </tr>
+    </table>
+
+    <h2 id="usage">Usage</h2>
+
+    <p>
+      To access your packages in views, use the corresponding helper. The 
+      helper methods can include multiple packages at once:
+    </p>
+
+    <pre>
+&lt;%= include_stylesheets :common, :workspace %&gt;
+&lt;%= include_javascripts :workspace %&gt;
+&lt;%= include_templates :everything %&gt;</pre>
+
+    <p>
+      In development, no packaging is performed, so you'll see a list of individual
+      references to all of the JavaScript and CSS files. In addition, <b>assets.yml</b>
+      is reloaded on every request, so you can change the contents of your packages
+      without needing to restart Rails.
+    </p>
+
+    <h2 id="precaching">Precaching Assets</h2>
+
+    <p>
+      Installing the Jammit gem provides the optional but handy <tt>jammit</tt> command-line utility, 
+      which can be hooked into your deployment process. The <tt>jammit</tt> 
+      command reads in your configuration file, generates all of the defined 
+      packages, and gzips them at the highest compression setting. In order to 
+      serve these static gzipped versions, configure your <b>Nginx</b>
+      <a href="http://wiki.nginx.org/NginxHttpGzipStaticModule">http_gzip_static_module</a>,
+      or your <b>Apache</b>
+      <a href="http://httpd.apache.org/docs/2.0/content-negotiation.html">Content Negotiation MultiViews</a>.
+      It's also a good idea to have gzip compression turned on for the remainder
+      of your static assets, including any asset packages that aren't gzipped-in-advance.
+      Adding <b>Nginx</b>'s
+      <a href="http://wiki.nginx.org/NginxHttpGzipModule">http_gzip_module</a>
+      or <b>Apache</b>'s
+      <a href="http://httpd.apache.org/docs/2.0/mod/mod_deflate.html">mod_deflate</a>
+      will do the trick.
+    </p>
+
+    <p>
+      The <tt>jammit</tt> command can be passed options to configure the
+      path to <b>assets.yml</b>, and the output directory in which all packages
+      are compiled. Run <tt>jammit --help</tt> to see all of the options.
+    </p>
+
+    <h2 id="embedding">Embedding Images</h2>
+
+    <p>
+      After you've finished concatenating and compressing your JavaScript and
+      CSS files into streamlined downloads, the slowest part of your page load
+      is probably the images. It's common to use image sprites to avoid the
+      avalanche of HTTP requests that are needed to load a bunch of small images.
+      Unfortunately, image sprites can be complicated to position (especially
+      with horizontal and vertical tiling), and a real pain to create and
+      maintain. With a little elbow grease from Jammit, your spriting woes can be a
+      thing of the past.
+    </p>
+
+    <p>
+      With <b>embed_images</b> turned on, Jammit will inline image files directly
+      into your compiled CSS, using
+      <a href="http://en.wikipedia.org/wiki/Data_URI_scheme">Data-URIs</a> in
+      supported browsers, and
+      <a href="http://en.wikipedia.org/wiki/Mhtml">MHTML</a> in Internet Explorer.
+      Instead of ten CSS files referencing 30 images, you can have a single,
+      packaged, minified, gzipped CSS file, with the images coming in all at
+      once instead of piecemeal, making just a single HTTP request.
+    </p>
+
+    <p>
+      Embedded images can be a little tricky, which is why you need to opt-in
+      to use them. After enabling <b>embed_images</b> in the configuration file,
+      you'll need to whitelist the images that you'd like to make embeddable.
+      When processing CSS, Jammit will only embed images that have
+      <b>.../embed/...</b> somewhere in their path &mdash; the other images will be
+      left untouched. It's not recommended to embed all of your site's images, just
+      the ones that conform to the following three rules:
+    </p>
+
+    <ol>
+      <li>
+        <b>Images that are small.</b> Large images will simply delay the rendering
+        of your CSS. Less than 32K is a decent guideline.
+      </li>
+      <li>
+        <b>Images that are immediately visible.</b> It's better to leave the
+        images that are hidden at page load time to download in the background.
+      </li>
+      <li>
+        <b>Images that are referenced by a single CSS rule.</b> Referencing the
+        same embedded image in multiple rules will cause that image's contents to be
+        embedded more than once, defeating the purpose. Replace the duplicated
+        rules with an image-specific HTML class, and you're good to go.
+      </li>
+    </ol>
+
+    <p>
+      A final <b>cautionary note</b>. Internet Explorer's implementation of MHTML
+      requires the use of absolute paths in image references. This means that
+      the timestamp that Rails appends to the stylesheet URL (to allow
+      far-future expires headers) needs to also be in the contents of the
+      stylesheet. If a process on your webserver changes the modification time
+      of the cached MHTML stylesheet, it will break the image references. To fix
+      it, use the <tt>jammit</tt> command (with <tt>--base-url</tt>) to rebuild your assets, or simply delete
+      the cached file, and let Jammit automatically rebuild the file on the next
+      request.
+    </p>
+
+    <h2 id="jst">JavaScript Templates</h2>
+
+    <p>
+      If you're using enough JavaScript to want it compressed and concatenated,
+      you're probably using it to generate at least a little of your
+      HTML. Traditionally, this has been accomplished by joining together strings
+      and inserting them into the DOM. A far more agreeable way to generate HTML
+      on the client is to use JavaScript templates (<b>JST</b>). Think Rails
+      views and ERB, but with interpolated JavaScript instead.
+    </p>
+
+    <p>
+      Jammit helps you keep your JavaScript views organized alongside your Rails
+      views, bundling them together into packages, and providing them as functions
+      for your client-side code to evaluate. By default, Jammit uses a variant of
+      <a href="http://ejohn.org/blog/javascript-micro-templating/">John Resig's Micro Templating</a>
+      to compile the templates, but you can use a JavaScript templating function
+      of your choosing by specifying a <b>template_function</b> in <b>assets.yml</b>.
+      Jammit will run all of your JST through the template function, and assign
+      it by filename to a top-level <b>JST</b> object. For example, the following
+      template, <b>app/views/jst/license.jst</b>:
+    </p>
+
+<pre>
+&lt;div class="drivers-license"&gt;
+  &lt;h2&gt;Name: &lt;%= name %&gt;&lt;/h2&gt;
+  &lt;em&gt;Hometown: &lt;%= birthplace %&gt;&lt;/em&gt;
+  &lt;div class="biography"&gt;
+    &lt;%= bio %&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <p>
+      Including the asset package makes this template available to your
+      JavaScript as the <b>JST.license</b> function.
+    </p>
+    
+<pre>
+JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
+</pre>
+
+    <p>
+      To use <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>
+      templates, set <b>template_function</b> to "<b>_.template</b>".<br />
+      To use <a href="http://www.prototypejs.org/">Prototype</a> templates, set
+      it to "<b>new Template</b>".<br />To use
+      <a href="http://github.com/janl/mustache.js">Mustache.js</a> templates,
+      you'll need 
+      <a href="http://gist.github.com/234982">a little extra setup</a>.
+    </p>
+
+    <h2 id="changes">Change Log</h2>
+
+    <p>
+      <b class="header">0.1.0</b><br />
+      Initial Jammit release.
+    </p>
+
+    <p>
+      <br />
+      <a href="http://documentcloud.org/" title="A DocumentCloud Project" style="background:none;">
+        <img src="http://jashkenas.s3.amazonaws.com/images/a_documentcloud_project.png" alt="A DocumentCloud Project" style="position:relative;left:-10px;" />
+      </a>
+    </p>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
