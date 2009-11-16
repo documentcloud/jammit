@@ -14,6 +14,8 @@ class PackagerTest < Test::Unit::TestCase
     assert css == File.read('fixtures/jammed/test.css')
     css = Jammit.packager.pack_stylesheets(:test, :datauri)
     assert css == File.read('fixtures/jammed/test-datauri.css')
+    css = Jammit.packager.pack_stylesheets(:test, :mhtml, 'http://www.example.com')
+    assert css == File.read('fixtures/jammed/test-mhtml.css')
   end
 
 end
