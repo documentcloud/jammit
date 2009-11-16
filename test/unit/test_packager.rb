@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'zlib'
 
 class PackagerTest < Test::Unit::TestCase
 
@@ -28,4 +29,30 @@ class PackagerTest < Test::Unit::TestCase
     assert jst == File.read('fixtures/jammed/test.jst')
   end
 
+  def test_package_caching
+    css = Jammit.packager.pack_stylesheets(:test, :mhtml, 'http://www.example.com')
+    mtime = Time.now
+    Jammit.packager.cache(:test, :css, css, 'public', :mhtml, mtime)
+    canonical = File.read('fixtures/jammed/test-mhtml.css')
+    assert File.read('public/test-mhtml.css') == canonical
+    assert Zlib::GzipReader.open('public/test-mhtml.css.gz') {|f| f.read } == canonical
+    FileUtils.rm(['public/test-mhtml.css', 'public/test-mhtml.css.gz'])
+  end
+
+end
+
+
+
+
+
+# Caches a single prebuilt asset package and gzips it at the highest
+# compression level. Ensures that the modification time of both both
+# variants is identical, for web server caching modules, as well as MHTML.
+def cache(package, extension, contents, output_dir, suffix=nil, mtime=Time.now)
+  FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
+  filename = File.join(output_dir, Jammit.filename(package, extension, suffix))
+  zip_name = "#{filename}.gz"
+  File.open(filename, 'wb+') {|f| f.write(contents) }
+  Zlib::GzipWriter.open(zip_name, Zlib::BEST_COMPRESSION) {|f| f.write(contents) }
+  File.utime(mtime, mtime, filename, zip_name)
 end
