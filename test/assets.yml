@@ -1,0 +1,11 @@
+javascripts:
+  test_js:
+    - fixtures/src/*.js
+
+stylesheets:
+  test_css:
+    - fixtures/src/*.css
+
+templates:
+  test_jst:
+    - fixtures/src/*.jst
