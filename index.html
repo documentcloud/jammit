@@ -339,6 +339,14 @@ templates:
       the cached file, and let Jammit automatically rebuild the file on the next
       request.
     </p>
+    
+    <p>
+      If the MHTML stylesheets sound too fragile, or if you encounter any problems
+      with them in Internet Explorer, you can set <b>embed_images</b> to "<b>datauri</b>".
+      Using "<b>datauri</b>" will cause Internet Explorer 7 and below to receive
+      plain versions of the packaged stylesheets, while all other browsers get the
+      Data-URI flavor.
+    </p>
 
     <h2 id="jst">JavaScript Templates</h2>
 
