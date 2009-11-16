@@ -1,5 +1,0 @@
-embed_images: on
-
-stylesheets:
-  silk:
-    - public/stylesheets/silk.css
