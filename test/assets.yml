@@ -1,11 +1,13 @@
+embed_images: on
+
 javascripts:
-  test_js:
+  test:
     - fixtures/src/*.js
 
 stylesheets:
-  test_css:
+  test:
     - fixtures/src/*.css
 
 templates:
-  test_jst:
+  test:
     - fixtures/src/*.jst
