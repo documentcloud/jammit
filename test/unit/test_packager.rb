@@ -60,21 +60,4 @@ class PackagerTest < Test::Unit::TestCase
     FileUtils.rm_r('precache')
   end
 
-
-end
-
-
-
-
-
-# Caches a single prebuilt asset package and gzips it at the highest
-# compression level. Ensures that the modification time of both both
-# variants is identical, for web server caching modules, as well as MHTML.
-def cache(package, extension, contents, output_dir, suffix=nil, mtime=Time.now)
-  FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
-  filename = File.join(output_dir, Jammit.filename(package, extension, suffix))
-  zip_name = "#{filename}.gz"
-  File.open(filename, 'wb+') {|f| f.write(contents) }
-  Zlib::GzipWriter.open(zip_name, Zlib::BEST_COMPRESSION) {|f| f.write(contents) }
-  File.utime(mtime, mtime, filename, zip_name)
 end
