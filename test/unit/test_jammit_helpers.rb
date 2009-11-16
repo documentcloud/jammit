@@ -24,4 +24,10 @@ class JammitHelpersTest < ActionView::TestCase
     assert include_templates(:test) == '<script src="/assets/test.jst" type="text/javascript"></script>'
   end
 
+  def test_individual_assets_in_development_do
+    Jammit.instance_variable_set(:@package_assets, false)
+    assert include_stylesheets(:test) == File.read('fixtures/tags/css_individual_includes.html')
+    Jammit.reload!
+  end
+
 end
