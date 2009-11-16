@@ -1,12 +1,15 @@
 module Jammit
 
-  # Helper methods for writing out the environment-appropriate asset tags.
+  # The Jammit::Helper module, which is made available to every view, provides
+  # helpers for writing out HTML tags for asset packages. In development you
+  # get the ordered list of source files -- in any other environment, a link
+  # to the cached packages.
   module Helper
 
-    NO_IE_START = "<!--[if !IE]><!-->"
-    NO_IE_END   = "<!--<![endif]-->"
-    IE_START    = "<!--[if IE]>"
-    IE_END      = "<![endif]-->"
+    DATA_URI_START = "<!--[if (!IE)|(gte IE 8)]><!-->"
+    DATA_URI_END   = "<!--<![endif]-->"
+    MHTML_START    = "<!--[if lte IE 7]>"
+    MHTML_END      = "<![endif]-->"
 
     # If embed_images is turned on, writes out links to the Data-URI and MHTML
     # versions of the stylesheet package, otherwise the package is regular
@@ -18,7 +21,7 @@ module Jammit
     end
 
     # Writes out the URL to the bundled and compressed javascript package,
-    # except in development, where it references the individual links.
+    # except in development, where it references the individual scripts.
     def include_javascripts(*packages)
       tags = packages.map do |pack|
         Jammit.package_assets ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
@@ -49,12 +52,10 @@ module Jammit
     # stylesheets, using conditional comments to load the correct variant.
     def embedded_image_stylesheets(packages)
       css_tags = stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css, :datauri) })
-      ie_tags = if Jammit.mhtml_enabled
-        stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css, :mhtml) })
-      else
+      ie_tags = Jammit.mhtml_enabled ?
+        stylesheet_link_tag(packages.map {|p| Jammit.asset_url(p, :css, :mhtml) }) :
         packaged_stylesheets(packages)
-      end
-      [NO_IE_START, css_tags, NO_IE_END, IE_START, ie_tags, IE_END].join("\n")
+      [DATA_URI_START, css_tags, DATA_URI_END, MHTML_START, ie_tags, MHTML_END].join("\n")
     end
 
   end

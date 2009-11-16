@@ -1,0 +1,766 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=UTF-8" />
+<title>Class: Jammit::Compressor</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo; 
+    <a href="../Jammit.html" title="Jammit">Jammit</a>
+     &raquo; 
+    <span class="title">Compressor</span>
+  
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Namespace List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Jammit::Compressor 
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/jammit/compressor.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Uses the <span class="caps">YUI</span> Compressor to compress JavaScript and <span class="caps">CSS</span>. (Which means that
+Java must be installed.) Also knows how to create a concatenated <span class="caps">JST</span> file.
+If &#8220;embed_images&#8221; is turned on, creates &#8220;mhtml&#8221; and &#8220;datauri&#8221; versions of
+all stylesheets, with all enabled images inlined into the css.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="IMAGE_MIME_TYPES-constant ">IMAGE_MIME_TYPES =
+            <span class="summary_desc">Mapping from extension to mime-type of all embeddable images.</span>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='string val'>'.png'</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'image/png'</span><span class='comma token'>,</span>
+  <span class='string val'>'.jpg'</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'image/jpeg'</span><span class='comma token'>,</span>
+  <span class='string val'>'.jpeg'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'image/jpeg'</span><span class='comma token'>,</span>
+  <span class='string val'>'.gif'</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'image/gif'</span><span class='comma token'>,</span>
+  <span class='string val'>'.tif'</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'image/tiff'</span><span class='comma token'>,</span>
+  <span class='string val'>'.tiff'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'image/tiff'</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="IMAGE_DETECTOR-constant ">IMAGE_DETECTOR =
+            <span class="summary_desc">Detect all image URLs that are inside of an &#8220;embed&#8221; folder.</span>
+        </dt>
+        <dd><pre class="code"><span class='regexp val'>/url\(['&quot;]?(\/[^\s)]*embed\/[^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['&quot;]?\)/</span>
+</pre></dd>
+      
+        <dt id="MHTML_START-constant ">MHTML_START =
+            <span class="summary_desc"><span class="caps">MHTML</span> file constants.</span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;/*\r\nContent-Type: multipart/related; boundary=\&quot;JAMMIT_MHTML_SEPARATOR\&quot;\r\n\r\n&quot;</span>
+</pre></dd>
+      
+        <dt id="MHTML_SEPARATOR-constant ">MHTML_SEPARATOR =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;--JAMMIT_MHTML_SEPARATOR\r\n&quot;</span>
+</pre></dd>
+      
+        <dt id="MHTML_END-constant ">MHTML_END =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;*/\r\n&quot;</span>
+</pre></dd>
+      
+        <dt id="JST_START-constant ">JST_START =
+            <span class="summary_desc"><span class="caps">JST</span> file constants.</span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;(function(){window.JST = window.JST || {};&quot;</span>
+</pre></dd>
+      
+        <dt id="JST_END-constant ">JST_END =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;})();&quot;</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+  <h2>Method Summary</h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#compile_jst-instance_method" title="#compile_jst (instance method)">- (Object) <strong>compile_jst</strong>(paths) </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Compiles a single <span class="caps">JST</span> file by writing out a javascript that adds
+template properties to a top-level &#8220;window.<span class="caps">JST</span>&#8221; object.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#compress_css-instance_method" title="#compress_css (instance method)">- (Object) <strong>compress_css</strong>(paths, variant = nil, asset_url = nil) </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Concatenate and compress a list of <span class="caps">CSS</span> stylesheets.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#compress_js-instance_method" title="#compress_js (instance method)">- (Object) <strong>compress_js</strong>(paths) </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Concatenate together a list of JavaScript paths, and pass them through the
+<span class="caps">YUI</span> Compressor (with munging enabled).</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#initialize-instance_method" title="#initialize (instance method)">- (Compressor) <strong>initialize</strong> </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Creating a compressor initializes the internal <span class="caps">YUI</span> Compressor from
+the &#8220;yui-compressor&#8221; gem.</span>
+  
+</li>
+
+    
+      <li class="private ">
+  <span class="summary_signature"><a href="#concatenate-instance_method" title="#concatenate (instance method)">- (Object) <strong>concatenate</strong>(paths) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">Concatenate together a list of asset files.</span>
+  
+</li>
+
+    
+      <li class="private ">
+  <span class="summary_signature"><a href="#encoded_contents-instance_method" title="#encoded_contents (instance method)">- (Object) <strong>encoded_contents</strong>(image_path) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">Return the Base64-encoded contents of an image on a single line.</span>
+  
+</li>
+
+    
+      <li class="private ">
+  <span class="summary_signature"><a href="#mime_type-instance_method" title="#mime_type (instance method)">- (Object) <strong>mime_type</strong>(image_path) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">Grab the mime-type of an image, by filename.</span>
+  
+</li>
+
+    
+      <li class="private ">
+  <span class="summary_signature"><a href="#valid_image-instance_method" title="#valid_image (instance method)">- (Object) <strong>valid_image</strong>(image_path) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">An image is valid if it exists, and is less than 32K.</span>
+  
+</li>
+
+    
+      <li class="private ">
+  <span class="summary_signature"><a href="#with_data_uris-instance_method" title="#with_data_uris (instance method)">- (Object) <strong>with_data_uris</strong>(css) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">Re-write all enabled image URLs in a stylesheet with their corresponding
+Data-<span class="caps">URI</span> Base-64 encoded image contents.</span>
+  
+</li>
+
+    
+      <li class="private ">
+  <span class="summary_signature"><a href="#with_mhtml-instance_method" title="#with_mhtml (instance method)">- (Object) <strong>with_mhtml</strong>(css, asset_url) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">Re-write all enabled image URLs in a stylesheet with the <span class="caps">MHTML</span> equivalent.</span>
+  
+</li>
+
+    
+  </ul>
+
+<div id="constructor_details">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><a href="" title="Compressor">Compressor</a></tt>) <strong>initialize</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creating a compressor initializes the internal <span class="caps">YUI</span> Compressor from
+the &#8220;yui-compressor&#8221; gem.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="" title="Compressor">Compressor</a></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        a new instance of <ins>Compressor</ins>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 33</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span>
+  <span class='@yui_js ivar id'>@yui_js</span>  <span class='assign token'>=</span> <span class='YUI constant id'>YUI</span><span class='colon2 op'>::</span><span class='JavaScriptCompressor constant id'>JavaScriptCompressor</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:munge</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='@yui_css ivar id'>@yui_css</span> <span class='assign token'>=</span> <span class='YUI constant id'>YUI</span><span class='colon2 op'>::</span><span class='CssCompressor constant id'>CssCompressor</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="method_details">
+    <h2>Method Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="compile_jst-instance_method">
+  
+    - (<tt>Object</tt>) <strong>compile_jst</strong>(paths) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Compiles a single <span class="caps">JST</span> file by writing out a javascript that adds
+template properties to a top-level &#8220;window.<span class="caps">JST</span>&#8221; object. Adds a
+<span class="caps">JST</span>-compilation function to the top of the package, unless you&#8217;ve
+specified your own preferred function, or turned it off.
+<span class="caps">JST</span> templates are named with the basename of their file.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+61
+62
+63
+64
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 61</span>
+
+<span class='def def kw'>def</span> <span class='compile_jst identifier id'>compile_jst</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
+  <span class='compiled identifier id'>compiled</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span>
+    <span class='template_name identifier id'>template_name</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='basename identifier id'>basename</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='extname identifier id'>extname</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='contents identifier id'>contents</span>      <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;'&quot;</span><span class='comma token'>,</span> <span class='string val'>'\\\\\''</span><span class='rparen token'>)</span>
+    <span class='dstring node'>&quot;window.JST.#{template_name} = #{Jammit.template_function}('#{contents}');&quot;</span>
+  <span class='end end kw'>end</span>
+  <span class='compiler identifier id'>compiler</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='include_jst_script identifier id'>include_jst_script</span> <span class='integer val'>? </span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='DEFAULT_JST_SCRIPT constant id'>DEFAULT_JST_SCRIPT</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='string val'>''</span><span class='semicolon token'>;</span>
+  <span class='lbrack token'>[</span><span class='JST_START constant id'>JST_START</span><span class='comma token'>,</span> <span class='compiler identifier id'>compiler</span><span class='comma token'>,</span> <span class='compiled identifier id'>compiled</span><span class='comma token'>,</span> <span class='JST_END constant id'>JST_END</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="compress_css-instance_method">
+  
+    - (<tt>Object</tt>) <strong>compress_css</strong>(paths, variant = nil, asset_url = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Concatenate and compress a list of <span class="caps">CSS</span> stylesheets. When compressing a
+:datauri or :mhtml variant, post-processes the result to embed
+referenced images.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 47</span>
+
+<span class='def def kw'>def</span> <span class='compress_css identifier id'>compress_css</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='compressed_css identifier id'>compressed_css</span> <span class='assign token'>=</span> <span class='@yui_css ivar id'>@yui_css</span><span class='dot token'>.</span><span class='compress identifier id'>compress</span><span class='lparen token'>(</span><span class='concatenate identifier id'>concatenate</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='case case kw'>case</span> <span class='variant identifier id'>variant</span>
+  <span class='when when kw'>when</span> <span class='nil nil kw'>nil</span>      <span class='then then kw'>then</span> <span class='compressed_css identifier id'>compressed_css</span>
+  <span class='when when kw'>when</span> <span class='symbol val'>:datauri</span> <span class='then then kw'>then</span> <span class='with_data_uris identifier id'>with_data_uris</span><span class='lparen token'>(</span><span class='compressed_css identifier id'>compressed_css</span><span class='rparen token'>)</span>
+  <span class='when when kw'>when</span> <span class='symbol val'>:mhtml</span>   <span class='then then kw'>then</span> <span class='with_mhtml identifier id'>with_mhtml</span><span class='lparen token'>(</span><span class='compressed_css identifier id'>compressed_css</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="compress_js-instance_method">
+  
+    - (<tt>Object</tt>) <strong>compress_js</strong>(paths) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Concatenate together a list of JavaScript paths, and pass them through the
+<span class="caps">YUI</span> Compressor (with munging enabled).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 40</span>
+
+<span class='def def kw'>def</span> <span class='compress_js identifier id'>compress_js</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
+  <span class='@yui_js ivar id'>@yui_js</span><span class='dot token'>.</span><span class='compress identifier id'>compress</span><span class='lparen token'>(</span><span class='concatenate identifier id'>concatenate</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="concatenate-instance_method">
+  
+    - (<tt>Object</tt>) <strong>concatenate</strong>(paths)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Concatenate together a list of asset files.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 119</span>
+
+<span class='def def kw'>def</span> <span class='concatenate identifier id'>concatenate</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='paths identifier id'>paths</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="encoded_contents-instance_method">
+  
+    - (<tt>Object</tt>) <strong>encoded_contents</strong>(image_path)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return the Base64-encoded contents of an image on a single line.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 109</span>
+
+<span class='def def kw'>def</span> <span class='encoded_contents identifier id'>encoded_contents</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span>
+  <span class='Base64 constant id'>Base64</span><span class='dot token'>.</span><span class='encode64 identifier id'>encode64</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="mime_type-instance_method">
+  
+    - (<tt>Object</tt>) <strong>mime_type</strong>(image_path)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Grab the mime-type of an image, by filename.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 114</span>
+
+<span class='def def kw'>def</span> <span class='mime_type identifier id'>mime_type</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span>
+  <span class='IMAGE_MIME_TYPES constant id'>IMAGE_MIME_TYPES</span><span class='lbrack token'>[</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='extname identifier id'>extname</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="valid_image-instance_method">
+  
+    - (<tt>Object</tt>) <strong>valid_image</strong>(image_path)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>An image is valid if it exists, and is less than 32K.
+IE does not support Data-URIs larger than 32K, and you probably shouldn&#8217;t
+be embedding images that large in any case.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 104</span>
+
+<span class='def def kw'>def</span> <span class='valid_image identifier id'>valid_image</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span>
+  <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='size identifier id'>size</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span> <span class='float val'>32</span><span class='dot token'>.</span><span class='kilobytes identifier id'>kilobytes</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="with_data_uris-instance_method">
+  
+    - (<tt>Object</tt>) <strong>with_data_uris</strong>(css)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Re-write all enabled image URLs in a stylesheet with their corresponding
+Data-<span class="caps">URI</span> Base-64 encoded image contents.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 76</span>
+
+<span class='def def kw'>def</span> <span class='with_data_uris identifier id'>with_data_uris</span><span class='lparen token'>(</span><span class='css identifier id'>css</span><span class='rparen token'>)</span>
+  <span class='css identifier id'>css</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='IMAGE_DETECTOR constant id'>IMAGE_DETECTOR</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='url identifier id'>url</span><span class='bitor op'>|</span>
+    <span class='image_path identifier id'>image_path</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;public#{$1}&quot;</span>
+    <span class='valid_image identifier id'>valid_image</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='dstring node'>&quot;url(\&quot;data:#{mime_type(image_path)};base64,#{encoded_contents(image_path)}\&quot;)&quot;</span> <span class='colon op'>:</span> <span class='url identifier id'>url</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="with_mhtml-instance_method">
+  
+    - (<tt>Object</tt>) <strong>with_mhtml</strong>(css, asset_url)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Re-write all enabled image URLs in a stylesheet with the <span class="caps">MHTML</span> equivalent.
+The newlines (&#8220;\r\n&#8221;) in the following method are critical. Without them
+your <span class="caps">MHTML</span> will look identical, but won&#8217;t work.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 86</span>
+
+<span class='def def kw'>def</span> <span class='with_mhtml identifier id'>with_mhtml</span><span class='lparen token'>(</span><span class='css identifier id'>css</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='rparen token'>)</span>
+  <span class='paths identifier id'>paths</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='css identifier id'>css</span> <span class='assign token'>=</span> <span class='css identifier id'>css</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='IMAGE_DETECTOR constant id'>IMAGE_DETECTOR</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='url identifier id'>url</span><span class='bitor op'>|</span>
+    <span class='image_path identifier id'>image_path</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;public#{$1}&quot;</span>
+    <span class='valid identifier id'>valid</span> <span class='assign token'>=</span> <span class='valid_image identifier id'>valid_image</span><span class='lparen token'>(</span><span class='image_path identifier id'>image_path</span><span class='rparen token'>)</span>
+    <span class='paths identifier id'>paths</span><span class='lbrack token'>[</span><span class='$1 nth_ref id'>$1</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='image_path identifier id'>image_path</span> <span class='if if_mod kw'>if</span> <span class='valid identifier id'>valid</span>
+    <span class='valid identifier id'>valid</span> <span class='integer val'>? </span><span class='dstring node'>&quot;url(mhtml:#{asset_url}!#{$1})&quot;</span> <span class='colon op'>:</span> <span class='url identifier id'>url</span>
+  <span class='end end kw'>end</span>
+  <span class='mhtml identifier id'>mhtml</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='identifier identifier id'>identifier</span><span class='comma token'>,</span> <span class='path identifier id'>path</span><span class='bitor op'>|</span>
+    <span class='mime identifier id'>mime</span><span class='comma token'>,</span> <span class='contents identifier id'>contents</span> <span class='assign token'>=</span> <span class='mime_type identifier id'>mime_type</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='encoded_contents identifier id'>encoded_contents</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+    <span class='lbrack token'>[</span><span class='MHTML_SEPARATOR constant id'>MHTML_SEPARATOR</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Content-Location: #{identifier}\r\n&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Content-Type: #{mime}\r\n&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Content-Transfer-Encoding: base64\r\n\r\n&quot;</span><span class='comma token'>,</span> <span class='contents identifier id'>contents</span><span class='comma token'>,</span> <span class='string val'>&quot;\r\n&quot;</span><span class='rbrack token'>]</span>
+  <span class='end end kw'>end</span>
+  <span class='lbrack token'>[</span><span class='MHTML_START constant id'>MHTML_START</span><span class='comma token'>,</span> <span class='mhtml identifier id'>mhtml</span><span class='comma token'>,</span> <span class='MHTML_END constant id'>MHTML_END</span><span class='comma token'>,</span> <span class='css identifier id'>css</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>''</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun Nov 15 23:16:01 2009 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.4.0 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

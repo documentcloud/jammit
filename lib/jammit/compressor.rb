@@ -1,9 +1,9 @@
 module Jammit
 
-  # Uses the YUI Compressor to compress JavaScript and CSS. Also knows how to
-  # create a concatenated JST file. If "embed_images" is turned on, creates
-  # "mhtml" and "datauri" versions of all stylesheets, with all enabled images
-  # inlined into the css.
+  # Uses the YUI Compressor to compress JavaScript and CSS. (Which means that
+  # Java must be installed.) Also knows how to create a concatenated JST file.
+  # If "embed_images" is turned on, creates "mhtml" and "datauri" versions of
+  # all stylesheets, with all enabled images inlined into the css.
   class Compressor
 
     # Mapping from extension to mime-type of all embeddable images.
@@ -28,19 +28,22 @@ module Jammit
     JST_START       = "(function(){window.JST = window.JST || {};"
     JST_END         = "})();"
 
-    # Uses the "yui-compressor" gem.
+    # Creating a compressor initializes the internal YUI Compressor from
+    # the "yui-compressor" gem.
     def initialize
       @yui_js  = YUI::JavaScriptCompressor.new(:munge => true)
       @yui_css = YUI::CssCompressor.new
     end
 
-    # Delegates to the YUI compressor.
+    # Concatenate together a list of JavaScript paths, and pass them through the
+    # YUI Compressor (with munging enabled).
     def compress_js(paths)
       @yui_js.compress(concatenate(paths))
     end
 
-    # Delegates to the YUI compressor. When compressing a "datauri" or "mhtml"
-    # variant, post-processes the result to embed referenced images.
+    # Concatenate and compress a list of CSS stylesheets. When compressing a
+    # :datauri or :mhtml variant, post-processes the result to embed
+    # referenced images.
     def compress_css(paths, variant=nil, asset_url=nil)
       compressed_css = @yui_css.compress(concatenate(paths))
       case variant
@@ -51,9 +54,10 @@ module Jammit
     end
 
     # Compiles a single JST file by writing out a javascript that adds
-    # template properties to a "window.JST" object. Adds a JST-compilation
-    # function, unless you've specified your own preferred function.
-    # JST templates are named the same as their file.
+    # template properties to a top-level "window.JST" object. Adds a
+    # JST-compilation function to the top of the package, unless you've
+    # specified your own preferred function, or turned it off.
+    # JST templates are named with the basename of their file.
     def compile_jst(paths)
       compiled = paths.map do |path|
         template_name = File.basename(path, File.extname(path))
@@ -67,31 +71,38 @@ module Jammit
 
     private
 
-    # TODO: See if we can fix to work with relative URLs, and still YUI in-advance.
-
     # Re-write all enabled image URLs in a stylesheet with their corresponding
-    # data-URI image contents.
+    # Data-URI Base-64 encoded image contents.
     def with_data_uris(css)
       css.gsub(IMAGE_DETECTOR) do |url|
         image_path = "public#{$1}"
-        "url(\"data:#{mime_type(image_path)};base64,#{encoded_contents(image_path)}\")"
+        valid_image(image_path) ? "url(\"data:#{mime_type(image_path)};base64,#{encoded_contents(image_path)}\")" : url
       end
     end
 
     # Re-write all enabled image URLs in a stylesheet with the MHTML equivalent.
-    # The newlines (\r\n) in the following method are critical. Without them
-    # your MHTML will appear identical, but won't work.
+    # The newlines ("\r\n") in the following method are critical. Without them
+    # your MHTML will look identical, but won't work.
     def with_mhtml(css, asset_url)
       paths = {}
       css = css.gsub(IMAGE_DETECTOR) do |url|
-        paths[$1] ||= "public#{$1}"
-        "url(mhtml:#{asset_url}!#{$1})"
+        image_path = "public#{$1}"
+        valid = valid_image(image_path)
+        paths[$1] ||= image_path if valid
+        valid ? "url(mhtml:#{asset_url}!#{$1})" : url
       end
       mhtml = paths.map do |identifier, path|
         mime, contents = mime_type(path), encoded_contents(path)
         [MHTML_SEPARATOR, "Content-Location: #{identifier}\r\n", "Content-Type: #{mime}\r\n", "Content-Transfer-Encoding: base64\r\n\r\n", contents, "\r\n"]
       end
       [MHTML_START, mhtml, MHTML_END, css].flatten.join('')
+    end
+
+    # An image is valid if it exists, and is less than 32K.
+    # IE does not support Data-URIs larger than 32K, and you probably shouldn't
+    # be embedding images that large in any case.
+    def valid_image(image_path)
+      File.exists?(image_path) && File.size(image_path) < 32.kilobytes
     end
 
     # Return the Base64-encoded contents of an image on a single line.

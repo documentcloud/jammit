@@ -9,12 +9,15 @@ module Jammit
 
     SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
 
-    after_filter :cache_package
+    NOT_FOUND_PATH  = "#{RAILS_ROOT}/public/404.html"
 
-    # Dispatch to the appropriate packaging method for the filetype.
+    after_filter :cache_package if perform_caching
+
+    # The "package" action receives all requests for asset packages that haven't
+    # yet been cached. The package will be built, cached, and gzipped.
     def package
       parse_request
-      case @format
+      case @extension
       when :js  then render :js   => Jammit.packager.pack_javascripts(@package)
       when :css then render :text => generate_stylesheets, :content_type => 'text/css'
       when :jst then render :js   => Jammit.packager.pack_templates(@package)
@@ -26,36 +29,41 @@ module Jammit
 
     private
 
-    # We can't just use the built-in cache_page because we need to ensure that
+    # Tells the Jammit::Packager to cache and gzip an asset package. We can't
+    # just use the built-in "cache_page" because we need to ensure that
     # the timestamp that ends up in the MHTML is also on the cached file.
     def cache_package
-      cache_page(response.body, request.path)
-      if @mtime
-        cache_path = page_cache_directory + URI.unescape(request.path.chomp('/'))
-        File.utime(@mtime, @mtime, cache_path)
-      end
+      dir = File.join(page_cache_directory, Jammit.package_path)
+      Jammit.packager.cache(@package, @extension, @contents || response.body, dir, @variant, @mtime)
     end
 
-    # Generate the complete MHTML url to be written into the cached stylesheet.
-    def asset_url
-      return nil unless perform_caching && @variant == :mhtml
-      @mtime = Time.now
+    # Generate the complete, timestamped, MHTML url -- if we're rendering a
+    # dynamic MHTML package, we'll need to put one URL in the response, and a
+    # different one into the cached package.
+    def prefix_url(path)
       host = request.port == 80 ? request.host : request.host_with_port
-      "#{request.protocol}#{host}#{Jammit.asset_url(@package, @format, @variant, @mtime)}"
+      "#{request.protocol}#{host}#{path}"
     end
 
-    # If we're generating MHTML/CSS, we need to fix up the absolute URLs with
-    # the correct request URL.
+    # If we're generating MHTML/CSS, return a stylesheet with the absolute
+    # request URL to the client, and cache a version with the timestamped cache
+    # URL swapped in.
     def generate_stylesheets
-      css = Jammit.packager.pack_stylesheets(@package, @variant, asset_url)
+      return Jammit.packager.pack_stylesheets(@package, @variant) unless @variant == :mhtml
+      @mtime      = Time.now
+      request_url = prefix_url(request.request_uri)
+      cached_url  = prefix_url(Jammit.asset_url(@package, @extension, @variant, @mtime))
+      css         = Jammit.packager.pack_stylesheets(@package, @variant, request_url)
+      @contents   = css.gsub(request_url, cached_url) if perform_caching
+      css
     end
 
-    # We extract the package name, format (css, js, jst), and
-    # variant (datauri, mhtml) from the incoming URL.
+    # Extracts the package name, extension (:css, :js, :jst), and variant
+    # (:datauri, :mhtml) from the incoming URL.
     def parse_request
-      pack    = params[:package]
-      @format = params[:format].to_sym
-      raise PackageNotFound unless VALID_FORMATS.include?(@format)
+      pack       = params[:package]
+      @extension = params[:extension].to_sym
+      raise PackageNotFound unless VALID_FORMATS.include?(@extension)
       if Jammit.embed_images
         suffix_match = pack.match(SUFFIX_STRIPPER)
         @variant = Jammit.embed_images && suffix_match && suffix_match[1].to_sym
@@ -66,8 +74,7 @@ module Jammit
 
     # Render the 404 page, if one exists, for any packages that don't.
     def package_not_found
-      not_found_file = "#{RAILS_ROOT}/public/404.html"
-      return render(:file => not_found_file, :status => 404) if File.exists?(not_found_file)
+      return render(:file => NOT_FOUND_PATH, :status => 404) if File.exists?(NOT_FOUND_PATH)
       render :text => "<h1>404: \"#{@package}\" asset package not found.</h1>", :status => 404
     end
 

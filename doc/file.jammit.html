@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=UTF-8" />
+<title>Jammit</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a title="Index" href="_index.html">Index</a> &raquo; 
+    <span class="title">File: jammit</span>
+  
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Namespace List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><p>
+$LOAD_PATH.push File.expand_path(File.dirname(<em>FILE</em>))
+</p>
+<p>
+# @Jammit@ is the central namespace for all Jammit classes, and provides
+access # to all of the configuration options. module Jammit
+</p>
+<pre class="code">
+  <span class='VERSION constant id'>VERSION</span> <span class='assign token'>=</span> <span class='string val'>&quot;0.1.0&quot;</span>
+
+  <span class='ROOT constant id'>ROOT</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='__FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>'/..'</span><span class='rparen token'>)</span>
+
+  <span class='DEFAULT_CONFIG_PATH constant id'>DEFAULT_CONFIG_PATH</span>  <span class='assign token'>=</span> <span class='string val'>&quot;config/assets.yml&quot;</span>
+
+  <span class='DEFAULT_PACKAGE_PATH constant id'>DEFAULT_PACKAGE_PATH</span> <span class='assign token'>=</span> <span class='string val'>&quot;assets&quot;</span>
+
+  <span class='DEFAULT_JST_SCRIPT constant id'>DEFAULT_JST_SCRIPT</span>   <span class='assign token'>=</span> <span class='dstring node'>&quot;#{ROOT}/lib/jammit/jst.js&quot;</span>
+
+  <span class='DEFAULT_JST_COMPILER constant id'>DEFAULT_JST_COMPILER</span> <span class='assign token'>=</span> <span class='string val'>&quot;template&quot;</span>
+
+  <span class='comment val'># Jammit raises a @PackageNotFound@ exception when a non-existent package is</span>
+  <span class='comment val'># requested by a browser -- rendering a 404.</span>
+  <span class='class class kw'>class</span> <span class='PackageNotFound constant id'>PackageNotFound</span> <span class='lt op'>&lt;</span> <span class='NameError constant id'>NameError</span><span class='semicolon token'>;</span> <span class='end end kw'>end</span>
+
+  <span class='class class kw'>class</span> <span class='lshft op'>&lt;&lt;</span> <span class='self self kw'>self</span>
+    <span class='attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:configuration</span><span class='comma token'>,</span> <span class='symbol val'>:template_function</span><span class='comma token'>,</span> <span class='symbol val'>:embed_images</span><span class='comma token'>,</span> <span class='symbol val'>:package_path</span><span class='comma token'>,</span>
+                <span class='symbol val'>:package_assets</span><span class='comma token'>,</span> <span class='symbol val'>:mhtml_enabled</span><span class='comma token'>,</span> <span class='symbol val'>:include_jst_script</span>
+  <span class='end end kw'>end</span>
+
+  <span class='comment val'># The minimal required configuration.</span>
+  <span class='@configuration ivar id'>@configuration</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='@package_path ivar id'>@package_path</span>  <span class='assign token'>=</span> <span class='DEFAULT_PACKAGE_PATH constant id'>DEFAULT_PACKAGE_PATH</span>
+
+  <span class='comment val'># Load the complete asset configuration from the specified @config_path@.</span>
+  <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='load_configuration identifier id'>load_configuration</span><span class='lparen token'>(</span><span class='config_path identifier id'>config_path</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='config_path identifier id'>config_path</span> <span class='andop op'>&amp;&amp;</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='config_path identifier id'>config_path</span><span class='rparen token'>)</span>
+    <span class='@config_path ivar id'>@config_path</span>        <span class='assign token'>=</span> <span class='config_path identifier id'>config_path</span>
+    <span class='@configuration ivar id'>@configuration</span>      <span class='assign token'>=</span> <span class='conf identifier id'>conf</span> <span class='assign token'>=</span> <span class='YAML constant id'>YAML</span><span class='dot token'>.</span><span class='load_file identifier id'>load_file</span><span class='lparen token'>(</span><span class='@config_path ivar id'>@config_path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='symbolize_keys identifier id'>symbolize_keys</span>
+    <span class='@package_path ivar id'>@package_path</span>       <span class='assign token'>=</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:package_path</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='DEFAULT_PACKAGE_PATH constant id'>DEFAULT_PACKAGE_PATH</span>
+    <span class='@embed_images ivar id'>@embed_images</span>       <span class='assign token'>=</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:embed_images</span><span class='rbrack token'>]</span>
+    <span class='@mhtml_enabled ivar id'>@mhtml_enabled</span>      <span class='assign token'>=</span> <span class='@embed_images ivar id'>@embed_images</span> <span class='andop op'>&amp;&amp;</span> <span class='@embed_images ivar id'>@embed_images</span> <span class='neq op'>!=</span> <span class='string val'>&quot;datauri&quot;</span>
+    <span class='set_package_assets identifier id'>set_package_assets</span><span class='lparen token'>(</span><span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:package_assets</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='set_template_function identifier id'>set_template_function</span><span class='lparen token'>(</span><span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:template_function</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='self self kw'>self</span>
+  <span class='end end kw'>end</span>
+
+  <span class='comment val'># Force a reload by resetting the Packager and reloading the configuration.</span>
+  <span class='comment val'># In development, this will be called before every request to the</span>
+  <span class='comment val'># @Jammit::Controller@.</span>
+  <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='reload! fid id'>reload!</span>
+    <span class='Thread constant id'>Thread</span><span class='dot token'>.</span><span class='current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:jammit_packager</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+    <span class='load_configuration identifier id'>load_configuration</span><span class='lparen token'>(</span><span class='@config_path ivar id'>@config_path</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+
+  <span class='comment val'># Keep a global (thread-local) reference to a @Jammit::Packager@, to avoid</span>
+  <span class='comment val'># recomputing asset lists unnecessarily.</span>
+  <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span>
+    <span class='Thread constant id'>Thread</span><span class='dot token'>.</span><span class='current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:jammit_packager</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='Packager constant id'>Packager</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+  <span class='end end kw'>end</span>
+
+  <span class='comment val'># Generate the base filename for a version of a given package.</span>
+  <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='filename identifier id'>filename</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='suffix identifier id'>suffix</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='suffix_part identifier id'>suffix_part</span>  <span class='assign token'>=</span> <span class='suffix identifier id'>suffix</span> <span class='integer val'>? </span><span class='dstring node'>&quot;-#{suffix}&quot;</span> <span class='colon op'>:</span> <span class='string val'>''</span>
+    <span class='dstring node'>&quot;#{package}#{suffix_part}.#{extension}&quot;</span>
+  <span class='end end kw'>end</span>
+
+  <span class='comment val'># Generates the server-absolute URL to an asset package.</span>
+  <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='suffix identifier id'>suffix</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='timestamp identifier id'>timestamp</span> <span class='assign token'>=</span> <span class='mtime identifier id'>mtime</span> <span class='integer val'>? </span><span class='dstring node'>&quot;?#{mtime.to_i}&quot;</span> <span class='colon op'>:</span> <span class='string val'>''</span>
+    <span class='dstring node'>&quot;/#{package_path}/#{filename(package, extension, suffix)}#{timestamp}&quot;</span>
+  <span class='end end kw'>end</span>
+
+  <span class='private identifier id'>private</span>
+
+  <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='set_package_assets identifier id'>set_package_assets</span><span class='lparen token'>(</span><span class='value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='package_env identifier id'>package_env</span>     <span class='assign token'>=</span> <span class='notop op'>!</span><span class='defined? defined kw'>defined?</span><span class='lparen token'>(</span><span class='RAILS_ENV constant id'>RAILS_ENV</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='RAILS_ENV constant id'>RAILS_ENV</span> <span class='neq op'>!=</span> <span class='string val'>'development'</span>
+    <span class='@package_assets ivar id'>@package_assets</span> <span class='assign token'>=</span> <span class='case case kw'>case</span> <span class='value identifier id'>value</span>
+    <span class='when when kw'>when</span> <span class='string val'>'always'</span>     <span class='then then kw'>then</span> <span class='true true kw'>true</span>
+    <span class='when when kw'>when</span> <span class='false false kw'>false</span>        <span class='then then kw'>then</span> <span class='false false kw'>false</span>
+    <span class='when when kw'>when</span> <span class='true true kw'>true</span>         <span class='then then kw'>then</span> <span class='package_env identifier id'>package_env</span>
+    <span class='when when kw'>when</span> <span class='nil nil kw'>nil</span>          <span class='then then kw'>then</span> <span class='package_env identifier id'>package_env</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='set_template_function identifier id'>set_template_function</span><span class='lparen token'>(</span><span class='value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='@template_function ivar id'>@template_function</span> <span class='assign token'>=</span> <span class='case case kw'>case</span> <span class='value identifier id'>value</span>
+    <span class='when when kw'>when</span> <span class='false false kw'>false</span> <span class='then then kw'>then</span> <span class='string val'>''</span>
+    <span class='when when kw'>when</span> <span class='true true kw'>true</span>  <span class='then then kw'>then</span> <span class='DEFAULT_JST_COMPILER constant id'>DEFAULT_JST_COMPILER</span>
+    <span class='when when kw'>when</span> <span class='nil nil kw'>nil</span>   <span class='then then kw'>then</span> <span class='DEFAULT_JST_COMPILER constant id'>DEFAULT_JST_COMPILER</span>
+    <span class='else else kw'>else</span>            <span class='value identifier id'>value</span>
+    <span class='end end kw'>end</span>
+    <span class='@include_jst_script ivar id'>@include_jst_script</span> <span class='assign token'>=</span> <span class='@template_function ivar id'>@template_function</span> <span class='eq op'>==</span> <span class='DEFAULT_JST_COMPILER constant id'>DEFAULT_JST_COMPILER</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+end
+</p>
+<p>
+# Standard Library Dependencies: require &#8216;zlib&#8217; require
+&#8216;base64&#8217; require &#8216;fileutils&#8217;
+</p>
+<p>
+# Gem Dependencies: require &#8216;rubygems&#8217; require
+&#8216;yui/compressor&#8217; require &#8216;activesupport&#8217;
+</p>
+<p>
+# Load initial configuration before the rest of Jammit.
+Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH)
+</p>
+<p>
+# Jammit Core: require &#8216;jammit/compressor&#8217; require
+&#8216;jammit/packager&#8217;
+</p>
+<p>
+# Jammit Rails Integration: if defined?(RAILS_ENV)
+</p>
+<pre class="code">
+  <span class='require identifier id'>require</span> <span class='string val'>'jammit/controller'</span> <span class='comment val'># Rails will auto-load 'jammit/helper' for us.</span>
+  <span class='require identifier id'>require</span> <span class='string val'>'jammit/routes'</span>
+</pre>
+<p>
+end
+</p>
+</div></div>
+    
+    <div id="footer">
+  Generated on Sun Nov 15 23:12:14 2009 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.4.0 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

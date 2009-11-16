@@ -1,14 +1,17 @@
 module Jammit
 
-  # The Jammit::Packager resolves the list of real assets that get merged into
-  # a single asset package.
+  # The Jammit::Packager resolves the configuration file into lists of real
+  # assets that get merged into individual asset packages. Given the compiled
+  # contents of an asset package, the Packager knows how to cache that package
+  # with the correct timestamps.
   class Packager
 
     # In Rails, the difference between a path and an asset URL is "public".
     PATH_TO_URL = /\A\/?public/
 
     # Creating a new Packager will rebuild the list of assets from the
-    # Jammit.configuration. Useful for changing assets.yml on the fly.
+    # Jammit.configuration. When assets.yml is being changed on the fly,
+    # create a new Packager.
     def initialize
       @compressor = Compressor.new
       @config = {
@@ -28,24 +31,26 @@ module Jammit
     # base_url, because IE only supports MHTML with absolute references.
     def precache_all(output_dir=nil, base_url=nil)
       output_dir ||= "public/#{Jammit.package_path}"
-      FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
-      @config[:js].keys.each  {|p| precache(p, 'js',  pack_javascripts(p), output_dir) }
-      @config[:jst].keys.each {|p| precache(p, 'jst', pack_templates(p),  output_dir) }
+      @config[:js].keys.each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
+      @config[:jst].keys.each {|p| cache(p, 'jst', pack_templates(p),  output_dir) }
       @config[:css].keys.each do |p|
-        precache(p, 'css', pack_stylesheets(p), output_dir)
+        cache(p, 'css', pack_stylesheets(p), output_dir)
         if Jammit.embed_images
-          precache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
+          cache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
           if Jammit.mhtml_enabled && base_url
             mtime = Time.now
             asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml, mtime)}"
-            precache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
+            cache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
           end
         end
       end
     end
 
-    # Prebuild a single asset package.
-    def precache(package, extension, contents, output_dir, suffix=nil, mtime=Time.now)
+    # Caches a single prebuilt asset package and gzips it at the highest
+    # compression level. Ensures that the modification time of both both
+    # variants is identical, for web server caching modules, as well as MHTML.
+    def cache(package, extension, contents, output_dir, suffix=nil, mtime=Time.now)
+      FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
       filename = File.join(output_dir, Jammit.filename(package, extension, suffix))
       zip_name = "#{filename}.gz"
       File.open(filename, 'wb+') {|f| f.write(contents) }
@@ -53,7 +58,7 @@ module Jammit
       File.utime(mtime, mtime, filename, zip_name)
     end
 
-    # Get the original list of individual assets for a package.
+    # Get the list of individual assets for a package.
     def individual_urls(package, extension)
       package_for(package, extension)[:urls]
     end
@@ -76,14 +81,15 @@ module Jammit
 
     private
 
-    # Access a package asset list, raises an exception if the package is MIA.
+    # Look up a package asset list by name, raising an exception if the
+    # package has gone missing.
     def package_for(package, extension)
       pack = @packages[extension] && @packages[extension][package]
       pack || not_found(package, extension)
     end
 
-    # Compiles the list of assets that goes into a package. Runs an ordered
-    # list of Dir.globs, taking the unique, concatenated result.
+    # Compiles the list of assets that goes into each package. Runs an ordered
+    # list of Dir.globs, taking the merged unique result.
     def create_packages(config)
       packages = {}
       return packages if !config
@@ -97,7 +103,7 @@ module Jammit
       packages
     end
 
-    # Raise a 404 for missing packages...
+    # Raise a PackageNotFound exception for missing packages...
     def not_found(package, extension)
       raise PackageNotFound, "assets.yml does not contain a \"#{package}\" #{extension.to_s.upcase} package"
     end

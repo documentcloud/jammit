@@ -69,16 +69,13 @@
         margin: 0px 0 30px;
       }
     #diagram {
-      position: absolute;
-      left: 650px; top: 220px;
+      margin: 20px 0 0 0;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-
-    <img id="diagram" src="http://jashkenas.s3.amazonaws.com/images/jammit/jammit_diagram.jpg" alt="Jammit Diagram" />
 
     <p>
       <img src="http://jashkenas.s3.amazonaws.com/images/jammit/jammit.png" alt="Jammit" />
@@ -105,6 +102,10 @@
       <a href="#embedding">Embedding Images</a> |
       <a href="#jst">JavaScript Templates</a> |
       <a href="#changes">Change Log</a>
+    </p>
+
+    <p>
+      <img id="diagram" src="http://jashkenas.s3.amazonaws.com/images/jammit/jammit_diagram.jpg" alt="Jammit Diagram" />
     </p>
 
     <h2 id="installation">Installation</h2>
@@ -185,7 +186,7 @@ templates:
           and MTHML variants of your stylesheets, with whitelisted images
           embedded inline. Using <b>datauri</b> serves embedded images only
           to browsers that support Data-URIs, and serves unmodified stylesheets
-          to Internet Explorer.
+          to Internet Explorer 7 or lower.
         </td>
       </tr>
       <tr>
@@ -228,9 +229,9 @@ templates:
 
     <p>
       In development, no packaging is performed, so you'll see a list of individual
-      references to all of the JavaScript and CSS files. In addition, <b>assets.yml</b>
-      is reloaded on every request, so you can change the contents of your packages
-      without needing to restart Rails.
+      references to all of the JavaScript and CSS files. The <b>assets.yml</b>
+      configuration file is reloaded on every development request, so you can 
+      change the contents of your packages without needing to restart Rails.
     </p>
 
     <h2 id="precaching">Precaching Assets</h2>
@@ -277,26 +278,29 @@ templates:
       into your compiled CSS, using
       <a href="http://en.wikipedia.org/wiki/Data_URI_scheme">Data-URIs</a> in
       supported browsers, and
-      <a href="http://en.wikipedia.org/wiki/Mhtml">MHTML</a> in Internet Explorer.
+      <a href="http://en.wikipedia.org/wiki/Mhtml">MHTML</a> in Internet Explorer 7 and below.
       Instead of ten CSS files referencing 30 images, you can have a single,
       packaged, minified, gzipped CSS file, with the images coming in all at
       once instead of piecemeal, making just a single HTTP request.
     </p>
 
     <p>
-      Embedded images can be a little tricky, which is why you need to opt-in
-      to use them. After enabling <b>embed_images</b> in the configuration file,
+      Embedded images can be a little tricky, which is why using them is strictly
+      on an opt-in basis. After enabling <b>embed_images</b> in the configuration file,
       you'll need to whitelist the images that you'd like to make embeddable.
       When processing CSS, Jammit will only embed images that have
       <b>.../embed/...</b> somewhere in their path &mdash; the other images will be
-      left untouched. It's not recommended to embed all of your site's images, just
+      left untouched. You can make a single <b>public/images/embed</b> folder for 
+      your embedded images, or organize them into directories however you
+      prefer. It's not recommended to embed all of your site's images, just
       the ones that conform to the following three rules:
     </p>
 
     <ol>
       <li>
         <b>Images that are small.</b> Large images will simply delay the rendering
-        of your CSS. Less than 32K is a decent guideline.
+        of your CSS. Jammit won't embed images larger than <b>32 kilobytes</b>, because
+        Internet Explorer 8 won't render them.
       </li>
       <li>
         <b>Images that are immediately visible.</b> It's better to leave the

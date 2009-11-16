@@ -5,10 +5,10 @@
     \__/_/ \_\_|  |_|_|  |_|___| |_|
     
     
-Jammit is an industrial-strength asset packaging library for Rails,
-providing both the CSS and JavaScript concatenation and compression
-that you'd expect, as well as ahead-of-time gzipping, built-in JavaScript
-template support, and optional Data-URI / MHTML image embedding.
-
-For complete documentation, see:
-http://documentcloud.github.com/jammit
+  Jammit is an industrial-strength asset packaging library for Rails,
+  providing both the CSS and JavaScript concatenation and compression
+  that you'd expect, as well as ahead-of-time gzipping, built-in JavaScript
+  template support, and optional Data-URI / MHTML image embedding.
+  
+  For complete documentation, see:
+  http://documentcloud.github.com/jammit

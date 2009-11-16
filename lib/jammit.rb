@@ -1,8 +1,10 @@
 $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 
+# @Jammit@ is the central namespace for all Jammit classes, and provides access
+# to all of the configuration options.
 module Jammit
 
-  VERSION = "0.1.0" # Keep in sync with jammit.gemspec's version.
+  VERSION = "0.1.0"
 
   ROOT = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -14,10 +16,11 @@ module Jammit
 
   DEFAULT_JST_COMPILER = "template"
 
+  # Jammit raises a @PackageNotFound@ exception when a non-existent package is
+  # requested by a browser -- rendering a 404.
   class PackageNotFound < NameError; end
 
   class << self
-    # Configuration reader attributes.
     attr_reader :configuration, :template_function, :embed_images, :package_path,
                 :package_assets, :mhtml_enabled, :include_jst_script
   end
@@ -26,7 +29,7 @@ module Jammit
   @configuration = {}
   @package_path  = DEFAULT_PACKAGE_PATH
 
-  # Load (or reload) the complete asset configuration from the specified path.
+  # Load the complete asset configuration from the specified @config_path@.
   def self.load_configuration(config_path)
     return unless config_path && File.exists?(config_path)
     @config_path        = config_path
@@ -36,26 +39,30 @@ module Jammit
     @mhtml_enabled      = @embed_images && @embed_images != "datauri"
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
+    self
   end
 
   # Force a reload by resetting the Packager and reloading the configuration.
+  # In development, this will be called before every request to the
+  # @Jammit::Controller@.
   def self.reload!
     Thread.current[:jammit_packager] = nil
     load_configuration(@config_path)
   end
 
-  # Keep a global reference to a Packager, to avoid recomputing asset lists.
+  # Keep a global (thread-local) reference to a @Jammit::Packager@, to avoid
+  # recomputing asset lists unnecessarily.
   def self.packager
     Thread.current[:jammit_packager] ||= Packager.new
   end
 
-  # Generate the filename for a version of a given package.
+  # Generate the base filename for a version of a given package.
   def self.filename(package, extension, suffix=nil)
     suffix_part  = suffix ? "-#{suffix}" : ''
     "#{package}#{suffix_part}.#{extension}"
   end
 
-  # Generate the rooted URL to the packaged asset.
+  # Generates the server-absolute URL to an asset package.
   def self.asset_url(package, extension, suffix=nil, mtime=nil)
     timestamp = mtime ? "?#{mtime.to_i}" : ''
     "/#{package_path}/#{filename(package, extension, suffix)}#{timestamp}"
@@ -96,6 +103,7 @@ require 'rubygems'
 require 'yui/compressor'
 require 'activesupport'
 
+# Load initial configuration before the rest of Jammit.
 Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH)
 
 # Jammit Core:

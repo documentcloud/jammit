@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../jammit')
 
 module Jammit
 
-  # The CommandLine is able to compress, pre-package, and pre-gzip all the
+  # The @CommandLine@ is able to compress, pre-package, and pre-gzip all the
   # assets specified in the configuration file, in order to avoid an initial
   # round of slow requests after a fresh deployment.
   class CommandLine
@@ -22,7 +22,7 @@ MHTML stylesheet variants, you must specify the "base-url".
 Options:
     EOS
 
-    # The Jammit::CommandLine runs from the contents of ARGV.
+    # The @Jammit::CommandLine@ runs from the contents of @ARGV@.
     def initialize
       parse_options
       ensure_configuration_file
@@ -30,7 +30,11 @@ Options:
       Jammit.packager.precache_all(@options[:output_folder], @options[:base_url])
     end
 
-    # Make sure that we have a readable configuration file.
+
+    private
+
+    # Make sure that we have a readable configuration file. The @jammit@
+    # command can't run without one.
     def ensure_configuration_file
       config = @options[:config_path]
       return true if File.exists?(config) && File.readable?(config)
@@ -38,7 +42,8 @@ Options:
       exit(1)
     end
 
-    # Use OptionParser to grab the options -- none are required.
+    # Uses @OptionParser@ to grab the options: *--output*, *--config*, and
+    # *--base-url*...
     def parse_options
       @options = {
         :config_path => Jammit::DEFAULT_CONFIG_PATH,

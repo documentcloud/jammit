@@ -1,0 +1,963 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=UTF-8" />
+<title>Module: Jammit</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (J)</a> &raquo; 
+    
+    
+    <span class="title">Jammit</span>
+  
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Namespace List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Jammit 
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/jammit.rb<span class="defines">,<br />
+  lib/jammit/routes.rb,<br /> lib/jammit/helper.rb,<br /> lib/jammit/packager.rb,<br /> lib/jammit/controller.rb,<br /> lib/jammit/compressor.rb,<br /> lib/jammit/command_line.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p><code>Jammit</code> is the central namespace for all Jammit classes, and provides access
+to all of the configuration options.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+      <strong class="modules">Modules:</strong> <a href="Jammit/Helper.html" title="Helper">Helper</a>, <a href="Jammit/Routes.html" title="Routes">Routes</a>
+    
+   
+    
+      <strong class="classes">Classes:</strong> <a href="Jammit/CommandLine.html" title="CommandLine">CommandLine</a>, <a href="Jammit/Compressor.html" title="Compressor">Compressor</a>, <a href="Jammit/Controller.html" title="Controller">Controller</a>, <a href="Jammit/PackageNotFound.html" title="PackageNotFound">PackageNotFound</a>, <a href="Jammit/Packager.html" title="Packager">Packager</a>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="VERSION-constant ">VERSION =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;0.1.0&quot;</span>
+</pre></dd>
+      
+        <dt id="ROOT-constant ">ROOT =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='__FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>'/..'</span><span class='rparen token'>)</span>
+</pre></dd>
+      
+        <dt id="DEFAULT_CONFIG_PATH-constant ">DEFAULT_CONFIG_PATH =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;config/assets.yml&quot;</span>
+</pre></dd>
+      
+        <dt id="DEFAULT_PACKAGE_PATH-constant ">DEFAULT_PACKAGE_PATH =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;assets&quot;</span>
+</pre></dd>
+      
+        <dt id="DEFAULT_JST_SCRIPT-constant ">DEFAULT_JST_SCRIPT =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='dstring node'>&quot;#{ROOT}/lib/jammit/jst.js&quot;</span>
+</pre></dd>
+      
+        <dt id="DEFAULT_JST_COMPILER-constant ">DEFAULT_JST_COMPILER =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;template&quot;</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+  <h2>Attribute Summary</h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#configuration-class_method" title="configuration (class method)">+ (Object) <strong>configuration</strong> </a>
+  
+  </span>
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Returns the value of attribute <ins>configuration</ins>.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#embed_images-class_method" title="embed_images (class method)">+ (Object) <strong>embed_images</strong> </a>
+  
+  </span>
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Returns the value of attribute <ins>embed_images</ins>.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#include_jst_script-class_method" title="include_jst_script (class method)">+ (Object) <strong>include_jst_script</strong> </a>
+  
+  </span>
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Returns the value of attribute <ins>include_jst_script</ins>.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#mhtml_enabled-class_method" title="mhtml_enabled (class method)">+ (Object) <strong>mhtml_enabled</strong> </a>
+  
+  </span>
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Returns the value of attribute <ins>mhtml_enabled</ins>.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#package_assets-class_method" title="package_assets (class method)">+ (Object) <strong>package_assets</strong> </a>
+  
+  </span>
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Returns the value of attribute <ins>package_assets</ins>.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#package_path-class_method" title="package_path (class method)">+ (Object) <strong>package_path</strong> </a>
+  
+  </span>
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Returns the value of attribute <ins>package_path</ins>.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#template_function-class_method" title="template_function (class method)">+ (Object) <strong>template_function</strong> </a>
+  
+  </span>
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Returns the value of attribute <ins>template_function</ins>.</span>
+  
+</li>
+
+    
+  </ul>
+
+
+  <h2>Method Summary</h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#asset_url-class_method" title="asset_url (class method)">+ (Object) <strong>asset_url</strong>(package, extension, suffix = nil, mtime = nil) </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Generates the server-absolute <span class="caps">URL</span> to an asset package.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#filename-class_method" title="filename (class method)">+ (Object) <strong>filename</strong>(package, extension, suffix = nil) </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Generate the base filename for a version of a given package.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#load_configuration-class_method" title="load_configuration (class method)">+ (Object) <strong>load_configuration</strong>(config_path) </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Load the complete asset configuration from the specified <code>config_path</code>.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#packager-class_method" title="packager (class method)">+ (Object) <strong>packager</strong> </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Keep a global (thread-local) reference to a <code>Jammit::Packager</code>, to avoid
+recomputing asset lists unnecessarily.</span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#reload%21-class_method" title="reload! (class method)">+ (Object) <strong>reload!</strong> </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc">Force a reload by resetting the Packager and reloading the configuration.</span>
+  
+</li>
+
+    
+      <li class="private ">
+  <span class="summary_signature"><a href="#set_package_assets-class_method" title="set_package_assets (class method)">+ (Object) <strong>set_package_assets</strong>(value) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"></span>
+  
+</li>
+
+    
+      <li class="private ">
+  <span class="summary_signature"><a href="#set_template_function-class_method" title="set_template_function (class method)">+ (Object) <strong>set_template_function</strong>(value) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  <div id="attr_details">
+    <h2>Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="configuration-class_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="configuration-class_method">
+  
+    + (<tt>Object</tt>) <strong>configuration</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute <ins>configuration</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 24</span>
+
+<span class='def def kw'>def</span> <span class='configuration identifier id'>configuration</span>
+  <span class='@configuration ivar id'>@configuration</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="embed_images-class_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="embed_images-class_method">
+  
+    + (<tt>Object</tt>) <strong>embed_images</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute <ins>embed_images</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 24</span>
+
+<span class='def def kw'>def</span> <span class='embed_images identifier id'>embed_images</span>
+  <span class='@embed_images ivar id'>@embed_images</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="include_jst_script-class_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="include_jst_script-class_method">
+  
+    + (<tt>Object</tt>) <strong>include_jst_script</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute <ins>include_jst_script</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 24</span>
+
+<span class='def def kw'>def</span> <span class='include_jst_script identifier id'>include_jst_script</span>
+  <span class='@include_jst_script ivar id'>@include_jst_script</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="mhtml_enabled-class_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="mhtml_enabled-class_method">
+  
+    + (<tt>Object</tt>) <strong>mhtml_enabled</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute <ins>mhtml_enabled</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 24</span>
+
+<span class='def def kw'>def</span> <span class='mhtml_enabled identifier id'>mhtml_enabled</span>
+  <span class='@mhtml_enabled ivar id'>@mhtml_enabled</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="package_assets-class_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="package_assets-class_method">
+  
+    + (<tt>Object</tt>) <strong>package_assets</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute <ins>package_assets</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 24</span>
+
+<span class='def def kw'>def</span> <span class='package_assets identifier id'>package_assets</span>
+  <span class='@package_assets ivar id'>@package_assets</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="package_path-class_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="package_path-class_method">
+  
+    + (<tt>Object</tt>) <strong>package_path</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute <ins>package_path</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 24</span>
+
+<span class='def def kw'>def</span> <span class='package_path identifier id'>package_path</span>
+  <span class='@package_path ivar id'>@package_path</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="template_function-class_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="template_function-class_method">
+  
+    + (<tt>Object</tt>) <strong>template_function</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute <ins>template_function</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 24</span>
+
+<span class='def def kw'>def</span> <span class='template_function identifier id'>template_function</span>
+  <span class='@template_function ivar id'>@template_function</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="method_details">
+    <h2>Method Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="asset_url-class_method">
+  
+    + (<tt>Object</tt>) <strong>asset_url</strong>(package, extension, suffix = nil, mtime = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Generates the server-absolute <span class="caps">URL</span> to an asset package.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 66</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='suffix identifier id'>suffix</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='timestamp identifier id'>timestamp</span> <span class='assign token'>=</span> <span class='mtime identifier id'>mtime</span> <span class='integer val'>? </span><span class='dstring node'>&quot;?#{mtime.to_i}&quot;</span> <span class='colon op'>:</span> <span class='string val'>''</span>
+  <span class='dstring node'>&quot;/#{package_path}/#{filename(package, extension, suffix)}#{timestamp}&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="filename-class_method">
+  
+    + (<tt>Object</tt>) <strong>filename</strong>(package, extension, suffix = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Generate the base filename for a version of a given package.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='filename identifier id'>filename</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='suffix identifier id'>suffix</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='suffix_part identifier id'>suffix_part</span>  <span class='assign token'>=</span> <span class='suffix identifier id'>suffix</span> <span class='integer val'>? </span><span class='dstring node'>&quot;-#{suffix}&quot;</span> <span class='colon op'>:</span> <span class='string val'>''</span>
+  <span class='dstring node'>&quot;#{package}#{suffix_part}.#{extension}&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_configuration-class_method">
+  
+    + (<tt>Object</tt>) <strong>load_configuration</strong>(config_path) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Load the complete asset configuration from the specified <code>config_path</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 33</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='load_configuration identifier id'>load_configuration</span><span class='lparen token'>(</span><span class='config_path identifier id'>config_path</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='config_path identifier id'>config_path</span> <span class='andop op'>&amp;&amp;</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='config_path identifier id'>config_path</span><span class='rparen token'>)</span>
+  <span class='@config_path ivar id'>@config_path</span>        <span class='assign token'>=</span> <span class='config_path identifier id'>config_path</span>
+  <span class='@configuration ivar id'>@configuration</span>      <span class='assign token'>=</span> <span class='conf identifier id'>conf</span> <span class='assign token'>=</span> <span class='YAML constant id'>YAML</span><span class='dot token'>.</span><span class='load_file identifier id'>load_file</span><span class='lparen token'>(</span><span class='@config_path ivar id'>@config_path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='symbolize_keys identifier id'>symbolize_keys</span>
+  <span class='@package_path ivar id'>@package_path</span>       <span class='assign token'>=</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:package_path</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='DEFAULT_PACKAGE_PATH constant id'>DEFAULT_PACKAGE_PATH</span>
+  <span class='@embed_images ivar id'>@embed_images</span>       <span class='assign token'>=</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:embed_images</span><span class='rbrack token'>]</span>
+  <span class='@mhtml_enabled ivar id'>@mhtml_enabled</span>      <span class='assign token'>=</span> <span class='@embed_images ivar id'>@embed_images</span> <span class='andop op'>&amp;&amp;</span> <span class='@embed_images ivar id'>@embed_images</span> <span class='neq op'>!=</span> <span class='string val'>&quot;datauri&quot;</span>
+  <span class='set_package_assets identifier id'>set_package_assets</span><span class='lparen token'>(</span><span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:package_assets</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='set_template_function identifier id'>set_template_function</span><span class='lparen token'>(</span><span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:template_function</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='self self kw'>self</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="packager-class_method">
+  
+    + (<tt>Object</tt>) <strong>packager</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Keep a global (thread-local) reference to a <code>Jammit::Packager</code>, to avoid
+recomputing asset lists unnecessarily.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 55</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span>
+  <span class='Thread constant id'>Thread</span><span class='dot token'>.</span><span class='current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:jammit_packager</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='Packager constant id'>Packager</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reload!-class_method">
+  
+    + (<tt>Object</tt>) <strong>reload!</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Force a reload by resetting the Packager and reloading the configuration.
+In development, this will be called before every request to the
+<code>Jammit::Controller</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 48</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='reload! fid id'>reload!</span>
+  <span class='Thread constant id'>Thread</span><span class='dot token'>.</span><span class='current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:jammit_packager</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='load_configuration identifier id'>load_configuration</span><span class='lparen token'>(</span><span class='@config_path ivar id'>@config_path</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="set_package_assets-class_method">
+  
+    + (<tt>Object</tt>) <strong>set_package_assets</strong>(value)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 74</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='set_package_assets identifier id'>set_package_assets</span><span class='lparen token'>(</span><span class='value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='package_env identifier id'>package_env</span>     <span class='assign token'>=</span> <span class='notop op'>!</span><span class='defined? defined kw'>defined?</span><span class='lparen token'>(</span><span class='RAILS_ENV constant id'>RAILS_ENV</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='RAILS_ENV constant id'>RAILS_ENV</span> <span class='neq op'>!=</span> <span class='string val'>'development'</span>
+  <span class='@package_assets ivar id'>@package_assets</span> <span class='assign token'>=</span> <span class='case case kw'>case</span> <span class='value identifier id'>value</span>
+  <span class='when when kw'>when</span> <span class='string val'>'always'</span>     <span class='then then kw'>then</span> <span class='true true kw'>true</span>
+  <span class='when when kw'>when</span> <span class='false false kw'>false</span>        <span class='then then kw'>then</span> <span class='false false kw'>false</span>
+  <span class='when when kw'>when</span> <span class='true true kw'>true</span>         <span class='then then kw'>then</span> <span class='package_env identifier id'>package_env</span>
+  <span class='when when kw'>when</span> <span class='nil nil kw'>nil</span>          <span class='then then kw'>then</span> <span class='package_env identifier id'>package_env</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="set_template_function-class_method">
+  
+    + (<tt>Object</tt>) <strong>set_template_function</strong>(value)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit.rb', line 84</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='set_template_function identifier id'>set_template_function</span><span class='lparen token'>(</span><span class='value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='@template_function ivar id'>@template_function</span> <span class='assign token'>=</span> <span class='case case kw'>case</span> <span class='value identifier id'>value</span>
+  <span class='when when kw'>when</span> <span class='false false kw'>false</span> <span class='then then kw'>then</span> <span class='string val'>''</span>
+  <span class='when when kw'>when</span> <span class='true true kw'>true</span>  <span class='then then kw'>then</span> <span class='DEFAULT_JST_COMPILER constant id'>DEFAULT_JST_COMPILER</span>
+  <span class='when when kw'>when</span> <span class='nil nil kw'>nil</span>   <span class='then then kw'>then</span> <span class='DEFAULT_JST_COMPILER constant id'>DEFAULT_JST_COMPILER</span>
+  <span class='else else kw'>else</span>            <span class='value identifier id'>value</span>
+  <span class='end end kw'>end</span>
+  <span class='@include_jst_script ivar id'>@include_jst_script</span> <span class='assign token'>=</span> <span class='@template_function ivar id'>@template_function</span> <span class='eq op'>==</span> <span class='DEFAULT_JST_COMPILER constant id'>DEFAULT_JST_COMPILER</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun Nov 15 23:16:00 2009 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.4.0 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
