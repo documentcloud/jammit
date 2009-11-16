@@ -4,9 +4,9 @@ Gem::Specification.new do |s|
   s.date      = '2009-11-06'
 
   s.homepage    = "http://wiki.github.com/documentcloud/jammit"
-  s.summary     = "Industrial-Strength Asset Packaging for Rails"
+  s.summary     = "Industrial Strength Asset Packaging for Rails"
   s.description = <<-EOS
-    Jammit is an industrial-strength asset packaging library for Rails,
+    Jammit is an industrial strength asset packaging library for Rails,
     providing both the CSS and JavaScript concatenation and compression
     that you'd expect, as well as ahead-of-time gzipping, built-in JavaScript
     template support, and optional Data-URI / MHTML image embedding.
