@@ -2,4 +2,4 @@ embed_images: on
 
 stylesheets:
   silk:
-    - stylesheets/silk.css
+    - public/stylesheets/silk.css
