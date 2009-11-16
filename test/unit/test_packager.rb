@@ -3,6 +3,19 @@ require 'zlib'
 
 class PackagerTest < Test::Unit::TestCase
 
+  PRECACHED_FILES = %w(
+    precache/test-datauri.css
+    precache/test-datauri.css.gz
+    precache/test-mhtml.css
+    precache/test-mhtml.css.gz
+    precache/test.css
+    precache/test.css.gz
+    precache/test.js
+    precache/test.js.gz
+    precache/test.jst
+    precache/test.jst.gz
+  )
+
   def test_fetching_lists_of_individual_urls
     urls = Jammit.packager.individual_urls(:test, :css)
     assert urls == ['fixtures/src/test1.css', 'fixtures/src/test2.css']
@@ -38,6 +51,15 @@ class PackagerTest < Test::Unit::TestCase
     assert Zlib::GzipReader.open('public/test-mhtml.css.gz') {|f| f.read } == canonical
     FileUtils.rm(['public/test-mhtml.css', 'public/test-mhtml.css.gz'])
   end
+
+  def test_precache_all
+    Jammit.packager.precache_all('precache', 'http://www.example.com')
+    assert PRECACHED_FILES == Dir['precache/*']
+    assert Zlib::GzipReader.open('precache/test-datauri.css.gz') {|f| f.read } == File.read('fixtures/jammed/test-datauri.css')
+    assert Zlib::GzipReader.open('precache/test.jst.gz') {|f| f.read } == File.read('fixtures/jammed/test.jst')
+    FileUtils.rm_r('precache')
+  end
+
 
 end
 
