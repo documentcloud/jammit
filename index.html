@@ -87,9 +87,10 @@
       both the CSS and JavaScript concatenation and compression
       that you'd expect, as well as ahead-of-time gzipping, built-in JavaScript template
       support, and optional <b>Data-URI / MHTML image embedding</b>.
-      All packaged assets are passed through the
-      <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>
-      for safe, best-in-class compression.
+    </p>
+    
+    <p>
+      <i>Jammit is an open-source component of <a href="http://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
     <h2>Table of Contents</h2>
@@ -240,6 +241,13 @@ templates:
       references to all of the JavaScript and CSS files. The <b>assets.yml</b>
       configuration file is reloaded on every development request, so you can 
       change the contents of your packages without needing to restart Rails.
+    </p>
+    
+    <p>
+      In all other environments, or if <b>package_assets</b> is set to "<b>always</b>",
+      you'll get tags for the merged packages. Both CSS and JavaScript are run
+      through the excellent 
+      <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>.
     </p>
 
     <h2 id="precaching">Precaching Assets</h2>
