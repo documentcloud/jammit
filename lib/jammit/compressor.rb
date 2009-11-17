@@ -48,8 +48,9 @@ module Jammit
     def compress_css(paths, variant=nil, asset_url=nil)
       return @yui_css.compress(concatenate(paths)) if variant.nil?
       compressed_css = @yui_css.compress(concatenate_and_tag_images(paths))
+      return with_data_uris(compressed_css) if variant == :datauri
       return with_mhtml(compressed_css, asset_url) if variant == :mhtml
-      with_data_uris(compressed_css)
+      raise PackageNotFound, "\"#{variant}\" is not a valid stylesheet variant"
     end
 
     # Compiles a single JST file by writing out a javascript that adds
@@ -108,6 +109,8 @@ module Jammit
       [MHTML_START, mhtml, MHTML_END, css].flatten.join('')
     end
 
+    # Get the site-absolute public path for an image file path that may or may
+    # not be relative, given the path of the stylesheet that contains it.
     def public_path(image_path, css_path)
       image_path, css_path = Pathname.new(image_path), Pathname.new(css_path)
       (image_path.absolute? ? Pathname.new("public#{image_path}") : css_path.dirname + image_path).cleanpath

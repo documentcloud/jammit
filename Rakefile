@@ -12,6 +12,7 @@ end
 desc 'Generate YARD Documentation'
 task :doc do
   sh "mv README TEMPME"
+  sh "rm -rf doc"
   sh "yardoc"
   sh "mv TEMPME README"
 end
