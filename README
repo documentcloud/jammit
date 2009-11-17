@@ -10,6 +10,9 @@
   that you'd expect, as well as ahead-of-time gzipping, built-in JavaScript
   template support, and optional Data-URI / MHTML image embedding.
   
+  Installation:
+  gem install jammit --source http://gemcutter.org
+  
   For documentation, usage, and examples, see:
   http://documentcloud.github.com/jammit/
   
