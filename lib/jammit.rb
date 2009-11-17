@@ -96,6 +96,7 @@ end
 # Standard Library Dependencies:
 require 'zlib'
 require 'base64'
+require 'pathname'
 require 'fileutils'
 
 # Gem Dependencies:

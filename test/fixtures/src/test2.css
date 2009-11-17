@@ -12,3 +12,6 @@
   #with_images {
     background: url(/embed/asterisk_yellow.png);
   }
+  #and_relative_paths {
+    background: url(../../public/embed/asterisk_orange.png);
+  }

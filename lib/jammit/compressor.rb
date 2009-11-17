@@ -17,7 +17,8 @@ module Jammit
     }
 
     # Detect all image URLs that are inside of an "embed" folder.
-    IMAGE_DETECTOR  = /url\(['"]?(\/[^\s)]*embed\/[^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
+    IMAGE_DETECTOR  = /url\(['"]?([^\s)]*embed\/[^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
+    IMAGE_REPLACER  = /url\(__EMBED__([^\s)]+)\)/
 
     # MHTML file constants.
     MHTML_START     = "/*\r\nContent-Type: multipart/related; boundary=\"JAMMIT_MHTML_SEPARATOR\"\r\n\r\n"
@@ -45,12 +46,10 @@ module Jammit
     # :datauri or :mhtml variant, post-processes the result to embed
     # referenced images.
     def compress_css(paths, variant=nil, asset_url=nil)
-      compressed_css = @yui_css.compress(concatenate(paths))
-      case variant
-      when nil      then compressed_css
-      when :datauri then with_data_uris(compressed_css)
-      when :mhtml   then with_mhtml(compressed_css, asset_url)
-      end
+      return @yui_css.compress(concatenate(paths)) if variant.nil?
+      compressed_css = @yui_css.compress(concatenate_and_tag_images(paths))
+      return with_mhtml(compressed_css, asset_url) if variant == :mhtml
+      with_data_uris(compressed_css)
     end
 
     # Compiles a single JST file by writing out a javascript that adds
@@ -71,12 +70,25 @@ module Jammit
 
     private
 
+    # In order to support embedded images from relative paths, we need to
+    # expand the paths before contatenating the CSS together and losing the
+    # location of the original stylesheet path. Validate the images while we're
+    # at it.
+    def concatenate_and_tag_images(paths)
+      stylesheets = [paths].flatten.map do |css_path|
+        File.read(css_path).gsub(IMAGE_DETECTOR) do |url|
+          image_path = public_path($1, css_path)
+          valid_image(image_path) ? "url(__EMBED__#{image_path})" : url
+        end
+      end
+      stylesheets.join("\n")
+    end
+
     # Re-write all enabled image URLs in a stylesheet with their corresponding
     # Data-URI Base-64 encoded image contents.
     def with_data_uris(css)
-      css.gsub(IMAGE_DETECTOR) do |url|
-        image_path = "public#{$1}"
-        valid_image(image_path) ? "url(\"data:#{mime_type(image_path)};base64,#{encoded_contents(image_path)}\")" : url
+      css.gsub(IMAGE_REPLACER) do |url|
+        "url(\"data:#{mime_type($1)};base64,#{encoded_contents($1)}\")"
       end
     end
 
@@ -84,25 +96,28 @@ module Jammit
     # The newlines ("\r\n") in the following method are critical. Without them
     # your MHTML will look identical, but won't work.
     def with_mhtml(css, asset_url)
-      paths = {}
-      css = css.gsub(IMAGE_DETECTOR) do |url|
-        image_path = "public#{$1}"
-        valid = valid_image(image_path)
-        paths[$1] ||= image_path if valid
-        valid ? "url(mhtml:#{asset_url}!#{$1})" : url
+      paths, index = {}, 0
+      css = css.gsub(IMAGE_REPLACER) do |url|
+        i = paths[$1] ||= "#{index += 1}-#{File.basename($1)}"
+        "url(mhtml:#{asset_url}!#{i})"
       end
-      mhtml = paths.map do |identifier, path|
+      mhtml = paths.map do |path, identifier|
         mime, contents = mime_type(path), encoded_contents(path)
         [MHTML_SEPARATOR, "Content-Location: #{identifier}\r\n", "Content-Type: #{mime}\r\n", "Content-Transfer-Encoding: base64\r\n\r\n", contents, "\r\n"]
       end
       [MHTML_START, mhtml, MHTML_END, css].flatten.join('')
     end
 
+    def public_path(image_path, css_path)
+      image_path, css_path = Pathname.new(image_path), Pathname.new(css_path)
+      (image_path.absolute? ? Pathname.new("public#{image_path}") : css_path.dirname + image_path).cleanpath
+    end
+
     # An image is valid if it exists, and is less than 32K.
     # IE does not support Data-URIs larger than 32K, and you probably shouldn't
     # be embedding images that large in any case.
     def valid_image(image_path)
-      File.exists?(image_path) && File.size(image_path) < 32.kilobytes
+      image_path.exist? && image_path.size < 32.kilobytes
     end
 
     # Return the Base64-encoded contents of an image on a single line.
