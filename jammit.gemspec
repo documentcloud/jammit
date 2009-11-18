@@ -7,9 +7,10 @@ Gem::Specification.new do |s|
   s.summary     = "Industrial Strength Asset Packaging for Rails"
   s.description = <<-EOS
     Jammit is an industrial strength asset packaging library for Rails,
-    providing both the CSS and JavaScript concatenation and compression
-    that you'd expect, as well as ahead-of-time gzipping, built-in JavaScript
-    template support, and optional Data-URI / MHTML image embedding.
+    providing both the CSS and JavaScript concatenation and compression that
+    you'd expect, as well as YUI Compressor and Closure Compiler compatibility,
+    ahead-of-time gzipping, built-in JavaScript template support, and optional
+    Data-URI / MHTML image embedding.
   EOS
 
   s.authors           = ['Jeremy Ashkenas']
