@@ -84,8 +84,4 @@ end
 
 ::JammitController = Jammit::Controller
 
-if RAILS_ENV == 'development'
-  class ApplicationController < ActionController::Base
-    before_filter { Jammit.reload! }
-  end
-end
+ApplicationController.append_before_filter { Jammit.reload! } if RAILS_ENV == 'development'
