@@ -199,6 +199,22 @@ stylesheets, using conditional comments to load the correct variant.</span>
 </li>
 
     
+      <li class="private ">
+  <span class="summary_signature"><a href="#tags_with_options-instance_method" title="#tags_with_options (instance method)">- (Object) <strong>tags_with_options</strong>(packages) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">Generate the stylesheet tags for a batch of packages, with options, by
+yielding each package to a block.</span>
+  
+</li>
+
+    
   </ul>
 
 
@@ -365,11 +381,11 @@ stylesheets, using conditional comments to load the correct variant.</p>
       <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 53</span>
 
 <span class='def def kw'>def</span> <span class='embedded_image_stylesheets identifier id'>embedded_image_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
-  <span class='css_tags identifier id'>css_tags</span> <span class='assign token'>=</span> <span class='stylesheet_link_tag identifier id'>stylesheet_link_tag</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:datauri</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='datauri_tags identifier id'>datauri_tags</span> <span class='assign token'>=</span> <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:datauri</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='ie_tags identifier id'>ie_tags</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='mhtml_enabled identifier id'>mhtml_enabled</span> <span class='integer val'>?
-</span>    <span class='stylesheet_link_tag identifier id'>stylesheet_link_tag</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:mhtml</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='colon op'>:</span>
-    <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
-  <span class='lbrack token'>[</span><span class='DATA_URI_START constant id'>DATA_URI_START</span><span class='comma token'>,</span> <span class='css_tags identifier id'>css_tags</span><span class='comma token'>,</span> <span class='DATA_URI_END constant id'>DATA_URI_END</span><span class='comma token'>,</span> <span class='MHTML_START constant id'>MHTML_START</span><span class='comma token'>,</span> <span class='ie_tags identifier id'>ie_tags</span><span class='comma token'>,</span> <span class='MHTML_END constant id'>MHTML_END</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+</span>            <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:mhtml</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span> <span class='colon op'>:</span>
+            <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='DATA_URI_START constant id'>DATA_URI_START</span><span class='comma token'>,</span> <span class='datauri_tags identifier id'>datauri_tags</span><span class='comma token'>,</span> <span class='DATA_URI_END constant id'>DATA_URI_END</span><span class='comma token'>,</span> <span class='MHTML_START constant id'>MHTML_START</span><span class='comma token'>,</span> <span class='ie_tags identifier id'>ie_tags</span><span class='comma token'>,</span> <span class='MHTML_END constant id'>MHTML_END</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -406,7 +422,7 @@ stylesheets, using conditional comments to load the correct variant.</p>
       <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 42</span>
 
 <span class='def def kw'>def</span> <span class='individual_stylesheets identifier id'>individual_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
-  <span class='stylesheet_link_tag identifier id'>stylesheet_link_tag</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='individual_urls identifier id'>individual_urls</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='rparen token'>)</span>
+  <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='individual_urls identifier id'>individual_urls</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -443,7 +459,53 @@ stylesheets, using conditional comments to load the correct variant.</p>
       <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 47</span>
 
 <span class='def def kw'>def</span> <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
-  <span class='stylesheet_link_tag identifier id'>stylesheet_link_tag</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="tags_with_options-instance_method">
+  
+    - (<tt>Object</tt>) <strong>tags_with_options</strong>(packages)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Generate the stylesheet tags for a batch of packages, with options, by
+yielding each package to a block.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 63</span>
+
+<span class='def def kw'>def</span> <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
+  <span class='packages identifier id'>packages</span> <span class='assign token'>=</span> <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='dup identifier id'>dup</span>
+  <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='extract_options! fid id'>extract_options!</span>
+  <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map! fid id'>map!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='package identifier id'>package</span><span class='bitor op'>|</span> <span class='yield yield kw'>yield</span> <span class='package identifier id'>package</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='flatten! fid id'>flatten!</span>
+  <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='push identifier id'>push</span><span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='stylesheet_link_tag identifier id'>stylesheet_link_tag</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -456,7 +518,7 @@ stylesheets, using conditional comments to load the correct variant.</p>
 </div>
     
     <div id="footer">
-  Generated on Wed Nov 18 08:46:21 2009 by 
+  Generated on Wed Nov 18 10:10:01 2009 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.4.0 (ruby-1.8.7).
 </div>
