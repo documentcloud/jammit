@@ -262,7 +262,7 @@ templates:
     </p>
 
     <pre>
-&lt;%= include_stylesheets :common, :workspace %&gt;
+&lt;%= include_stylesheets :common, :workspace, :media => 'all' %&gt;
 &lt;%= include_javascripts :workspace %&gt;
 &lt;%= include_templates :everything %&gt;</pre>
 
@@ -462,6 +462,12 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.2.1</b><br />
+      The <tt>include_stylesheets</tt> helper now takes the same options as the 
+      Rails <tt>stylesheet_link_tag</tt> helper (such as <tt>:media => 'print'</tt>).
+    </p>
     
     <p>
       <b class="header">0.2.0</b><br />

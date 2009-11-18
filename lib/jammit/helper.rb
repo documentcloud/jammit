@@ -35,37 +35,37 @@ module Jammit
       javascript_include_tag(packages.map {|pack| Jammit.asset_url(pack, :jst) })
     end
 
+
     private
 
     # HTML tags, in order, for all of the individual stylesheets.
     def individual_stylesheets(packages)
-      options = packages.extract_options!
-      jammit_packages = packages.map {|p| Jammit.packager.individual_urls(p.to_sym, :css) }.flatten
-      jammit_packages.push(options) unless options.empty?
-      stylesheet_link_tag(*jammit_packages)
+      tags_with_options(packages) {|p| Jammit.packager.individual_urls(p.to_sym, :css) }
     end
 
     # HTML tags for the stylesheet packages.
     def packaged_stylesheets(packages)
-      options = packages.extract_options!
-      jammit_packages = packages.map {|p| Jammit.asset_url(p, :css) }
-      jammit_packages.push(options) unless options.empty?
-      stylesheet_link_tag(*jammit_packages)
+      tags_with_options(packages) {|p| Jammit.asset_url(p, :css) }
     end
 
     # HTML tags for the 'datauri', and 'mhtml' versions of the packaged
     # stylesheets, using conditional comments to load the correct variant.
     def embedded_image_stylesheets(packages)
+      datauri_tags = tags_with_options(packages) {|p| Jammit.asset_url(p, :css, :datauri) }
+      ie_tags = Jammit.mhtml_enabled ?
+                tags_with_options(packages) {|p| Jammit.asset_url(p, :css, :mhtml) } :
+                packaged_stylesheets(packages)
+      [DATA_URI_START, datauri_tags, DATA_URI_END, MHTML_START, ie_tags, MHTML_END].join("\n")
+    end
+
+    # Generate the stylesheet tags for a batch of packages, with options, by
+    # yielding each package to a block.
+    def tags_with_options(packages)
+      packages = packages.dup
       options = packages.extract_options!
-      jammit_packages = packages.map {|p| Jammit.asset_url(p, :css, :datauri) }
-      jammit_packages.push(options) unless options.empty?
-      css_tags = stylesheet_link_tag(*jammit_packages)
-      ie_tags = if Jammit.mhtml_enabled
-                  stylesheet_link_tag(*jammit_packages)
-                else
-                  packaged_stylesheets(packages)
-                end
-      [DATA_URI_START, css_tags, DATA_URI_END, MHTML_START, ie_tags, MHTML_END].join("\n")
+      packages.map! {|package| yield package }.flatten!
+      packages.push(options) unless options.empty?
+      stylesheet_link_tag(*packages)
     end
 
   end
