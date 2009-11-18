@@ -1,7 +1,10 @@
-package_assets: on            # (on, off, always)
-embed_images: on              # (on, off, datauri)
-template_function: _.template # (defaults to the built-in micro-templating)
-package_path: packages        # (defaults to assets)
+javascript_compressor:  closure     # (yui, closure)
+compressor_options:
+  compilation_level: ADVANCED_OPTIMIZATIONS
+package_assets:         on          # (on, off, always)
+embed_images:           on          # (on, off, datauri)
+template_function:      _.template  # (defaults to the built-in micro-templating)
+package_path:           packages    # (defaults to assets)
 
 javascripts:
   workspace:

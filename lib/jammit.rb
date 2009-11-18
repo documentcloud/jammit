@@ -16,13 +16,16 @@ module Jammit
 
   DEFAULT_JST_COMPILER = "template"
 
+  DEFAULT_COMPRESSOR   = :yui
+
   # Jammit raises a @PackageNotFound@ exception when a non-existent package is
   # requested by a browser -- rendering a 404.
   class PackageNotFound < NameError; end
 
   class << self
     attr_reader :configuration, :template_function, :embed_images, :package_path,
-                :package_assets, :mhtml_enabled, :include_jst_script
+                :package_assets, :mhtml_enabled, :include_jst_script,
+                :javascript_compressor, :compressor_options
   end
 
   # The minimal required configuration.
@@ -32,11 +35,13 @@ module Jammit
   # Load the complete asset configuration from the specified @config_path@.
   def self.load_configuration(config_path)
     return unless config_path && File.exists?(config_path)
-    @config_path        = config_path
-    @configuration      = conf = YAML.load_file(@config_path).symbolize_keys
-    @package_path       = conf[:package_path] || DEFAULT_PACKAGE_PATH
-    @embed_images       = conf[:embed_images]
-    @mhtml_enabled      = @embed_images && @embed_images != "datauri"
+    @config_path            = config_path
+    @configuration          = conf = YAML.load_file(@config_path).symbolize_keys
+    @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
+    @embed_images           = conf[:embed_images]
+    @mhtml_enabled          = @embed_images && @embed_images != "datauri"
+    @javascript_compressor  = (conf[:javascript_compressor] || DEFAULT_COMPRESSOR).to_sym
+    @compressor_options     = conf[:compressor_options] || {}
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
     self
@@ -101,6 +106,7 @@ require 'fileutils'
 # Gem Dependencies:
 require 'rubygems'
 require 'yui/compressor'
+require 'closure-compiler'
 require 'activesupport'
 
 # Load initial configuration before the rest of Jammit.
