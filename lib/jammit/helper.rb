@@ -41,14 +41,16 @@ module Jammit
     def individual_stylesheets(packages)
       options = packages.extract_options!
       jammit_packages = packages.map {|p| Jammit.packager.individual_urls(p.to_sym, :css) }.flatten
-      stylesheet_link_tag(jammit_packages << options)
+      jammit_packages.push(options) unless options.empty?
+      stylesheet_link_tag(*jammit_packages)
     end
 
     # HTML tags for the stylesheet packages.
     def packaged_stylesheets(packages)
       options = packages.extract_options!
       jammit_packages = packages.map {|p| Jammit.asset_url(p, :css) }
-      stylesheet_link_tag(jammit_packages << options)
+      jammit_packages.push(options) unless options.empty?
+      stylesheet_link_tag(*jammit_packages)
     end
 
     # HTML tags for the 'datauri', and 'mhtml' versions of the packaged
@@ -56,9 +58,10 @@ module Jammit
     def embedded_image_stylesheets(packages)
       options = packages.extract_options!
       jammit_packages = packages.map {|p| Jammit.asset_url(p, :css, :datauri) }
-      css_tags = stylesheet_link_tag(jammit_packages << options)
+      jammit_packages.push(options) unless options.empty?
+      css_tags = stylesheet_link_tag(*jammit_packages)
       ie_tags = if Jammit.mhtml_enabled
-                  stylesheet_link_tag(jammit_packages << options)
+                  stylesheet_link_tag(*jammit_packages)
                 else
                   packaged_stylesheets(packages)
                 end
