@@ -1,0 +1,16 @@
+javascript_compressor: undefined
+embed_images: nope
+package_assets: 42
+package_path:           /dev/null
+
+javascripts:
+  test:
+    - fixtures/src/*.js
+
+stylesheets:
+  test:
+    - fixtures/src/*.css
+
+templates:
+  test:
+    - fixtures/src/*.jst

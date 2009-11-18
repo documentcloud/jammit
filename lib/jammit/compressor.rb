@@ -41,7 +41,7 @@ module Jammit
     def initialize
       @css_compressor = YUI::CssCompressor.new
       flavor = Jammit.javascript_compressor
-      js_options = (DEFAULT_OPTIONS[flavor] || {}).merge(Jammit.compressor_options)
+      js_options = DEFAULT_OPTIONS[flavor].merge(Jammit.compressor_options)
       @js_compressor  = flavor == :closure ?
                         Closure::Compiler.new(js_options) :
                         YUI::JavaScriptCompressor.new(js_options)

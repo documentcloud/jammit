@@ -4,19 +4,21 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION = "0.2.2"
+  VERSION = "0.2.3"
 
   ROOT = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  DEFAULT_CONFIG_PATH  = "config/assets.yml"
+  DEFAULT_CONFIG_PATH   = "config/assets.yml"
 
-  DEFAULT_PACKAGE_PATH = "assets"
+  DEFAULT_PACKAGE_PATH  = "assets"
 
-  DEFAULT_JST_SCRIPT   = "#{ROOT}/lib/jammit/jst.js"
+  DEFAULT_JST_SCRIPT    = "#{ROOT}/lib/jammit/jst.js"
 
-  DEFAULT_JST_COMPILER = "template"
+  DEFAULT_JST_COMPILER  = "template"
 
-  DEFAULT_COMPRESSOR   = :yui
+  AVAILABLE_COMPRESSORS = [:yui, :closure]
+
+  DEFAULT_COMPRESSOR    = :yui
 
   # Jammit raises a @PackageNotFound@ exception when a non-existent package is
   # requested by a browser -- rendering a 404.
@@ -40,8 +42,8 @@ module Jammit
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_images           = conf[:embed_images]
     @mhtml_enabled          = @embed_images && @embed_images != "datauri"
-    @javascript_compressor  = (conf[:javascript_compressor] || DEFAULT_COMPRESSOR).to_sym
     @compressor_options     = conf[:compressor_options] || {}
+    set_javascript_compressor(conf[:javascript_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
     self
@@ -74,6 +76,11 @@ module Jammit
 
 
   private
+
+  def self.set_javascript_compressor(value)
+    value = value && value.to_sym
+    @javascript_compressor = AVAILABLE_COMPRESSORS.include?(value) ? value : DEFAULT_COMPRESSOR
+  end
 
   def self.set_package_assets(value)
     package_env     = !defined?(RAILS_ENV) || RAILS_ENV != 'development'
