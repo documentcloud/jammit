@@ -30,19 +30,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'yui-compressor',    ['>= 0.9.1']
   s.add_dependency 'closure-compiler',  ['>= 0.1.0']
 
-  s.files = %w(
-bin/jammit
-jammit.gemspec
-lib/jammit.rb
-lib/jammit/command_line.rb
-lib/jammit/compressor.rb
-lib/jammit/controller.rb
-lib/jammit/helper.rb
-lib/jammit/jst.js
-lib/jammit/packager.rb
-lib/jammit/routes.rb
-LICENSE
-Rakefile
-README
-)
+  s.files = Dir['lib/**/*', 'bin/*', 'jammit.gemspec', 'LICENSE', 'README']
 end

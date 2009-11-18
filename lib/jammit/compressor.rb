@@ -1,7 +1,8 @@
 module Jammit
 
-  # Uses the YUI Compressor to compress JavaScript and CSS. (Which means that
-  # Java must be installed.) Also knows how to create a concatenated JST file.
+  # Uses the YUI Compressor or Closure Compiler to compress JavaScript.
+  # Always uses YUI to compress CSS (Which means that Java must be installed.)
+  # Also knows how to create a concatenated JST file.
   # If "embed_images" is turned on, creates "mhtml" and "datauri" versions of
   # all stylesheets, with all enabled images inlined into the css.
   class Compressor
@@ -35,7 +36,8 @@ module Jammit
     }
 
     # Creating a compressor initializes the internal YUI Compressor from
-    # the "yui-compressor" gem.
+    # the "yui-compressor" gem, or the internal Closure Compiler from the
+    # "closure-compiler" gem.
     def initialize
       @css_compressor = YUI::CssCompressor.new
       flavor = Jammit.javascript_compressor
