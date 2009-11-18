@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION = "0.1.2"
+  VERSION = "0.1.3"
 
   ROOT = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -43,8 +43,7 @@ module Jammit
   end
 
   # Force a reload by resetting the Packager and reloading the configuration.
-  # In development, this will be called before every request to the
-  # @Jammit::Controller@.
+  # In development, this will be called as a before_filter before every request.
   def self.reload!
     Thread.current[:jammit_packager] = nil
     load_configuration(@config_path)
