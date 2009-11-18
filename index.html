@@ -465,6 +465,12 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     <h2 id="changes">Change Log</h2>
     
     <p>
+      <b class="header">0.2.5</b><br />
+      When specifying your asset packages as directory globs, absolute globs are
+      now absolute, and relative globs are relative to RAILS_ROOT.
+    </p>
+    
+    <p>
       <b class="header">0.2.4</b><br />
       Jammit now throws a <tt>ConfigurationNotFound</tt> error when attempting to load
       a nonexistent configuration file. Resolved an issue with asset caching from

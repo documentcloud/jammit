@@ -7,7 +7,7 @@ module Jammit
   class Packager
 
     # In Rails, the difference between a path and an asset URL is "public".
-    PATH_TO_URL = /\A\/?public/
+    PATH_TO_URL = /\A#{ASSET_ROOT}(\/public)?/
 
     # Creating a new Packager will rebuild the list of assets from the
     # Jammit.configuration. When assets.yml is being changed on the fly,
@@ -88,6 +88,12 @@ module Jammit
       pack || not_found(package, extension)
     end
 
+    # Absolute globs are absolute -- relative globs are relative to ASSET_ROOT.
+    def glob_files(glob)
+      absolute = Pathname.new(glob).absolute?
+      Dir[absolute ? glob : File.join(ASSET_ROOT, glob)]
+    end
+
     # Compiles the list of assets that goes into each package. Runs an ordered
     # list of Dir.globs, taking the merged unique result.
     def create_packages(config)
@@ -96,7 +102,7 @@ module Jammit
       config.each do |name, globs|
         globs                  ||= []
         packages[name]         = {}
-        paths                  = globs.map {|glob| Dir[glob] }.flatten.uniq
+        paths                  = globs.map {|glob| glob_files(glob) }.flatten.uniq
         packages[name][:paths] = paths
         packages[name][:urls]  = paths.map {|path| path.sub(PATH_TO_URL, '') }
       end

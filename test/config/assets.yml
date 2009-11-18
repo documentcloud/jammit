@@ -2,12 +2,12 @@ embed_images: on
 
 javascripts:
   test:
-    - test/fixtures/src/*.js
+    - fixtures/src/*.js
 
 stylesheets:
   test:
-    - test/fixtures/src/*.css
+    - fixtures/src/*.css
 
 templates:
   test:
-    - test/fixtures/src/*.jst
+    - fixtures/src/*.jst

@@ -18,9 +18,9 @@ class PackagerTest < Test::Unit::TestCase
 
   def test_fetching_lists_of_individual_urls
     urls = Jammit.packager.individual_urls(:test, :css)
-    assert urls == ['test/fixtures/src/test1.css', 'test/fixtures/src/test2.css']
+    assert urls == ['/fixtures/src/test1.css', '/fixtures/src/test2.css']
     urls = Jammit.packager.individual_urls(:test, :js)
-    assert urls == ['test/fixtures/src/test1.js', 'test/fixtures/src/test2.js']
+    assert urls == ['/fixtures/src/test1.js', '/fixtures/src/test2.js']
   end
 
   def test_packaging_stylesheets
