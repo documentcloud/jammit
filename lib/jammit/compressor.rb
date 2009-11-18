@@ -124,7 +124,7 @@ module Jammit
     # not be relative, given the path of the stylesheet that contains it.
     def public_path(image_path, css_path)
       image_path, css_path = Pathname.new(image_path), Pathname.new(css_path)
-      (image_path.absolute? ? Pathname.new("public#{image_path}") : css_path.dirname + image_path).cleanpath
+      (image_path.absolute? ? Pathname.new("#{ASSET_ROOT}/public#{image_path}") : css_path.dirname + image_path).cleanpath
     end
 
     # An image is valid if it exists, and is less than 32K.

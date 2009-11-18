@@ -4,11 +4,13 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION = "0.2.3"
+  VERSION = "0.2.4"
 
   ROOT = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  DEFAULT_CONFIG_PATH   = "config/assets.yml"
+  ASSET_ROOT            = defined?(RAILS_ROOT) ? RAILS_ROOT : "."
+
+  DEFAULT_CONFIG_PATH   = "#{ASSET_ROOT}/config/assets.yml"
 
   DEFAULT_PACKAGE_PATH  = "assets"
 
@@ -24,6 +26,10 @@ module Jammit
   # requested by a browser -- rendering a 404.
   class PackageNotFound < NameError; end
 
+  # Jammit raises a ConfigurationNotFound exception when you try to load the
+  # configuration of an assets.yml file that doesn't exist.
+  class ConfigurationNotFound < NameError; end
+
   class << self
     attr_reader :configuration, :template_function, :embed_images, :package_path,
                 :package_assets, :mhtml_enabled, :include_jst_script,
@@ -36,9 +42,10 @@ module Jammit
 
   # Load the complete asset configuration from the specified @config_path@.
   def self.load_configuration(config_path)
-    return unless config_path && File.exists?(config_path)
+    conf = config_path && File.exists?(config_path) && YAML.load_file(config_path)
+    raise ConfigurationNotFound, "could not find the \"#{config_path}\" configuration file" unless conf
     @config_path            = config_path
-    @configuration          = conf = YAML.load_file(@config_path).symbolize_keys
+    @configuration          = conf = conf.symbolize_keys
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_images           = conf[:embed_images]
     @mhtml_enabled          = @embed_images && @embed_images != "datauri"

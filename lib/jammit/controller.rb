@@ -9,7 +9,7 @@ module Jammit
 
     SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
 
-    NOT_FOUND_PATH  = "#{RAILS_ROOT}/public/404.html"
+    NOT_FOUND_PATH  = "#{ASSET_ROOT}/public/404.html"
 
     after_filter :cache_package if perform_caching
 

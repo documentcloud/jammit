@@ -5,12 +5,12 @@ package_path:           /dev/null
 
 javascripts:
   test:
-    - fixtures/src/*.js
+    - test/fixtures/src/*.js
 
 stylesheets:
   test:
-    - fixtures/src/*.css
+    - test/fixtures/src/*.css
 
 templates:
   test:
-    - fixtures/src/*.jst
+    - test/fixtures/src/*.jst

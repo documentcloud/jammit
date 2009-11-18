@@ -13,11 +13,11 @@ class JammitHelpersTest < ActionView::TestCase
   include Jammit::Helper
 
   def test_include_stylesheets
-    assert include_stylesheets(:test) == File.read('fixtures/tags/css_includes.html')
+    assert include_stylesheets(:test) == File.read('test/fixtures/tags/css_includes.html')
   end
 
   def test_include_stylesheets_with_options
-    assert include_stylesheets(:test, :media => 'print') == File.read('fixtures/tags/css_print.html')
+    assert include_stylesheets(:test, :media => 'print') == File.read('test/fixtures/tags/css_print.html')
   end
 
   def test_include_javascripts
@@ -30,7 +30,7 @@ class JammitHelpersTest < ActionView::TestCase
 
   def test_individual_assets_in_development_do
     Jammit.instance_variable_set(:@package_assets, false)
-    assert include_stylesheets(:test) == File.read('fixtures/tags/css_individual_includes.html')
+    assert include_stylesheets(:test) == File.read('test/fixtures/tags/css_individual_includes.html')
     Jammit.reload!
   end
 

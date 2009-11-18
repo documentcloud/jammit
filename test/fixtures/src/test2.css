@@ -10,7 +10,7 @@
     margin-top: 45px;
   }
   #with_images {
-    background: url(/embed/asterisk_yellow.png);
+    background: url(../../public/embed/asterisk_yellow.png);
   }
   #and_relative_paths {
     background: url(../../public/embed/asterisk_orange.png);

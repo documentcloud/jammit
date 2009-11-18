@@ -465,6 +465,13 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     <h2 id="changes">Change Log</h2>
     
     <p>
+      <b class="header">0.2.4</b><br />
+      Jammit now throws a ConfigurationNotFound Error when attempting to load
+      a nonexistent configuration file. Resolved an issue with asset caching from
+      daemonized mongrels.
+    </p>
+    
+    <p>
       <b class="header">0.2.1</b><br />
       The <tt>include_stylesheets</tt> helper now takes the same options as the 
       Rails <tt>stylesheet_link_tag</tt> helper (such as <tt>:media => 'print'</tt>).

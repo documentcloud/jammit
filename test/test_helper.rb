@@ -17,8 +17,7 @@ module ActionView
   end
 end
 
-require '../lib/jammit'
-Jammit.load_configuration('assets.yml')
+require 'lib/jammit'
 
 class Test::Unit::TestCase
   include Jammit
