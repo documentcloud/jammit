@@ -16,11 +16,6 @@ class ClosureCompressorTest < Test::Unit::TestCase
     assert packed == File.read('fixtures/jammed/test-closure.js')
   end
 
-  def test_css_compression
-    packed = @compressor.compress_css(Dir['fixtures/src/*.css'])
-    assert packed == File.read('fixtures/jammed/test.css')
-  end
-
   def test_jst_compilation
     packed = @compressor.compile_jst(Dir['fixtures/src/test*.jst'])
     assert packed == File.read('fixtures/jammed/test.jst')
