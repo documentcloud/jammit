@@ -16,11 +16,6 @@ task :doc do
   sh "mv TEMPME README"
 end
 
-desc "Deploy the Github Page"
-task :deploy do
-  sh "git co gh-pages && git merge master && git push github gh-pages && git co master"
-end
-
 namespace :gem do
 
   desc 'Build and install the jammit gem'
