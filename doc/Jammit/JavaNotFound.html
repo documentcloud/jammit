@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta name="Content-Type" content="text/html; charset=UTF-8" />
-<title>Exception: Jammit::ConfigurationNotFound</title>
+<title>Exception: Jammit::JavaNotFound</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
@@ -19,10 +19,10 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../_index.html">Index (C)</a> &raquo; 
+    <a href="../_index.html">Index (J)</a> &raquo; 
     <a href="../Jammit.html" title="Jammit">Jammit</a>
      &raquo; 
-    <span class="title">ConfigurationNotFound</span>
+    <span class="title">JavaNotFound</span>
   
 </div>
 
@@ -37,7 +37,7 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="content"><h1>Exception: Jammit::ConfigurationNotFound 
+    <div id="content"><h1>Exception: Jammit::JavaNotFound 
   
   
 </h1>
@@ -46,14 +46,14 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName">NameError</span>
+      <span class="inheritName">StandardError</span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">NameError</li>
+            <li class="next">StandardError</li>
           
-            <li class="next">Jammit::ConfigurationNotFound</li>
+            <li class="next">Jammit::JavaNotFound</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -75,8 +75,8 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Jammit raises a ConfigurationNotFound exception when you try to load the
-configuration of an assets.yml file that doesn&#8217;t exist.</p>
+    <p>Jammit raises a JavaNotFound exception if Java is not installed, or it&#8217;s
+not a recent enough version to run the JavaScript compressor.</p>
 
   </div>
 </div>
@@ -92,7 +92,7 @@ configuration of an assets.yml file that doesn&#8217;t exist.</p>
 </div>
     
     <div id="footer">
-  Generated on Thu Nov 19 11:21:09 2009 by 
+  Generated on Thu Nov 19 11:21:12 2009 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.4.0 (ruby-1.8.7).
 </div>

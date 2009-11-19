@@ -423,7 +423,7 @@ compressor_options:
     </p>
 
     <p>
-      Jammit helps you keep your JavaScript views organized alongside your Rails
+      Jammit helps keep your JavaScript views organized alongside your Rails
       views, bundling them together into packages, and providing them as functions
       for your client-side code to evaluate. By default, Jammit uses a variant of
       <a href="http://ejohn.org/blog/javascript-micro-templating/">John Resig's Micro Templating</a>
@@ -463,6 +463,12 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.2.6</b><br />
+      Jammit now raises an exception if Java isn't installed, or if the Java
+      version is unsupported by your JavaScript compressor of choice.
+    </p>
     
     <p>
       <b class="header">0.2.5</b><br />
