@@ -84,28 +84,23 @@ module Jammit
 
   private
 
+  # Ensure that the JavaScript compressor is a valid choice.
   def self.set_javascript_compressor(value)
     value = value && value.to_sym
     @javascript_compressor = AVAILABLE_COMPRESSORS.include?(value) ? value : DEFAULT_COMPRESSOR
   end
 
+  # Turn asset packaging on or off, depending on configuration and environment.
   def self.set_package_assets(value)
     package_env     = !defined?(RAILS_ENV) || RAILS_ENV != 'development'
-    @package_assets = case value
-    when 'always'     then true
-    when false        then false
-    when true         then package_env
-    when nil          then package_env
-    end
+    @package_assets = value == true || value.nil? ? package_env :
+                      value == 'always'           ? true : false
   end
 
+  # Assign the JST template function, unless explicitly turned off.
   def self.set_template_function(value)
-    @template_function = case value
-    when false then ''
-    when true  then DEFAULT_JST_COMPILER
-    when nil   then DEFAULT_JST_COMPILER
-    else            value
-    end
+    @template_function = value == true || value.nil? ? DEFAULT_JST_COMPILER :
+                         value == false              ? '' : value
     @include_jst_script = @template_function == DEFAULT_JST_COMPILER
   end
 
