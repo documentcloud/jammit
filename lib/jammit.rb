@@ -30,6 +30,10 @@ module Jammit
   # configuration of an assets.yml file that doesn't exist.
   class ConfigurationNotFound < NameError; end
 
+  # Jammit raises a JavaNotFound exception if Java is not installed, or it's
+  # not a recent enough version to run the JavaScript compressor.
+  class JavaNotFound < StandardError; end
+
   class << self
     attr_reader :configuration, :template_function, :embed_images, :package_path,
                 :package_assets, :mhtml_enabled, :include_jst_script,
@@ -49,10 +53,11 @@ module Jammit
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_images           = conf[:embed_images]
     @mhtml_enabled          = @embed_images && @embed_images != "datauri"
-    @compressor_options     = conf[:compressor_options] || {}
+    @compressor_options     = (conf[:compressor_options] || {}).symbolize_keys
     set_javascript_compressor(conf[:javascript_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
+    check_java_version
     self
   end
 
@@ -102,6 +107,15 @@ module Jammit
     @template_function = value == true || value.nil? ? DEFAULT_JST_COMPILER :
                          value == false              ? '' : value
     @include_jst_script = @template_function == DEFAULT_JST_COMPILER
+  end
+
+  # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.
+  def self.check_java_version
+    java = @compressor_options[:java] || 'java'
+    version = (`#{java} -version 2>&1`).match(/\d+\.\d+/)[0] rescue false
+    raise JavaNotFound, "the \"#{java}\" command could not be found" unless version
+    raise JavaNotFound, "the closure compiler requires Java 6 (1.6) or greater" if @javascript_compressor == :closure && version < '1.6'
+    raise JavaNotFound, "the YUI compressor requires Java 1.4 or greater" if @javascript_compressor == :yui && version < '1.4'
   end
 
 end
