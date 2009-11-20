@@ -29,7 +29,9 @@ module Jammit
     # Ask the packager to precache all defined assets, along with their gzip'd
     # versions. In order to prebuild the MHTML stylesheets, we need to know the
     # base_url, because IE only supports MHTML with absolute references.
-    def precache_all(output_dir=nil, base_url=nil)
+    # Unless forced, will only rebuild assets whose source files have been
+    # changed since their last package build.
+    def precache_all(output_dir=nil, base_url=nil, force=false)
       output_dir ||= "#{ASSET_ROOT}/public/#{Jammit.package_path}"
       @config[:js].keys.each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
       @config[:jst].keys.each {|p| cache(p, 'jst', pack_templates(p),  output_dir) }

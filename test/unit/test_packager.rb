@@ -3,19 +3,6 @@ require 'zlib'
 
 class PackagerTest < Test::Unit::TestCase
 
-  PRECACHED_FILES = %w(
-    test/precache/test-datauri.css
-    test/precache/test-datauri.css.gz
-    test/precache/test-mhtml.css
-    test/precache/test-mhtml.css.gz
-    test/precache/test.css
-    test/precache/test.css.gz
-    test/precache/test.js
-    test/precache/test.js.gz
-    test/precache/test.jst
-    test/precache/test.jst.gz
-  )
-
   def test_fetching_lists_of_individual_urls
     urls = Jammit.packager.individual_urls(:test, :css)
     assert urls == ['/fixtures/src/test1.css', '/fixtures/src/test2.css']

@@ -27,7 +27,7 @@ Options:
       parse_options
       ensure_configuration_file
       Jammit.load_configuration(@options[:config_path])
-      Jammit.packager.precache_all(@options[:output_folder], @options[:base_url])
+      Jammit.packager.precache_all(@options[:output_folder], @options[:base_url], @options[:force])
     end
 
 
@@ -46,9 +46,10 @@ Options:
     # *--base-url*...
     def parse_options
       @options = {
-        :config_path => Jammit::DEFAULT_CONFIG_PATH,
-        :output_folder => nil,
-        :base_url => nil
+        :config_path    => Jammit::DEFAULT_CONFIG_PATH,
+        :output_folder  => nil,
+        :base_url       => nil,
+        :force          => false
       }
       @option_parser = OptionParser.new do |opts|
         opts.on('-o', '--output PATH', 'output folder for packages (default: "public/assets")') do |output_folder|
@@ -59,6 +60,9 @@ Options:
         end
         opts.on('-u', '--base-url URL', 'base URL for MHTML (ex: "http://example.com")') do |base_url|
           @options[:base_url] = base_url
+        end
+        opts.on('-f', '--force', 'force a rebuild of all assets') do |force|
+          @options[:force] = force
         end
         opts.on_tail('-v', '--version', 'display Jammit version') do
           puts "Jammit version #{Jammit::VERSION}"
