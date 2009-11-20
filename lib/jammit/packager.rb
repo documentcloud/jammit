@@ -9,11 +9,16 @@ module Jammit
     # In Rails, the difference between a path and an asset URL is "public".
     PATH_TO_URL = /\A#{ASSET_ROOT}(\/public)?/
 
+    # Set force to false to allow packages to only be rebuilt when their source
+    # files have changed since the last time their package was built.
+    attr_accessor :force
+
     # Creating a new Packager will rebuild the list of assets from the
     # Jammit.configuration. When assets.yml is being changed on the fly,
     # create a new Packager.
     def initialize
       @compressor = Compressor.new
+      @force = true
       @config = {
         :css => (Jammit.configuration[:stylesheets] || {}).symbolize_keys,
         :js  => (Jammit.configuration[:javascripts] || {}).symbolize_keys,
@@ -31,11 +36,11 @@ module Jammit
     # base_url, because IE only supports MHTML with absolute references.
     # Unless forced, will only rebuild assets whose source files have been
     # changed since their last package build.
-    def precache_all(output_dir=nil, base_url=nil, force=false)
+    def precache_all(output_dir=nil, base_url=nil)
       output_dir ||= "#{ASSET_ROOT}/public/#{Jammit.package_path}"
-      @config[:js].keys.each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
-      @config[:jst].keys.each {|p| cache(p, 'jst', pack_templates(p),  output_dir) }
-      @config[:css].keys.each do |p|
+      cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
+      cacheable(:jst, output_dir).each {|p| cache(p, 'jst', pack_templates(p),  output_dir) }
+      cacheable(:css, output_dir).each do |p|
         cache(p, 'css', pack_stylesheets(p), output_dir)
         if Jammit.embed_images
           cache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
@@ -94,6 +99,20 @@ module Jammit
     def glob_files(glob)
       absolute = Pathname.new(glob).absolute?
       Dir[absolute ? glob : File.join(ASSET_ROOT, glob)]
+    end
+
+    # Return a list of all of the packages that should be cached. If "force" is
+    # true, this is all of them -- otherwise only the packages whose source
+    # files have changed since the last package build.
+    def cacheable(extension, output_dir)
+      names = @packages[extension].keys
+      return names if @force
+      return names.select do |name|
+        pack    = package_for(name, extension)
+        cached  = File.join(output_dir, Jammit.filename(name, extension))
+        since   = File.exists?(cached) && File.mtime(cached)
+        !since || pack[:paths].any? {|src| File.mtime(src) > since }
+      end
     end
 
     # Compiles the list of assets that goes into each package. Runs an ordered

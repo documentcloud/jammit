@@ -27,7 +27,8 @@ Options:
       parse_options
       ensure_configuration_file
       Jammit.load_configuration(@options[:config_path])
-      Jammit.packager.precache_all(@options[:output_folder], @options[:base_url], @options[:force])
+      Jammit.packager.force = @options[:force]
+      Jammit.packager.precache_all(@options[:output_folder], @options[:base_url])
     end
 
 

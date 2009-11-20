@@ -328,7 +328,10 @@ compressor_options:
     <p>
       The <tt>jammit</tt> command can be passed options to configure the
       path to <b>assets.yml</b>, and the output directory in which all packages
-      are compiled. Run <tt>jammit --help</tt> to see all of the options.
+      are compiled. Run <tt>jammit --help</tt> to see all of the options. For
+      speedy builds, <tt>jammit</tt> will check the modification times of your packages
+      and source files: only the packages that have changed are rebuilt. If you'd
+      like to force all packages to build, use <tt>jammit --force</tt>.
     </p>
 
     <h2 id="embedding">Embedding Images</h2>
@@ -464,6 +467,13 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
 
     <h2 id="changes">Change Log</h2>
     
+    <p>
+      <b class="header">0.2.7</b><br />
+      The "jammit" command has been enhanced to check the modification times of
+      your packages &mdash; if no source files have changed, the package isn't 
+      rebuilt.
+    </p>
+        
     <p>
       <b class="header">0.2.6</b><br />
       Jammit now raises an exception if Java isn't installed, or if the Java

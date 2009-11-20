@@ -15,4 +15,14 @@ class CommandLineTest < Test::Unit::TestCase
     FileUtils.rm_r('test/precache')
   end
 
+  def test_lazy_precaching
+    system('bin/jammit -c test/config/assets.yml -o test/precache -u http://www.example.com')
+    assert PRECACHED_FILES == Dir['test/precache/*']
+    mtime = File.mtime(PRECACHED_FILES.first)
+    system('bin/jammit -c test/config/assets.yml -o test/precache -u http://www.example.com')
+    assert File.mtime(PRECACHED_FILES.first) == mtime
+    system('bin/jammit -c test/config/assets.yml -o test/precache -u http://www.example.com --force')
+    assert File.mtime(PRECACHED_FILES.first) > mtime
+  end
+
 end
