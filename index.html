@@ -285,7 +285,7 @@ templates:
       packages fresh:
     </p>
     
-<pre>before_filter { Jammit.packager.precache_all } if RAILS_ENV == 'development'</pre>
+<pre>before_filter { Jammit.packager.precache_all } if Rails.env.development?</pre>
     
     <h2 id="compressors">YUI &amp; Closure</h2>
     
