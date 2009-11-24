@@ -18,7 +18,7 @@ module Jammit
     # create a new Packager.
     def initialize
       @compressor = Compressor.new
-      @force = true
+      @force = false
       @config = {
         :css => (Jammit.configuration[:stylesheets] || {}).symbolize_keys,
         :js  => (Jammit.configuration[:javascripts] || {}).symbolize_keys,

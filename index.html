@@ -273,8 +273,14 @@ templates:
       configuration file is reloaded on every development request, so you can 
       change the contents of your packages without needing to restart Rails.
       In all other environments, or if <b>package_assets</b> is set to "<b>always</b>",
-      you'll get tags for the merged packages.
+      you'll get tags for the merged packages. If you'd like to use fully 
+      packaged assets in development, while only rebuilding the packages whose 
+      sources have changed between requests, use "<b>always</b>" and add the following
+      <b>before_filter</b> to your <b>ApplicationController</b> to keep your 
+      packages fresh:
     </p>
+    
+<pre>before_filter { Jammit.packager.precache_all } if RAILS_ENV == 'development'</pre>
     
     <h2 id="compressors">YUI &amp; Closure</h2>
     
@@ -466,10 +472,16 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     </p>
 
     <h2 id="changes">Change Log</h2>
+
+    <p>
+      <b class="header">0.2.8</b><br />
+      Jammit now correctly rewrites relative image URLs within CSS, for easier
+      integration with partial Rails apps deployed on sub-paths.
+    </p>
     
     <p>
       <b class="header">0.2.7</b><br />
-      The "jammit" command has been enhanced to check the modification times of
+      The <tt>jammit</tt> command has been enhanced to check the modification times of
       your packages &mdash; if no source files have changed, the package isn't 
       rebuilt.
     </p>

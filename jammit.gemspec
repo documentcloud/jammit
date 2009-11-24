@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name      = 'jammit'
-  s.version   = '0.2.7'         # Keep version in sync with jammit.rb
-  s.date      = '2009-11-19'
+  s.version   = '0.2.8'         # Keep version in sync with jammit.rb
+  s.date      = '2009-11-23'
 
   s.homepage    = "http://documentcloud.github.com/jammit/"
   s.summary     = "Industrial Strength Asset Packaging for Rails"
