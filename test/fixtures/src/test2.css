@@ -15,3 +15,6 @@
   #and_relative_paths {
     background: url(../../public/embed/asterisk_orange.png);
   }
+  #and_real_urls {
+    background: url(http://example.com/image.png);
+  }

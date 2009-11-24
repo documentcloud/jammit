@@ -92,8 +92,9 @@ module Jammit
     def concatenate_and_tag_images(paths, variant=nil)
       stylesheets = [paths].flatten.map do |css_path|
         File.read(css_path).gsub(IMAGE_DETECTOR) do |url|
-          new_path = rewrite_image_path(Pathname.new($1), Pathname.new(File.expand_path(css_path)), !!variant)
-          "url(#{new_path})"
+          ipath, cpath = Pathname.new($1), Pathname.new(File.expand_path(css_path))
+          is_url = URI.parse($1).absolute?
+          is_url ? url : "url(#{rewrite_image_path(ipath, cpath, !!variant)})"
         end
       end
       stylesheets.join("\n")
@@ -129,7 +130,7 @@ module Jammit
     def rewrite_image_path(image_path, css_path, embed=false)
       public_path = absolute_path(image_path, css_path)
       return "__EMBED__#{public_path}" if embed && embeddable?(public_path)
-      image_path.relative? ? relative_path(public_path) : image_path.to_s
+      image_path.absolute? ? image_path.to_s : relative_path(public_path)
     end
 
     # Get the site-absolute public path for an image file path that may or may

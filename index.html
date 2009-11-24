@@ -273,8 +273,13 @@ templates:
       configuration file is reloaded on every development request, so you can 
       change the contents of your packages without needing to restart Rails.
       In all other environments, or if <b>package_assets</b> is set to "<b>always</b>",
-      you'll get tags for the merged packages. If you'd like to use fully 
-      packaged assets in development, while only rebuilding the packages whose 
+      you'll get tags for the merged packages.
+    </p>
+      
+    <p>
+      It's recommended to keep the default behavior of unpackaged assets in 
+      development, because it's so much easier to debug JavaScript that way.
+      But if you'd like to use fully packaged assets in development, while only rebuilding the packages whose 
       sources have changed between requests, use "<b>always</b>" and add the following
       <b>before_filter</b> to your <b>ApplicationController</b> to keep your 
       packages fresh:
