@@ -17,8 +17,9 @@ module Jammit
       '.tiff' => 'image/tiff'
     }
 
-    # Detect all image URLs that are inside of an "embed" folder.
-    IMAGE_DETECTOR  = /url\(['"]?([^\s)]*embed\/[^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
+
+    IMAGE_DETECTOR  = /url\(['"]?([^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
+    IMAGE_EMBED     = /[\A\/]embed\//
     IMAGE_REPLACER  = /url\(__EMBED__([^\s)]+)\)/
 
     # MHTML file constants.
@@ -57,11 +58,13 @@ module Jammit
     # :datauri or :mhtml variant, post-processes the result to embed
     # referenced images.
     def compress_css(paths, variant=nil, asset_url=nil)
-      return @css_compressor.compress(concatenate(paths)) if variant.nil?
-      compressed_css = @css_compressor.compress(concatenate_and_tag_images(paths))
-      return with_data_uris(compressed_css) if variant == :datauri
-      return with_mhtml(compressed_css, asset_url) if variant == :mhtml
-      raise PackageNotFound, "\"#{variant}\" is not a valid stylesheet variant"
+      compressed_css = @css_compressor.compress(concatenate_and_tag_images(paths, variant))
+      case variant
+      when nil      then return compressed_css
+      when :datauri then return with_data_uris(compressed_css)
+      when :mhtml   then return with_mhtml(compressed_css, asset_url)
+      else raise PackageNotFound, "\"#{variant}\" is not a valid stylesheet variant"
+      end
     end
 
     # Compiles a single JST file by writing out a javascript that adds
@@ -86,11 +89,11 @@ module Jammit
     # expand the paths before contatenating the CSS together and losing the
     # location of the original stylesheet path. Validate the images while we're
     # at it.
-    def concatenate_and_tag_images(paths)
+    def concatenate_and_tag_images(paths, variant=nil)
       stylesheets = [paths].flatten.map do |css_path|
         File.read(css_path).gsub(IMAGE_DETECTOR) do |url|
-          image_path = public_path($1, css_path)
-          valid_image(image_path) ? "url(__EMBED__#{image_path})" : url
+          new_path = rewrite_image_path(Pathname.new($1), Pathname.new(File.expand_path(css_path)), !!variant)
+          "url(#{new_path})"
         end
       end
       stylesheets.join("\n")
@@ -120,18 +123,35 @@ module Jammit
       [MHTML_START, mhtml, MHTML_END, css].flatten.join('')
     end
 
-    # Get the site-absolute public path for an image file path that may or may
-    # not be relative, given the path of the stylesheet that contains it.
-    def public_path(image_path, css_path)
-      image_path, css_path = Pathname.new(image_path), Pathname.new(css_path)
-      (image_path.absolute? ? Pathname.new("#{ASSET_ROOT}/public#{image_path}") : css_path.dirname + image_path).cleanpath
+    # Return a rewritten image URL for a new stylesheet -- the image should
+    # be tagged for embedding if embeddable, and referenced at the correct level
+    # if relative.
+    def rewrite_image_path(image_path, css_path, embed=false)
+      public_path = absolute_path(image_path, css_path)
+      return "__EMBED__#{public_path}" if embed && embeddable?(public_path)
+      image_path.relative? ? relative_path(public_path) : image_path.to_s
     end
 
-    # An image is valid if it exists, and is less than 32K.
+    # Get the site-absolute public path for an image file path that may or may
+    # not be relative, given the path of the stylesheet that contains it.
+    def absolute_path(image_pathname, css_pathname)
+      (image_pathname.absolute? ?
+        Pathname.new(File.join(PUBLIC_ROOT, image_pathname)) :
+        css_pathname.dirname + image_pathname).cleanpath
+    end
+
+    # CSS images that are referenced by relative paths, and are *not* being
+    # embedded, must be rewritten relative to the newly-merged stylesheet path.
+    def relative_path(absolute_path)
+      File.join('../', absolute_path.sub(PUBLIC_ROOT, ''))
+    end
+
+    # An image is valid for embedding if it exists, is less than 32K, and is
+    # stored somewhere inside of a folder named "embed".
     # IE does not support Data-URIs larger than 32K, and you probably shouldn't
     # be embedding images that large in any case.
-    def valid_image(image_path)
-      image_path.exist? && image_path.size < 32.kilobytes
+    def embeddable?(image_path)
+      image_path.to_s.match(IMAGE_EMBED) && image_path.exist? && image_path.size < 32.kilobytes
     end
 
     # Return the Base64-encoded contents of an image on a single line.

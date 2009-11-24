@@ -4,11 +4,13 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION = "0.2.7"
+  VERSION               = "0.2.7"
 
-  ROOT = File.expand_path(File.dirname(__FILE__) + '/..')
+  ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  ASSET_ROOT            = defined?(RAILS_ROOT) ? RAILS_ROOT : "."
+  ASSET_ROOT            = File.expand_path(defined?(RAILS_ROOT) ? RAILS_ROOT : ".")
+
+  PUBLIC_ROOT           = "#{ASSET_ROOT}/public"
 
   DEFAULT_CONFIG_PATH   = "#{ASSET_ROOT}/config/assets.yml"
 

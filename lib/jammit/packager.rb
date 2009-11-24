@@ -37,7 +37,7 @@ module Jammit
     # Unless forced, will only rebuild assets whose source files have been
     # changed since their last package build.
     def precache_all(output_dir=nil, base_url=nil)
-      output_dir ||= "#{ASSET_ROOT}/public/#{Jammit.package_path}"
+      output_dir ||= File.join(PUBLIC_ROOT, Jammit.package_path)
       cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
       cacheable(:jst, output_dir).each {|p| cache(p, 'jst', pack_templates(p),  output_dir) }
       cacheable(:css, output_dir).each do |p|

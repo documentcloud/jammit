@@ -9,7 +9,7 @@ module Jammit
 
     SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
 
-    NOT_FOUND_PATH  = "#{ASSET_ROOT}/public/404.html"
+    NOT_FOUND_PATH  = "#{PUBLIC_ROOT}/404.html"
 
     after_filter :cache_package if perform_caching
 
@@ -82,6 +82,7 @@ module Jammit
 
 end
 
+# Make the Jammit::Controller available to Rails as a top-level controller.
 ::JammitController = Jammit::Controller
 
 if RAILS_ENV == 'development'
