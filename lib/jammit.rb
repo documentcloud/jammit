@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.2.9"
+  VERSION               = "0.3.0"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -123,6 +123,7 @@ module Jammit
 end
 
 # Standard Library Dependencies:
+require 'uri'
 require 'zlib'
 require 'base64'
 require 'pathname'
