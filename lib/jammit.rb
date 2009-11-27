@@ -133,7 +133,7 @@ require 'fileutils'
 require 'rubygems'
 require 'yui/compressor'
 require 'closure-compiler'
-require 'activesupport'
+require 'active_support'
 
 # Load initial configuration before the rest of Jammit.
 Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH) if defined?(RAILS_ENV)
