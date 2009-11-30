@@ -58,6 +58,7 @@ module Jammit
     # variants is identical, for web server caching modules, as well as MHTML.
     def cache(package, extension, contents, output_dir, suffix=nil, mtime=Time.now)
       FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
+      raise OutputNotWritable, "Jammit doesn't have permission to write to \"#{output_dir}\"" unless File.writable?(output_dir)
       filename = File.join(output_dir, Jammit.filename(package, extension, suffix))
       zip_name = "#{filename}.gz"
       File.open(filename, 'wb+') {|f| f.write(contents) }

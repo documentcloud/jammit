@@ -36,6 +36,10 @@ module Jammit
   # not a recent enough version to run the JavaScript compressor.
   class JavaNotFound < StandardError; end
 
+  # Jammit raises an OutputNotWritable exception if the output directory for
+  # cached packages is locked.
+  class OutputNotWritable < StandardError; end
+
   class << self
     attr_reader :configuration, :template_function, :embed_images, :package_path,
                 :package_assets, :mhtml_enabled, :include_jst_script,
