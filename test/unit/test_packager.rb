@@ -47,11 +47,11 @@ class PackagerTest < Test::Unit::TestCase
     FileUtils.rm_r('test/precache')
   end
 
-  # NB: Create the unwritable directory before running this test.
-  # def test_exceptions_for_unwritable_directories
-  #   assert_raises(OutputNotWritable) do
-  #     Jammit.packager.precache_all('test/fixtures/unwritable')
-  #   end
-  # end
+  def test_exceptions_for_unwritable_directories
+    return unless File.exists?('text/fixtures/unwritable')
+    assert_raises(OutputNotWritable) do
+      Jammit.packager.precache_all('test/fixtures/unwritable')
+    end
+  end
 
 end
