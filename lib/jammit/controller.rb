@@ -85,7 +85,7 @@ end
 # Make the Jammit::Controller available to Rails as a top-level controller.
 ::JammitController = Jammit::Controller
 
-if RAILS_ENV == 'development'
+if Rails.env.development?
   ActionController::Base.class_eval do
     append_before_filter { Jammit.reload! }
   end

@@ -1,4 +1,3 @@
-RAILS_ENV = 'test' unless defined? RAILS_ENV
 RAILS_ROOT = File.expand_path('test') unless defined? RAILS_ROOT
 
 # Mock out missing pieces.

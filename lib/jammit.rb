@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.3.0"
+  VERSION               = "0.3.1"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -99,7 +99,7 @@ module Jammit
 
   # Turn asset packaging on or off, depending on configuration and environment.
   def self.set_package_assets(value)
-    package_env     = !defined?(RAILS_ENV) || RAILS_ENV != 'development'
+    package_env     = !defined?(Rails) || !Rails.env.development?
     @package_assets = value == true || value.nil? ? package_env :
                       value == 'always'           ? true : false
   end
@@ -136,14 +136,14 @@ require 'closure-compiler'
 require 'active_support'
 
 # Load initial configuration before the rest of Jammit.
-Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH) if defined?(RAILS_ENV)
+Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH) if defined?(Rails)
 
 # Jammit Core:
 require 'jammit/compressor'
 require 'jammit/packager'
 
 # Jammit Rails Integration:
-if defined?(RAILS_ENV)
+if defined?(Rails)
   require 'jammit/controller' # Rails will auto-load 'jammit/helper' for us.
   require 'jammit/routes'
 end
