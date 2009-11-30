@@ -11,17 +11,16 @@ module Jammit
 
     NOT_FOUND_PATH  = "#{PUBLIC_ROOT}/404.html"
 
-    after_filter :cache_package if perform_caching
-
     # The "package" action receives all requests for asset packages that haven't
     # yet been cached. The package will be built, cached, and gzipped.
     def package
       parse_request
       case @extension
-      when :js  then render :js   => Jammit.packager.pack_javascripts(@package)
+      when :js  then render :js   => (@contents = Jammit.packager.pack_javascripts(@package))
       when :css then render :text => generate_stylesheets, :content_type => 'text/css'
-      when :jst then render :js   => Jammit.packager.pack_templates(@package)
+      when :jst then render :js   => (@contents = Jammit.packager.pack_templates(@package))
       end
+      cache_package if perform_caching
     rescue Jammit::PackageNotFound
       package_not_found
     end
@@ -34,7 +33,7 @@ module Jammit
     # the timestamp that ends up in the MHTML is also on the cached file.
     def cache_package
       dir = File.join(page_cache_directory, Jammit.package_path)
-      Jammit.packager.cache(@package, @extension, @contents || response.body, dir, @variant, @mtime)
+      Jammit.packager.cache(@package, @extension, @contents, dir, @variant, @mtime)
     end
 
     # Generate the complete, timestamped, MHTML url -- if we're rendering a
@@ -49,7 +48,7 @@ module Jammit
     # request URL to the client, and cache a version with the timestamped cache
     # URL swapped in.
     def generate_stylesheets
-      return Jammit.packager.pack_stylesheets(@package, @variant) unless @variant == :mhtml
+      return @contents = Jammit.packager.pack_stylesheets(@package, @variant) unless @variant == :mhtml
       @mtime      = Time.now
       request_url = prefix_url(request.request_uri)
       cached_url  = prefix_url(Jammit.asset_url(@package, @extension, @variant, @mtime))
