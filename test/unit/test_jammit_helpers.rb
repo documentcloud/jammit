@@ -1,6 +1,9 @@
 require 'test_helper'
-require 'action_controller'
+require 'action_pack'
 require 'action_view'
+require 'action_view/base'
+require 'action_controller'
+require 'action_controller/base'
 require 'action_view/test_case'
 require 'jammit/helper'
 
