@@ -99,7 +99,7 @@ module Jammit
     # Absolute globs are absolute -- relative globs are relative to ASSET_ROOT.
     def glob_files(glob)
       absolute = Pathname.new(glob).absolute?
-      Dir[absolute ? glob : File.join(ASSET_ROOT, glob)]
+      Dir[absolute ? glob : File.join(ASSET_ROOT, glob)].sort
     end
 
     # Return a list of all of the packages that should be cached. If "force" is
