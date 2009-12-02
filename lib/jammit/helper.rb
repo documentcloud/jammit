@@ -15,9 +15,10 @@ module Jammit
     # versions of the stylesheet package, otherwise the package is regular
     # compressed CSS, and in development the stylesheet URLs are passed verbatim.
     def include_stylesheets(*packages)
-      return individual_stylesheets(packages) unless Jammit.package_assets
-      return embedded_image_stylesheets(packages) if Jammit.embed_images
-      return packaged_stylesheets(packages)
+      options = packages.extract_options!
+      return individual_stylesheets(packages, options) unless Jammit.package_assets
+      return packaged_stylesheets(packages, options) if options.delete(:embed_images) == false || !Jammit.embed_images
+      return embedded_image_stylesheets(packages, options)
     end
 
     # Writes out the URL to the bundled and compressed javascript package,
@@ -39,30 +40,29 @@ module Jammit
     private
 
     # HTML tags, in order, for all of the individual stylesheets.
-    def individual_stylesheets(packages)
-      tags_with_options(packages) {|p| Jammit.packager.individual_urls(p.to_sym, :css) }
+    def individual_stylesheets(packages, options)
+      tags_with_options(packages, options) {|p| Jammit.packager.individual_urls(p.to_sym, :css) }
     end
 
     # HTML tags for the stylesheet packages.
-    def packaged_stylesheets(packages)
-      tags_with_options(packages) {|p| Jammit.asset_url(p, :css) }
+    def packaged_stylesheets(packages, options)
+      tags_with_options(packages, options) {|p| Jammit.asset_url(p, :css) }
     end
 
     # HTML tags for the 'datauri', and 'mhtml' versions of the packaged
     # stylesheets, using conditional comments to load the correct variant.
-    def embedded_image_stylesheets(packages)
-      datauri_tags = tags_with_options(packages) {|p| Jammit.asset_url(p, :css, :datauri) }
+    def embedded_image_stylesheets(packages, options)
+      datauri_tags = tags_with_options(packages, options) {|p| Jammit.asset_url(p, :css, :datauri) }
       ie_tags = Jammit.mhtml_enabled ?
-                tags_with_options(packages) {|p| Jammit.asset_url(p, :css, :mhtml) } :
-                packaged_stylesheets(packages)
+                tags_with_options(packages, options) {|p| Jammit.asset_url(p, :css, :mhtml) } :
+                packaged_stylesheets(packages, options)
       [DATA_URI_START, datauri_tags, DATA_URI_END, MHTML_START, ie_tags, MHTML_END].join("\n")
     end
 
     # Generate the stylesheet tags for a batch of packages, with options, by
     # yielding each package to a block.
-    def tags_with_options(packages)
+    def tags_with_options(packages, options)
       packages = packages.dup
-      options = packages.extract_options!
       packages.map! {|package| yield package }.flatten!
       packages.push(options) unless options.empty?
       stylesheet_link_tag(*packages)
