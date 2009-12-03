@@ -32,10 +32,6 @@ module Jammit
   # configuration of an assets.yml file that doesn't exist.
   class ConfigurationNotFound < NameError; end
 
-  # Jammit raises a JavaNotFound exception if Java is not installed, or it's
-  # not a recent enough version to run the JavaScript compressor.
-  class JavaNotFound < StandardError; end
-
   # Jammit raises an OutputNotWritable exception if the output directory for
   # cached packages is locked.
   class OutputNotWritable < StandardError; end
@@ -119,9 +115,17 @@ module Jammit
   def self.check_java_version
     java = @compressor_options[:java] || 'java'
     version = (`#{java} -version 2>&1`)[/\d+\.\d+/]
-    raise JavaNotFound, "the \"#{java}\" command could not be found" unless version
-    raise JavaNotFound, "the closure compiler requires Java 6 (1.6) or greater" if @javascript_compressor == :closure && version < '1.6'
-    raise JavaNotFound, "the YUI compressor requires Java 1.4 or greater" if @javascript_compressor == :yui && version < '1.4'
+    disable_compression if !version ||
+      (@javascript_compressor == :closure && version < '1.6') ||
+      (@javascript_compressor == :yui && version < '1.4')
+  end
+
+  # If we don't have a working Java VM, then disable asset compression and
+  # complain loudly.
+  def self.disable_compression
+    @compressor_options[:disabled] = true
+    complaint = "Jammit asset compression disabled -- Java unavailable"
+    defined?(Rails) ? Rails.logger.error(complaint) : STDERR.puts(complaint)
   end
 
 end

@@ -18,9 +18,12 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   end
 
   def test_loading_a_nonexistent_java
-    assert_raises(JavaNotFound) do
-      Jammit.load_configuration('test/config/assets-no-java.yml')
-    end
+    Jammit.load_configuration('test/config/assets-no-java.yml')
+    assert Jammit.compressor_options[:disabled]
+    packed = @compressor.compress_js(Dir['test/fixtures/src/test*.js'])
+    assert packed == File.read('test/fixtures/jammed/test-uncompressed.js')
+    packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
+    assert packed == File.read('test/fixtures/jammed/test-uncompressed.css')
   end
 
   def test_css_compression

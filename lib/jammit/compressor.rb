@@ -31,6 +31,11 @@ module Jammit
     JST_START       = "(function(){window.JST = window.JST || {};"
     JST_END         = "})();"
 
+    COMPRESSORS = {
+      :yui     => YUI::JavaScriptCompressor,
+      :closure => Closure::Compiler
+    }
+
     DEFAULT_OPTIONS = {
       :yui     => {:munge => true},
       :closure => {}
@@ -41,28 +46,28 @@ module Jammit
     # "closure-compiler" gem.
     def initialize
       @css_compressor = YUI::CssCompressor.new
-      flavor = Jammit.javascript_compressor
-      js_options = DEFAULT_OPTIONS[flavor].merge(Jammit.compressor_options)
-      @js_compressor  = flavor == :closure ?
-                        Closure::Compiler.new(js_options) :
-                        YUI::JavaScriptCompressor.new(js_options)
+      flavor          = Jammit.javascript_compressor
+      @options        = DEFAULT_OPTIONS[flavor].merge(Jammit.compressor_options)
+      @js_compressor  = COMPRESSORS[flavor].new(@options)
     end
 
     # Concatenate together a list of JavaScript paths, and pass them through the
     # YUI Compressor (with munging enabled).
     def compress_js(paths)
-      @js_compressor.compress(concatenate(paths))
+      js = concatenate(paths)
+      @options[:disabled] ? js : @js_compressor.compress(js)
     end
 
     # Concatenate and compress a list of CSS stylesheets. When compressing a
     # :datauri or :mhtml variant, post-processes the result to embed
     # referenced images.
     def compress_css(paths, variant=nil, asset_url=nil)
-      compressed_css = @css_compressor.compress(concatenate_and_tag_images(paths, variant))
+      css = concatenate_and_tag_images(paths, variant)
+      css = @css_compressor.compress(css) unless @options[:disabled]
       case variant
-      when nil      then return compressed_css
-      when :datauri then return with_data_uris(compressed_css)
-      when :mhtml   then return with_mhtml(compressed_css, asset_url)
+      when nil      then return css
+      when :datauri then return with_data_uris(css)
+      when :mhtml   then return with_mhtml(css, asset_url)
       else raise PackageNotFound, "\"#{variant}\" is not a valid stylesheet variant"
       end
     end

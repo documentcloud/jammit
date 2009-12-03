@@ -1,3 +1,4 @@
+require 'logger'
 RAILS_ROOT = File.expand_path('test') unless defined? RAILS_ROOT
 
 # Mock out missing pieces.
@@ -17,6 +18,14 @@ module ActionView
 end
 
 require 'lib/jammit'
+
+module Rails
+  @logger = Logger.new('/dev/null')
+  @env = ActiveSupport::StringInquirer.new("test")
+  class << self
+    attr_reader :logger, :env
+  end
+end
 
 class Test::Unit::TestCase
 
