@@ -118,7 +118,7 @@ module Jammit
   # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.
   def self.check_java_version
     java = @compressor_options[:java] || 'java'
-    version = (`#{java} -version 2>&1`).match(/\d+\.\d+/)[0] rescue false
+    version = (`#{java} -version 2>&1`)[/\d+\.\d+/]
     raise JavaNotFound, "the \"#{java}\" command could not be found" unless version
     raise JavaNotFound, "the closure compiler requires Java 6 (1.6) or greater" if @javascript_compressor == :closure && version < '1.6'
     raise JavaNotFound, "the YUI compressor requires Java 1.4 or greater" if @javascript_compressor == :yui && version < '1.4'
