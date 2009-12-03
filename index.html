@@ -477,6 +477,14 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.3.2</b><br />
+      If Java isn't available on your machine, Jammit will now run in a graceful
+      degraded mode, where assets are packaged but not compressed. You can now
+      pass <tt>:embed_images => false</tt> to the <tt>include_stylesheets</tt>
+      helper to disable image embedding on a per-package basis.
+    </p>
 
     <p>
       <b class="header">0.2.8</b><br />
