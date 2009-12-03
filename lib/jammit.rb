@@ -124,8 +124,8 @@ module Jammit
   # complain loudly.
   def self.disable_compression
     @compressor_options[:disabled] = true
-    complaint = "Jammit asset compression disabled -- Java unavailable"
-    defined?(Rails) ? Rails.logger.error(complaint) : STDERR.puts(complaint)
+    complaint = "Warning: Jammit asset compression disabled -- Java unavailable."
+    defined?(Rails) ? Rails.logger.warn(complaint) : STDERR.puts(complaint)
   end
 
 end
