@@ -11,7 +11,7 @@
   template support, and optional Data-URI / MHTML image embedding.
   
   Installation:
-  gem install jammit --source http://gemcutter.org
+  gem install jammit
   
   For documentation, usage, and examples, see:
   http://documentcloud.github.com/jammit/
