@@ -1,1 +1,13 @@
-var myself={sayHi:function(a){console.log("hello, "+a)}};var mandelay={name:function(){return this.constructor.prototype}};myself.sayHi(mandelay.name());
+var myself = {
+
+  // An Introduction:
+  sayHi : function(name) {
+    console.log("hello, " + name);
+  }
+
+};
+var mandelay = {
+  name : function() { return this.constructor.prototype; }
+};
+
+myself.sayHi(mandelay.name());

@@ -55,7 +55,7 @@ module Jammit
     # YUI Compressor (with munging enabled).
     def compress_js(paths)
       js = concatenate(paths)
-      @options[:disabled] ? js : @js_compressor.compress(js)
+      Jammit.compress_assets ? @js_compressor.compress(js) : js
     end
 
     # Concatenate and compress a list of CSS stylesheets. When compressing a
@@ -63,7 +63,7 @@ module Jammit
     # referenced images.
     def compress_css(paths, variant=nil, asset_url=nil)
       css = concatenate_and_tag_images(paths, variant)
-      css = @css_compressor.compress(css) unless @options[:disabled]
+      css = @css_compressor.compress(css) if Jammit.compress_assets
       case variant
       when nil      then return css
       when :datauri then return with_data_uris(css)

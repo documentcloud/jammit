@@ -38,7 +38,7 @@ module Jammit
 
   class << self
     attr_reader :configuration, :template_function, :embed_images, :package_path,
-                :package_assets, :mhtml_enabled, :include_jst_script,
+                :package_assets, :compress_assets, :mhtml_enabled, :include_jst_script,
                 :javascript_compressor, :compressor_options
   end
 
@@ -54,6 +54,7 @@ module Jammit
     @configuration          = conf = conf.symbolize_keys
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_images           = conf[:embed_images]
+    @compress_assets        = !(conf[:compress_assets] == false)
     @mhtml_enabled          = @embed_images && @embed_images != "datauri"
     @compressor_options     = (conf[:compressor_options] || {}).symbolize_keys
     set_javascript_compressor(conf[:javascript_compressor])
@@ -123,7 +124,7 @@ module Jammit
   # If we don't have a working Java VM, then disable asset compression and
   # complain loudly.
   def self.disable_compression
-    @compressor_options[:disabled] = true
+    @compress_assets = false
     complaint = "Warning: Jammit asset compression disabled -- Java unavailable."
     defined?(Rails) ? Rails.logger.warn(complaint) : STDERR.puts(complaint)
   end

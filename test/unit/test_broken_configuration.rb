@@ -19,7 +19,18 @@ class BrokenConfigurationTest < Test::Unit::TestCase
 
   def test_loading_a_nonexistent_java
     Jammit.load_configuration('test/config/assets-no-java.yml')
-    assert Jammit.compressor_options[:disabled]
+    assert !Jammit.compress_assets
+    @compressor = Compressor.new
+    packed = @compressor.compress_js(Dir['test/fixtures/src/test*.js'])
+    assert packed == File.read('test/fixtures/jammed/test-uncompressed.js')
+    packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
+    assert packed == File.read('test/fixtures/jammed/test-uncompressed.css')
+  end
+
+  def test_disabled_compression
+    Jammit.load_configuration('test/config/assets-compression-disabled.yml')
+    assert !Jammit.compress_assets
+    @compressor = Compressor.new
     packed = @compressor.compress_js(Dir['test/fixtures/src/test*.js'])
     assert packed == File.read('test/fixtures/jammed/test-uncompressed.js')
     packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
@@ -27,6 +38,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   end
 
   def test_css_compression
+    assert Jammit.compress_assets
     packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
     assert packed == File.read('test/fixtures/jammed/test.css')
   end

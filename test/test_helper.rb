@@ -1,31 +1,12 @@
 require 'logger'
-RAILS_ROOT = File.expand_path('test') unless defined? RAILS_ROOT
 
-# Mock out missing pieces.
-module ActionController
-  class Base
-    def self.perform_caching
-      true
-    end
-    def self.after_filter(*args)
-    end
-  end
-end
-
-module ActionView
-  class Base
-  end
-end
+RAILS_ROOT = File.expand_path('test')
+RAILS_DEFAULT_LOGGER = Logger.new('/dev/null')
+RAILS_ENV = "test"
 
 require 'lib/jammit'
-
-module Rails
-  @logger = Logger.new('/dev/null')
-  @env = ActiveSupport::StringInquirer.new("test")
-  class << self
-    attr_reader :logger, :env
-  end
-end
+gem 'rails'
+require 'initializer'
 
 class Test::Unit::TestCase
 

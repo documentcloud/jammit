@@ -1,6 +1,5 @@
 javascript_compressor: yui
-compressor_options:
-  java: /nonexistent/java
+compress_assets: false
 embed_images: on
 
 javascripts:
