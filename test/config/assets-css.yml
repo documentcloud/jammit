@@ -1,0 +1,6 @@
+css_compressor_options:
+  line_break: 0
+
+stylesheets:
+  test:
+    - fixtures/src/*.css

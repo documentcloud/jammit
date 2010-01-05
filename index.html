@@ -210,17 +210,6 @@ templates:
         </td>
       </tr>
       <tr>
-        <td><b>compressor_options</b></td>
-        <td><tt>...</tt></td>
-        <td class="definition">
-          Pass an options hash directly to the underlying JavaScript compressor
-          to configure it. See the 
-          <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a> or
-          <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a> 
-          gem documentation for the full list of available options.
-        </td>
-      </tr>
-      <tr>
         <td><b>embed_images</b></td>
         <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;datauri</tt></td>
         <td class="definition">
@@ -262,6 +251,27 @@ templates:
           Defaults to <b>assets</b>, but if you already have an existing
           AssetsController with a different purpose, you could change it to, say,
           <b>packages</b>. <i>(Single directory names only, please.)</i>
+        </td>
+      </tr>
+      <tr>
+        <td><b>compressor_options</b></td>
+        <td><tt>...</tt></td>
+        <td class="definition">
+          Pass an options hash directly to the underlying JavaScript compressor
+          to configure it. See the 
+          <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a> or
+          <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a> 
+          gem documentation for the full list of available options.
+        </td>
+      </tr>
+      <tr>
+        <td><b>css_compressor_options</b></td>
+        <td><tt>...</tt></td>
+        <td class="definition">
+          Pass an options hash directly to the YUI CSS Compressor. 
+          <a href="http://yui.rubyforge.org/classes/YUI/CssCompressor.html">Available options</a>
+          are <b>charset</b>, and <b>line_break</b>, which can be used to write
+          out each CSS rule on a separate line.
         </td>
       </tr>
     </table>
@@ -326,6 +336,12 @@ javascript_compressor: closure
 compressor_options:
   compilation_level: "ADVANCED_OPTIMIZATIONS"
 </pre>
+
+    <p>
+      Jammit always uses the YUI CSS Compressor to compress CSS files. You can
+      <a href="http://yui.rubyforge.org/classes/YUI/CssCompressor.html">configure it</a>
+      by specifying the <b>css_compressor_options</b>, in <b>assets.yml</b>.
+    </p>
 
     <h2 id="precaching">Precaching Assets</h2>
 
@@ -489,6 +505,12 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     </p>
 
     <h2 id="changes">Change Log</h2>
+
+    <p>
+      <b class="header">0.3.3</b><br />
+      Added <b>css_compressor_options</b> to <b>assets.yml</b>, so you can
+      use the <b>charset</b> and <b>line_break</b> options.
+    </p>
     
     <p>
       <b class="header">0.3.2</b><br />

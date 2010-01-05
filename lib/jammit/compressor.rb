@@ -45,7 +45,7 @@ module Jammit
     # the "yui-compressor" gem, or the internal Closure Compiler from the
     # "closure-compiler" gem.
     def initialize
-      @css_compressor = YUI::CssCompressor.new
+      @css_compressor = YUI::CssCompressor.new(Jammit.css_compressor_options)
       flavor          = Jammit.javascript_compressor
       @options        = DEFAULT_OPTIONS[flavor].merge(Jammit.compressor_options)
       @js_compressor  = COMPRESSORS[flavor].new(@options)

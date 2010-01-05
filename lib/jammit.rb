@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.3.2"
+  VERSION               = "0.3.3"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -39,7 +39,7 @@ module Jammit
   class << self
     attr_reader :configuration, :template_function, :embed_images, :package_path,
                 :package_assets, :compress_assets, :mhtml_enabled, :include_jst_script,
-                :javascript_compressor, :compressor_options
+                :javascript_compressor, :compressor_options, :css_compressor_options
   end
 
   # The minimal required configuration.
@@ -57,6 +57,7 @@ module Jammit
     @compress_assets        = !(conf[:compress_assets] == false)
     @mhtml_enabled          = @embed_images && @embed_images != "datauri"
     @compressor_options     = (conf[:compressor_options] || {}).symbolize_keys
+    @css_compressor_options = (conf[:css_compressor_options] || {}).symbolize_keys
     set_javascript_compressor(conf[:javascript_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
@@ -115,6 +116,7 @@ module Jammit
   # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.
   def self.check_java_version
     java = @compressor_options[:java] || 'java'
+    @css_compressor_options[:java] ||= java if @compressor_options[:java]
     version = (`#{java} -version 2>&1`)[/\d+\.\d+/]
     disable_compression if !version ||
       (@javascript_compressor == :closure && version < '1.6') ||
