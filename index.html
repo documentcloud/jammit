@@ -342,6 +342,14 @@ compressor_options:
       <a href="http://yui.rubyforge.org/classes/YUI/CssCompressor.html">configure it</a>
       by specifying the <b>css_compressor_options</b>, in <b>assets.yml</b>.
     </p>
+    
+    <p>
+      <i>
+        <b>Warning:</b> Google's Closure Compiler has been known to choke on certain
+        already pre-compressed JavaScripts, such as the production version of jQuery.
+        Using the uncompressed development version is recommended.
+      </i>
+    </p>
 
     <h2 id="precaching">Precaching Assets</h2>
 
