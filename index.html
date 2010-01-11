@@ -104,9 +104,10 @@
       <a href="#usage">Usage</a>                  |
       <a href="#compressors">YUI &amp; Closure</a> |
       <a href="#precaching">Precaching Assets</a> <br />
+      <a href="#expires">Expires Headers</a> |
       <a href="#embedding">Embedding Images</a> |
       <a href="#jst">JavaScript Templates</a> |
-      <a href="#changes">Change Log</a>
+      <a href="#changes">Changes</a>
     </p>
     
     <h2>Links</h2>
@@ -379,6 +380,38 @@ compressor_options:
       and source files: only the packages that have changed are rebuilt. If you'd
       like to force all packages to build, use <tt>jammit --force</tt>.
     </p>
+    
+    <h2 id="expires">Expires Headers</h2>
+
+    <p>
+      For the fastest page load times for your regular visitors, it's recommended
+      to set the HTTP Expires header to a date far in the future. You don't need
+      to worry about clearing the cached assets when you deploy a new release,
+      because Rails will write out the asset's modification time as part of the URL,
+      causing browsers to fetch a fresh copy of the asset. 
+    </p>
+    
+    <p>
+      If you're using an <b>Nginx</b> webserver, add the following snippet to the 
+      <br /><tt>server { ... }</tt> block for your application:
+    </p>
+    
+    <pre>
+location ~ ^/assets/ {
+  expires max;
+}</pre>
+
+    <p>
+      If you're using <b>Apache</b>, add the following snippet to the
+      appropriate <b>VirtualHost</b> section of your configuration,
+      filling in the path to your deployed application:
+    </p>
+    
+    <pre>
+ExpiresActive On
+&lt;Directory "/path/to/public/assets"&gt;
+  ExpiresDefault "access plus 1 year"
+&lt;/Directory&gt;</pre>
 
     <h2 id="embedding">Embedding Images</h2>
 
