@@ -19,7 +19,7 @@ module Jammit
   DEFAULT_JST_SCRIPT    = "#{ROOT}/lib/jammit/jst.js"
 
   DEFAULT_JST_COMPILER  = "template"
-  
+
   DEFAULT_JST_NAMESPACE = "window.JST"
 
   AVAILABLE_COMPRESSORS = [:yui, :closure]
@@ -116,8 +116,9 @@ module Jammit
     @include_jst_script = @template_function == DEFAULT_JST_COMPILER
   end
 
+  # Set the root JS object in which to stash all compiled JST.
   def self.set_template_namespace(value)
-    @template_namespace = value == true || value.nil? ? DEFAULT_JST_NAMESPACE : value
+    @template_namespace = value == true || value.nil? ? DEFAULT_JST_NAMESPACE : value.to_s
   end
 
   # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.

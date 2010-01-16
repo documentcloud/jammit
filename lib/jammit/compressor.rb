@@ -17,7 +17,7 @@ module Jammit
       '.tiff' => 'image/tiff'
     }
 
-
+    # CSS Image-embedding regexes for URL rewriting.
     IMAGE_DETECTOR  = /url\(['"]?([^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
     IMAGE_EMBED     = /[\A\/]embed\//
     IMAGE_REPLACER  = /url\(__EMBED__([^\s)]+)\)/
@@ -73,18 +73,19 @@ module Jammit
     end
 
     # Compiles a single JST file by writing out a javascript that adds
-    # template properties to a top-level "window.JST" object. Adds a
+    # template properties to a top-level template namespace object. Adds a
     # JST-compilation function to the top of the package, unless you've
     # specified your own preferred function, or turned it off.
     # JST templates are named with the basename of their file.
     def compile_jst(paths)
+      namespace = Jammit.template_namespace
       compiled = paths.map do |path|
         template_name = File.basename(path, File.extname(path))
         contents      = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
-        "#{Jammit.template_namespace}.#{template_name} = #{Jammit.template_function}('#{contents}');"
+        "#{namespace}.#{template_name} = #{Jammit.template_function}('#{contents}');"
       end
       compiler = Jammit.include_jst_script ? File.read(DEFAULT_JST_SCRIPT) : '';
-      setup_namespace = "#{Jammit.template_namespace} = #{Jammit.template_namespace} || {};"
+      setup_namespace = "#{namespace} = #{namespace} || {};"
       [JST_START, setup_namespace, compiler, compiled, JST_END].flatten.join("\n")
     end
 
