@@ -1,6 +1,6 @@
 require 'logger'
 
-RAILS_ROOT = File.expand_path('test')
+ASSET_ROOT = File.expand_path('test')
 RAILS_DEFAULT_LOGGER = Logger.new('/dev/null')
 RAILS_ENV = "test"
 

@@ -8,7 +8,7 @@ module Jammit
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  ASSET_ROOT            = File.expand_path(defined?(RAILS_ROOT) ? RAILS_ROOT : ".")
+  ASSET_ROOT            = File.expand_path(defined?(Rails) ? Rails.root : ".") unless defined?(ASSET_ROOT)
 
   PUBLIC_ROOT           = "#{ASSET_ROOT}/public"
 
