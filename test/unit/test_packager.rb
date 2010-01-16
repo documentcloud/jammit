@@ -27,6 +27,10 @@ class PackagerTest < Test::Unit::TestCase
   def test_packaging_templates
     jst = Jammit.packager.pack_templates(:test)
     assert jst == File.read('test/fixtures/jammed/test.jst')
+    Jammit.set_template_namespace('custom_namespace')
+    jst = Jammit.packager.pack_templates(:test)
+    Jammit.set_template_namespace('window.JST')
+    assert jst == File.read('test/fixtures/jammed/test2.jst')
   end
 
   def test_package_caching

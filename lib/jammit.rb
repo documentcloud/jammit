@@ -19,6 +19,8 @@ module Jammit
   DEFAULT_JST_SCRIPT    = "#{ROOT}/lib/jammit/jst.js"
 
   DEFAULT_JST_COMPILER  = "template"
+  
+  DEFAULT_JST_NAMESPACE = "window.JST"
 
   AVAILABLE_COMPRESSORS = [:yui, :closure]
 
@@ -37,7 +39,7 @@ module Jammit
   class OutputNotWritable < StandardError; end
 
   class << self
-    attr_reader :configuration, :template_function, :embed_images, :package_path,
+    attr_reader :configuration, :template_function, :template_namespace, :embed_images, :package_path,
                 :package_assets, :compress_assets, :mhtml_enabled, :include_jst_script,
                 :javascript_compressor, :compressor_options, :css_compressor_options
   end
@@ -61,6 +63,7 @@ module Jammit
     set_javascript_compressor(conf[:javascript_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
+    set_template_namespace(conf[:template_namespace])
     check_java_version
     self
   end
@@ -111,6 +114,10 @@ module Jammit
     @template_function = value == true || value.nil? ? DEFAULT_JST_COMPILER :
                          value == false              ? '' : value
     @include_jst_script = @template_function == DEFAULT_JST_COMPILER
+  end
+
+  def self.set_template_namespace(value)
+    @template_namespace = value == true || value.nil? ? DEFAULT_JST_NAMESPACE : value
   end
 
   # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.

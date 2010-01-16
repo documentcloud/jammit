@@ -28,7 +28,7 @@ module Jammit
     MHTML_END       = "*/\r\n"
 
     # JST file constants.
-    JST_START       = "(function(){window.JST = window.JST || {};"
+    JST_START       = "(function(){"
     JST_END         = "})();"
 
     COMPRESSORS = {
@@ -81,10 +81,11 @@ module Jammit
       compiled = paths.map do |path|
         template_name = File.basename(path, File.extname(path))
         contents      = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
-        "window.JST.#{template_name} = #{Jammit.template_function}('#{contents}');"
+        "#{Jammit.template_namespace}.#{template_name} = #{Jammit.template_function}('#{contents}');"
       end
       compiler = Jammit.include_jst_script ? File.read(DEFAULT_JST_SCRIPT) : '';
-      [JST_START, compiler, compiled, JST_END].flatten.join("\n")
+      setup_namespace = "#{Jammit.template_namespace} = #{Jammit.template_namespace} || {};"
+      [JST_START, setup_namespace, compiler, compiled, JST_END].flatten.join("\n")
     end
 
 
