@@ -22,6 +22,8 @@ class Test::Unit::TestCase
     test/precache/test.js.gz
     test/precache/test.jst
     test/precache/test.jst.gz
+    test/precache/test2.js
+    test/precache/test2.js.gz
   )
 
   include Jammit
