@@ -391,6 +391,17 @@ compressor_options:
       like to force all packages to build, use <tt>jammit --force</tt>.
     </p>
     
+    <p>
+      In production, you'll want to run Jammit during deployment, somewhere
+      in between updating the source and symlinking to the new release. Whether you're
+      using <a href="http://www.capify.org/index.php/Capistrano">Capistrano</a>,
+      <a href="http://rubyhitsquad.com/Vlad_the_Deployer.html">Vlad</a>, 
+      or just good 'ol <a href="http://rake.rubyforge.org/">Rake</a>, 
+      it shouldn't be too hard to add a step that calls the <tt>jammit</tt> command. 
+      For an example Jammit setup under Capistrano and Apache, see 
+      <a href="http://afreshcup.com/home/2010/1/18/notes-on-using-jammit-with-rails.html">Mike Gunderloy's blog post</a>.
+    </p>
+    
     <h2 id="expires">Expires Headers</h2>
 
     <p>
