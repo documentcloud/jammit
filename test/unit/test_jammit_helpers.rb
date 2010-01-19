@@ -23,8 +23,8 @@ class JammitHelpersTest < ActionView::TestCase
     assert include_stylesheets(:test, :media => 'print') == File.read('test/fixtures/tags/css_print.html')
   end
 
-  def test_include_stylesheets_forcing_embed_images_off
-    assert include_stylesheets(:test, :embed_images => false) == File.read('test/fixtures/tags/css_plain_includes.html')
+  def test_include_stylesheets_forcing_embed_assets_off
+    assert include_stylesheets(:test, :embed_assets => false) == File.read('test/fixtures/tags/css_plain_includes.html')
   end
 
   def test_include_javascripts

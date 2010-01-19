@@ -63,9 +63,9 @@ module Jammit
       pack       = params[:package]
       @extension = params[:extension].to_sym
       raise PackageNotFound unless VALID_FORMATS.include?(@extension)
-      if Jammit.embed_images
+      if Jammit.embed_assets
         suffix_match = pack.match(SUFFIX_STRIPPER)
-        @variant = Jammit.embed_images && suffix_match && suffix_match[1].to_sym
+        @variant = Jammit.embed_assets && suffix_match && suffix_match[1].to_sym
         pack.sub!(SUFFIX_STRIPPER, '')
       end
       @package = pack.to_sym

@@ -16,7 +16,7 @@ Run jammit inside a Rails application to compresses all JS, CSS,
 and JST according to config/assets.yml, saving the packaged
 files and corresponding gzipped versions.
 
-If you're using "embed_images", and you wish to precompile the
+If you're using "embed_assets", and you wish to precompile the
 MHTML stylesheet variants, you must specify the "base-url".
 
 Options:

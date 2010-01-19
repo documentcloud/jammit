@@ -1,4 +1,4 @@
-embed_images: on
+embed_assets: on
 
 javascripts:
   test:

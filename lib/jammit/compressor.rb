@@ -3,7 +3,7 @@ module Jammit
   # Uses the YUI Compressor or Closure Compiler to compress JavaScript.
   # Always uses YUI to compress CSS (Which means that Java must be installed.)
   # Also knows how to create a concatenated JST file.
-  # If "embed_images" is turned on, creates "mhtml" and "datauri" versions of
+  # If "embed_assets" is turned on, creates "mhtml" and "datauri" versions of
   # all stylesheets, with all enabled images inlined into the css.
   class Compressor
 

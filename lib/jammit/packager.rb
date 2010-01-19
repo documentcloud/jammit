@@ -42,7 +42,7 @@ module Jammit
       cacheable(:jst, output_dir).each {|p| cache(p, 'jst', pack_templates(p),  output_dir) }
       cacheable(:css, output_dir).each do |p|
         cache(p, 'css', pack_stylesheets(p), output_dir)
-        if Jammit.embed_images
+        if Jammit.embed_assets
           cache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
           if Jammit.mhtml_enabled && base_url
             mtime = Time.now

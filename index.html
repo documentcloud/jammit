@@ -161,7 +161,7 @@ end</pre>
     </p>
 
 <pre>
-embed_images: on
+embed_assets: on
 
 javascripts:
   workspace:
@@ -211,7 +211,7 @@ templates:
         </td>
       </tr>
       <tr>
-        <td><b>embed_images</b></td>
+        <td><b>embed_assets</b></td>
         <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;datauri</tt></td>
         <td class="definition">
           Defaults to <b>off</b>. When <b>on</b>, packages and caches Data-URI
@@ -448,7 +448,7 @@ ExpiresActive On
     </p>
 
     <p>
-      With <b>embed_images</b> turned on, Jammit will inline image files directly
+      With <b>embed_assets</b> turned on, Jammit will inline image files directly
       into your compiled CSS, using
       <a href="http://en.wikipedia.org/wiki/Data_URI_scheme">Data-URIs</a> in
       supported browsers, and
@@ -466,7 +466,7 @@ ExpiresActive On
 
     <p>
       Embedded images can be a little tricky, which is why using them is strictly
-      on an opt-in basis. After enabling <b>embed_images</b> in the configuration file,
+      on an opt-in basis. After enabling <b>embed_assets</b> in the configuration file,
       you'll need to whitelist the images that you'd like to make embeddable.
       When processing CSS, Jammit will only embed images that have
       <b>.../embed/...</b> somewhere in their path &mdash; the other images will be
@@ -509,7 +509,7 @@ ExpiresActive On
     <p>
       If the MHTML stylesheets sound too fragile, or if you encounter any problems
       with them in Internet Explorer (such as mixed-mode warnings when serving 
-      MHTML through SSL), we recommend setting <b>embed_images</b> to "<b>datauri</b>".
+      MHTML through SSL), we recommend setting <b>embed_assets</b> to "<b>datauri</b>".
       Using "<b>datauri</b>" will cause Internet Explorer 7 and below to receive
       plain versions of the packaged stylesheets, while all other browsers get the
       Data-URI flavor.
@@ -578,7 +578,7 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
       <b class="header">0.3.2</b><br />
       If Java isn't available on your machine, Jammit will now run in a graceful
       degraded mode, where assets are packaged but not compressed. You can now
-      pass <tt>:embed_images => false</tt> to the <tt>include_stylesheets</tt>
+      pass <tt>:embed_assets => false</tt> to the <tt>include_stylesheets</tt>
       helper to disable image embedding on a per-package basis.
     </p>
 

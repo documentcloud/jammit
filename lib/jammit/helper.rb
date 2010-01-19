@@ -11,13 +11,13 @@ module Jammit
     MHTML_START    = "<!--[if lte IE 7]>"
     MHTML_END      = "<![endif]-->"
 
-    # If embed_images is turned on, writes out links to the Data-URI and MHTML
+    # If embed_assets is turned on, writes out links to the Data-URI and MHTML
     # versions of the stylesheet package, otherwise the package is regular
     # compressed CSS, and in development the stylesheet URLs are passed verbatim.
     def include_stylesheets(*packages)
       options = packages.extract_options!
       return individual_stylesheets(packages, options) unless Jammit.package_assets
-      return packaged_stylesheets(packages, options) if options.delete(:embed_images) == false || !Jammit.embed_images
+      return packaged_stylesheets(packages, options) if options.delete(:embed_assets) == false || !Jammit.embed_assets
       return embedded_image_stylesheets(packages, options)
     end
 

@@ -1,1 +1,1 @@
-(function(a){console.log("hello, "+a)})(function(){return this.constructor.prototype}());
+var a=function(){return this.constructor.prototype}();console.log("hello, "+a);
