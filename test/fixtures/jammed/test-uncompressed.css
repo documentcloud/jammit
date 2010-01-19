@@ -29,3 +29,8 @@
   #and_real_urls {
     background: url(http://example.com/image.png);
   }
+@font-face {
+	font-family: 'DroidSansMonoRegular';
+	src: url(../embed/DroidSansMono.eot);
+	src: local('Droid Sans Mono Regular'), local('DroidSansMono'), url(../embed/DroidSansMono.ttf) format('truetype');
+}

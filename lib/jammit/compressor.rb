@@ -14,11 +14,20 @@ module Jammit
       '.jpeg' => 'image/jpeg',
       '.gif'  => 'image/gif',
       '.tif'  => 'image/tiff',
-      '.tiff' => 'image/tiff'
+      '.tiff' => 'image/tiff',
+      '.ttf'  => 'font/truetype',
+      '.otf'  => 'font/opentype'
     }
 
+    # Font extensions for which we allow embedding:
+    EMBED_EXTS      = EMBED_MIME_TYPES.keys
+    EMBED_FONTS     = ['.ttf', '.otf']
+
+    # Maximum size for embeddable images (an IE8 limitation).
+    MAX_IMAGE_SIZE  = 32.kilobytes
+
     # CSS asset-embedding regexes for URL rewriting.
-    EMBED_DETECTOR  = /url\(['"]?([^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
+    EMBED_DETECTOR  = /url\(['"]?([^\s)]+\.[a-z]+)['"]?\)/
     EMBEDDABLE      = /[\A\/]embed\//
     EMBED_REPLACER  = /url\(__EMBED__([^\s)]+)\)/
 
@@ -45,9 +54,9 @@ module Jammit
     # the "yui-compressor" gem, or the internal Closure Compiler from the
     # "closure-compiler" gem.
     def initialize
-      @css_compressor = YUI::CssCompressor.new(Jammit.css_compressor_options)
-      flavor          = Jammit.javascript_compressor
-      @options        = DEFAULT_OPTIONS[flavor].merge(Jammit.compressor_options)
+      @css_compressor = YUI::CssCompressor.new(Jammit.css_compressor_options || {})
+      flavor          = Jammit.javascript_compressor || Jammit::DEFAULT_COMPRESSOR
+      @options        = DEFAULT_OPTIONS[flavor].merge(Jammit.compressor_options || {})
       @js_compressor  = COMPRESSORS[flavor].new(@options)
     end
 
@@ -101,7 +110,7 @@ module Jammit
         File.read(css_path).gsub(EMBED_DETECTOR) do |url|
           ipath, cpath = Pathname.new($1), Pathname.new(File.expand_path(css_path))
           is_url = URI.parse($1).absolute?
-          is_url ? url : "url(#{rewrite_asset_path(ipath, cpath, !!variant)})"
+          is_url ? url : "url(#{rewrite_asset_path(ipath, cpath, variant)})"
         end
       end
       stylesheets.join("\n")
@@ -111,7 +120,7 @@ module Jammit
     # Data-URI Base-64 encoded asset contents.
     def with_data_uris(css)
       css.gsub(EMBED_REPLACER) do |url|
-        "url(\"data:#{mime_type($1)};base64,#{encoded_contents($1)}\")"
+        "url(\"data:#{mime_type($1)};charset=utf-8;base64,#{encoded_contents($1)}\")"
       end
     end
 
@@ -134,9 +143,9 @@ module Jammit
     # Return a rewritten asset URL for a new stylesheet -- the asset should
     # be tagged for embedding if embeddable, and referenced at the correct level
     # if relative.
-    def rewrite_asset_path(asset_path, css_path, embed=false)
+    def rewrite_asset_path(asset_path, css_path, variant)
       public_path = absolute_path(asset_path, css_path)
-      return "__EMBED__#{public_path}" if embed && embeddable?(public_path)
+      return "__EMBED__#{public_path}" if embeddable?(public_path, variant)
       asset_path.absolute? ? asset_path.to_s : relative_path(public_path)
     end
 
@@ -158,8 +167,14 @@ module Jammit
     # stored somewhere inside of a folder named "embed".
     # IE does not support Data-URIs larger than 32K, and you probably shouldn't
     # be embedding assets that large in any case.
-    def embeddable?(asset_path)
-      asset_path.to_s.match(EMBEDDABLE) && asset_path.exist? && asset_path.size < 32.kilobytes
+    def embeddable?(asset_path, variant)
+      font = EMBED_FONTS.include?(asset_path.extname)
+      return false unless variant
+      return false unless asset_path.to_s.match(EMBEDDABLE) && asset_path.exist?
+      return false unless EMBED_EXTS.include?(asset_path.extname)
+      return false unless font || asset_path.size < MAX_IMAGE_SIZE
+      return false if font && variant == :mhtml
+      true
     end
 
     # Return the Base64-encoded contents of an asset on a single line.

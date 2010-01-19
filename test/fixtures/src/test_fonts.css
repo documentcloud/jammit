@@ -1,0 +1,5 @@
+@font-face {
+	font-family: 'DroidSansMonoRegular';
+	src: url('../../public/embed/DroidSansMono.eot');
+	src: local('Droid Sans Mono Regular'), local('DroidSansMono'), url('../../public/embed/DroidSansMono.ttf') format('truetype');
+}

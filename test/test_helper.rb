@@ -8,6 +8,7 @@ RAILS_ROOT = File.expand_path('test')
 require 'lib/jammit'
 gem 'rails'
 require 'initializer'
+Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH)
 
 class Test::Unit::TestCase
 

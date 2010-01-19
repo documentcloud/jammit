@@ -13,7 +13,7 @@ class WrongDirectoryTest < Test::Unit::TestCase
 
   def test_fetching_lists_of_individual_urls
     urls = Jammit.packager.individual_urls(:test, :css)
-    assert urls == ['/fixtures/src/test1.css', '/fixtures/src/test2.css']
+    assert urls == ['/fixtures/src/test1.css', '/fixtures/src/test2.css', '/fixtures/src/test_fonts.css']
     urls = Jammit.packager.individual_urls(:test, :js)
     assert urls == ['/fixtures/src/test1.js', '/fixtures/src/test2.js']
   end
