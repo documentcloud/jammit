@@ -4,11 +4,11 @@ module Jammit
   # Always uses YUI to compress CSS (Which means that Java must be installed.)
   # Also knows how to create a concatenated JST file.
   # If "embed_assets" is turned on, creates "mhtml" and "datauri" versions of
-  # all stylesheets, with all enabled images inlined into the css.
+  # all stylesheets, with all enabled assets inlined into the css.
   class Compressor
 
-    # Mapping from extension to mime-type of all embeddable images.
-    IMAGE_MIME_TYPES = {
+    # Mapping from extension to mime-type of all embeddable assets.
+    EMBED_MIME_TYPES = {
       '.png'  => 'image/png',
       '.jpg'  => 'image/jpeg',
       '.jpeg' => 'image/jpeg',
@@ -17,10 +17,10 @@ module Jammit
       '.tiff' => 'image/tiff'
     }
 
-    # CSS Image-embedding regexes for URL rewriting.
-    IMAGE_DETECTOR  = /url\(['"]?([^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
-    IMAGE_EMBED     = /[\A\/]embed\//
-    IMAGE_REPLACER  = /url\(__EMBED__([^\s)]+)\)/
+    # CSS asset-embedding regexes for URL rewriting.
+    EMBED_DETECTOR  = /url\(['"]?([^\s)]+\.(png|jpg|jpeg|gif|tif|tiff))['"]?\)/
+    EMBEDDABLE      = /[\A\/]embed\//
+    EMBED_REPLACER  = /url\(__EMBED__([^\s)]+)\)/
 
     # MHTML file constants.
     MHTML_START     = "/*\r\nContent-Type: multipart/related; boundary=\"JAMMIT_MHTML_SEPARATOR\"\r\n\r\n"
@@ -60,9 +60,9 @@ module Jammit
 
     # Concatenate and compress a list of CSS stylesheets. When compressing a
     # :datauri or :mhtml variant, post-processes the result to embed
-    # referenced images.
+    # referenced assets.
     def compress_css(paths, variant=nil, asset_url=nil)
-      css = concatenate_and_tag_images(paths, variant)
+      css = concatenate_and_tag_assets(paths, variant)
       css = @css_compressor.compress(css) if Jammit.compress_assets
       case variant
       when nil      then return css
@@ -92,35 +92,35 @@ module Jammit
 
     private
 
-    # In order to support embedded images from relative paths, we need to
+    # In order to support embedded assets from relative paths, we need to
     # expand the paths before contatenating the CSS together and losing the
-    # location of the original stylesheet path. Validate the images while we're
+    # location of the original stylesheet path. Validate the assets while we're
     # at it.
-    def concatenate_and_tag_images(paths, variant=nil)
+    def concatenate_and_tag_assets(paths, variant=nil)
       stylesheets = [paths].flatten.map do |css_path|
-        File.read(css_path).gsub(IMAGE_DETECTOR) do |url|
+        File.read(css_path).gsub(EMBED_DETECTOR) do |url|
           ipath, cpath = Pathname.new($1), Pathname.new(File.expand_path(css_path))
           is_url = URI.parse($1).absolute?
-          is_url ? url : "url(#{rewrite_image_path(ipath, cpath, !!variant)})"
+          is_url ? url : "url(#{rewrite_asset_path(ipath, cpath, !!variant)})"
         end
       end
       stylesheets.join("\n")
     end
 
-    # Re-write all enabled image URLs in a stylesheet with their corresponding
-    # Data-URI Base-64 encoded image contents.
+    # Re-write all enabled asset URLs in a stylesheet with their corresponding
+    # Data-URI Base-64 encoded asset contents.
     def with_data_uris(css)
-      css.gsub(IMAGE_REPLACER) do |url|
+      css.gsub(EMBED_REPLACER) do |url|
         "url(\"data:#{mime_type($1)};base64,#{encoded_contents($1)}\")"
       end
     end
 
-    # Re-write all enabled image URLs in a stylesheet with the MHTML equivalent.
+    # Re-write all enabled asset URLs in a stylesheet with the MHTML equivalent.
     # The newlines ("\r\n") in the following method are critical. Without them
     # your MHTML will look identical, but won't work.
     def with_mhtml(css, asset_url)
       paths, index = {}, 0
-      css = css.gsub(IMAGE_REPLACER) do |url|
+      css = css.gsub(EMBED_REPLACER) do |url|
         i = paths[$1] ||= "#{index += 1}-#{File.basename($1)}"
         "url(mhtml:#{asset_url}!#{i})"
       end
@@ -131,45 +131,45 @@ module Jammit
       [MHTML_START, mhtml, MHTML_END, css].flatten.join('')
     end
 
-    # Return a rewritten image URL for a new stylesheet -- the image should
+    # Return a rewritten asset URL for a new stylesheet -- the asset should
     # be tagged for embedding if embeddable, and referenced at the correct level
     # if relative.
-    def rewrite_image_path(image_path, css_path, embed=false)
-      public_path = absolute_path(image_path, css_path)
+    def rewrite_asset_path(asset_path, css_path, embed=false)
+      public_path = absolute_path(asset_path, css_path)
       return "__EMBED__#{public_path}" if embed && embeddable?(public_path)
-      image_path.absolute? ? image_path.to_s : relative_path(public_path)
+      asset_path.absolute? ? asset_path.to_s : relative_path(public_path)
     end
 
-    # Get the site-absolute public path for an image file path that may or may
+    # Get the site-absolute public path for an asset file path that may or may
     # not be relative, given the path of the stylesheet that contains it.
-    def absolute_path(image_pathname, css_pathname)
-      (image_pathname.absolute? ?
-        Pathname.new(File.join(PUBLIC_ROOT, image_pathname)) :
-        css_pathname.dirname + image_pathname).cleanpath
+    def absolute_path(asset_pathname, css_pathname)
+      (asset_pathname.absolute? ?
+        Pathname.new(File.join(PUBLIC_ROOT, asset_pathname)) :
+        css_pathname.dirname + asset_pathname).cleanpath
     end
 
-    # CSS images that are referenced by relative paths, and are *not* being
+    # CSS assets that are referenced by relative paths, and are *not* being
     # embedded, must be rewritten relative to the newly-merged stylesheet path.
     def relative_path(absolute_path)
       File.join('../', absolute_path.sub(PUBLIC_ROOT, ''))
     end
 
-    # An image is valid for embedding if it exists, is less than 32K, and is
+    # An asset is valid for embedding if it exists, is less than 32K, and is
     # stored somewhere inside of a folder named "embed".
     # IE does not support Data-URIs larger than 32K, and you probably shouldn't
-    # be embedding images that large in any case.
-    def embeddable?(image_path)
-      image_path.to_s.match(IMAGE_EMBED) && image_path.exist? && image_path.size < 32.kilobytes
+    # be embedding assets that large in any case.
+    def embeddable?(asset_path)
+      asset_path.to_s.match(EMBEDDABLE) && asset_path.exist? && asset_path.size < 32.kilobytes
     end
 
-    # Return the Base64-encoded contents of an image on a single line.
-    def encoded_contents(image_path)
-      Base64.encode64(File.read(image_path)).gsub(/\n/, '')
+    # Return the Base64-encoded contents of an asset on a single line.
+    def encoded_contents(asset_path)
+      Base64.encode64(File.read(asset_path)).gsub(/\n/, '')
     end
 
-    # Grab the mime-type of an image, by filename.
-    def mime_type(image_path)
-      IMAGE_MIME_TYPES[File.extname(image_path)]
+    # Grab the mime-type of an asset, by filename.
+    def mime_type(asset_path)
+      EMBED_MIME_TYPES[File.extname(asset_path)]
     end
 
     # Concatenate together a list of asset files.
