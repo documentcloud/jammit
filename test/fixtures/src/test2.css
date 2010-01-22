@@ -13,7 +13,7 @@
     background: url(../../public/embed/asterisk_yellow.png);
   }
   #and_relative_paths {
-    background: url(../../public/embed/asterisk_orange.png);
+    background: url(../../public/embed/asterisk_orange.png?1010101);
   }
   #and_real_urls {
     background: url(http://example.com/image.png);
