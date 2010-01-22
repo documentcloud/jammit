@@ -1,5 +1,6 @@
 # Standard Library Dependencies:
 require 'uri'
+require 'erb'
 require 'zlib'
 require 'base64'
 require 'pathname'

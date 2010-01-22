@@ -43,6 +43,13 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     assert packed == File.read('test/fixtures/jammed/test.css')
   end
 
+  def test_erb_configuration
+    Jammit.load_configuration('test/config/assets-erb.yml')
+    assert Jammit.compress_assets
+    packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
+    assert packed == File.read('test/fixtures/jammed/test.css')
+  end
+
   def test_css_configuration
     Jammit.load_configuration('test/config/assets-css.yml')
     packed = Compressor.new.compress_css(Dir['test/fixtures/src/*.css'])
