@@ -17,7 +17,8 @@ module Jammit
     def include_stylesheets(*packages)
       options = packages.extract_options!
       return individual_stylesheets(packages, options) unless Jammit.package_assets
-      return packaged_stylesheets(packages, options) if options.delete(:embed_assets) == false || !Jammit.embed_assets
+      disabled = (options.delete(:embed_assets) == false) || (options.delete(:embed_images) == false)
+      return packaged_stylesheets(packages, options) if disabled || !Jammit.embed_assets
       return embedded_image_stylesheets(packages, options)
     end
 
