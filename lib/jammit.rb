@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.3.3"
+  VERSION               = "0.4.0"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -25,6 +25,10 @@ module Jammit
   AVAILABLE_COMPRESSORS = [:yui, :closure]
 
   DEFAULT_COMPRESSOR    = :yui
+
+  # Extension matchers for JavaScript and JST, which need to be disambiguated.
+  JS_EXT                = /\.js\Z/
+  JST_EXT               = /\.jst\Z/
 
   # Jammit raises a @PackageNotFound@ exception when a non-existent package is
   # requested by a browser -- rendering a 404.
