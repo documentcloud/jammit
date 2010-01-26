@@ -130,7 +130,7 @@ except in development, where it references the individual scripts.</span>
   
 
   
-    <span class="summary_desc">If embed_images is turned on, writes out links to the Data-<span class="caps">URI</span> and <span class="caps">MHTML</span>
+    <span class="summary_desc">If embed_assets is turned on, writes out links to the Data-<span class="caps">URI</span> and <span class="caps">MHTML</span>
 versions of the stylesheet package, otherwise the package is regular
 compressed <span class="caps">CSS</span>, and in development the stylesheet URLs are passed verbatim.</span>
   
@@ -244,15 +244,15 @@ except in development, where it references the individual scripts.</p>
       <pre class="lines">
 
 
-26
 27
 28
 29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 27</span>
 
 <span class='def def kw'>def</span> <span class='include_javascripts identifier id'>include_javascripts</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
   <span class='tags identifier id'>tags</span> <span class='assign token'>=</span> <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='pack identifier id'>pack</span><span class='bitor op'>|</span>
@@ -275,7 +275,7 @@ except in development, where it references the individual scripts.</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>If embed_images is turned on, writes out links to the Data-<span class="caps">URI</span> and <span class="caps">MHTML</span>
+    <p>If embed_assets is turned on, writes out links to the Data-<span class="caps">URI</span> and <span class="caps">MHTML</span>
 versions of the stylesheet package, otherwise the package is regular
 compressed <span class="caps">CSS</span>, and in development the stylesheet URLs are passed verbatim.</p>
 
@@ -294,7 +294,8 @@ compressed <span class="caps">CSS</span>, and in development the stylesheet URLs
 19
 20
 21
-22</pre>
+22
+23</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 17</span>
@@ -302,7 +303,8 @@ compressed <span class="caps">CSS</span>, and in development the stylesheet URLs
 <span class='def def kw'>def</span> <span class='include_stylesheets identifier id'>include_stylesheets</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
   <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='extract_options! fid id'>extract_options!</span>
   <span class='return return kw'>return</span> <span class='individual_stylesheets identifier id'>individual_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='package_assets identifier id'>package_assets</span>
-  <span class='return return kw'>return</span> <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:embed_images</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='false false kw'>false</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_images identifier id'>embed_images</span>
+  <span class='disabled identifier id'>disabled</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:embed_assets</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='false false kw'>false</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:embed_images</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='disabled identifier id'>disabled</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span>
   <span class='return return kw'>return</span> <span class='embedded_image_stylesheets identifier id'>embedded_image_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
@@ -333,12 +335,12 @@ have to pre-process it, even in development.</p>
       <pre class="lines">
 
 
-35
 36
-37</pre>
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 36</span>
 
 <span class='def def kw'>def</span> <span class='include_templates identifier id'>include_templates</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
   <span class='javascript_include_tag identifier id'>javascript_include_tag</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='pack identifier id'>pack</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='pack identifier id'>pack</span><span class='comma token'>,</span> <span class='symbol val'>:jst</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -371,16 +373,16 @@ stylesheets, using conditional comments to load the correct variant.</p>
       <pre class="lines">
 
 
-54
 55
 56
 57
 58
 59
-60</pre>
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 55</span>
 
 <span class='def def kw'>def</span> <span class='embedded_image_stylesheets identifier id'>embedded_image_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
   <span class='datauri_tags identifier id'>datauri_tags</span> <span class='assign token'>=</span> <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:datauri</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -416,12 +418,12 @@ stylesheets, using conditional comments to load the correct variant.</p>
       <pre class="lines">
 
 
-43
 44
-45</pre>
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 44</span>
 
 <span class='def def kw'>def</span> <span class='individual_stylesheets identifier id'>individual_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
   <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='individual_urls identifier id'>individual_urls</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -453,12 +455,12 @@ stylesheets, using conditional comments to load the correct variant.</p>
       <pre class="lines">
 
 
-48
 49
-50</pre>
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 49</span>
 
 <span class='def def kw'>def</span> <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
   <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -491,15 +493,15 @@ yielding each package to a block.</p>
       <pre class="lines">
 
 
-64
 65
 66
 67
 68
-69</pre>
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 65</span>
 
 <span class='def def kw'>def</span> <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
   <span class='packages identifier id'>packages</span> <span class='assign token'>=</span> <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='dup identifier id'>dup</span>
@@ -518,7 +520,7 @@ yielding each package to a block.</p>
 </div>
     
     <div id="footer">
-  Generated on Thu Dec  3 17:46:14 2009 by 
+  Generated on Tue Jan 26 17:16:37 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.4.0 (ruby-1.8.7).
 </div>

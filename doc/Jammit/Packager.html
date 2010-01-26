@@ -82,7 +82,7 @@ with the correct timestamps.</p>
         <dt id="PATH_TO_URL-constant ">PATH_TO_URL =
             <span class="summary_desc">In Rails, the difference between a path and an asset <span class="caps">URL</span> is &#8220;public&#8221;.</span>
         </dt>
-        <dd><pre class="code"><span class='dregexp node'>/\A#{ASSET_ROOT}(\/public)?/</span>
+        <dd><pre class="code"><span class='dregexp node'>/\A#{Regexp.escape(ASSET_ROOT)}(\/public)?/</span>
 </pre></dd>
       
     </dl>
@@ -698,7 +698,7 @@ changed since their last package build.</p>
   <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='symbol val'>:jst</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='cache identifier id'>cache</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='string val'>'jst'</span><span class='comma token'>,</span> <span class='pack_templates identifier id'>pack_templates</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='rparen token'>)</span><span class='comma token'>,</span>  <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span>
     <span class='cache identifier id'>cache</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='string val'>'css'</span><span class='comma token'>,</span> <span class='pack_stylesheets identifier id'>pack_stylesheets</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
-    <span class='if if kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_images identifier id'>embed_images</span>
+    <span class='if if kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span>
       <span class='cache identifier id'>cache</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='string val'>'css'</span><span class='comma token'>,</span> <span class='pack_stylesheets identifier id'>pack_stylesheets</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:datauri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='comma token'>,</span> <span class='symbol val'>:datauri</span><span class='rparen token'>)</span>
       <span class='if if kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='mhtml_enabled identifier id'>mhtml_enabled</span> <span class='andop op'>&amp;&amp;</span> <span class='base_url identifier id'>base_url</span>
         <span class='mtime identifier id'>mtime</span> <span class='assign token'>=</span> <span class='Time constant id'>Time</span><span class='dot token'>.</span><span class='now identifier id'>now</span>
@@ -737,7 +737,6 @@ files have changed since the last package build.</p>
       <pre class="lines">
 
 
-108
 109
 110
 111
@@ -746,10 +745,11 @@ files have changed since the last package build.</p>
 114
 115
 116
-117</pre>
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 109</span>
 
 <span class='def def kw'>def</span> <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
   <span class='names identifier id'>names</span> <span class='assign token'>=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='keys identifier id'>keys</span>
@@ -789,7 +789,6 @@ list of Dir.globs, taking the merged unique result.</p>
       <pre class="lines">
 
 
-121
 122
 123
 124
@@ -800,10 +799,16 @@ list of Dir.globs, taking the merged unique result.</p>
 129
 130
 131
-132</pre>
+132
+133
+134
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 122</span>
 
 <span class='def def kw'>def</span> <span class='create_packages identifier id'>create_packages</span><span class='lparen token'>(</span><span class='config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='packages identifier id'>packages</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -813,7 +818,12 @@ list of Dir.globs, taking the merged unique result.</p>
     <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span>         <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
     <span class='paths identifier id'>paths</span>                  <span class='assign token'>=</span> <span class='globs identifier id'>globs</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='glob identifier id'>glob</span><span class='bitor op'>|</span> <span class='glob_files identifier id'>glob_files</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='uniq identifier id'>uniq</span>
     <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span>
-    <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span>  <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='PATH_TO_URL constant id'>PATH_TO_URL</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='if if kw'>if</span> <span class='notop op'>!</span><span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='JS_EXT constant id'>JS_EXT</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='JST_EXT constant id'>JST_EXT</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+      <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='JS_EXT constant id'>JS_EXT</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='PATH_TO_URL constant id'>PATH_TO_URL</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+      <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span> <span class='opasgn op'>+=</span> <span class='lbrack token'>[</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='symbol val'>:jst</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+    <span class='else else kw'>else</span>
+      <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='PATH_TO_URL constant id'>PATH_TO_URL</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='end end kw'>end</span>
   <span class='end end kw'>end</span>
   <span class='packages identifier id'>packages</span>
 <span class='end end kw'>end</span>
@@ -844,13 +854,13 @@ list of Dir.globs, taking the merged unique result.</p>
       <pre class="lines">
 
 
-100
 101
 102
-103</pre>
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 101</span>
 
 <span class='def def kw'>def</span> <span class='glob_files identifier id'>glob_files</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span>
   <span class='absolute identifier id'>absolute</span> <span class='assign token'>=</span> <span class='Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span>
@@ -896,12 +906,12 @@ list of Dir.globs, taking the merged unique result.</p>
       <pre class="lines">
 
 
-135
-136
-137</pre>
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 141</span>
 
 <span class='def def kw'>def</span> <span class='not_found identifier id'>not_found</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='PackageNotFound constant id'>PackageNotFound</span><span class='comma token'>,</span> <span class='dstring node'>&quot;assets.yml does not contain a \&quot;#{package}\&quot; #{extension.to_s.upcase} package&quot;</span>
@@ -937,13 +947,15 @@ package has gone missing.</p>
 94
 95
 96
-97</pre>
+97
+98</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 94</span>
 
 <span class='def def kw'>def</span> <span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
   <span class='pack identifier id'>pack</span> <span class='assign token'>=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='package identifier id'>package</span><span class='rbrack token'>]</span>
+  <span class='pack identifier id'>pack</span> <span class='opasgn op'>||=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='symbol val'>:js</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='symbol val'>:js</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='package identifier id'>package</span><span class='rbrack token'>]</span> <span class='if if_mod kw'>if</span> <span class='extension identifier id'>extension</span> <span class='eq op'>==</span> <span class='symbol val'>:jst</span>
   <span class='pack identifier id'>pack</span> <span class='orop op'>||</span> <span class='not_found identifier id'>not_found</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
@@ -957,7 +969,7 @@ package has gone missing.</p>
 </div>
     
     <div id="footer">
-  Generated on Thu Dec  3 17:46:13 2009 by 
+  Generated on Tue Jan 26 17:16:35 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.4.0 (ruby-1.8.7).
 </div>

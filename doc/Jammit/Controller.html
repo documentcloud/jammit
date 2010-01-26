@@ -458,9 +458,9 @@ request <span class="caps">URL</span> to the client, and cache a version with th
   <span class='pack identifier id'>pack</span>       <span class='assign token'>=</span> <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:package</span><span class='rbrack token'>]</span>
   <span class='@extension ivar id'>@extension</span> <span class='assign token'>=</span> <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:extension</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
   <span class='raise identifier id'>raise</span> <span class='PackageNotFound constant id'>PackageNotFound</span> <span class='unless unless_mod kw'>unless</span> <span class='VALID_FORMATS constant id'>VALID_FORMATS</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='@extension ivar id'>@extension</span><span class='rparen token'>)</span>
-  <span class='if if kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_images identifier id'>embed_images</span>
+  <span class='if if kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span>
     <span class='suffix_match identifier id'>suffix_match</span> <span class='assign token'>=</span> <span class='pack identifier id'>pack</span><span class='dot token'>.</span><span class='match identifier id'>match</span><span class='lparen token'>(</span><span class='SUFFIX_STRIPPER constant id'>SUFFIX_STRIPPER</span><span class='rparen token'>)</span>
-    <span class='@variant ivar id'>@variant</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_images identifier id'>embed_images</span> <span class='andop op'>&amp;&amp;</span> <span class='suffix_match identifier id'>suffix_match</span> <span class='andop op'>&amp;&amp;</span> <span class='suffix_match identifier id'>suffix_match</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
+    <span class='@variant ivar id'>@variant</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span> <span class='andop op'>&amp;&amp;</span> <span class='suffix_match identifier id'>suffix_match</span> <span class='andop op'>&amp;&amp;</span> <span class='suffix_match identifier id'>suffix_match</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
     <span class='pack identifier id'>pack</span><span class='dot token'>.</span><span class='sub! fid id'>sub!</span><span class='lparen token'>(</span><span class='SUFFIX_STRIPPER constant id'>SUFFIX_STRIPPER</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
   <span class='end end kw'>end</span>
   <span class='@package ivar id'>@package</span> <span class='assign token'>=</span> <span class='pack identifier id'>pack</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
@@ -517,7 +517,7 @@ different one into the cached package.</p>
 </div>
     
     <div id="footer">
-  Generated on Thu Dec  3 17:46:14 2009 by 
+  Generated on Tue Jan 26 17:16:37 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.4.0 (ruby-1.8.7).
 </div>

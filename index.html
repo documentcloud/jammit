@@ -453,7 +453,7 @@ ExpiresActive On
       the <tt>RAILS_ASSET_ID</tt> environment variable.
     </p>
 
-    <h2 id="embedding">Embedding Images and Fonts</h2>
+    <h2 id="embedding">Embedding Images ...</h2>
 
     <p>
       After you've finished concatenating and compressing your JavaScript and
@@ -533,6 +533,29 @@ ExpiresActive On
       plain versions of the packaged stylesheets, while all other browsers get the
       Data-URI flavor.
     </p>
+    
+    <h3>... and Embedding Fonts</h3>
+    
+    <p>
+      Embedded fonts work in largely the same way as images, <b>TTF</b> and <b>OTF</b> files
+      that are whitelisted within an "embed" folder will be inlined as Data-URIs.
+      There is no MHTML variant for fonts, because Internet Explorer only supports
+      unembeddable <b>EOT</b> files. Embedding is especially important
+      for fonts in general, because it helps avoid 
+      <a href="http://paulirish.com/2009/fighting-the-font-face-fout/">the flash of unstyled text</a> 
+      that the browser would otherwise display while waiting for the font to 
+      download. If you're looking to get started with web fonts, 
+      <a href="http://www.fontsquirrel.com/fontface/generator">FontSquirrel has a great tool</a> 
+      that can generate the proper fonts and styles you'll need. Here's an example
+      of a CSS rule that would activate the proper Jammit embedding:
+    </p>
+    
+<pre>
+@font-face {
+  font-family: 'DroidSans';
+  src: url(/fonts/DroidSans.eot);
+  src: local('Droid Sans'), local('DroidSans'), url(/fonts/embed/DroidSans.ttf) format('truetype');
+}</pre>
 
     <h2 id="jst">JavaScript Templates</h2>
 
@@ -574,6 +597,13 @@ ExpiresActive On
 <pre>
 JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
 </pre>
+
+    <p>
+      If you'd prefer to use a different namespace than <tt>window.JST</tt>, set the
+      <b>template_namespace</b> option in <b>assets.yml</b>. JST templates may also be
+      added directly to JavaScript packages, if you'd like to reduce the total number of
+      HTTP requests even further, and don't mind mixing templates with functionality.
+    </p>
 
     <p>
       To use <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>
