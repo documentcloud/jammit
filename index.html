@@ -429,7 +429,9 @@ location ~ ^/assets/ {
 }</pre>
 
     <p>
-      If you're using <b>Apache</b>, add the following snippet to the
+      If you're using <b>Apache</b>, make sure that 
+      <a href="http://httpd.apache.org/docs/1.3/mod/mod_expires.html">mod_expires</a>
+      is enabled, and then add the following snippet to the
       appropriate <b>VirtualHost</b> section of your configuration,
       filling in the path to your deployed application:
     </p>
@@ -439,6 +441,13 @@ ExpiresActive On
 &lt;Directory "/path/to/public/assets"&gt;
   ExpiresDefault "access plus 1 year"
 &lt;/Directory&gt;</pre>
+
+    <p>
+      If for any reason (multiple physical servers, rsync-only deploys) you don't
+      wish to rely on modification times for cache expiry, Jammit uses the 
+      standard Rails helpers to generate URLs, and will respect
+      the <tt>RAILS_ASSET_ID</tt> environment variable.
+    </p>
 
     <h2 id="embedding">Embedding Images</h2>
 
