@@ -93,7 +93,7 @@
     </p>
     
     <p>
-      <b>Current Version:</b> <a href="http://gemcutter.org/gems/jammit/">0.4.0</a>
+      <b>Current Version:</b> <a href="http://gemcutter.org/gems/jammit/">0.4.1</a>
     </p>
     
     <p>
@@ -599,13 +599,6 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
 </pre>
 
     <p>
-      If you'd prefer to use a different namespace than <tt>window.JST</tt>, set the
-      <b>template_namespace</b> option in <b>assets.yml</b>. JST templates may also be
-      added directly to JavaScript packages, if you'd like to reduce the total number of
-      HTTP requests even further, and don't mind mixing templates with functionality.
-    </p>
-
-    <p>
       To use <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>
       templates, set <b>template_function</b> to "<b>_.template</b>".<br />
       To use <a href="http://www.prototypejs.org/">Prototype</a> templates, set
@@ -618,15 +611,12 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     <h2 id="changes">Change Log</h2>
     
     <p>
-      <b class="header">0.4.0</b><br />
+      <b class="header">0.4.1</b><br />
       Jammit is now able to embed <tt>@font-face</tt> web fonts in <b>TTF</b> and
       <b>OTF</b> formats. The <b>embed_images</b> option has been renamed to 
       <b>embed_assets</b> for this change. The <b>assets.yml</b> file is now 
       passed through ERB before being loaded, so you can configure 
       environment-specific settings, just like you would with <b>database.yml</b>. 
-      Finally, <a href="http://github.com/agibralter">Aaron Gibralter</a> 
-      committed a patch that allows you to add JST templates right into your 
-      JavaScript packages.
     </p>
 
     <p>

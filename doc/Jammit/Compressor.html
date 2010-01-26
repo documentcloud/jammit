@@ -506,24 +506,24 @@ specified your own preferred function, or turned it off.
       <pre class="lines">
 
 
+89
+90
+91
+92
 93
 94
 95
 96
 97
 98
-99
-100
-101
-102
-103</pre>
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 89</span>
 
 <span class='def def kw'>def</span> <span class='compile_jst identifier id'>compile_jst</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
   <span class='namespace identifier id'>namespace</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='template_namespace identifier id'>template_namespace</span>
-  <span class='compiled identifier id'>compiled</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='JST_EXT constant id'>JST_EXT</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span>
+  <span class='compiled identifier id'>compiled</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span>
     <span class='template_name identifier id'>template_name</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='basename identifier id'>basename</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='extname identifier id'>extname</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
     <span class='contents identifier id'>contents</span>      <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;'&quot;</span><span class='comma token'>,</span> <span class='string val'>'\\\\\''</span><span class='rparen token'>)</span>
     <span class='dstring node'>&quot;#{namespace}.#{template_name} = #{Jammit.template_function}('#{contents}');&quot;</span>
@@ -561,19 +561,19 @@ referenced assets.</p>
       <pre class="lines">
 
 
+73
+74
+75
+76
 77
 78
 79
 80
 81
-82
-83
-84
-85
-86</pre>
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 73</span>
 
 <span class='def def kw'>def</span> <span class='compress_css identifier id'>compress_css</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='css identifier id'>css</span> <span class='assign token'>=</span> <span class='concatenate_and_tag_assets identifier id'>concatenate_and_tag_assets</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='rparen token'>)</span>
@@ -601,7 +601,7 @@ referenced assets.</p>
 </p><div class="docstring">
   <div class="discussion">
     <p>Concatenate together a list of JavaScript paths, and pass them through the
-<span class="caps">YUI</span> Compressor (with munging enabled). <span class="caps">JST</span> can optionally be included.</p>
+<span class="caps">YUI</span> Compressor (with munging enabled).</p>
 
   </div>
 </div>
@@ -616,21 +616,13 @@ referenced assets.</p>
 65
 66
 67
-68
-69
-70
-71
-72</pre>
+68</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 65</span>
 
 <span class='def def kw'>def</span> <span class='compress_js identifier id'>compress_js</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
-  <span class='if if kw'>if</span> <span class='lparen token'>(</span><span class='jst_paths identifier id'>jst_paths</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='JST_EXT constant id'>JST_EXT</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
-    <span class='js identifier id'>js</span> <span class='assign token'>=</span> <span class='concatenate identifier id'>concatenate</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
-  <span class='else else kw'>else</span>
-    <span class='js identifier id'>js</span> <span class='assign token'>=</span> <span class='concatenate identifier id'>concatenate</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span> <span class='minus op'>-</span> <span class='jst_paths identifier id'>jst_paths</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='compile_jst identifier id'>compile_jst</span><span class='lparen token'>(</span><span class='jst_paths identifier id'>jst_paths</span><span class='rparen token'>)</span>
-  <span class='end end kw'>end</span>
+  <span class='js identifier id'>js</span> <span class='assign token'>=</span> <span class='concatenate identifier id'>concatenate</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
   <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='compress_assets identifier id'>compress_assets</span> <span class='integer val'>? </span><span class='@js_compressor ivar id'>@js_compressor</span><span class='dot token'>.</span><span class='compress identifier id'>compress</span><span class='lparen token'>(</span><span class='js identifier id'>js</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='js identifier id'>js</span>
 <span class='end end kw'>end</span>
 </pre>
@@ -661,14 +653,14 @@ not be relative, given the path of the stylesheet that contains it.</p>
       <pre class="lines">
 
 
-158
-159
-160
-161
-162</pre>
+154
+155
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 154</span>
 
 <span class='def def kw'>def</span> <span class='absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='asset_pathname identifier id'>asset_pathname</span><span class='comma token'>,</span> <span class='css_pathname identifier id'>css_pathname</span><span class='rparen token'>)</span>
   <span class='lparen token'>(</span><span class='asset_pathname identifier id'>asset_pathname</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span> <span class='integer val'>?
@@ -702,12 +694,12 @@ not be relative, given the path of the stylesheet that contains it.</p>
       <pre class="lines">
 
 
-195
-196
-197</pre>
+191
+192
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 195</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 191</span>
 
 <span class='def def kw'>def</span> <span class='concatenate identifier id'>concatenate</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
   <span class='lbrack token'>[</span><span class='paths identifier id'>paths</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
@@ -742,19 +734,19 @@ at it.</p>
       <pre class="lines">
 
 
+108
+109
+110
+111
 112
 113
 114
 115
 116
-117
-118
-119
-120
-121</pre>
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 108</span>
 
 <span class='def def kw'>def</span> <span class='concatenate_and_tag_assets identifier id'>concatenate_and_tag_assets</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='stylesheets identifier id'>stylesheets</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='paths identifier id'>paths</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='css_path identifier id'>css_path</span><span class='bitor op'>|</span>
@@ -796,18 +788,18 @@ be embedding assets that large in any case.</p>
       <pre class="lines">
 
 
+170
+171
+172
+173
 174
 175
 176
 177
-178
-179
-180
-181
-182</pre>
+178</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 170</span>
 
 <span class='def def kw'>def</span> <span class='embeddable? fid id'>embeddable?</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='rparen token'>)</span>
   <span class='font identifier id'>font</span> <span class='assign token'>=</span> <span class='EMBED_FONTS constant id'>EMBED_FONTS</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='dot token'>.</span><span class='extname identifier id'>extname</span><span class='rparen token'>)</span>
@@ -845,12 +837,12 @@ be embedding assets that large in any case.</p>
       <pre class="lines">
 
 
-185
-186
-187</pre>
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 181</span>
 
 <span class='def def kw'>def</span> <span class='encoded_contents identifier id'>encoded_contents</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='rparen token'>)</span>
   <span class='Base64 constant id'>Base64</span><span class='dot token'>.</span><span class='encode64 identifier id'>encode64</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
@@ -882,12 +874,12 @@ be embedding assets that large in any case.</p>
       <pre class="lines">
 
 
-190
-191
-192</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 186</span>
 
 <span class='def def kw'>def</span> <span class='mime_type identifier id'>mime_type</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='rparen token'>)</span>
   <span class='EMBED_MIME_TYPES constant id'>EMBED_MIME_TYPES</span><span class='lbrack token'>[</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='extname identifier id'>extname</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
@@ -920,12 +912,12 @@ embedded, must be rewritten relative to the newly-merged stylesheet path.</p>
       <pre class="lines">
 
 
-166
-167
-168</pre>
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 162</span>
 
 <span class='def def kw'>def</span> <span class='relative_path identifier id'>relative_path</span><span class='lparen token'>(</span><span class='absolute_path identifier id'>absolute_path</span><span class='rparen token'>)</span>
   <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'../'</span><span class='comma token'>,</span> <span class='absolute_path identifier id'>absolute_path</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='PUBLIC_ROOT constant id'>PUBLIC_ROOT</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -959,14 +951,14 @@ if relative.</p>
       <pre class="lines">
 
 
-150
-151
-152
-153
-154</pre>
+146
+147
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 146</span>
 
 <span class='def def kw'>def</span> <span class='rewrite_asset_path identifier id'>rewrite_asset_path</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='css_path identifier id'>css_path</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='rparen token'>)</span>
   <span class='public_path identifier id'>public_path</span> <span class='assign token'>=</span> <span class='absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='css_path identifier id'>css_path</span><span class='rparen token'>)</span>
@@ -1001,14 +993,14 @@ Data-<span class="caps">URI</span> Base-64 encoded asset contents.</p>
       <pre class="lines">
 
 
-125
-126
-127
-128
-129</pre>
+121
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 121</span>
 
 <span class='def def kw'>def</span> <span class='with_data_uris identifier id'>with_data_uris</span><span class='lparen token'>(</span><span class='css identifier id'>css</span><span class='rparen token'>)</span>
   <span class='css identifier id'>css</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='EMBED_REPLACER constant id'>EMBED_REPLACER</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='url identifier id'>url</span><span class='bitor op'>|</span>
@@ -1044,6 +1036,10 @@ your <span class="caps">MHTML</span> will look identical, but won&#8217;t work.<
       <pre class="lines">
 
 
+130
+131
+132
+133
 134
 135
 136
@@ -1051,14 +1047,10 @@ your <span class="caps">MHTML</span> will look identical, but won&#8217;t work.<
 138
 139
 140
-141
-142
-143
-144
-145</pre>
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 130</span>
 
 <span class='def def kw'>def</span> <span class='with_mhtml identifier id'>with_mhtml</span><span class='lparen token'>(</span><span class='css identifier id'>css</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='rparen token'>)</span>
   <span class='paths identifier id'>paths</span><span class='comma token'>,</span> <span class='index identifier id'>index</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>0</span>
@@ -1083,7 +1075,7 @@ your <span class="caps">MHTML</span> will look identical, but won&#8217;t work.<
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 26 17:16:36 2010 by 
+  Generated on Tue Jan 26 17:38:08 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.4.0 (ruby-1.8.7).
 </div>
