@@ -89,7 +89,11 @@
       both the CSS and JavaScript concatenation and compression
       that you'd expect, as well as <b>YUI Compressor</b> and <b>Closure Compiler</b> 
       compatibility, ahead-of-time gzipping, built-in JavaScript template
-      support, and optional <b>Data-URI / MHTML image embedding</b>.
+      support, and optional <b>Data-URI / MHTML image and font embedding</b>.
+    </p>
+    
+    <p>
+      <b>Current Version:</b> <a href="http://gemcutter.org/gems/jammit/">0.4.0</a>
     </p>
     
     <p>
@@ -105,7 +109,7 @@
       <a href="#compressors">YUI &amp; Closure</a> |
       <a href="#precaching">Precaching Assets</a> <br />
       <a href="#expires">Expires Headers</a> |
-      <a href="#embedding">Embedding Images</a> |
+      <a href="#embedding">Embedding Assets</a> |
       <a href="#jst">JavaScript Templates</a> |
       <a href="#changes">Changes</a>
     </p>
@@ -200,17 +204,6 @@ templates:
         </td>
       </tr>
       <tr>
-        <td><b>javascript_compressor</b></td>
-        <td><tt>yui&nbsp;|&nbsp;closure</tt></td>
-        <td class="definition">
-          Defaults to <b>yui</b>. As of <b>0.2.0</b>, the Jammit gem can use either the
-          <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>
-          or the 
-          <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
-          to compress your JavaScript.
-        </td>
-      </tr>
-      <tr>
         <td><b>embed_assets</b></td>
         <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;datauri</tt></td>
         <td class="definition">
@@ -228,6 +221,17 @@ templates:
           Defaults to <b>on</b>. When <b>off</b>, JavaScript and CSS packages 
           will be left uncompressed. Disabling compression is only recommended
           if you're packaging assets in development.
+        </td>
+      </tr>
+      <tr>
+        <td><b>javascript_compressor</b></td>
+        <td><tt>yui&nbsp;|&nbsp;closure</tt></td>
+        <td class="definition">
+          Defaults to <b>yui</b>. As of <b>0.2.0</b>, the Jammit gem can use either the
+          <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>
+          or the 
+          <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
+          to compress your JavaScript.
         </td>
       </tr>
       <tr>
@@ -449,7 +453,7 @@ ExpiresActive On
       the <tt>RAILS_ASSET_ID</tt> environment variable.
     </p>
 
-    <h2 id="embedding">Embedding Images</h2>
+    <h2 id="embedding">Embedding Images and Fonts</h2>
 
     <p>
       After you've finished concatenating and compressing your JavaScript and
@@ -582,6 +586,18 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.4.0</b><br />
+      Jammit is now able to embed <tt>@font-face</tt> web fonts in <b>TTF</b> and
+      <b>OTF</b> formats. The <b>embed_images</b> option has been renamed to 
+      <b>embed_assets</b> for this change. The <b>assets.yml</b> file is now 
+      passed through ERB before being loaded, so you can configure 
+      environment-specific settings, just like you would with <b>database.yml</b>. 
+      Finally, <a href="http://github.com/agibralter">Aaron Gibralter</a> 
+      committed a patch that allows you to add JST templates right into your 
+      JavaScript packages.
+    </p>
 
     <p>
       <b class="header">0.3.3</b><br />
