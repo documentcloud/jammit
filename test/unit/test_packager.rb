@@ -8,8 +8,6 @@ class PackagerTest < Test::Unit::TestCase
     assert urls == ['/fixtures/src/test1.css', '/fixtures/src/test2.css', '/fixtures/src/test_fonts.css']
     urls = Jammit.packager.individual_urls(:test, :js)
     assert urls == ['/fixtures/src/test1.js', '/fixtures/src/test2.js']
-    urls = Jammit.packager.individual_urls(:test2, :js)
-    assert urls == ['/fixtures/src/test1.js', '/fixtures/src/test2.js', '/assets/test2.jst']
   end
 
   def test_packaging_stylesheets
@@ -33,8 +31,6 @@ class PackagerTest < Test::Unit::TestCase
     jst = Jammit.packager.pack_templates(:test)
     Jammit.set_template_namespace('window.JST')
     assert jst == File.read('test/fixtures/jammed/test2.jst')
-    jst = Jammit.packager.pack_templates(:test2)
-    assert jst == File.read('test/fixtures/jammed/test.jst')
   end
 
   def test_package_caching

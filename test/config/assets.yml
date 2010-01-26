@@ -3,9 +3,6 @@ embed_assets: on
 javascripts:
   test:
     - fixtures/src/*.js
-  test2:
-    - fixtures/src/*.js
-    - fixtures/src/*.jst
 
 stylesheets:
   test:

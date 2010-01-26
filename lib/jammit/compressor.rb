@@ -63,11 +63,7 @@ module Jammit
     # Concatenate together a list of JavaScript paths, and pass them through the
     # YUI Compressor (with munging enabled).
     def compress_js(paths)
-      if (jst_paths = paths.grep(/.jst$/)).empty?
-        js = concatenate(paths)
-      else
-        js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
-      end
+      js = concatenate(paths)
       Jammit.compress_assets ? @js_compressor.compress(js) : js
     end
 
@@ -92,7 +88,7 @@ module Jammit
     # JST templates are named with the basename of their file.
     def compile_jst(paths)
       namespace = Jammit.template_namespace
-      compiled = paths.grep(/.jst$/).map do |path|
+      compiled = paths.map do |path|
         template_name = File.basename(path, File.extname(path))
         contents      = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
         "#{namespace}.#{template_name} = #{Jammit.template_function}('#{contents}');"
