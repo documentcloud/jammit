@@ -92,7 +92,11 @@ module Jammit
     # Look up a package asset list by name, raising an exception if the
     # package has gone missing.
     def package_for(package, extension)
-      pack = @packages[extension] && @packages[extension][package]
+      if extension == :jst
+        pack = @packages[extension] && @packages[extension][package] || @packages[:js] && @packages[:js][package]
+      else
+        pack = @packages[extension] && @packages[extension][package]
+      end
       pack || not_found(package, extension)
     end
 
@@ -126,7 +130,12 @@ module Jammit
         packages[name]         = {}
         paths                  = globs.map {|glob| glob_files(glob) }.flatten.uniq
         packages[name][:paths] = paths
-        packages[name][:urls]  = paths.map {|path| path.sub(PATH_TO_URL, '') }
+        if !paths.grep(/.js$/).empty? && !paths.grep(/.jst$/).empty?
+          packages[name][:urls] = paths.grep(/.js$/).map {|path| path.sub(PATH_TO_URL, '') }
+          packages[name][:urls] += [Jammit.asset_url(name, :jst)]
+        else
+          packages[name][:urls] = paths.map {|path| path.sub(PATH_TO_URL, '') }
+        end
       end
       packages
     end
