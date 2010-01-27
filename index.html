@@ -191,7 +191,9 @@ templates:
       <b>assets.yml</b> configuration file to customize the way Jammit behaves. 
       Here's an <a href="http://gist.github.com/237848">example configuration file</a>
       using all of the possible options. The meaning of the options and their 
-      default values are listed below:
+      default values are listed below. Don't be bewildered by the length of the
+      list &mdash; none of the options are required, they just give you fine-grained
+      control over how your packages are generated.
     </p>
 
     <table>
@@ -219,8 +221,18 @@ templates:
         <td><tt>on&nbsp;|&nbsp;off</tt></td>
         <td class="definition">
           Defaults to <b>on</b>. When <b>off</b>, JavaScript and CSS packages 
-          will be left uncompressed. Disabling compression is only recommended
+          will be left uncompressed (by YUI or Closure). Disabling compression is only recommended
           if you're packaging assets in development.
+        </td>
+      </tr>
+      <tr>
+        <td><b>gzip_assets</b></td>
+        <td><tt>on&nbsp;|&nbsp;off</tt></td>
+        <td class="definition">
+          Defaults to <b>on</b>. When <b>off</b>, only the plain version of the
+          asset will be written out, not the <tt>.gz</tt> alternative. Disable this
+          if you don't plan on configuring your webserver to serve the static
+          gzip alternatives.
         </td>
       </tr>
       <tr>

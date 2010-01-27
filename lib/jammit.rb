@@ -39,8 +39,9 @@ module Jammit
   class OutputNotWritable < StandardError; end
 
   class << self
-    attr_reader :configuration, :template_function, :template_namespace, :embed_assets, :package_path,
-                :package_assets, :compress_assets, :mhtml_enabled, :include_jst_script,
+    attr_reader :configuration, :template_function, :template_namespace,
+                :embed_assets, :package_assets, :compress_assets, :gzip_assets,
+                :package_path, :mhtml_enabled, :include_jst_script,
                 :javascript_compressor, :compressor_options, :css_compressor_options
   end
 
@@ -58,6 +59,7 @@ module Jammit
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_assets           = conf[:embed_assets] || conf[:embed_images]
     @compress_assets        = !(conf[:compress_assets] == false)
+    @gzip_assets            = !(conf[:gzip_assets] == false)
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
     @compressor_options     = (conf[:compressor_options] || {}).symbolize_keys
     @css_compressor_options = (conf[:css_compressor_options] || {}).symbolize_keys

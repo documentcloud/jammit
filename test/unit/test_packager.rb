@@ -51,6 +51,14 @@ class PackagerTest < Test::Unit::TestCase
     FileUtils.rm_r('test/precache')
   end
 
+  def test_precache_no_gzip
+    Jammit.load_configuration('test/config/assets-compression-disabled.yml').reload!
+    Jammit.packager.precache_all('test/precache', 'http://www.example.com')
+    assert PRECACHED_SOURCES == Dir['test/precache/*']
+    FileUtils.rm_r('test/precache')
+    Jammit.load_configuration('test/config/assets.yml').reload!
+  end
+
   def test_exceptions_for_unwritable_directories
     return unless File.exists?('text/fixtures/unwritable')
     assert_raises(OutputNotWritable) do

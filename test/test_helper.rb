@@ -25,6 +25,14 @@ class Test::Unit::TestCase
     test/precache/test.jst.gz
   )
 
+  PRECACHED_SOURCES = %w(
+    test/precache/test-datauri.css
+    test/precache/test-mhtml.css
+    test/precache/test.css
+    test/precache/test.js
+    test/precache/test.jst
+  )
+
   include Jammit
 
 end
