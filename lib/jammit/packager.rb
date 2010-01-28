@@ -100,9 +100,12 @@ module Jammit
     end
 
     # Absolute globs are absolute -- relative globs are relative to ASSET_ROOT.
+    # Print a warning if no files were found that match the glob.
     def glob_files(glob)
       absolute = Pathname.new(glob).absolute?
-      Dir[absolute ? glob : File.join(ASSET_ROOT, glob)].sort
+      paths = Dir[absolute ? glob : File.join(ASSET_ROOT, glob)].sort
+      Jammit.warn("No assets match '#{glob}'") if paths.empty?
+      paths
     end
 
     # Return a list of all of the packages that should be cached. If "force" is
