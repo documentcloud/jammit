@@ -10,13 +10,13 @@ module Jammit
 
   ASSET_ROOT            = File.expand_path(defined?(Rails) ? Rails.root : ".") unless defined?(ASSET_ROOT)
 
-  PUBLIC_ROOT           = "#{ASSET_ROOT}/public"
+  PUBLIC_ROOT           = File.join(ASSET_ROOT, 'public')
 
-  DEFAULT_CONFIG_PATH   = "#{ASSET_ROOT}/config/assets.yml"
+  DEFAULT_CONFIG_PATH   = File.join(ASSET_ROOT, 'config', 'assets.yml')
 
   DEFAULT_PACKAGE_PATH  = "assets"
 
-  DEFAULT_JST_SCRIPT    = "#{ROOT}/lib/jammit/jst.js"
+  DEFAULT_JST_SCRIPT    = File.join(ROOT, 'lib/jammit/jst.js')
 
   DEFAULT_JST_COMPILER  = "template"
 
