@@ -21,9 +21,9 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     Jammit.load_configuration('test/config/assets-no-java.yml')
     assert !Jammit.compress_assets
     @compressor = Compressor.new
-    packed = @compressor.compress_js(Dir['test/fixtures/src/test*.js'])
+    packed = @compressor.compress_js(glob('test/fixtures/src/test*.js'))
     assert packed == File.read('test/fixtures/jammed/test-uncompressed.js')
-    packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
+    packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
     assert packed == File.read('test/fixtures/jammed/test-uncompressed.css')
   end
 
@@ -32,39 +32,39 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     assert !Jammit.compress_assets
     assert !Jammit.gzip_assets
     @compressor = Compressor.new
-    packed = @compressor.compress_js(Dir['test/fixtures/src/test*.js'])
+    packed = @compressor.compress_js(glob('test/fixtures/src/test*.js'))
     assert packed == File.read('test/fixtures/jammed/test-uncompressed.js')
-    packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
+    packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
     assert packed == File.read('test/fixtures/jammed/test-uncompressed.css')
   end
 
   def test_css_compression
     assert Jammit.compress_assets
     assert Jammit.gzip_assets
-    packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
+    packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
     assert packed == File.read('test/fixtures/jammed/test.css')
   end
 
   def test_erb_configuration
     Jammit.load_configuration('test/config/assets-erb.yml')
     assert Jammit.compress_assets
-    packed = @compressor.compress_css(Dir['test/fixtures/src/*.css'])
+    packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
     assert packed == File.read('test/fixtures/jammed/test.css')
   end
 
   def test_css_configuration
     Jammit.load_configuration('test/config/assets-css.yml')
-    packed = Compressor.new.compress_css(Dir['test/fixtures/src/*.css'])
+    packed = Compressor.new.compress_css(glob('test/fixtures/src/*.css'))
     assert packed == File.read('test/fixtures/jammed/test-line-break.css')
   end
 
   def test_javascript_compression
-    packed = @compressor.compress_js(Dir['test/fixtures/src/test*.js'])
+    packed = @compressor.compress_js(glob('test/fixtures/src/test*.js'))
     assert packed == File.read('test/fixtures/jammed/test.js')
   end
 
   def test_jst_compilation
-    packed = @compressor.compile_jst(Dir['test/fixtures/src/test*.jst'])
+    packed = @compressor.compile_jst(glob('test/fixtures/src/test*.jst'))
     assert packed == File.read('test/fixtures/jammed/test.jst')
   end
 

@@ -12,6 +12,10 @@ gem 'rails'
 require 'initializer'
 Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH)
 
+def glob(g)
+  Dir.glob(g).sort
+end
+
 class Test::Unit::TestCase
 
   PRECACHED_FILES = %w(

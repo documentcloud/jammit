@@ -45,7 +45,7 @@ class PackagerTest < Test::Unit::TestCase
 
   def test_precache_all
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
-    assert PRECACHED_FILES == Dir['test/precache/*']
+    assert PRECACHED_FILES == glob('test/precache/*')
     assert Zlib::GzipReader.open('test/precache/test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/test-datauri.css')
     assert Zlib::GzipReader.open('test/precache/test.jst.gz') {|f| f.read } == File.read('test/fixtures/jammed/test.jst')
     FileUtils.rm_r('test/precache')
@@ -54,7 +54,7 @@ class PackagerTest < Test::Unit::TestCase
   def test_precache_no_gzip
     Jammit.load_configuration('test/config/assets-compression-disabled.yml').reload!
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
-    assert PRECACHED_SOURCES == Dir['test/precache/*']
+    assert PRECACHED_SOURCES == glob('test/precache/*')
     FileUtils.rm_r('test/precache')
     Jammit.load_configuration('test/config/assets.yml').reload!
   end
