@@ -1,7 +1,7 @@
 require 'logger'
 
 ASSET_ROOT = File.expand_path('test')
-devnull = RUBY_PLATFORM =~ /mswin32/ ? 'nul' : '/dev/null'
+devnull = RUBY_PLATFORM =~ /mswin|mingw|bccwin|wince|emx/ ? 'nul' : '/dev/null'
 RAILS_DEFAULT_LOGGER = Logger.new(devnull)
 RAILS_ENV = "test"
 RAILS_ROOT = File.expand_path('test')
