@@ -48,15 +48,23 @@ class PackagerTest < Test::Unit::TestCase
     assert PRECACHED_FILES == glob('test/precache/*')
     assert Zlib::GzipReader.open('test/precache/test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/test-datauri.css')
     assert Zlib::GzipReader.open('test/precache/test.jst.gz') {|f| f.read } == File.read('test/fixtures/jammed/test.jst')
-    FileUtils.rm_r('test/precache')
+  ensure
+    begin
+      FileUtils.rm_r('test/precache')
+    rescue Errno::ENOENT => e
+    end
   end
 
   def test_precache_no_gzip
     Jammit.load_configuration('test/config/assets-compression-disabled.yml').reload!
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
     assert PRECACHED_SOURCES == glob('test/precache/*')
-    FileUtils.rm_r('test/precache')
     Jammit.load_configuration('test/config/assets.yml').reload!
+  ensure
+    begin
+      FileUtils.rm_r('test/precache')
+    rescue Errno::ENOENT => e
+    end
   end
 
   def test_exceptions_for_unwritable_directories
