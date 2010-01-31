@@ -6,7 +6,6 @@ RAILS_DEFAULT_LOGGER = Logger.new(devnull)
 RAILS_ENV = "test"
 RAILS_ROOT = File.expand_path('test')
 
-require 'action_view'
 require 'lib/jammit'
 gem 'rails'
 require 'initializer'
