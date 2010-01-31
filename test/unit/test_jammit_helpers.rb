@@ -28,11 +28,11 @@ class JammitHelpersTest < ActionView::TestCase
   end
 
   def test_include_javascripts
-    assert include_javascripts(:test) == '<script src="/assets/test.js" type="text/javascript"></script>'
+    assert include_javascripts(:test) == '<script src="/assets/test.js?101" type="text/javascript"></script>'
   end
 
   def test_include_templates
-    assert include_templates(:test) == '<script src="/assets/test.jst" type="text/javascript"></script>'
+    assert include_templates(:test) == '<script src="/assets/test.jst?101" type="text/javascript"></script>'
   end
 
   def test_individual_assets_in_development_do

@@ -21,16 +21,16 @@
     margin-top: 45px;
   }
   #with_images {
-    background: url(../embed/asterisk_yellow.png);
+    background: url(../embed/asterisk_yellow.png?101);
   }
   #and_relative_paths {
-    background: url(../embed/asterisk_orange.png);
+    background: url(../embed/asterisk_orange.png?101);
   }
   #and_real_urls {
     background: url(http://example.com/image.png);
   }
 @font-face {
 	font-family: 'DroidSansMonoRegular';
-	src: url(../embed/DroidSansMono.eot);
-	src: local('Droid Sans Mono Regular'), local('DroidSansMono'), url(../embed/DroidSansMono.ttf) format('truetype');
+	src: url(../embed/DroidSansMono.eot?101);
+	src: local('Droid Sans Mono Regular'), local('DroidSansMono'), url(../embed/DroidSansMono.ttf?101) format('truetype');
 }
