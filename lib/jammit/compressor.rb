@@ -135,6 +135,7 @@ module Jammit
         i = paths[$1] ||= "#{index += 1}-#{File.basename($1)}"
         "url(mhtml:#{asset_url}!#{i})"
       end
+      paths = paths.sort
       mhtml = paths.map do |path, identifier|
         mime, contents = mime_type(path), encoded_contents(path)
         [MHTML_SEPARATOR, "Content-Location: #{identifier}\r\n", "Content-Type: #{mime}\r\n", "Content-Transfer-Encoding: base64\r\n\r\n", contents, "\r\n"]
