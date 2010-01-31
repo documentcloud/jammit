@@ -16,7 +16,7 @@ class PackagerTest < Test::Unit::TestCase
     css = Jammit.packager.pack_stylesheets(:test, :datauri)
     assert css == File.read('test/fixtures/jammed/test-datauri.css')
     css = Jammit.packager.pack_stylesheets(:test, :mhtml, 'http://www.example.com')
-    assert css == File.read('test/fixtures/jammed/test-mhtml.css')
+    assert css == File.open('test/fixtures/jammed/test-mhtml.css', 'rb') {|f| f.read }
   end
 
   def test_packaging_javascripts
@@ -37,8 +37,8 @@ class PackagerTest < Test::Unit::TestCase
     css = Jammit.packager.pack_stylesheets(:test, :mhtml, 'http://www.example.com')
     mtime = Time.now
     Jammit.packager.cache(:test, :css, css, 'test/public', :mhtml, mtime)
-    canonical = File.read('test/fixtures/jammed/test-mhtml.css')
-    assert File.read('test/public/test-mhtml.css') == canonical
+    canonical = File.open('test/fixtures/jammed/test-mhtml.css', 'rb') {|f| f.read }
+    assert File.open('test/public/test-mhtml.css', 'rb') {|f| f.read } == canonical
     assert Zlib::GzipReader.open('test/public/test-mhtml.css.gz') {|f| f.read } == canonical
     FileUtils.rm(['test/public/test-mhtml.css', 'test/public/test-mhtml.css.gz'])
   end

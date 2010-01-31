@@ -24,7 +24,7 @@ class WrongDirectoryTest < Test::Unit::TestCase
     css = Jammit.packager.pack_stylesheets(:test, :datauri)
     assert css == File.read("#{ASSET_ROOT}/fixtures/jammed/test-datauri.css")
     css = Jammit.packager.pack_stylesheets(:test, :mhtml, 'http://www.example.com')
-    assert css == File.read("#{ASSET_ROOT}/fixtures/jammed/test-mhtml.css")
+    assert css == File.open("#{ASSET_ROOT}/fixtures/jammed/test-mhtml.css", 'rb') {|f| f.read }
   end
 
   def test_packaging_javascripts
