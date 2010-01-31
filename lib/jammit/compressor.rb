@@ -7,6 +7,8 @@ module Jammit
   # all stylesheets, with all enabled assets inlined into the css.
   class Compressor
 
+    include ActionView::Helpers::AssetTagHelper
+
     # Mapping from extension to mime-type of all embeddable assets.
     EMBED_MIME_TYPES = {
       '.png'  => 'image/png',
@@ -110,7 +112,7 @@ module Jammit
         File.read(css_path).gsub(EMBED_DETECTOR) do |url|
           ipath, cpath = Pathname.new($1), Pathname.new(File.expand_path(css_path))
           is_url = URI.parse($1).absolute?
-          is_url ? url : "url(#{rewrite_asset_path(ipath, cpath, variant)})"
+          is_url ? url : "url(#{construct_asset_path(ipath, cpath, variant)})"
         end
       end
       stylesheets.join("\n")
@@ -143,10 +145,11 @@ module Jammit
     # Return a rewritten asset URL for a new stylesheet -- the asset should
     # be tagged for embedding if embeddable, and referenced at the correct level
     # if relative.
-    def rewrite_asset_path(asset_path, css_path, variant)
+    def construct_asset_path(asset_path, css_path, variant)
       public_path = absolute_path(asset_path, css_path)
       return "__EMBED__#{public_path}" if embeddable?(public_path, variant)
-      asset_path.absolute? ? asset_path.to_s : relative_path(public_path)
+      source = asset_path.absolute? ? asset_path.to_s : relative_path(public_path)
+      rewrite_asset_path(source)
     end
 
     # Get the site-absolute public path for an asset file path that may or may
