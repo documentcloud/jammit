@@ -12,6 +12,7 @@ class CommandLineTest < Test::Unit::TestCase
     assert PRECACHED_FILES == Dir['test/precache/*']
     assert Zlib::GzipReader.open('test/precache/test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/test-datauri.css')
     assert Zlib::GzipReader.open('test/precache/test.jst.gz') {|f| f.read } == File.read('test/fixtures/jammed/test.jst')
+    assert Zlib::GzipReader.open('test/precache/test2.js.gz') {|f| f.read } == File.read('test/fixtures/jammed/test2.js')
     FileUtils.rm_r('test/precache')
   end
 

@@ -26,6 +26,10 @@ module Jammit
 
   DEFAULT_COMPRESSOR    = :yui
 
+  # Extension matchers for JavaScript and JST, which need to be disambiguated.
+  JS_EXT                = /\.js\Z/
+  JST_EXT               = /\.jst\Z/
+
   # Jammit raises a @PackageNotFound@ exception when a non-existent package is
   # requested by a browser -- rendering a 404.
   class PackageNotFound < NameError; end
