@@ -10,7 +10,7 @@ module Jammit
 
   ASSET_ROOT            = File.expand_path(defined?(Rails) ? Rails.root : ".") unless defined?(ASSET_ROOT)
 
-  PUBLIC_ROOT           = File.join(ASSET_ROOT, 'public')
+  PUBLIC_ROOT           = defined?(Rails) ? Rails.public_path : File.join(ASSET_ROOT, 'public')
 
   DEFAULT_CONFIG_PATH   = File.join(ASSET_ROOT, 'config', 'assets.yml')
 

@@ -7,7 +7,8 @@ module Jammit
   class Packager
 
     # In Rails, the difference between a path and an asset URL is "public".
-    PATH_TO_URL = /\A#{Regexp.escape(ASSET_ROOT)}(\/?public)?/
+    PATH_DIFF   = PUBLIC_ROOT.sub(ASSET_ROOT, '')
+    PATH_TO_URL = /\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(PATH_DIFF)})?/
 
     # Set force to false to allow packages to only be rebuilt when their source
     # files have changed since the last time their package was built.
