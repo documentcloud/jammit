@@ -23,8 +23,8 @@ module Jammit
     EMBED_EXTS      = EMBED_MIME_TYPES.keys
     EMBED_FONTS     = ['.ttf', '.otf']
 
-    # Maximum size for embeddable images (an IE8 limitation).
-    MAX_IMAGE_SIZE  = 32.kilobytes
+    # 32k maximum size for embeddable images (an IE8 limitation).
+    MAX_IMAGE_SIZE  = 32768
 
     # CSS asset-embedding regexes for URL rewriting.
     EMBED_DETECTOR  = /url\(['"]?([^\s)]+\.[a-z]+)(\?\d+)?['"]?\)/
