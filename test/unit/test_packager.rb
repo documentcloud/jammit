@@ -16,7 +16,7 @@ class PackagerTest < Test::Unit::TestCase
     css = Jammit.packager.pack_stylesheets(:test, :datauri)
     assert css == File.read('test/fixtures/jammed/test-datauri.css')
     css = Jammit.packager.pack_stylesheets(:test, :mhtml, 'http://www.example.com')
-    assert css == File.read('test/fixtures/jammed/test-mhtml.css')
+    assert css == File.open('test/fixtures/jammed/test-mhtml.css', 'rb') {|f| f.read }
   end
 
   def test_packaging_javascripts
@@ -37,26 +37,34 @@ class PackagerTest < Test::Unit::TestCase
     css = Jammit.packager.pack_stylesheets(:test, :mhtml, 'http://www.example.com')
     mtime = Time.now
     Jammit.packager.cache(:test, :css, css, 'test/public', :mhtml, mtime)
-    canonical = File.read('test/fixtures/jammed/test-mhtml.css')
-    assert File.read('test/public/test-mhtml.css') == canonical
+    canonical = File.open('test/fixtures/jammed/test-mhtml.css', 'rb') {|f| f.read }
+    assert File.open('test/public/test-mhtml.css', 'rb') {|f| f.read } == canonical
     assert Zlib::GzipReader.open('test/public/test-mhtml.css.gz') {|f| f.read } == canonical
     FileUtils.rm(['test/public/test-mhtml.css', 'test/public/test-mhtml.css.gz'])
   end
 
   def test_precache_all
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
-    assert PRECACHED_FILES == Dir['test/precache/*']
+    assert PRECACHED_FILES == glob('test/precache/*')
     assert Zlib::GzipReader.open('test/precache/test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/test-datauri.css')
     assert Zlib::GzipReader.open('test/precache/test.jst.gz') {|f| f.read } == File.read('test/fixtures/jammed/test.jst')
-    FileUtils.rm_r('test/precache')
+  ensure
+    begin
+      FileUtils.rm_r('test/precache')
+    rescue Errno::ENOENT => e
+    end
   end
 
   def test_precache_no_gzip
     Jammit.load_configuration('test/config/assets-compression-disabled.yml').reload!
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
-    assert PRECACHED_SOURCES == Dir['test/precache/*']
-    FileUtils.rm_r('test/precache')
+    assert PRECACHED_SOURCES == glob('test/precache/*')
     Jammit.load_configuration('test/config/assets.yml').reload!
+  ensure
+    begin
+      FileUtils.rm_r('test/precache')
+    rescue Errno::ENOENT => e
+    end
   end
 
   def test_exceptions_for_unwritable_directories

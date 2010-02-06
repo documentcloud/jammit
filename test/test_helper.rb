@@ -1,14 +1,19 @@
 require 'logger'
 
 ASSET_ROOT = File.expand_path('test')
-RAILS_DEFAULT_LOGGER = Logger.new('/dev/null')
+devnull = RUBY_PLATFORM =~ /mswin|mingw|bccwin|wince|emx/ ? 'nul' : '/dev/null'
+RAILS_DEFAULT_LOGGER = Logger.new(devnull)
 RAILS_ENV = "test"
 RAILS_ROOT = File.expand_path('test')
+ENV["RAILS_ASSET_ID"] = "101"
 
 require 'lib/jammit'
-gem 'rails'
 require 'initializer'
 Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH)
+
+def glob(g)
+  Dir.glob(g).sort
+end
 
 class Test::Unit::TestCase
 

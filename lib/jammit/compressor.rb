@@ -23,8 +23,8 @@ module Jammit
     EMBED_EXTS      = EMBED_MIME_TYPES.keys
     EMBED_FONTS     = ['.ttf', '.otf']
 
-    # Maximum size for embeddable images (an IE8 limitation).
-    MAX_IMAGE_SIZE  = 32.kilobytes
+    # 32k maximum size for embeddable images (an IE8 limitation).
+    MAX_IMAGE_SIZE  = 32768
 
     # CSS asset-embedding regexes for URL rewriting.
     EMBED_DETECTOR  = /url\(['"]?([^\s)]+\.[a-z]+)(\?\d+)?['"]?\)/
@@ -110,7 +110,7 @@ module Jammit
         File.read(css_path).gsub(EMBED_DETECTOR) do |url|
           ipath, cpath = Pathname.new($1), Pathname.new(File.expand_path(css_path))
           is_url = URI.parse($1).absolute?
-          is_url ? url : "url(#{rewrite_asset_path(ipath, cpath, variant)})"
+          is_url ? url : "url(#{construct_asset_path(ipath, cpath, variant)})"
         end
       end
       stylesheets.join("\n")
@@ -133,7 +133,7 @@ module Jammit
         i = paths[$1] ||= "#{index += 1}-#{File.basename($1)}"
         "url(mhtml:#{asset_url}!#{i})"
       end
-      mhtml = paths.map do |path, identifier|
+      mhtml = paths.sort.map do |path, identifier|
         mime, contents = mime_type(path), encoded_contents(path)
         [MHTML_SEPARATOR, "Content-Location: #{identifier}\r\n", "Content-Type: #{mime}\r\n", "Content-Transfer-Encoding: base64\r\n\r\n", contents, "\r\n"]
       end
@@ -143,10 +143,11 @@ module Jammit
     # Return a rewritten asset URL for a new stylesheet -- the asset should
     # be tagged for embedding if embeddable, and referenced at the correct level
     # if relative.
-    def rewrite_asset_path(asset_path, css_path, variant)
+    def construct_asset_path(asset_path, css_path, variant)
       public_path = absolute_path(asset_path, css_path)
       return "__EMBED__#{public_path}" if embeddable?(public_path, variant)
-      asset_path.absolute? ? asset_path.to_s : relative_path(public_path)
+      source = asset_path.absolute? ? asset_path.to_s : relative_path(public_path)
+      rewrite_asset_path(source, public_path)
     end
 
     # Get the site-absolute public path for an asset file path that may or may
@@ -161,6 +162,21 @@ module Jammit
     # embedded, must be rewritten relative to the newly-merged stylesheet path.
     def relative_path(absolute_path)
       File.join('../', absolute_path.sub(PUBLIC_ROOT, ''))
+    end
+
+    # Similar to the AssetTagHelper's method of the same name, this will
+    # append the RAILS_ASSET_ID cache-buster to URLs, if it's defined.
+    def rewrite_asset_path(path, file_path)
+      asset_id = rails_asset_id(file_path)
+      asset_id.blank? ? path : "#{path}?#{asset_id}"
+    end
+
+    # Similar to the AssetTagHelper's method of the same name, this will
+    # determine the correct asset id for a file.
+    def rails_asset_id(path)
+      asset_id = ENV["RAILS_ASSET_ID"]
+      return asset_id if asset_id
+      File.exists?(path) ? File.mtime(path).to_i.to_s : ''
     end
 
     # An asset is valid for embedding if it exists, is less than 32K, and is
@@ -179,7 +195,8 @@ module Jammit
 
     # Return the Base64-encoded contents of an asset on a single line.
     def encoded_contents(asset_path)
-      Base64.encode64(File.read(asset_path)).gsub(/\n/, '')
+      data = File.open(asset_path, 'rb'){|f| f.read }
+      Base64.encode64(data).gsub(/\n/, '')
     end
 
     # Grab the mime-type of an asset, by filename.
