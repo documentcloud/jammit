@@ -79,10 +79,16 @@ with the correct timestamps.</p>
   
     <dl class="constants">
       
-        <dt id="PATH_TO_URL-constant ">PATH_TO_URL =
+        <dt id="PATH_DIFF-constant ">PATH_DIFF =
             <span class="summary_desc">In Rails, the difference between a path and an asset <span class="caps">URL</span> is &#8220;public&#8221;.</span>
         </dt>
-        <dd><pre class="code"><span class='dregexp node'>/\A#{Regexp.escape(ASSET_ROOT)}(\/public)?/</span>
+        <dd><pre class="code"><span class='PUBLIC_ROOT constant id'>PUBLIC_ROOT</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='ASSET_ROOT constant id'>ASSET_ROOT</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
+</pre></dd>
+      
+        <dt id="PATH_TO_URL-constant ">PATH_TO_URL =
+            <span class="summary_desc"></span>
+        </dt>
+        <dd><pre class="code"><span class='dregexp node'>/\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(PATH_DIFF)})?/</span>
 </pre></dd>
       
     </dl>
@@ -345,7 +351,6 @@ create a new Packager.</p>
       <pre class="lines">
 
 
-19
 20
 21
 22
@@ -358,10 +363,11 @@ create a new Packager.</p>
 29
 30
 31
-32</pre>
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 20</span>
 
 <span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span>
   <span class='@compressor ivar id'>@compressor</span> <span class='assign token'>=</span> <span class='Compressor constant id'>Compressor</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
@@ -413,12 +419,12 @@ files have changed since the last time their package was built.</p>
       <pre class="lines">
 
 
-14
 15
-16</pre>
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 15</span>
 
 <span class='def def kw'>def</span> <span class='force identifier id'>force</span>
   <span class='@force ivar id'>@force</span>
@@ -471,7 +477,6 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-59
 60
 61
 62
@@ -479,19 +484,26 @@ variants is identical, for web server caching modules, as well as <span class="c
 64
 65
 66
-67</pre>
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 60</span>
 
 <span class='def def kw'>def</span> <span class='cache identifier id'>cache</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='contents identifier id'>contents</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='comma token'>,</span> <span class='suffix identifier id'>suffix</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='assign token'>=</span><span class='Time constant id'>Time</span><span class='dot token'>.</span><span class='now identifier id'>now</span><span class='rparen token'>)</span>
   <span class='FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='mkdir_p identifier id'>mkdir_p</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='OutputNotWritable constant id'>OutputNotWritable</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Jammit doesn't have permission to write to \&quot;#{output_dir}\&quot;&quot;</span> <span class='unless unless_mod kw'>unless</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='writable? fid id'>writable?</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
-  <span class='filename identifier id'>filename</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='comma token'>,</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='filename identifier id'>filename</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='suffix identifier id'>suffix</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='zip_name identifier id'>zip_name</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{filename}.gz&quot;</span>
-  <span class='File constant id'>File</span><span class='dot token'>.</span><span class='open identifier id'>open</span><span class='lparen token'>(</span><span class='filename identifier id'>filename</span><span class='comma token'>,</span> <span class='string val'>'wb+'</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='f identifier id'>f</span><span class='bitor op'>|</span> <span class='f identifier id'>f</span><span class='dot token'>.</span><span class='write identifier id'>write</span><span class='lparen token'>(</span><span class='contents identifier id'>contents</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  <span class='Zlib constant id'>Zlib</span><span class='colon2 op'>::</span><span class='GzipWriter constant id'>GzipWriter</span><span class='dot token'>.</span><span class='open identifier id'>open</span><span class='lparen token'>(</span><span class='zip_name identifier id'>zip_name</span><span class='comma token'>,</span> <span class='Zlib constant id'>Zlib</span><span class='colon2 op'>::</span><span class='BEST_COMPRESSION constant id'>BEST_COMPRESSION</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='f identifier id'>f</span><span class='bitor op'>|</span> <span class='f identifier id'>f</span><span class='dot token'>.</span><span class='write identifier id'>write</span><span class='lparen token'>(</span><span class='contents identifier id'>contents</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  <span class='File constant id'>File</span><span class='dot token'>.</span><span class='utime identifier id'>utime</span><span class='lparen token'>(</span><span class='mtime identifier id'>mtime</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='comma token'>,</span> <span class='filename identifier id'>filename</span><span class='comma token'>,</span> <span class='zip_name identifier id'>zip_name</span><span class='rparen token'>)</span>
+  <span class='files identifier id'>files</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='files identifier id'>files</span> <span class='lshft op'>&lt;&lt;</span> <span class='file_name identifier id'>file_name</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='comma token'>,</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='filename identifier id'>filename</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='suffix identifier id'>suffix</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='File constant id'>File</span><span class='dot token'>.</span><span class='open identifier id'>open</span><span class='lparen token'>(</span><span class='file_name identifier id'>file_name</span><span class='comma token'>,</span> <span class='string val'>'wb+'</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='f identifier id'>f</span><span class='bitor op'>|</span> <span class='f identifier id'>f</span><span class='dot token'>.</span><span class='write identifier id'>write</span><span class='lparen token'>(</span><span class='contents identifier id'>contents</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='if if kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='gzip_assets identifier id'>gzip_assets</span>
+    <span class='files identifier id'>files</span> <span class='lshft op'>&lt;&lt;</span> <span class='zip_name identifier id'>zip_name</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{file_name}.gz&quot;</span>
+    <span class='Zlib constant id'>Zlib</span><span class='colon2 op'>::</span><span class='GzipWriter constant id'>GzipWriter</span><span class='dot token'>.</span><span class='open identifier id'>open</span><span class='lparen token'>(</span><span class='zip_name identifier id'>zip_name</span><span class='comma token'>,</span> <span class='Zlib constant id'>Zlib</span><span class='colon2 op'>::</span><span class='BEST_COMPRESSION constant id'>BEST_COMPRESSION</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='f identifier id'>f</span><span class='bitor op'>|</span> <span class='f identifier id'>f</span><span class='dot token'>.</span><span class='write identifier id'>write</span><span class='lparen token'>(</span><span class='contents identifier id'>contents</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='end end kw'>end</span>
+  <span class='File constant id'>File</span><span class='dot token'>.</span><span class='utime identifier id'>utime</span><span class='lparen token'>(</span><span class='mtime identifier id'>mtime</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='files identifier id'>files</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -520,12 +532,12 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-70
-71
-72</pre>
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 74</span>
 
 <span class='def def kw'>def</span> <span class='individual_urls identifier id'>individual_urls</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
   <span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span>
@@ -557,12 +569,12 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-80
-81
-82</pre>
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 84</span>
 
 <span class='def def kw'>def</span> <span class='pack_javascripts identifier id'>pack_javascripts</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='rparen token'>)</span>
   <span class='@compressor ivar id'>@compressor</span><span class='dot token'>.</span><span class='compress_js identifier id'>compress_js</span><span class='lparen token'>(</span><span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='symbol val'>:js</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -594,12 +606,12 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-75
-76
-77</pre>
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 79</span>
 
 <span class='def def kw'>def</span> <span class='pack_stylesheets identifier id'>pack_stylesheets</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='@compressor ivar id'>@compressor</span><span class='dot token'>.</span><span class='compress_css identifier id'>compress_css</span><span class='lparen token'>(</span><span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='rparen token'>)</span>
@@ -631,12 +643,12 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-85
-86
-87</pre>
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 89</span>
 
 <span class='def def kw'>def</span> <span class='pack_templates identifier id'>pack_templates</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='rparen token'>)</span>
   <span class='@compressor ivar id'>@compressor</span><span class='dot token'>.</span><span class='compile_jst identifier id'>compile_jst</span><span class='lparen token'>(</span><span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='symbol val'>:jst</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -672,7 +684,6 @@ changed since their last package build.</p>
       <pre class="lines">
 
 
-39
 40
 41
 42
@@ -687,10 +698,11 @@ changed since their last package build.</p>
 51
 52
 53
-54</pre>
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 40</span>
 
 <span class='def def kw'>def</span> <span class='precache_all identifier id'>precache_all</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='base_url identifier id'>base_url</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='output_dir identifier id'>output_dir</span> <span class='opasgn op'>||=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='PUBLIC_ROOT constant id'>PUBLIC_ROOT</span><span class='comma token'>,</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='package_path identifier id'>package_path</span><span class='rparen token'>)</span>
@@ -737,19 +749,19 @@ files have changed since the last package build.</p>
       <pre class="lines">
 
 
-108
-109
-110
-111
-112
-113
-114
 115
 116
-117</pre>
+117
+118
+119
+120
+121
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 115</span>
 
 <span class='def def kw'>def</span> <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
   <span class='names identifier id'>names</span> <span class='assign token'>=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='keys identifier id'>keys</span>
@@ -789,21 +801,21 @@ list of Dir.globs, taking the merged unique result.</p>
       <pre class="lines">
 
 
-121
-122
-123
-124
-125
-126
-127
 128
 129
 130
 131
-132</pre>
+132
+133
+134
+135
+136
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 128</span>
 
 <span class='def def kw'>def</span> <span class='create_packages identifier id'>create_packages</span><span class='lparen token'>(</span><span class='config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='packages identifier id'>packages</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -832,7 +844,8 @@ list of Dir.globs, taking the merged unique result.</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Absolute globs are absolute &#8212; relative globs are relative to ASSET_ROOT.</p>
+    <p>Absolute globs are absolute &#8212; relative globs are relative to ASSET_ROOT.
+Print a warning if no files were found that match the glob.</p>
 
   </div>
 </div>
@@ -844,17 +857,21 @@ list of Dir.globs, taking the merged unique result.</p>
       <pre class="lines">
 
 
-100
-101
-102
-103</pre>
+105
+106
+107
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 105</span>
 
 <span class='def def kw'>def</span> <span class='glob_files identifier id'>glob_files</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span>
   <span class='absolute identifier id'>absolute</span> <span class='assign token'>=</span> <span class='Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span>
-  <span class='Dir constant id'>Dir</span><span class='lbrack token'>[</span><span class='absolute identifier id'>absolute</span> <span class='integer val'>? </span><span class='glob identifier id'>glob</span> <span class='colon op'>:</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='ASSET_ROOT constant id'>ASSET_ROOT</span><span class='comma token'>,</span> <span class='glob identifier id'>glob</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='sort identifier id'>sort</span>
+  <span class='paths identifier id'>paths</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='lbrack token'>[</span><span class='absolute identifier id'>absolute</span> <span class='integer val'>? </span><span class='glob identifier id'>glob</span> <span class='colon op'>:</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='ASSET_ROOT constant id'>ASSET_ROOT</span><span class='comma token'>,</span> <span class='glob identifier id'>glob</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='sort identifier id'>sort</span>
+  <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;No assets match '#{glob}'&quot;</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='paths identifier id'>paths</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -896,12 +913,12 @@ list of Dir.globs, taking the merged unique result.</p>
       <pre class="lines">
 
 
-135
-136
-137</pre>
+142
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 142</span>
 
 <span class='def def kw'>def</span> <span class='not_found identifier id'>not_found</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='PackageNotFound constant id'>PackageNotFound</span><span class='comma token'>,</span> <span class='dstring node'>&quot;assets.yml does not contain a \&quot;#{package}\&quot; #{extension.to_s.upcase} package&quot;</span>
@@ -934,13 +951,13 @@ package has gone missing.</p>
       <pre class="lines">
 
 
-94
-95
-96
-97</pre>
+98
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 98</span>
 
 <span class='def def kw'>def</span> <span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
   <span class='pack identifier id'>pack</span> <span class='assign token'>=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='package identifier id'>package</span><span class='rbrack token'>]</span>
@@ -957,7 +974,7 @@ package has gone missing.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 26 17:38:10 2010 by 
+  Generated on Sat Feb  6 10:51:33 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.4.0 (ruby-1.8.7).
 </div>

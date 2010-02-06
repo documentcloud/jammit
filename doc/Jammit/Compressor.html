@@ -108,9 +108,9 @@ all stylesheets, with all enabled assets inlined into the css.</p>
 </pre></dd>
       
         <dt id="MAX_IMAGE_SIZE-constant ">MAX_IMAGE_SIZE =
-            <span class="summary_desc">Maximum size for embeddable images (an IE8 limitation).</span>
+            <span class="summary_desc">32k maximum size for embeddable images (an IE8 limitation).</span>
         </dt>
-        <dd><pre class="code"><span class='float val'>32</span><span class='dot token'>.</span><span class='kilobytes identifier id'>kilobytes</span>
+        <dd><pre class="code"><span class='integer val'>32768</span>
 </pre></dd>
       
         <dt id="EMBED_DETECTOR-constant ">EMBED_DETECTOR =
@@ -300,6 +300,23 @@ location of the original stylesheet path.</span>
 
     
       <li class="private ">
+  <span class="summary_signature"><a href="#construct_asset_path-instance_method" title="#construct_asset_path (instance method)">- (Object) <strong>construct_asset_path</strong>(asset_path, css_path, variant) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">Return a rewritten asset <span class="caps">URL</span> for a new stylesheet &#8212; the asset should
+be tagged for embedding if embeddable, and referenced at the correct level
+if relative.</span>
+  
+</li>
+
+    
+      <li class="private ">
   <span class="summary_signature"><a href="#embeddable%3F-instance_method" title="#embeddable? (instance method)">- (Object) <strong>embeddable?</strong>(asset_path, variant) </a>
   
   </span>
@@ -346,6 +363,22 @@ stored somewhere inside of a folder named &#8220;embed&#8221;.</span>
 
     
       <li class="private ">
+  <span class="summary_signature"><a href="#rails_asset_id-instance_method" title="#rails_asset_id (instance method)">- (Object) <strong>rails_asset_id</strong>(path) </a>
+  
+  </span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc">Similar to the AssetTagHelper&#8217;s method of the same name, this will
+determine the correct asset id for a file.</span>
+  
+</li>
+
+    
+      <li class="private ">
   <span class="summary_signature"><a href="#relative_path-instance_method" title="#relative_path (instance method)">- (Object) <strong>relative_path</strong>(absolute_path) </a>
   
   </span>
@@ -362,7 +395,7 @@ embedded, must be rewritten relative to the newly-merged stylesheet path.</span>
 
     
       <li class="private ">
-  <span class="summary_signature"><a href="#rewrite_asset_path-instance_method" title="#rewrite_asset_path (instance method)">- (Object) <strong>rewrite_asset_path</strong>(asset_path, css_path, variant) </a>
+  <span class="summary_signature"><a href="#rewrite_asset_path-instance_method" title="#rewrite_asset_path (instance method)">- (Object) <strong>rewrite_asset_path</strong>(path, file_path) </a>
   
   </span>
   
@@ -371,9 +404,8 @@ embedded, must be rewritten relative to the newly-merged stylesheet path.</span>
   
 
   
-    <span class="summary_desc">Return a rewritten asset <span class="caps">URL</span> for a new stylesheet &#8212; the asset should
-be tagged for embedding if embeddable, and referenced at the correct level
-if relative.</span>
+    <span class="summary_desc">Similar to the AssetTagHelper&#8217;s method of the same name, this will
+append the RAILS_ASSET_ID cache-buster to URLs, if it&#8217;s defined.</span>
   
 </li>
 
@@ -653,14 +685,14 @@ not be relative, given the path of the stylesheet that contains it.</p>
       <pre class="lines">
 
 
-154
 155
 156
 157
-158</pre>
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 155</span>
 
 <span class='def def kw'>def</span> <span class='absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='asset_pathname identifier id'>asset_pathname</span><span class='comma token'>,</span> <span class='css_pathname identifier id'>css_pathname</span><span class='rparen token'>)</span>
   <span class='lparen token'>(</span><span class='asset_pathname identifier id'>asset_pathname</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span> <span class='integer val'>?
@@ -694,12 +726,12 @@ not be relative, given the path of the stylesheet that contains it.</p>
       <pre class="lines">
 
 
-191
-192
-193</pre>
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 208</span>
 
 <span class='def def kw'>def</span> <span class='concatenate identifier id'>concatenate</span><span class='lparen token'>(</span><span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
   <span class='lbrack token'>[</span><span class='paths identifier id'>paths</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
@@ -753,10 +785,55 @@ at it.</p>
     <span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='css_path identifier id'>css_path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='EMBED_DETECTOR constant id'>EMBED_DETECTOR</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='url identifier id'>url</span><span class='bitor op'>|</span>
       <span class='ipath identifier id'>ipath</span><span class='comma token'>,</span> <span class='cpath identifier id'>cpath</span> <span class='assign token'>=</span> <span class='Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='$1 nth_ref id'>$1</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='css_path identifier id'>css_path</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
       <span class='is_url identifier id'>is_url</span> <span class='assign token'>=</span> <span class='URI constant id'>URI</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='$1 nth_ref id'>$1</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span>
-      <span class='is_url identifier id'>is_url</span> <span class='integer val'>? </span><span class='url identifier id'>url</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;url(#{rewrite_asset_path(ipath, cpath, variant)})&quot;</span>
+      <span class='is_url identifier id'>is_url</span> <span class='integer val'>? </span><span class='url identifier id'>url</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;url(#{construct_asset_path(ipath, cpath, variant)})&quot;</span>
     <span class='end end kw'>end</span>
   <span class='end end kw'>end</span>
   <span class='stylesheets identifier id'>stylesheets</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="construct_asset_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>construct_asset_path</strong>(asset_path, css_path, variant)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return a rewritten asset <span class="caps">URL</span> for a new stylesheet &#8212; the asset should
+be tagged for embedding if embeddable, and referenced at the correct level
+if relative.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 146</span>
+
+<span class='def def kw'>def</span> <span class='construct_asset_path identifier id'>construct_asset_path</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='css_path identifier id'>css_path</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='rparen token'>)</span>
+  <span class='public_path identifier id'>public_path</span> <span class='assign token'>=</span> <span class='absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='css_path identifier id'>css_path</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='dstring node'>&quot;__EMBED__#{public_path}&quot;</span> <span class='if if_mod kw'>if</span> <span class='embeddable? fid id'>embeddable?</span><span class='lparen token'>(</span><span class='public_path identifier id'>public_path</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='rparen token'>)</span>
+  <span class='source identifier id'>source</span> <span class='assign token'>=</span> <span class='asset_path identifier id'>asset_path</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span> <span class='integer val'>? </span><span class='asset_path identifier id'>asset_path</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='colon op'>:</span> <span class='relative_path identifier id'>relative_path</span><span class='lparen token'>(</span><span class='public_path identifier id'>public_path</span><span class='rparen token'>)</span>
+  <span class='rewrite_asset_path identifier id'>rewrite_asset_path</span><span class='lparen token'>(</span><span class='source identifier id'>source</span><span class='comma token'>,</span> <span class='public_path identifier id'>public_path</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -788,18 +865,18 @@ be embedding assets that large in any case.</p>
       <pre class="lines">
 
 
-170
-171
-172
-173
-174
-175
-176
-177
-178</pre>
+186
+187
+188
+189
+190
+191
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 186</span>
 
 <span class='def def kw'>def</span> <span class='embeddable? fid id'>embeddable?</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='rparen token'>)</span>
   <span class='font identifier id'>font</span> <span class='assign token'>=</span> <span class='EMBED_FONTS constant id'>EMBED_FONTS</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='dot token'>.</span><span class='extname identifier id'>extname</span><span class='rparen token'>)</span>
@@ -837,15 +914,17 @@ be embedding assets that large in any case.</p>
       <pre class="lines">
 
 
-181
-182
-183</pre>
+197
+198
+199
+200</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 197</span>
 
 <span class='def def kw'>def</span> <span class='encoded_contents identifier id'>encoded_contents</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='rparen token'>)</span>
-  <span class='Base64 constant id'>Base64</span><span class='dot token'>.</span><span class='encode64 identifier id'>encode64</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
+  <span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='open identifier id'>open</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='string val'>'rb'</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='f identifier id'>f</span><span class='bitor op'>|</span> <span class='f identifier id'>f</span><span class='dot token'>.</span><span class='read identifier id'>read</span> <span class='rbrace token'>}</span>
+  <span class='Base64 constant id'>Base64</span><span class='dot token'>.</span><span class='encode64 identifier id'>encode64</span><span class='lparen token'>(</span><span class='data identifier id'>data</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -874,15 +953,57 @@ be embedding assets that large in any case.</p>
       <pre class="lines">
 
 
-186
-187
-188</pre>
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 186</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 203</span>
 
 <span class='def def kw'>def</span> <span class='mime_type identifier id'>mime_type</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='rparen token'>)</span>
   <span class='EMBED_MIME_TYPES constant id'>EMBED_MIME_TYPES</span><span class='lbrack token'>[</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='extname identifier id'>extname</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="rails_asset_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rails_asset_id</strong>(path)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Similar to the AssetTagHelper&#8217;s method of the same name, this will
+determine the correct asset id for a file.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+176
+177
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 176</span>
+
+<span class='def def kw'>def</span> <span class='rails_asset_id identifier id'>rails_asset_id</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='asset_id identifier id'>asset_id</span> <span class='assign token'>=</span> <span class='ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&quot;RAILS_ASSET_ID&quot;</span><span class='rbrack token'>]</span>
+  <span class='return return kw'>return</span> <span class='asset_id identifier id'>asset_id</span> <span class='if if_mod kw'>if</span> <span class='asset_id identifier id'>asset_id</span>
+  <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='mtime identifier id'>mtime</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='colon op'>:</span> <span class='string val'>''</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -912,12 +1033,12 @@ embedded, must be rewritten relative to the newly-merged stylesheet path.</p>
       <pre class="lines">
 
 
-162
 163
-164</pre>
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 163</span>
 
 <span class='def def kw'>def</span> <span class='relative_path identifier id'>relative_path</span><span class='lparen token'>(</span><span class='absolute_path identifier id'>absolute_path</span><span class='rparen token'>)</span>
   <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'../'</span><span class='comma token'>,</span> <span class='absolute_path identifier id'>absolute_path</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='PUBLIC_ROOT constant id'>PUBLIC_ROOT</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -931,15 +1052,14 @@ embedded, must be rewritten relative to the newly-merged stylesheet path.</p>
       <div class="method_details ">
   <p class="signature " id="rewrite_asset_path-instance_method">
   
-    - (<tt>Object</tt>) <strong>rewrite_asset_path</strong>(asset_path, css_path, variant)  <span class="extras">(private)</span>
+    - (<tt>Object</tt>) <strong>rewrite_asset_path</strong>(path, file_path)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Return a rewritten asset <span class="caps">URL</span> for a new stylesheet &#8212; the asset should
-be tagged for embedding if embeddable, and referenced at the correct level
-if relative.</p>
+    <p>Similar to the AssetTagHelper&#8217;s method of the same name, this will
+append the RAILS_ASSET_ID cache-buster to URLs, if it&#8217;s defined.</p>
 
   </div>
 </div>
@@ -951,19 +1071,17 @@ if relative.</p>
       <pre class="lines">
 
 
-146
-147
-148
-149
-150</pre>
+169
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/compressor.rb', line 169</span>
 
-<span class='def def kw'>def</span> <span class='rewrite_asset_path identifier id'>rewrite_asset_path</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='css_path identifier id'>css_path</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='rparen token'>)</span>
-  <span class='public_path identifier id'>public_path</span> <span class='assign token'>=</span> <span class='absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='asset_path identifier id'>asset_path</span><span class='comma token'>,</span> <span class='css_path identifier id'>css_path</span><span class='rparen token'>)</span>
-  <span class='return return kw'>return</span> <span class='dstring node'>&quot;__EMBED__#{public_path}&quot;</span> <span class='if if_mod kw'>if</span> <span class='embeddable? fid id'>embeddable?</span><span class='lparen token'>(</span><span class='public_path identifier id'>public_path</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='rparen token'>)</span>
-  <span class='asset_path identifier id'>asset_path</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span> <span class='integer val'>? </span><span class='asset_path identifier id'>asset_path</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='colon op'>:</span> <span class='relative_path identifier id'>relative_path</span><span class='lparen token'>(</span><span class='public_path identifier id'>public_path</span><span class='rparen token'>)</span>
+<span class='def def kw'>def</span> <span class='rewrite_asset_path identifier id'>rewrite_asset_path</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='file_path identifier id'>file_path</span><span class='rparen token'>)</span>
+  <span class='asset_id identifier id'>asset_id</span> <span class='assign token'>=</span> <span class='rails_asset_id identifier id'>rails_asset_id</span><span class='lparen token'>(</span><span class='file_path identifier id'>file_path</span><span class='rparen token'>)</span>
+  <span class='asset_id identifier id'>asset_id</span><span class='dot token'>.</span><span class='blank? fid id'>blank?</span> <span class='integer val'>? </span><span class='path identifier id'>path</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;#{path}?#{asset_id}&quot;</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -1058,7 +1176,7 @@ your <span class="caps">MHTML</span> will look identical, but won&#8217;t work.<
     <span class='i identifier id'>i</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='lbrack token'>[</span><span class='$1 nth_ref id'>$1</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='dstring node'>&quot;#{index += 1}-#{File.basename($1)}&quot;</span>
     <span class='dstring node'>&quot;url(mhtml:#{asset_url}!#{i})&quot;</span>
   <span class='end end kw'>end</span>
-  <span class='mhtml identifier id'>mhtml</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='identifier identifier id'>identifier</span><span class='bitor op'>|</span>
+  <span class='mhtml identifier id'>mhtml</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='sort identifier id'>sort</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='identifier identifier id'>identifier</span><span class='bitor op'>|</span>
     <span class='mime identifier id'>mime</span><span class='comma token'>,</span> <span class='contents identifier id'>contents</span> <span class='assign token'>=</span> <span class='mime_type identifier id'>mime_type</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='encoded_contents identifier id'>encoded_contents</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
     <span class='lbrack token'>[</span><span class='MHTML_SEPARATOR constant id'>MHTML_SEPARATOR</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Content-Location: #{identifier}\r\n&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Content-Type: #{mime}\r\n&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Content-Transfer-Encoding: base64\r\n\r\n&quot;</span><span class='comma token'>,</span> <span class='contents identifier id'>contents</span><span class='comma token'>,</span> <span class='string val'>&quot;\r\n&quot;</span><span class='rbrack token'>]</span>
   <span class='end end kw'>end</span>
@@ -1075,7 +1193,7 @@ your <span class="caps">MHTML</span> will look identical, but won&#8217;t work.<
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 26 17:38:08 2010 by 
+  Generated on Sat Feb  6 10:51:32 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.4.0 (ruby-1.8.7).
 </div>
