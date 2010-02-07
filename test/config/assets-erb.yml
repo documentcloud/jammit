@@ -1,4 +1,4 @@
-embed_assets: <%= Rails.env.test? %>
+embed_assets: <%= RAILS_ENV == 'test' %>
 
 javascripts:
   test:
