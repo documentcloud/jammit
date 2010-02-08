@@ -1,5 +1,6 @@
 module Jammit
 
+  # Rails 2.x routing module.
   module Routes
 
     # Jammit uses a single route in order to slow down Rails' routing speed
@@ -13,4 +14,12 @@ module Jammit
 
   end
 
+end
+
+# Rails 3.x routes.
+if defined?(Jammit::Railtie)
+  Jammit::Railtie.routes do
+    match "/#{Jammit.package_path}/:package.:extension",
+      :to => 'jammit#package', :as => 'jammit'
+  end
 end

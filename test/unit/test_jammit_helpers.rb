@@ -15,6 +15,17 @@ class JammitHelpersTest < ActionView::TestCase
   include ActionView::Helpers::AssetTagHelper
   include Jammit::Helper
 
+  # Rails 3.0 compatibility.
+  if defined?(ActionController::Configuration)
+    include ActionController::Configuration
+    extend ActionController::Configuration::ClassMethods
+    def initialize(*args)
+      super
+      @config = ActiveSupport::OrderedOptions.new
+      @config.merge! ActionView::DEFAULT_CONFIG
+    end
+  end
+
   def test_include_stylesheets
     assert include_stylesheets(:test) == File.read('test/fixtures/tags/css_includes.html')
   end
