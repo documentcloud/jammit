@@ -1,12 +1,17 @@
 embed_assets: on
 
 javascripts:
-  test:
+  test: &js_test
     - fixtures/src/*.js
-
+  nested_test:
+    - *js_test
+    - fixtures/src/nested/*.js
 stylesheets:
-  test:
+  test: &css_test
     - fixtures/src/*.css
+  nested_test:
+    - *css_test
+    - fixtures/src/nested/*.css
 
 templates:
   test:

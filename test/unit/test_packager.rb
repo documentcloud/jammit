@@ -10,6 +10,13 @@ class PackagerTest < Test::Unit::TestCase
     assert urls == ['/fixtures/src/test1.js', '/fixtures/src/test2.js']
   end
 
+  def test_fetching_lists_of_nested_urls
+    urls = Jammit.packager.individual_urls(:nested_test, :css)
+    assert urls == ['/fixtures/src/test1.css', '/fixtures/src/test2.css', '/fixtures/src/test_fonts.css', '/fixtures/src/nested/nested1.css', '/fixtures/src/nested/nested2.css']
+    urls = Jammit.packager.individual_urls(:nested_test, :js)
+    assert urls == ['/fixtures/src/test1.js', '/fixtures/src/test2.js', '/fixtures/src/nested/nested1.js', '/fixtures/src/nested/nested2.js']
+  end
+
   def test_packaging_stylesheets
     css = Jammit.packager.pack_stylesheets(:test)
     assert css == File.read('test/fixtures/jammed/test.css')
