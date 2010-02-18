@@ -18,6 +18,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   end
 
   def test_loading_a_nonexistent_java
+    Jammit.instance_variable_set('@checked_java_version', false)
     Jammit.load_configuration('test/config/assets-no-java.yml')
     assert !Jammit.compress_assets
     @compressor = Compressor.new
