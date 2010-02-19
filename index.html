@@ -315,8 +315,7 @@ stylesheets:
 
     <pre>
 &lt;%= include_stylesheets :common, :workspace, :media => 'all' %&gt;
-&lt;%= include_javascripts :workspace %&gt;
-&lt;%= include_templates :everything %&gt;</pre>
+&lt;%= include_javascripts :workspace %&gt;</pre>
 
     <p>
       In development, no packaging is performed, so you'll see a list of individual
@@ -600,8 +599,8 @@ ExpiresActive On
 &lt;/div&gt;</pre>
 
     <p>
-      Including the asset package makes this template available to your
-      JavaScript as the <b>JST.license</b> function.
+      Including this template within a JavaScript asset package makes it 
+      available within the browser as the <b>JST.license</b> function.
     </p>
 
 <pre>
