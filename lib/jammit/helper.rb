@@ -34,7 +34,7 @@ module Jammit
     # Writes out the URL to the concatenated and compiled JST file -- we always
     # have to pre-process it, even in development.
     def include_templates(*packages)
-      javascript_include_tag(packages.map {|pack| Jammit.asset_url(pack, :jst) })
+      raise DeprecationError, "Jammit 0.5+ no longer supports separate packages for templates.\nYou can include your JST alongside your JS, and use include_javascripts."
     end
 
 

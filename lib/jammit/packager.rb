@@ -22,13 +22,11 @@ module Jammit
       @force = false
       @config = {
         :css => (Jammit.configuration[:stylesheets] || {}).symbolize_keys,
-        :js  => (Jammit.configuration[:javascripts] || {}).symbolize_keys,
-        :jst => (Jammit.configuration[:templates]   || {}).symbolize_keys
+        :js  => (Jammit.configuration[:javascripts] || {}).symbolize_keys
       }
       @packages = {
         :css => create_packages(@config[:css]),
-        :js  => create_packages(@config[:js]),
-        :jst => create_packages(@config[:jst])
+        :js  => create_packages(@config[:js])
       }
     end
 
@@ -40,7 +38,6 @@ module Jammit
     def precache_all(output_dir=nil, base_url=nil)
       output_dir ||= File.join(PUBLIC_ROOT, Jammit.package_path)
       cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
-      cacheable(:jst, output_dir).each {|p| cache(p, 'jst', pack_templates(p),  output_dir) }
       cacheable(:css, output_dir).each do |p|
         cache(p, 'css', pack_stylesheets(p), output_dir)
         if Jammit.embed_assets

@@ -36,14 +36,14 @@ class PackagerTest < Test::Unit::TestCase
   end
 
   def test_packaging_templates
-    jst = Jammit.packager.pack_templates(:test)
-    assert jst == File.read('test/fixtures/jammed/test.jst')
+    jst = Jammit.packager.pack_templates(:templates)
+    assert jst == File.read('test/fixtures/jammed/templates.jst')
     Jammit.set_template_namespace('custom_namespace')
-    jst = Jammit.packager.pack_templates(:test)
+    jst = Jammit.packager.pack_templates(:templates)
     Jammit.set_template_namespace('window.JST')
     assert jst == File.read('test/fixtures/jammed/test2.jst')
     jst = Jammit.packager.pack_templates(:test2)
-    assert jst == File.read('test/fixtures/jammed/test.jst')
+    assert jst == File.read('test/fixtures/jammed/templates.jst')
   end
 
   def test_package_caching
@@ -60,7 +60,6 @@ class PackagerTest < Test::Unit::TestCase
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
     assert PRECACHED_FILES == glob('test/precache/*')
     assert Zlib::GzipReader.open('test/precache/test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/test-datauri.css')
-    assert Zlib::GzipReader.open('test/precache/test.jst.gz') {|f| f.read } == File.read('test/fixtures/jammed/test.jst')
   ensure
     begin
       FileUtils.rm_r('test/precache')

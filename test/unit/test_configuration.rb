@@ -66,7 +66,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
 
   def test_jst_compilation
     packed = @compressor.compile_jst(glob('test/fixtures/src/test*.jst'))
-    assert packed == File.read('test/fixtures/jammed/test.jst')
+    assert packed == File.read('test/fixtures/jammed/templates.jst')
   end
 
 end

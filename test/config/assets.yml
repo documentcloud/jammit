@@ -9,6 +9,8 @@ javascripts:
   nested_test:
     - *js_test
     - fixtures/src/nested/*.js
+  templates:
+    - fixtures/src/*.jst
 
 stylesheets:
   test: &css_test
@@ -17,6 +19,3 @@ stylesheets:
     - *css_test
     - fixtures/src/nested/*.css
 
-templates:
-  test:
-    - fixtures/src/*.jst

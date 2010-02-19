@@ -3,6 +3,7 @@ require 'test_helper'
 class WrongDirectoryTest < Test::Unit::TestCase
 
   def setup
+    Jammit.load_configuration('test/config/assets.yml').reload!
     @original_dir ||= File.expand_path(Dir.pwd)
     Dir.chdir('/')
   end
@@ -33,8 +34,8 @@ class WrongDirectoryTest < Test::Unit::TestCase
   end
 
   def test_packaging_templates
-    jst = Jammit.packager.pack_templates(:test)
-    assert jst == File.read("#{ASSET_ROOT}/fixtures/jammed/test.jst")
+    jst = Jammit.packager.pack_templates(:templates)
+    assert jst == File.read("#{ASSET_ROOT}/fixtures/jammed/templates.jst")
   end
 
 end

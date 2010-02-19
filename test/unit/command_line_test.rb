@@ -11,7 +11,7 @@ class CommandLineTest < Test::Unit::TestCase
     system('bin/jammit -c test/config/assets.yml -o test/precache -u http://www.example.com')
     assert PRECACHED_FILES == glob('test/precache/*')
     assert Zlib::GzipReader.open('test/precache/test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/test-datauri.css')
-    assert Zlib::GzipReader.open('test/precache/test.jst.gz') {|f| f.read } == File.read('test/fixtures/jammed/test.jst')
+    assert Zlib::GzipReader.open('test/precache/templates.js.gz') {|f| f.read } == File.read('test/fixtures/jammed/templates.jst')
     assert Zlib::GzipReader.open('test/precache/test2.js.gz') {|f| f.read } == File.read('test/fixtures/jammed/test2.js')
     FileUtils.rm_r('test/precache')
   end

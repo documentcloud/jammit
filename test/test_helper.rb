@@ -25,6 +25,8 @@ class Test::Unit::TestCase
     test/precache/nested_test.css.gz
     test/precache/nested_test.js
     test/precache/nested_test.js.gz
+    test/precache/templates.js
+    test/precache/templates.js.gz
     test/precache/test-datauri.css
     test/precache/test-datauri.css.gz
     test/precache/test-mhtml.css
@@ -33,18 +35,16 @@ class Test::Unit::TestCase
     test/precache/test.css.gz
     test/precache/test.js
     test/precache/test.js.gz
-    test/precache/test.jst
-    test/precache/test.jst.gz
     test/precache/test2.js
     test/precache/test2.js.gz
   )
 
   PRECACHED_SOURCES = %w(
+    test/precache/templates.js
     test/precache/test-datauri.css
     test/precache/test-mhtml.css
     test/precache/test.css
     test/precache/test.js
-    test/precache/test.jst
   )
 
   include Jammit

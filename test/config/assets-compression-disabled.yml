@@ -6,11 +6,10 @@ embed_images: on
 javascripts:
   test:
     - fixtures/src/*.js
+  templates:
+    - fixtures/src/*.jst
 
 stylesheets:
   test:
     - fixtures/src/*.css
 
-templates:
-  test:
-    - fixtures/src/*.jst

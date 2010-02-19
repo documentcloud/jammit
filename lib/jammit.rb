@@ -42,6 +42,9 @@ module Jammit
   # cached packages is locked.
   class OutputNotWritable < StandardError; end
 
+  # Jammit raises a DeprecationError if you try to use an outdated feature.
+  class DeprecationError < StandardError; end
+
   class << self
     attr_reader :configuration, :template_function, :template_namespace,
                 :embed_assets, :package_assets, :compress_assets, :gzip_assets,
@@ -72,6 +75,7 @@ module Jammit
     set_template_function(conf[:template_function])
     set_template_namespace(conf[:template_namespace])
     check_java_version
+    check_for_deprecations
     self
   end
 
@@ -145,6 +149,11 @@ module Jammit
   def self.disable_compression
     @compress_assets = false
     warn("Asset compression disabled -- Java unavailable.")
+  end
+
+  # Jammit 0.5+ no longer supports separate template packages.
+  def self.check_for_deprecations
+    raise DeprecationError, "Jammit 0.5+ no longer supports separate packages for templates.\nPlease fold your templates into the appropriate 'javascripts' package instead." if @configuration[:templates]
   end
 
   def self.warn(message)
