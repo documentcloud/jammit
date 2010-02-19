@@ -97,6 +97,7 @@ module Jammit
     # package has gone missing.
     def package_for(package, extension)
       pack = @packages[extension] && @packages[extension][package]
+      pack ||= @packages[:js] && @packages[:js][package] if extension == :jst
       pack || not_found(package, extension)
     end
 
@@ -133,7 +134,12 @@ module Jammit
         packages[name]         = {}
         paths                  = globs.flatten.uniq.map {|glob| glob_files(glob) }.flatten.uniq
         packages[name][:paths] = paths
-        packages[name][:urls]  = paths.map {|path| path.sub(PATH_TO_URL, '') }
+        if !paths.grep(JS_EXT).empty? && !paths.grep(JST_EXT).empty?
+          packages[name][:urls] = paths.grep(JS_EXT).map {|path| path.sub(PATH_TO_URL, '') }
+          packages[name][:urls] += [Jammit.asset_url(name, :jst)]
+        else
+          packages[name][:urls] = paths.map {|path| path.sub(PATH_TO_URL, '') }
+        end
       end
       packages
     end

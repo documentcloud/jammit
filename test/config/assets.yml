@@ -3,6 +3,9 @@ embed_assets: on
 javascripts:
   test: &js_test
     - fixtures/src/*.js
+  test2:
+	- fixtures/src/*.js
+    - fixtures/src/*.jst
   nested_test:
     - *js_test
     - fixtures/src/nested/*.js
