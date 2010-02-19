@@ -17,6 +17,14 @@ end
 class Test::Unit::TestCase
 
   PRECACHED_FILES = %w(
+    test/precache/nested_test-datauri.css
+    test/precache/nested_test-datauri.css.gz
+    test/precache/nested_test-mhtml.css
+    test/precache/nested_test-mhtml.css.gz
+    test/precache/nested_test.css
+    test/precache/nested_test.css.gz
+    test/precache/nested_test.js
+    test/precache/nested_test.js.gz
     test/precache/test-datauri.css
     test/precache/test-datauri.css.gz
     test/precache/test-mhtml.css
