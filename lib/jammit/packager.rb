@@ -131,7 +131,7 @@ module Jammit
       config.each do |name, globs|
         globs                  ||= []
         packages[name]         = {}
-        paths                  = globs.map {|glob| glob_files(glob) }.flatten.uniq
+        paths                  = globs.flatten.uniq.map {|glob| glob_files(glob) }.flatten.uniq
         packages[name][:paths] = paths
         packages[name][:urls]  = paths.map {|path| path.sub(PATH_TO_URL, '') }
       end

@@ -1,0 +1,20 @@
+#another {
+  color: white;
+  background: blue;
+}
+  #css .file {
+    border: 1px solid red;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 45px;
+    margin-top: 45px;
+  }
+  #with_images {
+    background: url(../../public/embed/asterisk_yellow.png);
+  }
+  #and_relative_paths {
+    background: url(../../public/embed/asterisk_orange.png?1010101);
+  }
+  #and_real_urls {
+    background: url(http://example.com/image.png);
+  }
