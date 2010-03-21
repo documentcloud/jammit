@@ -6,12 +6,11 @@ require 'base64'
 require 'pathname'
 require 'fileutils'
 
+require 'yaml'
+
 # Gem Dependencies:
-require 'rubygems'
-gem     'rails', '~> 2.0'
 require 'yui/compressor'
 require 'closure-compiler'
-require 'active_support'
 require 'active_support/core_ext/hash'
 
 # Load initial configuration before the rest of Jammit.

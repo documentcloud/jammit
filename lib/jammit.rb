@@ -4,13 +4,13 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.4.4"
+  VERSION               = "0.5.0"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  ASSET_ROOT            = File.expand_path(defined?(Rails) ? Rails.root : ".") unless defined?(ASSET_ROOT)
+  ASSET_ROOT            = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ".") unless defined?(ASSET_ROOT)
 
-  PUBLIC_ROOT           = defined?(Rails) ? Rails.public_path : File.join(ASSET_ROOT, 'public')
+  PUBLIC_ROOT           = (defined?(Rails) && Rails.public_path.to_s.length > 0) ? Rails.public_path : File.join(ASSET_ROOT, 'public') unless defined?(PUBLIC_ROOT)
 
   DEFAULT_CONFIG_PATH   = File.join(ASSET_ROOT, 'config', 'assets.yml')
 
