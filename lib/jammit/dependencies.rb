@@ -22,7 +22,8 @@ require 'jammit/packager'
 
 # Jammit Rails Integration:
 if defined?(Rails)
-  require 'jammit/controller' # Rails will auto-load 'jammit/helper' for us.
+  require 'jammit/controller'
+  require 'jammit/helper'
   require 'jammit/railtie'
 end
 

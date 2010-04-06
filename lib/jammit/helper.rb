@@ -18,8 +18,8 @@ module Jammit
       options = packages.extract_options!
       return individual_stylesheets(packages, options) unless Jammit.package_assets
       disabled = (options.delete(:embed_assets) == false) || (options.delete(:embed_images) == false)
-      return packaged_stylesheets(packages, options) if disabled || !Jammit.embed_assets
-      return embedded_image_stylesheets(packages, options)
+      return html_safe_version(packaged_stylesheets(packages, options)) if disabled || !Jammit.embed_assets
+      return html_safe_version(embedded_image_stylesheets(packages, options))
     end
 
     # Writes out the URL to the bundled and compressed javascript package,
@@ -28,7 +28,7 @@ module Jammit
       tags = packages.map do |pack|
         Jammit.package_assets ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       end
-      javascript_include_tag(tags.flatten)
+      html_safe_version javascript_include_tag(tags.flatten)
     end
 
     # Writes out the URL to the concatenated and compiled JST file -- we always
@@ -39,6 +39,10 @@ module Jammit
 
 
     private
+
+    def html_safe_version(s)
+      s.respond_to?(:html_safe) ? s.html_safe : s
+    end
 
     # HTML tags, in order, for all of the individual stylesheets.
     def individual_stylesheets(packages, options)
