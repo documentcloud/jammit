@@ -2,6 +2,11 @@ require 'test_helper'
 require 'zlib'
 
 class PackagerTest < Test::Unit::TestCase
+  
+  def setup
+    Jammit.load_configuration('test/config/assets.yml').reload!
+    FileUtils.rm_rf('test/precache')
+  end
 
   def test_fetching_lists_of_individual_urls
     urls = Jammit.packager.individual_urls(:test, :css)
@@ -60,23 +65,24 @@ class PackagerTest < Test::Unit::TestCase
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
     assert PRECACHED_FILES == glob('test/precache/*')
     assert Zlib::GzipReader.open('test/precache/test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/test-datauri.css')
-  ensure
-    begin
-      FileUtils.rm_r('test/precache')
-    rescue Errno::ENOENT => e
-    end
   end
 
   def test_precache_no_gzip
     Jammit.load_configuration('test/config/assets-compression-disabled.yml').reload!
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
     assert PRECACHED_SOURCES == glob('test/precache/*')
-    Jammit.load_configuration('test/config/assets.yml').reload!
-  ensure
-    begin
-      FileUtils.rm_r('test/precache')
-    rescue Errno::ENOENT => e
-    end
+  end
+
+  def test_precache_regenerates_css_variants
+    Jammit.load_configuration('test/config/assets-compression-disabled.yml').reload!
+    Jammit.packager.precache_all('test/precache', 'http://www.example.com')
+    assert_equal PRECACHED_SOURCES, glob('test/precache/*')
+
+    File.unlink("test/precache/test-mhtml.css")
+    File.unlink("test/precache/test-datauri.css")
+    
+    Jammit.packager.precache_all('test/precache', 'http://www.example.com')
+    assert_equal PRECACHED_SOURCES, glob('test/precache/*')
   end
 
   def test_exceptions_for_unwritable_directories

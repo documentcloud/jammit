@@ -116,9 +116,15 @@ module Jammit
       config_mtime = File.mtime(Jammit.config_path)
       return names.select do |name|
         pack    = package_for(name, extension)
-        cached  = File.join(output_dir, Jammit.filename(name, extension))
-        since   = File.exists?(cached) && File.mtime(cached)
-        !since || config_mtime > since || pack[:paths].any? {|src| File.mtime(src) > since }
+        cached  = [File.join(output_dir, Jammit.filename(name, extension))]
+        cached += [File.join(output_dir, Jammit.filename(name, extension, :datauri)), File.join(output_dir, Jammit.filename(name, extension, :mhtml))] if Jammit.embed_assets
+        
+        if cached.find { |file| !File.exists?(file) }
+          true
+        else
+          since = cached.collect { |file| file.mtime }.min
+          config_mtime > since || pack[:paths].any? {|src| File.mtime(src) > since }
+        end
       end
     end
 
