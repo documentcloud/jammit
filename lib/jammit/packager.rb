@@ -113,11 +113,12 @@ module Jammit
     def cacheable(extension, output_dir)
       names = @packages[extension].keys
       return names if @force
+      config_mtime = File.mtime(Jammit.config_path)
       return names.select do |name|
         pack    = package_for(name, extension)
         cached  = File.join(output_dir, Jammit.filename(name, extension))
         since   = File.exists?(cached) && File.mtime(cached)
-        !since || pack[:paths].any? {|src| File.mtime(src) > since }
+        !since || config_mtime > since || pack[:paths].any? {|src| File.mtime(src) > since }
       end
     end
 

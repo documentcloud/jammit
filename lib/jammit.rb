@@ -48,7 +48,7 @@ module Jammit
   class << self
     attr_reader :configuration, :template_function, :template_namespace,
                 :embed_assets, :package_assets, :compress_assets, :gzip_assets,
-                :package_path, :mhtml_enabled, :include_jst_script,
+                :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                 :javascript_compressor, :compressor_options, :css_compressor_options
   end
 
