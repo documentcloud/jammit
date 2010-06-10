@@ -108,21 +108,22 @@ module Jammit
     end
 
     # Return a list of all of the packages that should be cached. If "force" is
-    # true, this is all of them -- otherwise only the packages whose source
-    # files have changed since the last package build.
+    # true, this is all of them -- otherwise only the packages that are missing
+    # or whose source files have changed since the last package build.
     def cacheable(extension, output_dir)
       names = @packages[extension].keys
       return names if @force
       config_mtime = File.mtime(Jammit.config_path)
       return names.select do |name|
-        pack    = package_for(name, extension)
-        cached  = [File.join(output_dir, Jammit.filename(name, extension))]
-        cached += [File.join(output_dir, Jammit.filename(name, extension, :datauri)), File.join(output_dir, Jammit.filename(name, extension, :mhtml))] if Jammit.embed_assets
-        
-        if cached.find { |file| !File.exists?(file) }
+        pack        = package_for(name, extension)
+        cached      = [Jammit.filename(name, extension)]
+        cached.push Jammit.filename(name, extension, :datauri) if Jammit.embed_assets
+        cached.push Jammit.filename(name, extension, :mhtml) if Jammit.mhtml_enabled
+        cached.map! {|file| File.join(output_dir, file) }
+        if cached.any? {|file| !File.exists?(file) }
           true
         else
-          since = cached.collect { |file| file.mtime }.min
+          since = cached.map {|file| file.mtime }.min
           config_mtime > since || pack[:paths].any? {|src| File.mtime(src) > since }
         end
       end
