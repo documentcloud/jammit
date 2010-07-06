@@ -32,8 +32,8 @@ module Jammit
     EMBED_REPLACER  = /url\(__EMBED__(.+?)(\?\d+)?\)/
 
     # MHTML file constants.
-    MHTML_START     = "/*\r\nContent-Type: multipart/related; boundary=\"JAMMIT_MHTML_SEPARATOR\"\r\n\r\n"
-    MHTML_SEPARATOR = "--JAMMIT_MHTML_SEPARATOR\r\n"
+    MHTML_START     = "/*\r\nContent-Type: multipart/related; boundary=\"MHTML_MARK\"\r\n\r\n"
+    MHTML_SEPARATOR = "--MHTML_MARK\r\n"
     MHTML_END       = "*/\r\n"
 
     # JST file constants.
