@@ -123,7 +123,7 @@ module Jammit
         if cached.any? {|file| !File.exists?(file) }
           true
         else
-          since = cached.map {|file| file.mtime }.min
+          since = cached.map {|file| File.mtime(file) }.min
           config_mtime > since || pack[:paths].any? {|src| File.mtime(src) > since }
         end
       end
