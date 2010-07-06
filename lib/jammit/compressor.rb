@@ -23,8 +23,8 @@ module Jammit
     EMBED_EXTS      = EMBED_MIME_TYPES.keys
     EMBED_FONTS     = ['.ttf', '.otf']
 
-    # 32k maximum size for embeddable images (an IE8 limitation).
-    MAX_IMAGE_SIZE  = 32768
+    # (32k - padding) maximum length for data-uri assets (an IE8 limitation).
+    MAX_IMAGE_SIZE  = 32700
 
     # CSS asset-embedding regexes for URL rewriting.
     EMBED_DETECTOR  = /url\(['"]?([^\s)]+\.[a-z]+)(\?\d+)?['"]?\)/
@@ -75,6 +75,7 @@ module Jammit
     # :datauri or :mhtml variant, post-processes the result to embed
     # referenced assets.
     def compress_css(paths, variant=nil, asset_url=nil)
+      @asset_contents = {}
       css = concatenate_and_tag_assets(paths, variant)
       css = @css_compressor.compress(css) if Jammit.compress_assets
       case variant
@@ -184,23 +185,23 @@ module Jammit
     end
 
     # An asset is valid for embedding if it exists, is less than 32K, and is
-    # stored somewhere inside of a folder named "embed".
-    # IE does not support Data-URIs larger than 32K, and you probably shouldn't
-    # be embedding assets that large in any case.
+    # stored somewhere inside of a folder named "embed". IE does not support
+    # Data-URIs larger than 32K, and you probably shouldn't be embedding assets
+    # that large in any case. Because we need to check the base64 length here,
+    # save it so that we don't have to compute it again later.
     def embeddable?(asset_path, variant)
       font = EMBED_FONTS.include?(asset_path.extname)
       return false unless variant
       return false unless asset_path.to_s.match(EMBEDDABLE) && asset_path.exist?
       return false unless EMBED_EXTS.include?(asset_path.extname)
-      return false unless font || asset_path.size < MAX_IMAGE_SIZE
+      return false unless font || encoded_contents(asset_path).length < MAX_IMAGE_SIZE
       return false if font && variant == :mhtml
-      true
+      return true
     end
 
     # Return the Base64-encoded contents of an asset on a single line.
     def encoded_contents(asset_path)
-      data = File.open(asset_path, 'rb'){|f| f.read }
-      Base64.encode64(data).gsub(/\n/, '')
+      @asset_contents[asset_path] ||= Base64.encode64(File.read(asset_path)).gsub(/\n/, '')
     end
 
     # Grab the mime-type of an asset, by filename.
