@@ -34,7 +34,7 @@ module Jammit
     # MHTML file constants.
     MHTML_START     = "/*\r\nContent-Type: multipart/related; boundary=\"MHTML_MARK\"\r\n\r\n"
     MHTML_SEPARATOR = "--MHTML_MARK\r\n"
-    MHTML_END       = "*/\r\n"
+    MHTML_END       = "\r\n--MHTML_MARK--\r\n*/\r\n"
 
     # JST file constants.
     JST_START       = "(function(){"

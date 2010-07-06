@@ -2,7 +2,7 @@ require 'test_helper'
 require 'zlib'
 
 class PackagerTest < Test::Unit::TestCase
-  
+
   def setup
     Jammit.load_configuration('test/config/assets.yml').reload!
     FileUtils.rm_rf('test/precache')
@@ -80,7 +80,7 @@ class PackagerTest < Test::Unit::TestCase
 
     File.unlink("test/precache/test-mhtml.css")
     File.unlink("test/precache/test-datauri.css")
-    
+
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
     assert_equal PRECACHED_SOURCES, glob('test/precache/*')
   end
