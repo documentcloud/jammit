@@ -93,7 +93,7 @@
     </p>
     
     <p>
-      <b>Current Version:</b> <a href="http://gemcutter.org/gems/jammit/">0.4.4</a>
+      <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.5.0</a>
     </p>
     
     <p>
@@ -618,6 +618,16 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
     </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.5.0</b><br />
+      The Jammit gem is now compatible with Rails 3. JST template packages are
+      no longer specified separately. This is a backwards-incompatible change,
+      and you'll have to update your <tt>assets.yml</tt> file to simply include 
+      the JST in your existing JavaScript packages, as shown above.
+      Bugfix for IE8 and Data-URIs slightly under 32kb in size, as well as 
+      for MHTML in IE7-mode in Vista.      
+    </p>
     
     <p>
       <b class="header">0.4.4</b><br />

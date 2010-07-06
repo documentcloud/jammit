@@ -25,5 +25,6 @@ if defined?(Rails)
   require 'jammit/controller'
   require 'jammit/helper'
   require 'jammit/railtie'
+  require 'jammit/routes'
 end
 
