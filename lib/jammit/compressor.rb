@@ -63,7 +63,7 @@ module Jammit
     # Concatenate together a list of JavaScript paths, and pass them through the
     # YUI Compressor (with munging enabled). JST can optionally be included.
     def compress_js(paths)
-      if (jst_paths = paths.grep(JST_EXT)).empty?
+      if (jst_paths = paths.grep(Jammit.template_extension_regexp)).empty?
         js = concatenate(paths)
       else
         js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
@@ -93,10 +93,19 @@ module Jammit
     # JST templates are named with the basename of their file.
     def compile_jst(paths)
       namespace = Jammit.template_namespace
-      compiled = paths.grep(JST_EXT).map do |path|
-        template_name = File.basename(path, File.extname(path))
-        contents      = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
-        "#{namespace}.#{template_name} = #{Jammit.template_function}('#{contents}');"
+      paths = paths.grep(Jammit.template_extension_regexp)
+      base_path = find_base_path(paths)
+      compiled = paths.map do |path|
+        contents = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
+        if base_path
+          # If there is a common base path for all the templates (as there
+          # usually will be), remove the common prefix.
+          template_name = path.gsub(/\A#{base_path}\/(.*)\.#{Jammit.template_extension}\Z/, '\1')
+        else
+          # Otherwise, just use the filename.
+          template_name = File.basename(path, ".#{Jammit.template_extension}")
+        end
+        "#{namespace}['#{template_name}'] = #{Jammit.template_function}('#{contents}');"
       end
       compiler = Jammit.include_jst_script ? File.read(DEFAULT_JST_SCRIPT) : '';
       setup_namespace = "#{namespace} = #{namespace} || {};"
@@ -105,6 +114,20 @@ module Jammit
 
 
     private
+
+    # Given a set of paths, find a common prefix path.
+    def find_base_path(paths)
+      return nil if paths.length <= 1
+      arr = paths.sort
+      f = arr.first.split('/')
+      l = arr.last.split('/')
+      i = 0
+      while f[i] == l[i] && i <= f.length
+        i += 1
+      end
+      res = f.slice(0, i).join('/')
+      res.empty? ? nil : res
+    end
 
     # In order to support embedded assets from relative paths, we need to
     # expand the paths before contatenating the CSS together and losing the

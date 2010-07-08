@@ -27,8 +27,8 @@ module Jammit
   DEFAULT_COMPRESSOR    = :yui
 
   # Extension matchers for JavaScript and JST, which need to be disambiguated.
-  JS_EXT                = /\.js\Z/
-  JST_EXT               = /\.jst\Z/
+  JS_EXTENSION          = /\.js\Z/
+  DEFAULT_JST_EXTENSION = "jst"
 
   # Jammit raises a @PackageNotFound@ exception when a non-existent package is
   # requested by a browser -- rendering a 404.
@@ -49,7 +49,8 @@ module Jammit
     attr_reader :configuration, :template_function, :template_namespace,
                 :embed_assets, :package_assets, :compress_assets, :gzip_assets,
                 :package_path, :mhtml_enabled, :include_jst_script, :config_path,
-                :javascript_compressor, :compressor_options, :css_compressor_options
+                :javascript_compressor, :compressor_options, :css_compressor_options,
+                :template_extension, :template_extension_regexp
   end
 
   # The minimal required configuration.
@@ -74,6 +75,7 @@ module Jammit
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
     set_template_namespace(conf[:template_namespace])
+    set_template_extension(conf[:template_extension])
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_java_version
@@ -132,6 +134,12 @@ module Jammit
   # Set the root JS object in which to stash all compiled JST.
   def self.set_template_namespace(value)
     @template_namespace = value == true || value.nil? ? DEFAULT_JST_NAMESPACE : value.to_s
+  end
+
+  # Set the extension for JS templates.
+  def self.set_template_extension(value)
+    @template_extension = (value == true || value.nil? ? DEFAULT_JST_EXTENSION : value.to_s).gsub(/\A\.?(.*)\Z/, '\1')
+    @template_extension_regexp = /\.#{Regexp.escape(@template_extension)}\Z/
   end
 
   # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.

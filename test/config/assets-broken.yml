@@ -4,12 +4,11 @@ package_assets: 42
 package_path:           /dev/null
 
 javascripts:
-  test:
+  js_test:
     - fixtures/src/*.js
-  templates:
+  jst_test:
     - fixtures/src/*.jst
 
 stylesheets:
-  test:
+  css_test:
     - fixtures/src/*.css
-

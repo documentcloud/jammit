@@ -4,12 +4,11 @@ gzip_assets: false
 embed_images: on
 
 javascripts:
-  test:
+  js_test:
     - fixtures/src/*.js
-  templates:
+  jst_test:
     - fixtures/src/*.jst
 
 stylesheets:
-  test:
+  css_test:
     - fixtures/src/*.css
-
