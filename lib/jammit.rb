@@ -62,18 +62,20 @@ module Jammit
     raise ConfigurationNotFound, "could not find the \"#{config_path}\" configuration file" unless exists
     conf = YAML.load(ERB.new(File.read(config_path)).result)
     @config_path            = config_path
-    @configuration          = conf = conf.symbolize_keys
+    @configuration          = symbolize_keys(conf)
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_assets           = conf[:embed_assets] || conf[:embed_images]
     @compress_assets        = !(conf[:compress_assets] == false)
     @gzip_assets            = !(conf[:gzip_assets] == false)
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
-    @compressor_options     = (conf[:compressor_options] || {}).symbolize_keys
-    @css_compressor_options = (conf[:css_compressor_options] || {}).symbolize_keys
+    @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
+    @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
     set_javascript_compressor(conf[:javascript_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
     set_template_namespace(conf[:template_namespace])
+    symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
+    symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_java_version
     check_for_deprecations
     self
@@ -161,6 +163,15 @@ module Jammit
     @logger ||= (defined?(Rails) && Rails.logger ? Rails.logger :
                  defined?(RAILS_DEFAULT_LOGGER) ? RAILS_DEFAULT_LOGGER : nil)
     @logger ? @logger.warn(message) : STDERR.puts(message)
+  end
+
+  # Clone of active_support's symbolize_keys, so that we don't have to depend
+  # on active_support in any fashion. Converts a hash's keys to all symbols.
+  def self.symbolize_keys(hash)
+    hash.keys.each do |key|
+      hash[(key.to_sym rescue key) || key] = hash.delete(key)
+    end
+    hash
   end
 
 end

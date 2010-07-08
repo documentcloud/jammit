@@ -2,16 +2,14 @@
 require 'uri'
 require 'erb'
 require 'zlib'
+require 'yaml'
 require 'base64'
 require 'pathname'
 require 'fileutils'
 
-require 'yaml'
-
 # Gem Dependencies:
 require 'yui/compressor'
 require 'closure-compiler'
-require 'active_support/core_ext'
 
 # Load initial configuration before the rest of Jammit.
 Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH) if defined?(Rails)

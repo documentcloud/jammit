@@ -21,8 +21,8 @@ module Jammit
       @compressor = Compressor.new
       @force = false
       @config = {
-        :css => (Jammit.configuration[:stylesheets] || {}).symbolize_keys,
-        :js  => (Jammit.configuration[:javascripts] || {}).symbolize_keys
+        :css => (Jammit.configuration[:stylesheets] || {}),
+        :js  => (Jammit.configuration[:javascripts] || {})
       }
       @packages = {
         :css => create_packages(@config[:css]),

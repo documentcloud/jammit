@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
                          '--main'     << 'README' <<
                          '--all'
 
-  s.add_dependency 'rails',             ['>= 2.0.0']
   s.add_dependency 'yui-compressor',    ['>= 0.9.1']
   s.add_dependency 'closure-compiler',  ['>= 0.1.0']
 
