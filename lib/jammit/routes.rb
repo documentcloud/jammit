@@ -8,8 +8,14 @@ module Jammit
     #   Jammit::Routes.draw(map)
     # Passing in the routing "map" object.
     def self.draw(map)
-      map.jammit "/#{Jammit.package_path}/:package.:extension",
-                 :controller => 'jammit', :action => 'package'
+      map.jammit "/#{Jammit.package_path}/:package.:extension", {
+        :controller => 'jammit',
+        :action => 'package',
+        :requirements => {
+          # A hack to allow extension to include "."
+          :extension => /.+/
+        }
+      }
     end
 
   end
