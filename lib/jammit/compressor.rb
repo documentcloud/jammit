@@ -63,7 +63,7 @@ module Jammit
     # Concatenate together a list of JavaScript paths, and pass them through the
     # YUI Compressor (with munging enabled). JST can optionally be included.
     def compress_js(paths)
-      if (jst_paths = paths.grep(Jammit.template_extension_regexp)).empty?
+      if (jst_paths = paths.grep(Jammit.template_extension_matcher)).empty?
         js = concatenate(paths)
       else
         js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
@@ -92,20 +92,13 @@ module Jammit
     # specified your own preferred function, or turned it off.
     # JST templates are named with the basename of their file.
     def compile_jst(paths)
-      namespace = Jammit.template_namespace
-      paths = paths.grep(Jammit.template_extension_regexp)
-      base_path = find_base_path(paths)
-      compiled = paths.map do |path|
-        contents = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
-        if base_path
-          # If there is a common base path for all the templates (as there
-          # usually will be), remove the common prefix.
-          template_name = path.gsub(/\A#{base_path}\/(.*)\.#{Jammit.template_extension}\Z/, '\1')
-        else
-          # Otherwise, just use the filename.
-          template_name = File.basename(path, ".#{Jammit.template_extension}")
-        end
-        "#{namespace}['#{template_name}'] = #{Jammit.template_function}('#{contents}');"
+      namespace   = Jammit.template_namespace
+      paths       = paths.grep(Jammit.template_extension_matcher).sort
+      base_path   = find_base_path(paths)
+      compiled    = paths.map do |path|
+        contents  = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
+        name      = template_name(path, base_path)
+        "#{namespace}['#{name}'] = #{Jammit.template_function}('#{contents}');"
       end
       compiler = Jammit.include_jst_script ? File.read(DEFAULT_JST_SCRIPT) : '';
       setup_namespace = "#{namespace} = #{namespace} || {};"
@@ -118,15 +111,22 @@ module Jammit
     # Given a set of paths, find a common prefix path.
     def find_base_path(paths)
       return nil if paths.length <= 1
-      arr = paths.sort
-      f = arr.first.split('/')
-      l = arr.last.split('/')
+      paths.sort!
+      first = paths.first.split('/')
+      last  = paths.last.split('/')
       i = 0
-      while f[i] == l[i] && i <= f.length
+      while first[i] == last[i] && i <= first.length
         i += 1
       end
-      res = f.slice(0, i).join('/')
+      res = first.slice(0, i).join('/')
       res.empty? ? nil : res
+    end
+
+    # Determine the name of a JS template. If there's a common base path, use
+    # the namespaced prefix. Otherwise, simply use the filename.
+    def template_name(path, base_path)
+      return File.basename(path, ".#{Jammit.template_extension}") unless base_path
+      path.gsub(/\A#{base_path}\/(.*)\.#{Jammit.template_extension}\Z/, '\1')
     end
 
     # In order to support embedded assets from relative paths, we need to
