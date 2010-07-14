@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Jammit::Controller</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -16,18 +16,24 @@
 
   </head>
   <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
     <div id="header">
       <div id="menu">
   
     <a href="../_index.html">Index (C)</a> &raquo; 
-    <a href="../Jammit.html" title="Jammit">Jammit</a>
+    <span class='title'><a href="../Jammit.html" title="Jammit (module)">Jammit</a></span>
      &raquo; 
     <span class="title">Controller</span>
   
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Namespace List</a>
+  <a id="class_list_link" href="#">Class List</a>
   <a id="method_list_link" href="#">Method List</a>
   <a id ="file_list_link" href="#">File List</a>
 </div>
@@ -37,7 +43,8 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="content"><h1>Class: Jammit::Controller 
+    <div id="content"><h1>Class: Jammit::Controller
+  
   
   
 </h1>
@@ -67,6 +74,7 @@
     
   
   
+  
     <dt class="r2 last">Defined in:</dt>
     <dd class="r2 last">lib/jammit/controller.rb</dd>
   
@@ -88,20 +96,20 @@ missing or uncached asset packages.</p>
   
     <dl class="constants">
       
-        <dt id="VALID_FORMATS-constant ">VALID_FORMATS =
-            <span class="summary_desc"></span>
+        <dt id="VALID_FORMATS-constant" class="">VALID_FORMATS =
+          
         </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:js</span><span class='comma token'>,</span> <span class='symbol val'>:jst</span><span class='rbrack token'>]</span>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:js</span><span class='rbrack token'>]</span>
 </pre></dd>
       
-        <dt id="SUFFIX_STRIPPER-constant ">SUFFIX_STRIPPER =
-            <span class="summary_desc"></span>
+        <dt id="SUFFIX_STRIPPER-constant" class="">SUFFIX_STRIPPER =
+          
         </dt>
         <dd><pre class="code"><span class='regexp val'>/-(datauri|mhtml)\Z/</span>
 </pre></dd>
       
-        <dt id="NOT_FOUND_PATH-constant ">NOT_FOUND_PATH =
-            <span class="summary_desc"></span>
+        <dt id="NOT_FOUND_PATH-constant" class="">NOT_FOUND_PATH =
+          
         </dt>
         <dd><pre class="code"><span class='dstring node'>&quot;#{PUBLIC_ROOT}/404.html&quot;</span>
 </pre></dd>
@@ -112,169 +120,158 @@ missing or uncached asset packages.</p>
 
   
 
-  <h2>Method Summary</h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature"><a href="#package-instance_method" title="#package (instance method)">- (Object) <strong>package</strong> </a>
   
-  </span>
-  
-  
-  
-  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
 
-  
-    <span class="summary_desc">The &#8220;package&#8221; action receives all requests for asset packages that haven&#8217;t
-yet been cached.</span>
-  
-</li>
+    <ul class="summary">
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#cache_package-instance_method" title="#cache_package (instance method)">- (Object) <strong>cache_package</strong> </a>
+    
 
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#cache_package-instance_method" title="#cache_package (instance method)">- (Object) <strong>cache_package</strong> </a>
-  
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Tells the Jammit::Packager to cache and gzip an asset package.</span>
+    <span class="summary_desc"><div class='inline'><p>Tells the Jammit::Packager to cache and gzip an asset package.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#generate_stylesheets-instance_method" title="#generate_stylesheets (instance method)">- (Object) <strong>generate_stylesheets</strong> </a>
-  
+      <a href="#generate_stylesheets-instance_method" title="#generate_stylesheets (instance method)">- (Object) <strong>generate_stylesheets</strong> </a>
+    
+
+    
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">If we&#8217;re generating <span class="caps">MHTML</span>/<span class="caps">CSS</span>, return a stylesheet with the absolute
+    <span class="summary_desc"><div class='inline'><p>If we&#8217;re generating <span class="caps">MHTML</span>/<span class="caps">CSS</span>, return a stylesheet with the absolute
 request <span class="caps">URL</span> to the client, and cache a version with the timestamped cache
-<span class="caps">URL</span> swapped in.</span>
+<span class="caps">URL</span> swapped in.</p></div></span>
   
 </li>
 
+      
+        <li class="public ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#package_not_found-instance_method" title="#package_not_found (instance method)">- (Object) <strong>package_not_found</strong> </a>
-  
+      <a href="#package-instance_method" title="#package (instance method)">- (Object) <strong>package</strong> </a>
+    
+
+    
   </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The &#8220;package&#8221; action receives all requests for asset packages that haven&#8217;t
+yet been cached.</p></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#package_not_found-instance_method" title="#package_not_found (instance method)">- (Object) <strong>package_not_found</strong> </a>
+    
+
+    
+  </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Render the 404 page, if one exists, for any packages that don&#8217;t.</span>
+    <span class="summary_desc"><div class='inline'><p>Render the 404 page, if one exists, for any packages that don&#8217;t.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#parse_request-instance_method" title="#parse_request (instance method)">- (Object) <strong>parse_request</strong> </a>
-  
+      <a href="#parse_request-instance_method" title="#parse_request (instance method)">- (Object) <strong>parse_request</strong> </a>
+    
+
+    
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Extracts the package name, extension (:css, :js, :jst), and variant
-(:datauri, :mhtml) from the incoming <span class="caps">URL</span>.</span>
+    <span class="summary_desc"><div class='inline'><p>Extracts the package name, extension (:css, :js), and variant (:datauri,
+:mhtml) from the incoming <span class="caps">URL</span>.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#prefix_url-instance_method" title="#prefix_url (instance method)">- (Object) <strong>prefix_url</strong>(path) </a>
-  
+      <a href="#prefix_url-instance_method" title="#prefix_url (instance method)">- (Object) <strong>prefix_url</strong>(path) </a>
+    
+
+    
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Generate the complete, timestamped, <span class="caps">MHTML</span> url &#8212; if we&#8217;re rendering a
+    <span class="summary_desc"><div class='inline'><p>Generate the complete, timestamped, <span class="caps">MHTML</span> url &#8212; if we&#8217;re rendering a
 dynamic <span class="caps">MHTML</span> package, we&#8217;ll need to put one <span class="caps">URL</span> in the response, and a
-different one into the cached package.</span>
+different one into the cached package.</p></div></span>
   
 </li>
 
-    
-  </ul>
+      
+    </ul>
+  
 
 
   
 
-  <div id="method_details">
-    <h2>Method Details</h2>
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
     
       <div class="method_details first">
-  <p class="signature first" id="package-instance_method">
-  
-    - (<tt>Object</tt>) <strong>package</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>The &#8220;package&#8221; action receives all requests for asset packages that haven&#8217;t
-yet been cached. The package will be built, cached, and gzipped.</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 16</span>
-
-<span class='def def kw'>def</span> <span class='package identifier id'>package</span>
-  <span class='parse_request identifier id'>parse_request</span>
-  <span class='case case kw'>case</span> <span class='@extension ivar id'>@extension</span>
-  <span class='when when kw'>when</span> <span class='symbol val'>:js</span>  <span class='then then kw'>then</span> <span class='render identifier id'>render</span> <span class='symbol val'>:js</span>   <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='@contents ivar id'>@contents</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='pack_javascripts identifier id'>pack_javascripts</span><span class='lparen token'>(</span><span class='@package ivar id'>@package</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='when when kw'>when</span> <span class='symbol val'>:css</span> <span class='then then kw'>then</span> <span class='render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='generate_stylesheets identifier id'>generate_stylesheets</span><span class='comma token'>,</span> <span class='symbol val'>:content_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text/css'</span>
-  <span class='when when kw'>when</span> <span class='symbol val'>:jst</span> <span class='then then kw'>then</span> <span class='render identifier id'>render</span> <span class='symbol val'>:js</span>   <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='@contents ivar id'>@contents</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='pack_templates identifier id'>pack_templates</span><span class='lparen token'>(</span><span class='@package ivar id'>@package</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='end end kw'>end</span>
-  <span class='cache_package identifier id'>cache_package</span> <span class='if if_mod kw'>if</span> <span class='perform_caching identifier id'>perform_caching</span>
-<span class='rescue rescue kw'>rescue</span> <span class='Jammit constant id'>Jammit</span><span class='colon2 op'>::</span><span class='PackageNotFound constant id'>PackageNotFound</span>
-  <span class='package_not_found identifier id'>package_not_found</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="cache_package-instance_method">
+  <p class="signature first" id="cache_package-instance_method">
   
     - (<tt>Object</tt>) <strong>cache_package</strong>  <span class="extras">(private)</span>
   
@@ -296,13 +293,13 @@ the timestamp that ends up in the <span class="caps">MHTML</span> is also on the
       <pre class="lines">
 
 
-34
-35
-36
-37</pre>
+37
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 37</span>
 
 <span class='def def kw'>def</span> <span class='cache_package identifier id'>cache_package</span>
   <span class='dir identifier id'>dir</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='page_cache_directory identifier id'>page_cache_directory</span><span class='comma token'>,</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='package_path identifier id'>package_path</span><span class='rparen token'>)</span>
@@ -337,18 +334,18 @@ request <span class="caps">URL</span> to the client, and cache a version with th
       <pre class="lines">
 
 
-50
-51
-52
 53
 54
 55
 56
 57
-58</pre>
+58
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 53</span>
 
 <span class='def def kw'>def</span> <span class='generate_stylesheets identifier id'>generate_stylesheets</span>
   <span class='return return kw'>return</span> <span class='@contents ivar id'>@contents</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='pack_stylesheets identifier id'>pack_stylesheets</span><span class='lparen token'>(</span><span class='@package ivar id'>@package</span><span class='comma token'>,</span> <span class='@variant ivar id'>@variant</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='@variant ivar id'>@variant</span> <span class='eq op'>==</span> <span class='symbol val'>:mhtml</span>
@@ -358,6 +355,66 @@ request <span class="caps">URL</span> to the client, and cache a version with th
   <span class='css identifier id'>css</span>         <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='pack_stylesheets identifier id'>pack_stylesheets</span><span class='lparen token'>(</span><span class='@package ivar id'>@package</span><span class='comma token'>,</span> <span class='@variant ivar id'>@variant</span><span class='comma token'>,</span> <span class='request_url identifier id'>request_url</span><span class='rparen token'>)</span>
   <span class='@contents ivar id'>@contents</span>   <span class='assign token'>=</span> <span class='css identifier id'>css</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='request_url identifier id'>request_url</span><span class='comma token'>,</span> <span class='cached_url identifier id'>cached_url</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='perform_caching identifier id'>perform_caching</span>
   <span class='css identifier id'>css</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="package-instance_method">
+  
+    - (<tt>Object</tt>) <strong>package</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The &#8220;package&#8221; action receives all requests for asset packages that haven&#8217;t
+yet been cached. The package will be built, cached, and gzipped.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 16</span>
+
+<span class='def def kw'>def</span> <span class='package identifier id'>package</span>
+  <span class='parse_request identifier id'>parse_request</span>
+  <span class='case case kw'>case</span> <span class='@extension ivar id'>@extension</span>
+  <span class='when when kw'>when</span> <span class='symbol val'>:js</span>
+    <span class='render identifier id'>render</span> <span class='symbol val'>:js</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='@contents ivar id'>@contents</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='pack_javascripts identifier id'>pack_javascripts</span><span class='lparen token'>(</span><span class='@package ivar id'>@package</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='when when kw'>when</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='template_extension identifier id'>template_extension</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
+    <span class='render identifier id'>render</span> <span class='symbol val'>:js</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='@contents ivar id'>@contents</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='pack_templates identifier id'>pack_templates</span><span class='lparen token'>(</span><span class='@package ivar id'>@package</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='when when kw'>when</span> <span class='symbol val'>:css</span>
+    <span class='render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='generate_stylesheets identifier id'>generate_stylesheets</span><span class='comma token'>,</span> <span class='symbol val'>:content_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text/css'</span>
+  <span class='end end kw'>end</span>
+  <span class='cache_package identifier id'>cache_package</span> <span class='if if_mod kw'>if</span> <span class='perform_caching identifier id'>perform_caching</span>
+<span class='rescue rescue kw'>rescue</span> <span class='Jammit constant id'>Jammit</span><span class='colon2 op'>::</span><span class='PackageNotFound constant id'>PackageNotFound</span>
+  <span class='package_not_found identifier id'>package_not_found</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -386,13 +443,13 @@ request <span class="caps">URL</span> to the client, and cache a version with th
       <pre class="lines">
 
 
-75
-76
-77
-78</pre>
+78
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 78</span>
 
 <span class='def def kw'>def</span> <span class='package_not_found identifier id'>package_not_found</span>
   <span class='return return kw'>return</span> <span class='render identifier id'>render</span><span class='lparen token'>(</span><span class='symbol val'>:file</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='NOT_FOUND_PATH constant id'>NOT_FOUND_PATH</span><span class='comma token'>,</span> <span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>404</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='NOT_FOUND_PATH constant id'>NOT_FOUND_PATH</span><span class='rparen token'>)</span>
@@ -413,8 +470,8 @@ request <span class="caps">URL</span> to the client, and cache a version with th
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Extracts the package name, extension (:css, :js, :jst), and variant
-(:datauri, :mhtml) from the incoming <span class="caps">URL</span>.</p>
+    <p>Extracts the package name, extension (:css, :js), and variant (:datauri,
+:mhtml) from the incoming <span class="caps">URL</span>.</p>
 
   </div>
 </div>
@@ -424,7 +481,7 @@ request <span class="caps">URL</span> to the client, and cache a version with th
   
     <li>
       
-        <span class='type'>(<tt><a href="PackageNotFound.html" title="PackageNotFound">PackageNotFound</a></tt>)</span>
+        <span class='type'>(<tt><a href="PackageNotFound.html" title="Jammit::PackageNotFound (class)">PackageNotFound</a></tt>)</span>
       
       
       
@@ -439,9 +496,6 @@ request <span class="caps">URL</span> to the client, and cache a version with th
       <pre class="lines">
 
 
-62
-63
-64
 65
 66
 67
@@ -449,15 +503,18 @@ request <span class="caps">URL</span> to the client, and cache a version with th
 69
 70
 71
-72</pre>
+72
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 65</span>
 
 <span class='def def kw'>def</span> <span class='parse_request identifier id'>parse_request</span>
   <span class='pack identifier id'>pack</span>       <span class='assign token'>=</span> <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:package</span><span class='rbrack token'>]</span>
   <span class='@extension ivar id'>@extension</span> <span class='assign token'>=</span> <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:extension</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
-  <span class='raise identifier id'>raise</span> <span class='PackageNotFound constant id'>PackageNotFound</span> <span class='unless unless_mod kw'>unless</span> <span class='VALID_FORMATS constant id'>VALID_FORMATS</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='@extension ivar id'>@extension</span><span class='rparen token'>)</span>
+  <span class='raise identifier id'>raise</span> <span class='PackageNotFound constant id'>PackageNotFound</span> <span class='unless unless_mod kw'>unless</span> <span class='lparen token'>(</span><span class='VALID_FORMATS constant id'>VALID_FORMATS</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='template_extension identifier id'>template_extension</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='@extension ivar id'>@extension</span><span class='rparen token'>)</span>
   <span class='if if kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span>
     <span class='suffix_match identifier id'>suffix_match</span> <span class='assign token'>=</span> <span class='pack identifier id'>pack</span><span class='dot token'>.</span><span class='match identifier id'>match</span><span class='lparen token'>(</span><span class='SUFFIX_STRIPPER constant id'>SUFFIX_STRIPPER</span><span class='rparen token'>)</span>
     <span class='@variant ivar id'>@variant</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span> <span class='andop op'>&amp;&amp;</span> <span class='suffix_match identifier id'>suffix_match</span> <span class='andop op'>&amp;&amp;</span> <span class='suffix_match identifier id'>suffix_match</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
@@ -494,13 +551,13 @@ different one into the cached package.</p>
       <pre class="lines">
 
 
-42
-43
-44
-45</pre>
+45
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/controller.rb', line 45</span>
 
 <span class='def def kw'>def</span> <span class='prefix_url identifier id'>prefix_url</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
   <span class='host identifier id'>host</span> <span class='assign token'>=</span> <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='port identifier id'>port</span> <span class='eq op'>==</span> <span class='integer val'>80</span> <span class='question op'>?</span> <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='host identifier id'>host</span> <span class='colon op'>:</span> <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='host_with_port identifier id'>host_with_port</span>
@@ -517,9 +574,9 @@ different one into the cached package.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Feb  6 10:51:33 2010 by 
+  Generated on Wed Jul 14 10:39:52 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
-  0.4.0 (ruby-1.8.7).
+  0.5.8 (ruby-1.8.7).
 </div>
 
   </body>

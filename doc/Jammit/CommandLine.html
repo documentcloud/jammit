@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Jammit::CommandLine</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -16,18 +16,24 @@
 
   </head>
   <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
     <div id="header">
       <div id="menu">
   
     <a href="../_index.html">Index (C)</a> &raquo; 
-    <a href="../Jammit.html" title="Jammit">Jammit</a>
+    <span class='title'><a href="../Jammit.html" title="Jammit (module)">Jammit</a></span>
      &raquo; 
     <span class="title">CommandLine</span>
   
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Namespace List</a>
+  <a id="class_list_link" href="#">Class List</a>
   <a id="method_list_link" href="#">Method List</a>
   <a id ="file_list_link" href="#">File List</a>
 </div>
@@ -37,7 +43,8 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="content"><h1>Class: Jammit::CommandLine 
+    <div id="content"><h1>Class: Jammit::CommandLine
+  
   
   
 </h1>
@@ -48,6 +55,14 @@
     <dd class="r1">
       <span class="inheritName">Object</span>
       
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Jammit::CommandLine</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
       </dd>
     
   
@@ -55,6 +70,7 @@
     
   
     
+  
   
   
     <dt class="r2 last">Defined in:</dt>
@@ -78,8 +94,8 @@ round of slow requests after a fresh deployment.</p>
   
     <dl class="constants">
       
-        <dt id="BANNER-constant ">BANNER =
-            <span class="summary_desc"></span>
+        <dt id="BANNER-constant" class="">BANNER =
+          
         </dt>
         <dd><pre class="code"><span class='string val'>&quot;\nUsage: jammit OPTIONS\n\nRun jammit inside a Rails application to compresses all JS, CSS,\nand JST according to config/assets.yml, saving the packaged\nfiles and corresponding gzipped versions.\n\nIf you're using \&quot;embed_assets\&quot;, and you wish to precompile the\nMHTML stylesheet variants, you must specify the \&quot;base-url\&quot;.\n\nOptions:\n&quot;</span>
 </pre></dd>
@@ -89,64 +105,90 @@ round of slow requests after a fresh deployment.</p>
 
 
 
-  <h2>Method Summary</h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature"><a href="#initialize-instance_method" title="#initialize (instance method)">- (CommandLine) <strong>initialize</strong> </a>
   
-  </span>
-  
-  
-  
-  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
 
-  
-    <span class="summary_desc">The <code>Jammit::CommandLine</code> runs from the contents of <code>ARGV</code>.</span>
-  
-</li>
+    <ul class="summary">
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#ensure_configuration_file-instance_method" title="#ensure_configuration_file (instance method)">- (Object) <strong>ensure_configuration_file</strong> </a>
+    
 
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#ensure_configuration_file-instance_method" title="#ensure_configuration_file (instance method)">- (Object) <strong>ensure_configuration_file</strong> </a>
-  
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Make sure that we have a readable configuration file.</span>
+    <span class="summary_desc"><div class='inline'><p>Make sure that we have a readable configuration file.</p></div></span>
   
 </li>
 
+      
+        <li class="public ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#parse_options-instance_method" title="#parse_options (instance method)">- (Object) <strong>parse_options</strong> </a>
-  
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (CommandLine) <strong>initialize</strong> </a>
+    
+
+    
   </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The <code>Jammit::CommandLine</code> runs from the contents of <code>ARGV</code>.</p></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_options-instance_method" title="#parse_options (instance method)">- (Object) <strong>parse_options</strong> </a>
+    
+
+    
+  </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Uses <code>OptionParser</code> to grab the options: <strong>&#8212;output</strong>, <strong>&#8212;config</strong>, and
-<strong>&#8212;base-url</strong>&#8230;</span>
+    <span class="summary_desc"><div class='inline'><p>Uses <code>OptionParser</code> to grab the options: <strong>&#8212;output</strong>, <strong>&#8212;config</strong>, and
+<strong>&#8212;base-url</strong>&#8230;</p></div></span>
   
 </li>
 
-    
-  </ul>
+      
+    </ul>
+  
 
-<div id="constructor_details">
+<div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><a href="" title="CommandLine">CommandLine</a></tt>) <strong>initialize</strong> 
+    - (<tt><a href="" title="Jammit::CommandLine (class)">CommandLine</a></tt>) <strong>initialize</strong> 
   
 
   
@@ -157,23 +199,7 @@ round of slow requests after a fresh deployment.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
   
-    <li>
-      
-        <span class='type'>(<tt><a href="" title="CommandLine">CommandLine</a></tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        a new instance of <ins>CommandLine</ins>
-      
-    </li>
-  
-</ul>
-
 </div><table class="source_code">
   <tr>
     <td>
@@ -207,8 +233,9 @@ round of slow requests after a fresh deployment.</p>
 </div>
 
 
-  <div id="method_details">
-    <h2>Method Details</h2>
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
     
       <div class="method_details first">
   <p class="signature first" id="ensure_configuration_file-instance_method">
@@ -347,9 +374,9 @@ command can&#8217;t run without one.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Feb  6 10:51:33 2010 by 
+  Generated on Wed Jul 14 10:39:50 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
-  0.4.0 (ruby-1.8.7).
+  0.5.8 (ruby-1.8.7).
 </div>
 
   </body>
