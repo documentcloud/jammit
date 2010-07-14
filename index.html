@@ -93,7 +93,7 @@
     </p>
     
     <p>
-      <b>Current Version:</b> <a href="http://gemcutter.org/gems/jammit/">0.4.4</a>
+      <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.5.0</a>
     </p>
     
     <p>
@@ -134,8 +134,9 @@
         <tt>config.gem "jammit"</tt>
       </li>
       <li>
-        Edit <b>config/routes.rb</b> to give Jammit a route
-        ( <b>/assets</b> by default) for dynamic asset packaging and caching:
+        If you're using <b>Rails 2</b>, edit <b>config/routes.rb</b> to give Jammit a route
+        ( <b>/assets</b> by default) for dynamic asset packaging and caching. 
+        In <b>Rails 3</b>, this route is loaded automatically.
         <br /><br />
 
 <pre>
@@ -172,6 +173,7 @@ javascripts:
     - public/javascripts/vendor/jquery.js
     - public/javascripts/lib/*.js
     - public/javascripts/views/**/*.js
+    - app/views/workspace/*.jst
 
 stylesheets:
   common:
@@ -180,11 +182,7 @@ stylesheets:
   workspace:
     - public/stylesheets/pages/workspace.css
   empty:
-    - public/stylesheets/pages/empty.css
-
-templates:
-  everything:
-    - app/views/jst/**/*.jst</pre>
+    - public/stylesheets/pages/empty.css</pre>
 
     <p>
       There are a number of extra configuration options that you may add to the
@@ -271,6 +269,15 @@ templates:
         </td>
       </tr>
       <tr>
+        <td><b>template_extension</b></td>
+        <td><tt>...</tt></td>
+        <td class="definition">
+          By default, Jammit treats files with a <tt>jst</tt> extension as
+          JavaScript templates. If you'd prefer to use a different extension, like
+          <tt>html.mustache</tt>, set the <b>template_extension</b> option.
+        </td>
+      </tr>
+      <tr>
         <td><b>package_path</b></td>
         <td><tt>...</tt></td>
         <td class="definition">
@@ -318,8 +325,7 @@ templates:
 
     <pre>
 &lt;%= include_stylesheets :common, :workspace, :media => 'all' %&gt;
-&lt;%= include_javascripts :workspace %&gt;
-&lt;%= include_templates :everything %&gt;</pre>
+&lt;%= include_javascripts :workspace %&gt;</pre>
 
     <p>
       In development, no packaging is performed, so you'll see a list of individual
@@ -577,20 +583,19 @@ ExpiresActive On
       you're probably using it to generate at least a little of your
       HTML. Traditionally, this has been accomplished by joining together strings
       and inserting them into the DOM. A far more agreeable way to generate HTML
-      on the client is to use JavaScript templates (<b>JST</b>). Think Rails
-      views and ERB, but with interpolated JavaScript instead.
+      on the client is to use JavaScript templates (referred to here as <b>JST</b>). 
     </p>
 
     <p>
       Jammit helps keep your JavaScript views organized alongside your Rails
-      views, bundling them together into packages, and providing them as functions
-      for your client-side code to evaluate. By default, Jammit uses a variant of
+      views, bundling them together into packages, and providing them pre-compiled
+      for your client-side code to evaluate. If left unspecified, Jammit uses a variant of
       <a href="http://ejohn.org/blog/javascript-micro-templating/">John Resig's Micro Templating</a>
-      to compile the templates, but you can use a JavaScript templating function
-      of your choosing by specifying a <b>template_function</b> in <b>assets.yml</b>.
-      Jammit will run all of your JST through the template function, and assign
-      it by filename to a top-level <b>JST</b> object. For example, the following
-      template, <b>app/views/jst/license.jst</b>:
+      to compile the templates, but you can choose your preferred JavaScript templating engine
+      of your choosing by setting the <b>template_function</b> in <b>assets.yml</b>.
+      Jammit will run all of your templates through the function, and assign
+      each one by filename to a top-level <b>JST</b> object. For example, the following
+      template, <b>app/views/drivers/license.jst</b>:
     </p>
 
 <pre>
@@ -603,13 +608,37 @@ ExpiresActive On
 &lt;/div&gt;</pre>
 
     <p>
-      Including the asset package makes this template available to your
-      JavaScript as the <b>JST.license</b> function.
+      Including this template within a JavaScript asset package makes it 
+      available within the browser as the <b>JST.license</b> function.
     </p>
 
 <pre>
-JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
-</pre>
+JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});</pre>
+
+    <p>
+      Since <b>0.5.0</b>, templates should be included in the appropriate 
+      <tt>javascripts</tt> package. Here's an example of an <tt>assets.yml</tt>
+      that uses templates, and shows the location at which they'll be available
+      on the client. When including templates from different directories, the 
+      common prefix is ignored, and the rest of the path becomes the name of the
+      template:
+    </p>
+    
+<pre>
+javascripts:
+  workspace:
+    - app/views/accounts/badge.jst
+    - app/views/common/dialog.jst
+    - app/views/common/menu.jst</pre>
+    
+    <p>
+      Then, from your JavaScript:
+    </p>
+
+<pre>
+JST['accounts/badge']
+JST['common/dialog']
+JST['common/menu']</pre>
 
     <p>
       To use <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>
@@ -620,8 +649,26 @@ JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});
       you'll need
       <a href="http://gist.github.com/234982">a little extra setup</a>.
     </p>
+      
+    <p>
+      The default extension for template files is <tt>jst</tt>,
+      but you can set <b>template_extension</b> in your <tt>assets.yml</tt> if you're
+      using an engine with a preferred extension, such as <tt>html.mustache</tt>
+    </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.5.0</b><br />
+      The Jammit gem is now compatible with Rails 3. JST template packages are
+      no longer specified separately. This is a backwards-incompatible change,
+      and you'll have to update your <tt>assets.yml</tt> file to simply include 
+      the JST in your existing JavaScript packages, as shown above. Alongside
+      this change, template names are now better namespaced &mdash; see the
+      section on <b>JavaScript Templates</b> for the details.
+      Bugfix for IE8 and Data-URIs slightly under 32kb in size, as well as 
+      for MHTML in IE7-mode in Vista.      
+    </p>
     
     <p>
       <b class="header">0.4.4</b><br />

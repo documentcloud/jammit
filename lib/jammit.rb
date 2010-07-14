@@ -4,13 +4,13 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.4.4"
+  VERSION               = "0.5.0"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  ASSET_ROOT            = File.expand_path(defined?(Rails) ? Rails.root : ".") unless defined?(ASSET_ROOT)
+  ASSET_ROOT            = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ".") unless defined?(ASSET_ROOT)
 
-  PUBLIC_ROOT           = defined?(Rails) ? Rails.public_path : File.join(ASSET_ROOT, 'public')
+  PUBLIC_ROOT           = (defined?(Rails) && Rails.public_path.to_s.length > 0) ? Rails.public_path : File.join(ASSET_ROOT, 'public') unless defined?(PUBLIC_ROOT)
 
   DEFAULT_CONFIG_PATH   = File.join(ASSET_ROOT, 'config', 'assets.yml')
 
@@ -26,6 +26,10 @@ module Jammit
 
   DEFAULT_COMPRESSOR    = :yui
 
+  # Extension matchers for JavaScript and JST, which need to be disambiguated.
+  JS_EXTENSION          = /\.js\Z/
+  DEFAULT_JST_EXTENSION = "jst"
+
   # Jammit raises a @PackageNotFound@ exception when a non-existent package is
   # requested by a browser -- rendering a 404.
   class PackageNotFound < NameError; end
@@ -38,11 +42,15 @@ module Jammit
   # cached packages is locked.
   class OutputNotWritable < StandardError; end
 
+  # Jammit raises a DeprecationError if you try to use an outdated feature.
+  class DeprecationError < StandardError; end
+
   class << self
     attr_reader :configuration, :template_function, :template_namespace,
                 :embed_assets, :package_assets, :compress_assets, :gzip_assets,
-                :package_path, :mhtml_enabled, :include_jst_script,
-                :javascript_compressor, :compressor_options, :css_compressor_options
+                :package_path, :mhtml_enabled, :include_jst_script, :config_path,
+                :javascript_compressor, :compressor_options, :css_compressor_options,
+                :template_extension, :template_extension_matcher
   end
 
   # The minimal required configuration.
@@ -55,19 +63,23 @@ module Jammit
     raise ConfigurationNotFound, "could not find the \"#{config_path}\" configuration file" unless exists
     conf = YAML.load(ERB.new(File.read(config_path)).result)
     @config_path            = config_path
-    @configuration          = conf = conf.symbolize_keys
+    @configuration          = symbolize_keys(conf)
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_assets           = conf[:embed_assets] || conf[:embed_images]
     @compress_assets        = !(conf[:compress_assets] == false)
     @gzip_assets            = !(conf[:gzip_assets] == false)
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
-    @compressor_options     = (conf[:compressor_options] || {}).symbolize_keys
-    @css_compressor_options = (conf[:css_compressor_options] || {}).symbolize_keys
+    @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
+    @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
     set_javascript_compressor(conf[:javascript_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
     set_template_namespace(conf[:template_namespace])
+    set_template_extension(conf[:template_extension])
+    symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
+    symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_java_version
+    check_for_deprecations
     self
   end
 
@@ -124,14 +136,22 @@ module Jammit
     @template_namespace = value == true || value.nil? ? DEFAULT_JST_NAMESPACE : value.to_s
   end
 
+  # Set the extension for JS templates.
+  def self.set_template_extension(value)
+    @template_extension = (value == true || value.nil? ? DEFAULT_JST_EXTENSION : value.to_s).gsub(/\A\.?(.*)\Z/, '\1')
+    @template_extension_matcher = /\.#{Regexp.escape(@template_extension)}\Z/
+  end
+
   # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.
   def self.check_java_version
+    return true if @checked_java_version
     java = @compressor_options[:java] || 'java'
     @css_compressor_options[:java] ||= java if @compressor_options[:java]
     version = (`#{java} -version 2>&1`)[/\d+\.\d+/]
     disable_compression if !version ||
       (@javascript_compressor == :closure && version < '1.6') ||
       (@javascript_compressor == :yui && version < '1.4')
+    @checked_java_version = true
   end
 
   # If we don't have a working Java VM, then disable asset compression and
@@ -141,11 +161,25 @@ module Jammit
     warn("Asset compression disabled -- Java unavailable.")
   end
 
+  # Jammit 0.5+ no longer supports separate template packages.
+  def self.check_for_deprecations
+    raise DeprecationError, "Jammit 0.5+ no longer supports separate packages for templates.\nPlease fold your templates into the appropriate 'javascripts' package instead." if @configuration[:templates]
+  end
+
   def self.warn(message)
     message = "Jammit Warning: #{message}"
     @logger ||= (defined?(Rails) && Rails.logger ? Rails.logger :
                  defined?(RAILS_DEFAULT_LOGGER) ? RAILS_DEFAULT_LOGGER : nil)
     @logger ? @logger.warn(message) : STDERR.puts(message)
+  end
+
+  # Clone of active_support's symbolize_keys, so that we don't have to depend
+  # on active_support in any fashion. Converts a hash's keys to all symbols.
+  def self.symbolize_keys(hash)
+    hash.keys.each do |key|
+      hash[(key.to_sym rescue key) || key] = hash.delete(key)
+    end
+    hash
   end
 
 end

@@ -1,13 +1,11 @@
-embed_assets: <%= Rails.env.test? %>
+embed_assets: <%= RAILS_ENV == 'test' %>
 
 javascripts:
-  test:
+  js_test:
     - fixtures/src/*.js
+  jst_test:
+    - fixtures/src/*.jst
 
 stylesheets:
-  test:
+  css_test:
     - fixtures/src/*.css
-
-templates:
-  test:
-    - fixtures/src/*.jst

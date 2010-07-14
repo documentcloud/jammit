@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Jammit::Packager</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -16,18 +16,24 @@
 
   </head>
   <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
     <div id="header">
       <div id="menu">
   
     <a href="../_index.html">Index (P)</a> &raquo; 
-    <a href="../Jammit.html" title="Jammit">Jammit</a>
+    <span class='title'><a href="../Jammit.html" title="Jammit (module)">Jammit</a></span>
      &raquo; 
     <span class="title">Packager</span>
   
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Namespace List</a>
+  <a id="class_list_link" href="#">Class List</a>
   <a id="method_list_link" href="#">Method List</a>
   <a id ="file_list_link" href="#">File List</a>
 </div>
@@ -37,7 +43,8 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="content"><h1>Class: Jammit::Packager 
+    <div id="content"><h1>Class: Jammit::Packager
+  
   
   
 </h1>
@@ -48,6 +55,14 @@
     <dd class="r1">
       <span class="inheritName">Object</span>
       
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Jammit::Packager</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
       </dd>
     
   
@@ -55,6 +70,7 @@
     
   
     
+  
   
   
     <dt class="r2 last">Defined in:</dt>
@@ -79,14 +95,22 @@ with the correct timestamps.</p>
   
     <dl class="constants">
       
-        <dt id="PATH_DIFF-constant ">PATH_DIFF =
-            <span class="summary_desc">In Rails, the difference between a path and an asset <span class="caps">URL</span> is &#8220;public&#8221;.</span>
+        <dt id="PATH_DIFF-constant" class="">PATH_DIFF =
+          <div class="docstring">
+  <div class="discussion">
+    <p>In Rails, the difference between a path and an asset <span class="caps">URL</span> is &#8220;public&#8221;.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
         </dt>
         <dd><pre class="code"><span class='PUBLIC_ROOT constant id'>PUBLIC_ROOT</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='ASSET_ROOT constant id'>ASSET_ROOT</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
 </pre></dd>
       
-        <dt id="PATH_TO_URL-constant ">PATH_TO_URL =
-            <span class="summary_desc"></span>
+        <dt id="PATH_TO_URL-constant" class="">PATH_TO_URL =
+          
         </dt>
         <dd><pre class="code"><span class='dregexp node'>/\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(PATH_DIFF)})?/</span>
 </pre></dd>
@@ -95,24 +119,30 @@ with the correct timestamps.</p>
   
 
 
-  <h2>Attribute Summary</h2>
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
-  <span class="summary_signature"><a href="#force-instance_method" title="#force (instance method)">- (Object) <strong>force</strong> </a>
-  
+  <span class="summary_signature">
+    
+      <a href="#force-instance_method" title="#force (instance method)">- (Object) <strong>force</strong> </a>
+    
+
+    
   </span>
   
+  
     
     
+  
   
   
   
   
 
   
-    <span class="summary_desc">Set force to false to allow packages to only be rebuilt when their source
-files have changed since the last time their package was built.</span>
+    <span class="summary_desc"><div class='inline'><p>Set force to false to allow packages to only be rebuilt when their source
+files have changed since the last time their package was built.</p></div></span>
   
 </li>
 
@@ -120,202 +150,282 @@ files have changed since the last time their package was built.</span>
   </ul>
 
 
-  <h2>Method Summary</h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature"><a href="#cache-instance_method" title="#cache (instance method)">- (Object) <strong>cache</strong>(package, extension, contents, output_dir, suffix = nil, mtime = Time.now) </a>
   
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache-instance_method" title="#cache (instance method)">- (Object) <strong>cache</strong>(package, extension, contents, output_dir, suffix = nil, mtime = Time.now) </a>
+    
+
+    
   </span>
+  
+  
   
   
   
   
 
   
-    <span class="summary_desc">Caches a single prebuilt asset package and gzips it at the highest
-compression level.</span>
+    <span class="summary_desc"><div class='inline'><p>Caches a single prebuilt asset package and gzips it at the highest
+compression level.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="public ">
-  <span class="summary_signature"><a href="#individual_urls-instance_method" title="#individual_urls (instance method)">- (Object) <strong>individual_urls</strong>(package, extension) </a>
-  
-  </span>
-  
-  
-  
-  
-
-  
-    <span class="summary_desc">Get the list of individual assets for a package.</span>
-  
-</li>
+      <a href="#cacheable-instance_method" title="#cacheable (instance method)">- (Object) <strong>cacheable</strong>(extension, output_dir) </a>
+    
 
     
-      <li class="public ">
-  <span class="summary_signature"><a href="#initialize-instance_method" title="#initialize (instance method)">- (Packager) <strong>initialize</strong> </a>
-  
   </span>
   
-  
-  
-  
-
-  
-    <span class="summary_desc">Creating a new Packager will rebuild the list of assets from the
-Jammit.configuration.</span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature"><a href="#pack_javascripts-instance_method" title="#pack_javascripts (instance method)">- (Object) <strong>pack_javascripts</strong>(package) </a>
-  
-  </span>
-  
-  
-  
-  
-
-  
-    <span class="summary_desc">Return the compressed contents of a javascript package.</span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature"><a href="#pack_stylesheets-instance_method" title="#pack_stylesheets (instance method)">- (Object) <strong>pack_stylesheets</strong>(package, variant = nil, asset_url = nil) </a>
-  
-  </span>
-  
-  
-  
-  
-
-  
-    <span class="summary_desc">Return the compressed contents of a stylesheet package.</span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature"><a href="#pack_templates-instance_method" title="#pack_templates (instance method)">- (Object) <strong>pack_templates</strong>(package) </a>
-  
-  </span>
-  
-  
-  
-  
-
-  
-    <span class="summary_desc">Return the compiled contents of a <span class="caps">JST</span> package.</span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature"><a href="#precache_all-instance_method" title="#precache_all (instance method)">- (Object) <strong>precache_all</strong>(output_dir = nil, base_url = nil) </a>
-  
-  </span>
-  
-  
-  
-  
-
-  
-    <span class="summary_desc">Ask the packager to precache all defined assets, along with their gzip&#8217;d
-versions.</span>
-  
-</li>
-
-    
-      <li class="private ">
-  <span class="summary_signature"><a href="#cacheable-instance_method" title="#cacheable (instance method)">- (Object) <strong>cacheable</strong>(extension, output_dir) </a>
-  
-  </span>
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Return a list of all of the packages that should be cached.</span>
+    <span class="summary_desc"><div class='inline'><p>Return a list of all of the packages that should be cached.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#create_packages-instance_method" title="#create_packages (instance method)">- (Object) <strong>create_packages</strong>(config) </a>
-  
+      <a href="#create_packages-instance_method" title="#create_packages (instance method)">- (Object) <strong>create_packages</strong>(config) </a>
+    
+
+    
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Compiles the list of assets that goes into each package.</span>
+    <span class="summary_desc"><div class='inline'><p>Compiles the list of assets that goes into each package.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#glob_files-instance_method" title="#glob_files (instance method)">- (Object) <strong>glob_files</strong>(glob) </a>
-  
+      <a href="#glob_files-instance_method" title="#glob_files (instance method)">- (Object) <strong>glob_files</strong>(glob) </a>
+    
+
+    
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Absolute globs are absolute &#8212; relative globs are relative to ASSET_ROOT.</span>
+    <span class="summary_desc"><div class='inline'><p>Absolute globs are absolute &#8212; relative globs are relative to ASSET_ROOT.</p></div></span>
   
 </li>
 
+      
+        <li class="public ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#not_found-instance_method" title="#not_found (instance method)">- (Object) <strong>not_found</strong>(package, extension) </a>
-  
+      <a href="#individual_urls-instance_method" title="#individual_urls (instance method)">- (Object) <strong>individual_urls</strong>(package, extension) </a>
+    
+
+    
   </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Get the list of individual assets for a package.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Packager) <strong>initialize</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creating a new Packager will rebuild the list of assets from the
+Jammit.configuration.</p></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#not_found-instance_method" title="#not_found (instance method)">- (Object) <strong>not_found</strong>(package, extension) </a>
+    
+
+    
+  </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Raise a PackageNotFound exception for missing packages&#8230;</span>
+    <span class="summary_desc"><div class='inline'><p>Raise a PackageNotFound exception for missing packages&#8230;</p></div></span>
   
 </li>
 
+      
+        <li class="public ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#package_for-instance_method" title="#package_for (instance method)">- (Object) <strong>package_for</strong>(package, extension) </a>
-  
+      <a href="#pack_javascripts-instance_method" title="#pack_javascripts (instance method)">- (Object) <strong>pack_javascripts</strong>(package) </a>
+    
+
+    
   </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return the compressed contents of a javascript package.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pack_stylesheets-instance_method" title="#pack_stylesheets (instance method)">- (Object) <strong>pack_stylesheets</strong>(package, variant = nil, asset_url = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return the compressed contents of a stylesheet package.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pack_templates-instance_method" title="#pack_templates (instance method)">- (Object) <strong>pack_templates</strong>(package) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return the compiled contents of a <span class="caps">JST</span> package.</p></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#package_for-instance_method" title="#package_for (instance method)">- (Object) <strong>package_for</strong>(package, extension) </a>
+    
+
+    
+  </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc">Look up a package asset list by name, raising an exception if the
-package has gone missing.</span>
+    <span class="summary_desc"><div class='inline'><p>Look up a package asset list by name, raising an exception if the
+package has gone missing.</p></div></span>
   
 </li>
 
+      
+        <li class="public ">
+  <span class="summary_signature">
     
-  </ul>
+      <a href="#precache_all-instance_method" title="#precache_all (instance method)">- (Object) <strong>precache_all</strong>(output_dir = nil, base_url = nil) </a>
+    
 
-<div id="constructor_details">
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Ask the packager to precache all defined assets, along with their gzip&#8217;d
+versions.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><a href="" title="Packager">Packager</a></tt>) <strong>initialize</strong> 
+    - (<tt><a href="" title="Jammit::Packager (class)">Packager</a></tt>) <strong>initialize</strong> 
   
 
   
@@ -328,23 +438,7 @@ create a new Packager.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
   
-    <li>
-      
-        <span class='type'>(<tt><a href="" title="Packager">Packager</a></tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        a new instance of <ins>Packager</ins>
-      
-    </li>
-  
-</ul>
-
 </div><table class="source_code">
   <tr>
     <td>
@@ -362,9 +456,7 @@ create a new Packager.</p>
 28
 29
 30
-31
-32
-33</pre>
+31</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 20</span>
@@ -373,14 +465,12 @@ create a new Packager.</p>
   <span class='@compressor ivar id'>@compressor</span> <span class='assign token'>=</span> <span class='Compressor constant id'>Compressor</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
   <span class='@force ivar id'>@force</span> <span class='assign token'>=</span> <span class='false false kw'>false</span>
   <span class='@config ivar id'>@config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
-    <span class='symbol val'>:css</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='symbol val'>:stylesheets</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='symbolize_keys identifier id'>symbolize_keys</span><span class='comma token'>,</span>
-    <span class='symbol val'>:js</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='symbol val'>:javascripts</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='symbolize_keys identifier id'>symbolize_keys</span><span class='comma token'>,</span>
-    <span class='symbol val'>:jst</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='symbol val'>:templates</span><span class='rbrack token'>]</span>   <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='symbolize_keys identifier id'>symbolize_keys</span>
+    <span class='symbol val'>:css</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='symbol val'>:stylesheets</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:js</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='symbol val'>:javascripts</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span>
   <span class='@packages ivar id'>@packages</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:css</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='create_packages identifier id'>create_packages</span><span class='lparen token'>(</span><span class='@config ivar id'>@config</span><span class='lbrack token'>[</span><span class='symbol val'>:css</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-    <span class='symbol val'>:js</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='create_packages identifier id'>create_packages</span><span class='lparen token'>(</span><span class='@config ivar id'>@config</span><span class='lbrack token'>[</span><span class='symbol val'>:js</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-    <span class='symbol val'>:jst</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='create_packages identifier id'>create_packages</span><span class='lparen token'>(</span><span class='@config ivar id'>@config</span><span class='lbrack token'>[</span><span class='symbol val'>:jst</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='symbol val'>:js</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='create_packages identifier id'>create_packages</span><span class='lparen token'>(</span><span class='@config ivar id'>@config</span><span class='lbrack token'>[</span><span class='symbol val'>:js</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span>
 <span class='end end kw'>end</span>
 </pre>
@@ -391,8 +481,8 @@ create a new Packager.</p>
   
 </div>
 
-  <div id="attr_details">
-    <h2>Attribute Details</h2>
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
     
       
       <span id="force=-instance_method"></span>
@@ -438,8 +528,9 @@ files have changed since the last time their package was built.</p>
   </div>
 
 
-  <div id="method_details">
-    <h2>Method Details</h2>
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
     
       <div class="method_details first">
   <p class="signature first" id="cache-instance_method">
@@ -462,7 +553,7 @@ variants is identical, for web server caching modules, as well as <span class="c
   
     <li>
       
-        <span class='type'>(<tt><a href="OutputNotWritable.html" title="OutputNotWritable">OutputNotWritable</a></tt>)</span>
+        <span class='type'>(<tt><a href="OutputNotWritable.html" title="Jammit::OutputNotWritable (class)">OutputNotWritable</a></tt>)</span>
       
       
       
@@ -477,6 +568,9 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
+57
+58
+59
 60
 61
 62
@@ -485,13 +579,10 @@ variants is identical, for web server caching modules, as well as <span class="c
 65
 66
 67
-68
-69
-70
-71</pre>
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 57</span>
 
 <span class='def def kw'>def</span> <span class='cache identifier id'>cache</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='contents identifier id'>contents</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='comma token'>,</span> <span class='suffix identifier id'>suffix</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='assign token'>=</span><span class='Time constant id'>Time</span><span class='dot token'>.</span><span class='now identifier id'>now</span><span class='rparen token'>)</span>
   <span class='FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='mkdir_p identifier id'>mkdir_p</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
@@ -504,6 +595,190 @@ variants is identical, for web server caching modules, as well as <span class="c
     <span class='Zlib constant id'>Zlib</span><span class='colon2 op'>::</span><span class='GzipWriter constant id'>GzipWriter</span><span class='dot token'>.</span><span class='open identifier id'>open</span><span class='lparen token'>(</span><span class='zip_name identifier id'>zip_name</span><span class='comma token'>,</span> <span class='Zlib constant id'>Zlib</span><span class='colon2 op'>::</span><span class='BEST_COMPRESSION constant id'>BEST_COMPRESSION</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='f identifier id'>f</span><span class='bitor op'>|</span> <span class='f identifier id'>f</span><span class='dot token'>.</span><span class='write identifier id'>write</span><span class='lparen token'>(</span><span class='contents identifier id'>contents</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='end end kw'>end</span>
   <span class='File constant id'>File</span><span class='dot token'>.</span><span class='utime identifier id'>utime</span><span class='lparen token'>(</span><span class='mtime identifier id'>mtime</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='files identifier id'>files</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="cacheable-instance_method">
+  
+    - (<tt>Object</tt>) <strong>cacheable</strong>(extension, output_dir)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return a list of all of the packages that should be cached. If &#8220;force&#8221; is
+true, this is all of them &#8212; otherwise only the packages that are missing
+or whose source files have changed since the last package build.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 111</span>
+
+<span class='def def kw'>def</span> <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
+  <span class='names identifier id'>names</span> <span class='assign token'>=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='keys identifier id'>keys</span>
+  <span class='return return kw'>return</span> <span class='names identifier id'>names</span> <span class='if if_mod kw'>if</span> <span class='@force ivar id'>@force</span>
+  <span class='config_mtime identifier id'>config_mtime</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='mtime identifier id'>mtime</span><span class='lparen token'>(</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='config_path identifier id'>config_path</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='names identifier id'>names</span><span class='dot token'>.</span><span class='select identifier id'>select</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='bitor op'>|</span>
+    <span class='pack identifier id'>pack</span>        <span class='assign token'>=</span> <span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
+    <span class='cached identifier id'>cached</span>      <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='filename identifier id'>filename</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+    <span class='cached identifier id'>cached</span><span class='dot token'>.</span><span class='push identifier id'>push</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='filename identifier id'>filename</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='symbol val'>:datauri</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span>
+    <span class='cached identifier id'>cached</span><span class='dot token'>.</span><span class='push identifier id'>push</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='filename identifier id'>filename</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='symbol val'>:mhtml</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='mhtml_enabled identifier id'>mhtml_enabled</span>
+    <span class='cached identifier id'>cached</span><span class='dot token'>.</span><span class='map! fid id'>map!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='file identifier id'>file</span><span class='bitor op'>|</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='comma token'>,</span> <span class='file identifier id'>file</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='if if kw'>if</span> <span class='cached identifier id'>cached</span><span class='dot token'>.</span><span class='any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='file identifier id'>file</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+      <span class='true true kw'>true</span>
+    <span class='else else kw'>else</span>
+      <span class='since identifier id'>since</span> <span class='assign token'>=</span> <span class='cached identifier id'>cached</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='file identifier id'>file</span><span class='bitor op'>|</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='mtime identifier id'>mtime</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='min identifier id'>min</span>
+      <span class='config_mtime identifier id'>config_mtime</span> <span class='gt op'>&gt;</span> <span class='since identifier id'>since</span> <span class='orop op'>||</span> <span class='pack identifier id'>pack</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='src identifier id'>src</span><span class='bitor op'>|</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='mtime identifier id'>mtime</span><span class='lparen token'>(</span><span class='src identifier id'>src</span><span class='rparen token'>)</span> <span class='gt op'>&gt;</span> <span class='since identifier id'>since</span> <span class='rbrace token'>}</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_packages-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_packages</strong>(config)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Compiles the list of assets that goes into each package. Runs an
+ordered list of Dir.globs, taking the merged unique result.
+If there are <span class="caps">JST</span> files in this package we need to add an extra
+path for when package_assets is off (e.g. in a dev environment).
+This package (e.g. /assets/package-name.jst) will never exist as
+an actual file but will be dynamically generated by Jammit on
+every request.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 137</span>
+
+<span class='def def kw'>def</span> <span class='create_packages identifier id'>create_packages</span><span class='lparen token'>(</span><span class='config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='packages identifier id'>packages</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='return return kw'>return</span> <span class='packages identifier id'>packages</span> <span class='if if_mod kw'>if</span> <span class='notop op'>!</span><span class='config identifier id'>config</span>
+  <span class='config identifier id'>config</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='globs identifier id'>globs</span><span class='bitor op'>|</span>
+    <span class='globs identifier id'>globs</span>                  <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span>         <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+    <span class='paths identifier id'>paths</span>                  <span class='assign token'>=</span> <span class='globs identifier id'>globs</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='uniq identifier id'>uniq</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='glob identifier id'>glob</span><span class='bitor op'>|</span> <span class='glob_files identifier id'>glob_files</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='uniq identifier id'>uniq</span>
+    <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span>
+    <span class='if if kw'>if</span> <span class='notop op'>!</span><span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='template_extension_matcher identifier id'>template_extension_matcher</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+      <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='JS_EXTENSION constant id'>JS_EXTENSION</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='PATH_TO_URL constant id'>PATH_TO_URL</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+      <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span> <span class='opasgn op'>+=</span> <span class='lbrack token'>[</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='template_extension identifier id'>template_extension</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+    <span class='else else kw'>else</span>
+      <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='PATH_TO_URL constant id'>PATH_TO_URL</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='packages identifier id'>packages</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="glob_files-instance_method">
+  
+    - (<tt>Object</tt>) <strong>glob_files</strong>(glob)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Absolute globs are absolute &#8212; relative globs are relative to ASSET_ROOT.
+Print a warning if no files were found that match the glob.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+101
+102
+103
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 101</span>
+
+<span class='def def kw'>def</span> <span class='glob_files identifier id'>glob_files</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span>
+  <span class='absolute identifier id'>absolute</span> <span class='assign token'>=</span> <span class='Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span>
+  <span class='paths identifier id'>paths</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='lbrack token'>[</span><span class='absolute identifier id'>absolute</span> <span class='integer val'>? </span><span class='glob identifier id'>glob</span> <span class='colon op'>:</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='ASSET_ROOT constant id'>ASSET_ROOT</span><span class='comma token'>,</span> <span class='glob identifier id'>glob</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='sort identifier id'>sort</span>
+  <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;No assets match '#{glob}'&quot;</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='paths identifier id'>paths</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -532,15 +807,65 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-74
-75
-76</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 71</span>
 
 <span class='def def kw'>def</span> <span class='individual_urls identifier id'>individual_urls</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
   <span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="not_found-instance_method">
+  
+    - (<tt>Object</tt>) <strong>not_found</strong>(package, extension)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Raise a PackageNotFound exception for missing packages&#8230;</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="PackageNotFound.html" title="Jammit::PackageNotFound (class)">PackageNotFound</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+156
+157
+158</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 156</span>
+
+<span class='def def kw'>def</span> <span class='not_found identifier id'>not_found</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
+  <span class='raise identifier id'>raise</span> <span class='PackageNotFound constant id'>PackageNotFound</span><span class='comma token'>,</span> <span class='dstring node'>&quot;assets.yml does not contain a \&quot;#{package}\&quot; #{extension.to_s.upcase} package&quot;</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -569,12 +894,12 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-84
-85
-86</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 81</span>
 
 <span class='def def kw'>def</span> <span class='pack_javascripts identifier id'>pack_javascripts</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='rparen token'>)</span>
   <span class='@compressor ivar id'>@compressor</span><span class='dot token'>.</span><span class='compress_js identifier id'>compress_js</span><span class='lparen token'>(</span><span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='symbol val'>:js</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -606,12 +931,12 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-79
-80
-81</pre>
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 76</span>
 
 <span class='def def kw'>def</span> <span class='pack_stylesheets identifier id'>pack_stylesheets</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='@compressor ivar id'>@compressor</span><span class='dot token'>.</span><span class='compress_css identifier id'>compress_css</span><span class='lparen token'>(</span><span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='variant identifier id'>variant</span><span class='comma token'>,</span> <span class='asset_url identifier id'>asset_url</span><span class='rparen token'>)</span>
@@ -643,15 +968,55 @@ variants is identical, for web server caching modules, as well as <span class="c
       <pre class="lines">
 
 
-89
-90
-91</pre>
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 86</span>
 
 <span class='def def kw'>def</span> <span class='pack_templates identifier id'>pack_templates</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='rparen token'>)</span>
-  <span class='@compressor ivar id'>@compressor</span><span class='dot token'>.</span><span class='compile_jst identifier id'>compile_jst</span><span class='lparen token'>(</span><span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='symbol val'>:jst</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='@compressor ivar id'>@compressor</span><span class='dot token'>.</span><span class='compile_jst identifier id'>compile_jst</span><span class='lparen token'>(</span><span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='symbol val'>:js</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="package_for-instance_method">
+  
+    - (<tt>Object</tt>) <strong>package_for</strong>(package, extension)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Look up a package asset list by name, raising an exception if the
+package has gone missing.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 94</span>
+
+<span class='def def kw'>def</span> <span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
+  <span class='pack identifier id'>pack</span> <span class='assign token'>=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='package identifier id'>package</span><span class='rbrack token'>]</span>
+  <span class='pack identifier id'>pack</span> <span class='orop op'>||</span> <span class='not_found identifier id'>not_found</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -684,6 +1049,8 @@ changed since their last package build.</p>
       <pre class="lines">
 
 
+38
+39
 40
 41
 42
@@ -696,18 +1063,14 @@ changed since their last package build.</p>
 49
 50
 51
-52
-53
-54
-55</pre>
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 38</span>
 
 <span class='def def kw'>def</span> <span class='precache_all identifier id'>precache_all</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='base_url identifier id'>base_url</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='output_dir identifier id'>output_dir</span> <span class='opasgn op'>||=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='PUBLIC_ROOT constant id'>PUBLIC_ROOT</span><span class='comma token'>,</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='package_path identifier id'>package_path</span><span class='rparen token'>)</span>
   <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='symbol val'>:js</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span>  <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='cache identifier id'>cache</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='string val'>'js'</span><span class='comma token'>,</span>  <span class='pack_javascripts identifier id'>pack_javascripts</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='symbol val'>:jst</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='cache identifier id'>cache</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='string val'>'jst'</span><span class='comma token'>,</span> <span class='pack_templates identifier id'>pack_templates</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='rparen token'>)</span><span class='comma token'>,</span>  <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span>
     <span class='cache identifier id'>cache</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='string val'>'css'</span><span class='comma token'>,</span> <span class='pack_stylesheets identifier id'>pack_stylesheets</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
     <span class='if if kw'>if</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span>
@@ -726,257 +1089,14 @@ changed since their last package build.</p>
 </table>
 </div>
     
-      <div class="method_details ">
-  <p class="signature " id="cacheable-instance_method">
-  
-    - (<tt>Object</tt>) <strong>cacheable</strong>(extension, output_dir)  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Return a list of all of the packages that should be cached. If &#8220;force&#8221; is
-true, this is all of them &#8212; otherwise only the packages whose source
-files have changed since the last package build.</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 115</span>
-
-<span class='def def kw'>def</span> <span class='cacheable identifier id'>cacheable</span><span class='lparen token'>(</span><span class='extension identifier id'>extension</span><span class='comma token'>,</span> <span class='output_dir identifier id'>output_dir</span><span class='rparen token'>)</span>
-  <span class='names identifier id'>names</span> <span class='assign token'>=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='keys identifier id'>keys</span>
-  <span class='return return kw'>return</span> <span class='names identifier id'>names</span> <span class='if if_mod kw'>if</span> <span class='@force ivar id'>@force</span>
-  <span class='return return kw'>return</span> <span class='names identifier id'>names</span><span class='dot token'>.</span><span class='select identifier id'>select</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='bitor op'>|</span>
-    <span class='pack identifier id'>pack</span>    <span class='assign token'>=</span> <span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
-    <span class='cached identifier id'>cached</span>  <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='output_dir identifier id'>output_dir</span><span class='comma token'>,</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='filename identifier id'>filename</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='since identifier id'>since</span>   <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='cached identifier id'>cached</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='mtime identifier id'>mtime</span><span class='lparen token'>(</span><span class='cached identifier id'>cached</span><span class='rparen token'>)</span>
-    <span class='notop op'>!</span><span class='since identifier id'>since</span> <span class='orop op'>||</span> <span class='pack identifier id'>pack</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='src identifier id'>src</span><span class='bitor op'>|</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='mtime identifier id'>mtime</span><span class='lparen token'>(</span><span class='src identifier id'>src</span><span class='rparen token'>)</span> <span class='gt op'>&gt;</span> <span class='since identifier id'>since</span> <span class='rbrace token'>}</span>
-  <span class='end end kw'>end</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="create_packages-instance_method">
-  
-    - (<tt>Object</tt>) <strong>create_packages</strong>(config)  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Compiles the list of assets that goes into each package. Runs an ordered
-list of Dir.globs, taking the merged unique result.</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 128</span>
-
-<span class='def def kw'>def</span> <span class='create_packages identifier id'>create_packages</span><span class='lparen token'>(</span><span class='config identifier id'>config</span><span class='rparen token'>)</span>
-  <span class='packages identifier id'>packages</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='return return kw'>return</span> <span class='packages identifier id'>packages</span> <span class='if if_mod kw'>if</span> <span class='notop op'>!</span><span class='config identifier id'>config</span>
-  <span class='config identifier id'>config</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='globs identifier id'>globs</span><span class='bitor op'>|</span>
-    <span class='globs identifier id'>globs</span>                  <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-    <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span>         <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-    <span class='paths identifier id'>paths</span>                  <span class='assign token'>=</span> <span class='globs identifier id'>globs</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='glob identifier id'>glob</span><span class='bitor op'>|</span> <span class='glob_files identifier id'>glob_files</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='uniq identifier id'>uniq</span>
-    <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:paths</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='paths identifier id'>paths</span>
-    <span class='packages identifier id'>packages</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:urls</span><span class='rbrack token'>]</span>  <span class='assign token'>=</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='bitor op'>|</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='PATH_TO_URL constant id'>PATH_TO_URL</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  <span class='end end kw'>end</span>
-  <span class='packages identifier id'>packages</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="glob_files-instance_method">
-  
-    - (<tt>Object</tt>) <strong>glob_files</strong>(glob)  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Absolute globs are absolute &#8212; relative globs are relative to ASSET_ROOT.
-Print a warning if no files were found that match the glob.</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-105
-106
-107
-108
-109
-110</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 105</span>
-
-<span class='def def kw'>def</span> <span class='glob_files identifier id'>glob_files</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span>
-  <span class='absolute identifier id'>absolute</span> <span class='assign token'>=</span> <span class='Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='glob identifier id'>glob</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span>
-  <span class='paths identifier id'>paths</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='lbrack token'>[</span><span class='absolute identifier id'>absolute</span> <span class='integer val'>? </span><span class='glob identifier id'>glob</span> <span class='colon op'>:</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='ASSET_ROOT constant id'>ASSET_ROOT</span><span class='comma token'>,</span> <span class='glob identifier id'>glob</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='sort identifier id'>sort</span>
-  <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;No assets match '#{glob}'&quot;</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
-  <span class='paths identifier id'>paths</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="not_found-instance_method">
-  
-    - (<tt>Object</tt>) <strong>not_found</strong>(package, extension)  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Raise a PackageNotFound exception for missing packages&#8230;</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Raises:</h3>
-<ul class="raise">
-  
-    <li>
-      
-        <span class='type'>(<tt><a href="PackageNotFound.html" title="PackageNotFound">PackageNotFound</a></tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-142
-143
-144</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 142</span>
-
-<span class='def def kw'>def</span> <span class='not_found identifier id'>not_found</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
-  <span class='raise identifier id'>raise</span> <span class='PackageNotFound constant id'>PackageNotFound</span><span class='comma token'>,</span> <span class='dstring node'>&quot;assets.yml does not contain a \&quot;#{package}\&quot; #{extension.to_s.upcase} package&quot;</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="package_for-instance_method">
-  
-    - (<tt>Object</tt>) <strong>package_for</strong>(package, extension)  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Look up a package asset list by name, raising an exception if the
-package has gone missing.</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-98
-99
-100
-101</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/packager.rb', line 98</span>
-
-<span class='def def kw'>def</span> <span class='package_for identifier id'>package_for</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
-  <span class='pack identifier id'>pack</span> <span class='assign token'>=</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='@packages ivar id'>@packages</span><span class='lbrack token'>[</span><span class='extension identifier id'>extension</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='package identifier id'>package</span><span class='rbrack token'>]</span>
-  <span class='pack identifier id'>pack</span> <span class='orop op'>||</span> <span class='not_found identifier id'>not_found</span><span class='lparen token'>(</span><span class='package identifier id'>package</span><span class='comma token'>,</span> <span class='extension identifier id'>extension</span><span class='rparen token'>)</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Sat Feb  6 10:51:33 2010 by 
+  Generated on Wed Jul 14 10:39:50 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
-  0.4.0 (ruby-1.8.7).
+  0.5.8 (ruby-1.8.7).
 </div>
 
   </body>

@@ -3,6 +3,13 @@ require 'zlib'
 
 class CommandLineTest < Test::Unit::TestCase
 
+  def teardown
+    begin
+      FileUtils.rm_r('test/precache')
+    rescue Errno::ENOENT
+    end
+  end
+
   def test_version_and_help_can_run
     assert system('bin/jammit -v') && system('bin/jammit -h')
   end
@@ -10,9 +17,9 @@ class CommandLineTest < Test::Unit::TestCase
   def test_jammit_precaching
     system('bin/jammit -c test/config/assets.yml -o test/precache -u http://www.example.com')
     assert PRECACHED_FILES == glob('test/precache/*')
-    assert Zlib::GzipReader.open('test/precache/test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/test-datauri.css')
-    assert Zlib::GzipReader.open('test/precache/test.jst.gz') {|f| f.read } == File.read('test/fixtures/jammed/test.jst')
-    FileUtils.rm_r('test/precache')
+    assert Zlib::GzipReader.open('test/precache/css_test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/css_test-datauri.css')
+    assert Zlib::GzipReader.open('test/precache/jst_test.js.gz') {|f| f.read } == File.read('test/fixtures/jammed/jst_test.js')
+    assert Zlib::GzipReader.open('test/precache/js_test_with_templates.js.gz') {|f| f.read } == File.read('test/fixtures/jammed/js_test_with_templates.js')
   end
 
   def test_lazy_precaching

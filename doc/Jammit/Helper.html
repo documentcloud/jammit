@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
 <title>Module: Jammit::Helper</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -16,18 +16,24 @@
 
   </head>
   <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
     <div id="header">
       <div id="menu">
   
     <a href="../_index.html">Index (H)</a> &raquo; 
-    <a href="../Jammit.html" title="Jammit">Jammit</a>
+    <span class='title'><a href="../Jammit.html" title="Jammit (module)">Jammit</a></span>
      &raquo; 
     <span class="title">Helper</span>
   
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Namespace List</a>
+  <a id="class_list_link" href="#">Class List</a>
   <a id="method_list_link" href="#">Method List</a>
   <a id ="file_list_link" href="#">File List</a>
 </div>
@@ -37,7 +43,8 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="content"><h1>Module: Jammit::Helper 
+    <div id="content"><h1>Module: Jammit::Helper
+  
   
   
 </h1>
@@ -48,6 +55,7 @@
     
   
     
+  
   
   
     <dt class="r1 last">Defined in:</dt>
@@ -72,28 +80,28 @@ to the cached packages.</p>
   
     <dl class="constants">
       
-        <dt id="DATA_URI_START-constant ">DATA_URI_START =
-            <span class="summary_desc"></span>
+        <dt id="DATA_URI_START-constant" class="">DATA_URI_START =
+          
         </dt>
-        <dd><pre class="code"><span class='string val'>&quot;&lt;!--[if (!IE)|(gte IE 8)]&gt;&lt;!--&gt;&quot;</span>
+        <dd><pre class="code"><span class='string val'>&quot;&lt;!--[if (!IE)|(gte IE 8)]&gt;&lt;!--&gt;&quot;</span> <span class='unless unless_mod kw'>unless</span> <span class='defined? defined kw'>defined?</span><span class='lparen token'>(</span><span class='DATA_URI_START constant id'>DATA_URI_START</span><span class='rparen token'>)</span>
 </pre></dd>
       
-        <dt id="DATA_URI_END-constant ">DATA_URI_END =
-            <span class="summary_desc"></span>
+        <dt id="DATA_URI_END-constant" class="">DATA_URI_END =
+          
         </dt>
-        <dd><pre class="code"><span class='string val'>&quot;&lt;!--&lt;![endif]--&gt;&quot;</span>
+        <dd><pre class="code"><span class='string val'>&quot;&lt;!--&lt;![endif]--&gt;&quot;</span>                <span class='unless unless_mod kw'>unless</span> <span class='defined? defined kw'>defined?</span><span class='lparen token'>(</span><span class='DATA_URI_END constant id'>DATA_URI_END</span><span class='rparen token'>)</span>
 </pre></dd>
       
-        <dt id="MHTML_START-constant ">MHTML_START =
-            <span class="summary_desc"></span>
+        <dt id="MHTML_START-constant" class="">MHTML_START =
+          
         </dt>
-        <dd><pre class="code"><span class='string val'>&quot;&lt;!--[if lte IE 7]&gt;&quot;</span>
+        <dd><pre class="code"><span class='string val'>&quot;&lt;!--[if lte IE 7]&gt;&quot;</span>              <span class='unless unless_mod kw'>unless</span> <span class='defined? defined kw'>defined?</span><span class='lparen token'>(</span><span class='MHTML_START constant id'>MHTML_START</span><span class='rparen token'>)</span>
 </pre></dd>
       
-        <dt id="MHTML_END-constant ">MHTML_END =
-            <span class="summary_desc"></span>
+        <dt id="MHTML_END-constant" class="">MHTML_END =
+          
         </dt>
-        <dd><pre class="code"><span class='string val'>&quot;&lt;![endif]--&gt;&quot;</span>
+        <dd><pre class="code"><span class='string val'>&quot;&lt;![endif]--&gt;&quot;</span>                    <span class='unless unless_mod kw'>unless</span> <span class='defined? defined kw'>defined?</span><span class='lparen token'>(</span><span class='MHTML_END constant id'>MHTML_END</span><span class='rparen token'>)</span>
 </pre></dd>
       
     </dl>
@@ -101,129 +109,274 @@ to the cached packages.</p>
 
 
 
-  <h2>Method Summary</h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature"><a href="#include_javascripts-instance_method" title="#include_javascripts (instance method)">- (Object) <strong>include_javascripts</strong>(*packages) </a>
   
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#embedded_image_stylesheets-instance_method" title="#embedded_image_stylesheets (instance method)">- (Object) <strong>embedded_image_stylesheets</strong>(packages, options) </a>
+    
+
+    
   </span>
   
+  
+  <span class="note title private">private</span>
   
   
   
 
   
-    <span class="summary_desc">Writes out the <span class="caps">URL</span> to the bundled and compressed javascript package,
-except in development, where it references the individual scripts.</span>
+    <span class="summary_desc"><div class='inline'><p><span class="caps">HTML</span> tags for the &#8216;datauri&#8217;, and &#8216;mhtml&#8217; versions of the packaged
+stylesheets, using conditional comments to load the correct variant.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="public ">
-  <span class="summary_signature"><a href="#include_stylesheets-instance_method" title="#include_stylesheets (instance method)">- (Object) <strong>include_stylesheets</strong>(*packages) </a>
-  
+      <a href="#html_safe-instance_method" title="#html_safe (instance method)">- (Object) <strong>html_safe</strong>(string) </a>
+    
+
+    
   </span>
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#include_javascripts-instance_method" title="#include_javascripts (instance method)">- (Object) <strong>include_javascripts</strong>(*packages) </a>
+    
+
+    
+  </span>
+  
+  
   
   
   
   
 
   
-    <span class="summary_desc">If embed_assets is turned on, writes out links to the Data-<span class="caps">URI</span> and <span class="caps">MHTML</span>
+    <span class="summary_desc"><div class='inline'><p>Writes out the <span class="caps">URL</span> to the bundled and compressed javascript package,
+except in development, where it references the individual scripts.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#include_stylesheets-instance_method" title="#include_stylesheets (instance method)">- (Object) <strong>include_stylesheets</strong>(*packages) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>If embed_assets is turned on, writes out links to the Data-<span class="caps">URI</span> and <span class="caps">MHTML</span>
 versions of the stylesheet package, otherwise the package is regular
-compressed <span class="caps">CSS</span>, and in development the stylesheet URLs are passed verbatim.</span>
+compressed <span class="caps">CSS</span>, and in development the stylesheet URLs are passed verbatim.</p></div></span>
   
 </li>
 
+      
+        <li class="public ">
+  <span class="summary_signature">
     
-      <li class="public ">
-  <span class="summary_signature"><a href="#include_templates-instance_method" title="#include_templates (instance method)">- (Object) <strong>include_templates</strong>(*packages) </a>
-  
+      <a href="#include_templates-instance_method" title="#include_templates (instance method)">- (Object) <strong>include_templates</strong>(*packages) </a>
+    
+
+    
   </span>
   
   
   
   
+  
+  
 
   
-    <span class="summary_desc">Writes out the <span class="caps">URL</span> to the concatenated and compiled <span class="caps">JST</span> file &#8212; we always
-have to pre-process it, even in development.</span>
+    <span class="summary_desc"><div class='inline'><p>Writes out the <span class="caps">URL</span> to the concatenated and compiled <span class="caps">JST</span> file &#8212; we always
+have to pre-process it, even in development.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#embedded_image_stylesheets-instance_method" title="#embedded_image_stylesheets (instance method)">- (Object) <strong>embedded_image_stylesheets</strong>(packages, options) </a>
-  
+      <a href="#individual_stylesheets-instance_method" title="#individual_stylesheets (instance method)">- (Object) <strong>individual_stylesheets</strong>(packages, options) </a>
+    
+
+    
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc"><span class="caps">HTML</span> tags for the &#8216;datauri&#8217;, and &#8216;mhtml&#8217; versions of the packaged
-stylesheets, using conditional comments to load the correct variant.</span>
+    <span class="summary_desc"><div class='inline'><p><span class="caps">HTML</span> tags, in order, for all of the individual stylesheets.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#individual_stylesheets-instance_method" title="#individual_stylesheets (instance method)">- (Object) <strong>individual_stylesheets</strong>(packages, options) </a>
-  
+      <a href="#packaged_stylesheets-instance_method" title="#packaged_stylesheets (instance method)">- (Object) <strong>packaged_stylesheets</strong>(packages, options) </a>
+    
+
+    
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc"><span class="caps">HTML</span> tags, in order, for all of the individual stylesheets.</span>
+    <span class="summary_desc"><div class='inline'><p><span class="caps">HTML</span> tags for the stylesheet packages.</p></div></span>
   
 </li>
 
+      
+        <li class="private ">
+  <span class="summary_signature">
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#packaged_stylesheets-instance_method" title="#packaged_stylesheets (instance method)">- (Object) <strong>packaged_stylesheets</strong>(packages, options) </a>
-  
+      <a href="#tags_with_options-instance_method" title="#tags_with_options (instance method)">- (Object) <strong>tags_with_options</strong>(packages, options) </a>
+    
+
+    
   </span>
+  
   
   <span class="note title private">private</span>
   
   
+  
 
   
-    <span class="summary_desc"><span class="caps">HTML</span> tags for the stylesheet packages.</span>
+    <span class="summary_desc"><div class='inline'><p>Generate the stylesheet tags for a batch of packages, with options, by
+yielding each package to a block.</p></div></span>
   
 </li>
 
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
     
-      <li class="private ">
-  <span class="summary_signature"><a href="#tags_with_options-instance_method" title="#tags_with_options (instance method)">- (Object) <strong>tags_with_options</strong>(packages, options) </a>
-  
-  </span>
-  
-  <span class="note title private">private</span>
-  
-  
-
-  
-    <span class="summary_desc">Generate the stylesheet tags for a batch of packages, with options, by
-yielding each package to a block.</span>
-  
-</li>
-
-    
-  </ul>
-
-
-
-  <div id="method_details">
-    <h2>Method Details</h2>
     
       <div class="method_details first">
-  <p class="signature first" id="include_javascripts-instance_method">
+  <p class="signature first" id="embedded_image_stylesheets-instance_method">
+  
+    - (<tt>Object</tt>) <strong>embedded_image_stylesheets</strong>(packages, options)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p><span class="caps">HTML</span> tags for the &#8216;datauri&#8217;, and &#8216;mhtml&#8217; versions of the packaged
+stylesheets, using conditional comments to load the correct variant.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 59</span>
+
+<span class='def def kw'>def</span> <span class='embedded_image_stylesheets identifier id'>embedded_image_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
+  <span class='datauri_tags identifier id'>datauri_tags</span> <span class='assign token'>=</span> <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:datauri</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='ie_tags identifier id'>ie_tags</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='mhtml_enabled identifier id'>mhtml_enabled</span> <span class='integer val'>?
+</span>            <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:mhtml</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span> <span class='colon op'>:</span>
+            <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='DATA_URI_START constant id'>DATA_URI_START</span><span class='comma token'>,</span> <span class='datauri_tags identifier id'>datauri_tags</span><span class='comma token'>,</span> <span class='DATA_URI_END constant id'>DATA_URI_END</span><span class='comma token'>,</span> <span class='MHTML_START constant id'>MHTML_START</span><span class='comma token'>,</span> <span class='ie_tags identifier id'>ie_tags</span><span class='comma token'>,</span> <span class='MHTML_END constant id'>MHTML_END</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="html_safe-instance_method">
+  
+    - (<tt>Object</tt>) <strong>html_safe</strong>(string)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 43</span>
+
+<span class='def def kw'>def</span> <span class='html_safe identifier id'>html_safe</span><span class='lparen token'>(</span><span class='string identifier id'>string</span><span class='rparen token'>)</span>
+  <span class='string identifier id'>string</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:html_safe</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='string identifier id'>string</span><span class='dot token'>.</span><span class='html_safe identifier id'>html_safe</span> <span class='colon op'>:</span> <span class='string identifier id'>string</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="include_javascripts-instance_method">
   
     - (<tt>Object</tt>) <strong>include_javascripts</strong>(*packages) 
   
@@ -258,7 +411,7 @@ except in development, where it references the individual scripts.</p>
   <span class='tags identifier id'>tags</span> <span class='assign token'>=</span> <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='pack identifier id'>pack</span><span class='bitor op'>|</span>
     <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='package_assets identifier id'>package_assets</span> <span class='integer val'>? </span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='pack identifier id'>pack</span><span class='comma token'>,</span> <span class='symbol val'>:js</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='individual_urls identifier id'>individual_urls</span><span class='lparen token'>(</span><span class='pack identifier id'>pack</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='symbol val'>:js</span><span class='rparen token'>)</span>
   <span class='end end kw'>end</span>
-  <span class='javascript_include_tag identifier id'>javascript_include_tag</span><span class='lparen token'>(</span><span class='tags identifier id'>tags</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='rparen token'>)</span>
+  <span class='html_safe identifier id'>html_safe</span><span class='lparen token'>(</span><span class='javascript_include_tag identifier id'>javascript_include_tag</span><span class='lparen token'>(</span><span class='tags identifier id'>tags</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -304,8 +457,8 @@ compressed <span class="caps">CSS</span>, and in development the stylesheet URLs
   <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='extract_options! fid id'>extract_options!</span>
   <span class='return return kw'>return</span> <span class='individual_stylesheets identifier id'>individual_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='package_assets identifier id'>package_assets</span>
   <span class='disabled identifier id'>disabled</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:embed_assets</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='false false kw'>false</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:embed_images</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='false false kw'>false</span><span class='rparen token'>)</span>
-  <span class='return return kw'>return</span> <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='disabled identifier id'>disabled</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span>
-  <span class='return return kw'>return</span> <span class='embedded_image_stylesheets identifier id'>embedded_image_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='html_safe identifier id'>html_safe</span><span class='lparen token'>(</span><span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='disabled identifier id'>disabled</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='embed_assets identifier id'>embed_assets</span>
+  <span class='return return kw'>return</span> <span class='html_safe identifier id'>html_safe</span><span class='lparen token'>(</span><span class='embedded_image_stylesheets identifier id'>embedded_image_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -328,7 +481,20 @@ have to pre-process it, even in development.</p>
   </div>
 </div>
 <div class="tags">
+  <h3>Raises:</h3>
+<ul class="raise">
   
+    <li>
+      
+        <span class='type'>(<tt><a href="DeprecationError.html" title="Jammit::DeprecationError (class)">DeprecationError</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -343,53 +509,7 @@ have to pre-process it, even in development.</p>
       <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 36</span>
 
 <span class='def def kw'>def</span> <span class='include_templates identifier id'>include_templates</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='packages identifier id'>packages</span><span class='rparen token'>)</span>
-  <span class='javascript_include_tag identifier id'>javascript_include_tag</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='pack identifier id'>pack</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='pack identifier id'>pack</span><span class='comma token'>,</span> <span class='symbol val'>:jst</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="embedded_image_stylesheets-instance_method">
-  
-    - (<tt>Object</tt>) <strong>embedded_image_stylesheets</strong>(packages, options)  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p><span class="caps">HTML</span> tags for the &#8216;datauri&#8217;, and &#8216;mhtml&#8217; versions of the packaged
-stylesheets, using conditional comments to load the correct variant.</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-55
-56
-57
-58
-59
-60
-61</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 55</span>
-
-<span class='def def kw'>def</span> <span class='embedded_image_stylesheets identifier id'>embedded_image_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
-  <span class='datauri_tags identifier id'>datauri_tags</span> <span class='assign token'>=</span> <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:datauri</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  <span class='ie_tags identifier id'>ie_tags</span> <span class='assign token'>=</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='mhtml_enabled identifier id'>mhtml_enabled</span> <span class='integer val'>?
-</span>            <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='symbol val'>:mhtml</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span> <span class='colon op'>:</span>
-            <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
-  <span class='lbrack token'>[</span><span class='DATA_URI_START constant id'>DATA_URI_START</span><span class='comma token'>,</span> <span class='datauri_tags identifier id'>datauri_tags</span><span class='comma token'>,</span> <span class='DATA_URI_END constant id'>DATA_URI_END</span><span class='comma token'>,</span> <span class='MHTML_START constant id'>MHTML_START</span><span class='comma token'>,</span> <span class='ie_tags identifier id'>ie_tags</span><span class='comma token'>,</span> <span class='MHTML_END constant id'>MHTML_END</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+  <span class='raise identifier id'>raise</span> <span class='DeprecationError constant id'>DeprecationError</span><span class='comma token'>,</span> <span class='string val'>&quot;Jammit 0.5+ no longer supports separate packages for templates.\nYou can include your JST alongside your JS, and use include_javascripts.&quot;</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -418,12 +538,12 @@ stylesheets, using conditional comments to load the correct variant.</p>
       <pre class="lines">
 
 
-44
-45
-46</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 48</span>
 
 <span class='def def kw'>def</span> <span class='individual_stylesheets identifier id'>individual_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
   <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='individual_urls identifier id'>individual_urls</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -455,12 +575,12 @@ stylesheets, using conditional comments to load the correct variant.</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 53</span>
 
 <span class='def def kw'>def</span> <span class='packaged_stylesheets identifier id'>packaged_stylesheets</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
   <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='p identifier id'>p</span><span class='bitor op'>|</span> <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='asset_url identifier id'>asset_url</span><span class='lparen token'>(</span><span class='p identifier id'>p</span><span class='comma token'>,</span> <span class='symbol val'>:css</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -493,15 +613,15 @@ yielding each package to a block.</p>
       <pre class="lines">
 
 
-65
-66
-67
-68
 69
-70</pre>
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/helper.rb', line 69</span>
 
 <span class='def def kw'>def</span> <span class='tags_with_options identifier id'>tags_with_options</span><span class='lparen token'>(</span><span class='packages identifier id'>packages</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
   <span class='packages identifier id'>packages</span> <span class='assign token'>=</span> <span class='packages identifier id'>packages</span><span class='dot token'>.</span><span class='dup identifier id'>dup</span>
@@ -520,9 +640,9 @@ yielding each package to a block.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Feb  6 10:51:34 2010 by 
+  Generated on Wed Jul 14 10:39:50 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
-  0.4.0 (ruby-1.8.7).
+  0.5.8 (ruby-1.8.7).
 </div>
 
   </body>

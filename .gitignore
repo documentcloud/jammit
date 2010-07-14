@@ -2,3 +2,4 @@
 *.gem
 example
 raws
+test/precache

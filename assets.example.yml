@@ -14,6 +14,7 @@ javascripts:
     - public/javascripts/lib/set.js
     - public/javascripts/lib/*.js
     - public/javascripts/**/*.js
+    - app/views/workspace/*.jst
 
 stylesheets:
   common:
@@ -24,8 +25,3 @@ stylesheets:
   empty:
     - public/stylesheets/pages/empty.css
 
-templates:
-  admin:
-    - app/views/jst/**/*.jst
-  public:
-    - app/views/jst/public/*.jst

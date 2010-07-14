@@ -4,13 +4,11 @@ compressor_options:
 embed_assets: on
 
 javascripts:
-  test:
+  js_test:
     - fixtures/src/*.js
+  jst_test:
+    - fixtures/src/*.jst
 
 stylesheets:
-  test:
+  css_test:
     - fixtures/src/*.css
-
-templates:
-  test:
-    - fixtures/src/*.jst
