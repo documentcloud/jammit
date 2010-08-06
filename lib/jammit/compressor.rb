@@ -16,7 +16,8 @@ module Jammit
       '.tif'  => 'image/tiff',
       '.tiff' => 'image/tiff',
       '.ttf'  => 'font/truetype',
-      '.otf'  => 'font/opentype'
+      '.otf'  => 'font/opentype',
+      '.woff' => 'font/woff'
     }
 
     # Font extensions for which we allow embedding:
