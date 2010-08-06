@@ -1,8 +1,8 @@
-package_assets:         on          # (on, off, always)
-embed_assets:           on          # (on, off, datauri)
-template_function:      _.template  # (defaults to built-in micro-templating)
-package_path:           packages    # (defaults to assets)
-javascript_compressor:  closure     # (yui, closure)
+package_assets:         on
+embed_assets:           on
+template_function:      _.template
+package_path:           packages
+javascript_compressor:  closure
 compressor_options:
   compilation_level: ADVANCED_OPTIMIZATIONS
 
