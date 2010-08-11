@@ -26,3 +26,7 @@ if defined?(Rails)
   require 'jammit/routes'
 end
 
+# Jammit Sinatra Integration:
+if defined?(Sinatra)
+  require 'jammit/middleware'
+end
