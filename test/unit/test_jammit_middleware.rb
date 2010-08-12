@@ -1,12 +1,14 @@
-require 'test_helper'
-require 'sinatra'
-require 'jammit/middleware'
+# Skip test_helper
+require 'sinatra/base'
+require 'sinatra/jammit'
 require 'rack/test'
+
+ASSET_ROOT = File.expand_path(File.dirname(__FILE__) + '/..') unless defined?(ASSET_ROOT)
 
 set :environment, :test
 
 class TestApp < Sinatra::Base
-  use Jammit::Middleware
+  register Sinatra::Jammit
   set :public, "#{ASSET_ROOT}/public"
 
   get "/" do
