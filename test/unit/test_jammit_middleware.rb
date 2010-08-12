@@ -5,8 +5,13 @@ require 'rack/test'
 
 set :environment, :test
 
-class TestApp < Sinatra::Application
+class TestApp < Sinatra::Base
   use Jammit::Middleware
+  set :public, "#{ASSET_ROOT}/public"
+
+  get "/" do
+    "testing"
+  end
 end
 
 class JammitMiddlewareTest < Test::Unit::TestCase 
