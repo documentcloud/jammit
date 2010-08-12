@@ -33,14 +33,17 @@ module Jammit
         case @extension
         when :js
           content_type :js
-          Jammit.packager.pack_javascripts(@package)
+          @contents = Jammit.packager.pack_javascripts(@package)
         when Jammit.template_extension.to_sym
           content_type :js
-          Jammit.packager.pack_templates(@package)
+          @contents = Jammit.packager.pack_templates(@package)
         when :css
           content_type :css
           generate_stylesheets
         end
+        cache_package if perform_caching
+        
+        @contents
       rescue Jammit::PackageNotFound
         raise ::Sinatra::NotFound
       end
@@ -48,10 +51,19 @@ module Jammit
 
   private
 
-    # Sinatra doesn't have any caching built in,
-    # so don't let Jammit core try to cache.
+    # Sinatra::Cache is the canonical solution for
+    # caching, so let's optimize for that. This ensures
+    # that we don't lose Jammit's gzip feature.
     def perform_caching
+      @app.settings.cache_enabled
+    rescue
       false
+    end
+
+    def page_cache_directory
+      @app.settings.cache_output_dir
+    rescue
+      File.join(@app.settings.public, 'cache')
     end
 
   end
