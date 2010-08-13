@@ -124,6 +124,7 @@
 
     <h2 id="installation">Installation</h2>
 
+    <h3>Rails</h3>
     <ol>
       <li>
         Grab the gem:<br />
@@ -145,6 +146,46 @@ ActionController::Routing::Routes.draw do |map|
   Jammit::Routes.draw(map)
   ...
 end</pre>
+      </li>
+    </ol>
+    
+    <h3>Sinatra</h3>
+    <ol>
+      <li>
+        Grab the gem:<br />
+        <tt>gem install jammit</tt>
+      </li>
+      <li>
+        Include the Jammit middleware in your app:
+<pre>
+require 'sinatra/base'
+require 'sinatra/jammit'
+
+class MyApp < Sinatra::Base
+  register Sinatra::Jammit
+  ...
+end
+</pre>
+Note that if you're building a "classic" Sinatra app, requiring 'sinatra/jammit' will automatically register it.
+      </li>
+      <li>
+        <i>(optional)</i> Install
+        <a href="http://github.com/kematzy/sinatra-cache">Sinatra::Cache</a> and
+        <a href="http://github.com/wbzyl/sinatra-static-assets/">Sinatra::StaticAssets</a>
+        to enable all of Jammit's features:
+<pre>
+require 'sinatra/base'
+require 'sinatra/cache'
+require 'sinatra/static_assets'
+require 'sinatra/jammit'
+
+class MySuperApp < Sinatra::Base
+  register Sinatra::Cache # Enables gzip caching in Jammit
+  register Sinatra::StaticAssets # Enables Jammit view helpers
+  register Sinatra::Jammit
+  ...
+end
+</pre>
       </li>
     </ol>
     
