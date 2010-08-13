@@ -3,12 +3,12 @@ require 'jammit/route_methods'
 
 module Sinatra
 
-  # The Jammit::Sinatra class is only included when
-  # the Sinatra top-level constant is defined. Note that
-  # it isn't automatically loaded though, and must be
-  # explicitly included in your Sinatra app with
-  #    use Jammit::Middleware
-  # Once installed, it takes responsibility for /assets, 
+  # The Jammit::Sinatra module is automatically registered
+  # in "classic" Sinatra applications upon requiring
+  # 'sinatra/jammit'. In modular applications, you must
+  # explicitly register it in your Sinatra app with
+  #    register Sinatra::Jammit
+  # Once registered, it takes responsibility for /assets,
   # and dynamically packages any missing asset packages.
   module Jammit
 
