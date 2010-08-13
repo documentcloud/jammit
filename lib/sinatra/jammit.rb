@@ -1,4 +1,4 @@
-require 'jammit'
+require 'jammit' unless defined?(Jammit)
 require 'jammit/route_methods'
 
 module Sinatra
@@ -22,15 +22,15 @@ module Sinatra
     private
 
       def perform_caching
-        @app.settings.cache_enabled
+        settings.cache_enabled
       rescue
         false
       end
 
       def page_cache_directory
-        @app.settings.cache_output_dir
+        settings.cache_output_dir
       rescue
-        File.join(@app.settings.public, 'cache')
+        File.join(settings.public, 'cache')
       end
 
     end
@@ -47,8 +47,7 @@ module Sinatra
           end
         end
 
-        # This action receives all requests for asset packages. Note that
-        # unlike Jammit::Controller, this action makes no attempt to cache.
+        # This action receives all requests for asset packages.
         get "/#{::Jammit.package_path}/:package.:extension" do
           begin
             parse_request
