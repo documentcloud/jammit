@@ -78,4 +78,4 @@ module Jammit
 end
 
 # Include the Jammit asset helpers in all views, a-la ApplicationHelper.
-::ActionView::Base.send(:include, Jammit::Helper)
+::ActionView::Base.send(:include, Jammit::Helper) if defined?(ActionView)

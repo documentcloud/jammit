@@ -17,11 +17,11 @@ Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH)
 # Jammit Core:
 require 'jammit/compressor'
 require 'jammit/packager'
+require 'jammit/helper'
 
 # Jammit Rails Integration:
 if defined?(Rails)
   require 'jammit/controller'
-  require 'jammit/helper'
   require 'jammit/railtie'
   require 'jammit/routes'
 end

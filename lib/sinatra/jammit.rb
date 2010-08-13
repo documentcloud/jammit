@@ -7,9 +7,15 @@ module Sinatra
   # in "classic" Sinatra applications upon requiring
   # 'sinatra/jammit'. In modular applications, you must
   # explicitly register it in your Sinatra app with
+  #
   #    register Sinatra::Jammit
+  #
   # Once registered, it takes responsibility for /assets,
   # and dynamically packages any missing asset packages.
+  # Jammit's gzipping feature is automatically enabled if
+  # Sinatra::Cache is registered prior to Sinatra::Jammit.
+  # Jammit's view helpers are automatically included if
+  # Sinatra::StaticAssets is registered prior to Sinatra::Jammit.
   module Jammit
 
     # Unlike Rails, Sinatra doesn't have a built-in
@@ -39,13 +45,21 @@ module Sinatra
       app.instance_eval do
         include ::Jammit::RouteMethods
         include ::Sinatra::Jammit::Caching
-        
+
         # Development-only reloading
         if development?
           before do
             ::Jammit.reload!
           end
         end
+
+        # Sinatra doesn't have the stylesheet_link_tag, etc
+        # methods that Jammit uses to provide view helpers.
+        # However, Sinatra::StaticAssets does provide these
+        # helpers, so we'll only include the Jammit::Helper
+        # if the underlying methods are present.
+        helpers ::Jammit::Helper if prototype.respond_to?(:stylesheet_link_tag) &&
+                                    prototype.respond_to?(:javascript_include_tag)
 
         # This action receives all requests for asset packages.
         get "/#{::Jammit.package_path}/:package.:extension" do
@@ -72,8 +86,8 @@ module Sinatra
 
       end
     end
-    
+
   end
-  
+
   register Jammit
 end

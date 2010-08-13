@@ -124,3 +124,34 @@ class FallthroughCachingSinatraTest < Test::Unit::TestCase
   end
   
 end
+
+class TestAppWithHelpers < Sinatra::Base
+  # Ensure our app isn't wrapped in Sinatra::ShowExceptions,
+  # making for easier testing
+  set :show_exceptions, false
+  set :environment, :test
+  
+  helpers do
+    def stylesheet_link_tag
+      "stylesheet"
+    end
+    
+    def javascript_include_tag
+      "javascript"
+    end
+  end
+  
+  register Sinatra::Jammit
+end
+
+class HelperSinatraTest < Test::Unit::TestCase
+  include Rack::Test::Methods
+  
+  def app
+    TestAppWithHelpers
+  end
+  
+  def test_should_include_jammit_helpers
+    assert app.prototype.respond_to?(:include_javascripts)
+  end
+end
