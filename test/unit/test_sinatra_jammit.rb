@@ -136,7 +136,8 @@ class TestAppWithHelpers < Sinatra::Base
       "stylesheet"
     end
     
-    def javascript_include_tag
+    # "Misnamed", just like Sinatra::StaticAssets
+    def javascript_script_tag
       "javascript"
     end
   end

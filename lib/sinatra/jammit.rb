@@ -41,10 +41,76 @@ module Sinatra
 
     end
 
+    # Sinatra doesn't have the stylesheet_link_tag, etc
+    # methods that Jammit uses to provide view helpers.
+    # However, Sinatra::StaticAssets does provide these
+    # helpers, so we'll only include the Jammit::Helper
+    # if the underlying methods are present.
+    module StaticAssets
+      extend self
+
+      def included(base)
+        @app = base
+
+        # Sinatra "classic" applications tend to pile
+        # extensions and middlewares together in such
+        # a way that the app instance available here
+        # isn't the "real" Sinatra application.
+        # Modular applications, however, give us the
+        # instance that we expect.
+        if @app === Sinatra::Application
+          inject_helpers!(classic_app)
+        else
+          inject_helpers!(@app)
+        end
+      end
+
+    private
+
+      def inject_helpers!(app)
+        alias_javascript_method(app)
+
+        if app.prototype.respond_to?(:stylesheet_link_tag) &&
+          app.prototype.respond_to?(:javascript_include_tag)
+          app.helpers ::Jammit::Helper
+        end
+      end
+
+      # Sinatra::StaticAssets doesn't 100% comply to the Rails
+      # naming scheme. Aliasing solves the issue.
+      def alias_javascript_method(app)
+        if app.prototype.respond_to?(:javascript_script_tag)
+          app.helpers do
+            alias_method :javascript_include_tag, :javascript_script_tag
+          end
+        end
+      end
+
+      # Sinatra and Rack both perform some magic when building
+      # a "classic" application. We need to traverse the app tree
+      # in order to find the "real" Sinatra application.
+      def classic_app_instance
+        return @instance if @instance
+
+        @instance = @app.prototype
+        while (@instance.class.superclass != Sinatra::Base) do
+          @instance = @instance.instance_variable_get("@app")
+        end
+
+        @instance
+      end
+
+      def classic_app
+        classic_app_instance.class
+      end
+
+    end
+
     def self.registered(app)
       app.instance_eval do
         include ::Jammit::RouteMethods
         include ::Sinatra::Jammit::Caching
+        include ::Sinatra::Jammit::StaticAssets
 
         # Development-only reloading
         if development?
@@ -52,14 +118,6 @@ module Sinatra
             ::Jammit.reload!
           end
         end
-
-        # Sinatra doesn't have the stylesheet_link_tag, etc
-        # methods that Jammit uses to provide view helpers.
-        # However, Sinatra::StaticAssets does provide these
-        # helpers, so we'll only include the Jammit::Helper
-        # if the underlying methods are present.
-        helpers ::Jammit::Helper if prototype.respond_to?(:stylesheet_link_tag) &&
-                                    prototype.respond_to?(:javascript_include_tag)
 
         # This action receives all requests for asset packages.
         get "/#{::Jammit.package_path}/:package.:extension" do
