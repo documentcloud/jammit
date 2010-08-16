@@ -47,64 +47,23 @@ module Sinatra
     # helpers, so we'll only include the Jammit::Helper
     # if the underlying methods are present.
     module StaticAssets
-      extend self
 
-      def included(base)
-        @app = base
-
-        # Sinatra "classic" applications tend to pile
-        # extensions and middlewares together in such
-        # a way that the app instance available here
-        # isn't the "real" Sinatra application.
-        # Modular applications, however, give us the
-        # instance that we expect.
-        if @app === Sinatra::Application
-          inject_helpers!(classic_app)
-        else
-          inject_helpers!(@app)
-        end
-      end
-
-    private
-
-      def inject_helpers!(app)
-        alias_javascript_method(app)
-
-        if app.prototype.respond_to?(:stylesheet_link_tag) &&
-          app.prototype.respond_to?(:javascript_include_tag)
-          app.helpers ::Jammit::Helper
-        end
-      end
-
-      # Sinatra::StaticAssets doesn't 100% comply to the Rails
-      # naming scheme. Aliasing solves the issue.
-      def alias_javascript_method(app)
-        if app.prototype.respond_to?(:javascript_script_tag)
-          app.helpers do
+      def self.included(app)
+        # Sinatra::StaticAssets doesn't 100% comply to the Rails
+        # naming scheme. Aliasing solves the issue.
+        if app.instance_methods.include?('javascript_script_tag')
+          app.class_eval do
             alias_method :javascript_include_tag, :javascript_script_tag
           end
         end
-      end
 
-      # Sinatra and Rack both perform some magic when building
-      # a "classic" application. We need to traverse the app tree
-      # in order to find the "real" Sinatra application.
-      def classic_app_instance
-        return @instance if @instance
-
-        @instance = @app.prototype
-        while (@instance.class.superclass != Sinatra::Base) do
-          @instance = @instance.instance_variable_get("@app")
+        if (app.instance_methods & %w(stylesheet_link_tag javascript_include_tag)).any?
+          app.class_eval { include ::Jammit::Helper }
         end
-
-        @instance
-      end
-
-      def classic_app
-        classic_app_instance.class
       end
 
     end
+    Sinatra.helpers StaticAssets
 
     def self.registered(app)
       app.instance_eval do
