@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'active_support'
 require 'action_pack'
 require 'action_controller'
 require 'action_controller/base'
