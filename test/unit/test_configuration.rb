@@ -29,7 +29,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
     assert packed == File.read('test/fixtures/jammed/jst_test.js')
     packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
-    assert packed == File.read('test/fixtures/jammed/css_test-uncompressed.css')
+    assert packed == File.open('test/fixtures/jammed/css_test-uncompressed.css', 'r:binary') {|f| f.read }
   end
 
   def test_disabled_compression
@@ -44,7 +44,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
     assert packed == File.read('test/fixtures/jammed/jst_test.js')
     packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
-    assert packed == File.read('test/fixtures/jammed/css_test-uncompressed.css')
+    assert packed == File.open('test/fixtures/jammed/css_test-uncompressed.css', 'r:binary') {|f| f.read }
   end
 
   def test_css_compression

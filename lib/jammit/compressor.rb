@@ -97,7 +97,8 @@ module Jammit
       paths       = paths.grep(Jammit.template_extension_matcher).sort
       base_path   = find_base_path(paths)
       compiled    = paths.map do |path|
-        contents  = File.read(path).gsub(/\n/, '').gsub("'", '\\\\\'')
+        contents  = File.open(path, 'r:binary') {|f| f.read }
+        contents  = contents.gsub(/\n/, '').gsub("'", '\\\\\'')
         name      = template_name(path, base_path)
         "#{namespace}['#{name}'] = #{Jammit.template_function}('#{contents}');"
       end
@@ -136,7 +137,8 @@ module Jammit
     # at it.
     def concatenate_and_tag_assets(paths, variant=nil)
       stylesheets = [paths].flatten.map do |css_path|
-        File.read(css_path).gsub(EMBED_DETECTOR) do |url|
+        contents = File.open(css_path, 'r:binary') {|f| f.read }
+        contents.gsub(EMBED_DETECTOR) do |url|
           ipath, cpath = Pathname.new($1), Pathname.new(File.expand_path(css_path))
           is_url = URI.parse($1).absolute?
           is_url ? url : "url(#{construct_asset_path(ipath, cpath, variant)})"
