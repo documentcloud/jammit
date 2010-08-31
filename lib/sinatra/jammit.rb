@@ -48,16 +48,21 @@ module Sinatra
     # if the underlying methods are present.
     module StaticAssets
 
+      INSTANCE_METHOD_TYPE = (RUBY_VERSION =~ /1.8/) ? :to_s : :to_sym
+      JAVASCRIPT_SCRIPT_TAG = 'javascript_script_tag'.send(INSTANCE_METHOD_TYPE)
+      JAVASCRIPT_INCLUDE_TAG = 'javascript_include_tag'.send(INSTANCE_METHOD_TYPE)
+      STYLESHEET_LINK_TAG = 'stylesheet_link_tag'.send(INSTANCE_METHOD_TYPE)
+
       def self.included(app)
         # Sinatra::StaticAssets doesn't 100% comply to the Rails
         # naming scheme. Aliasing solves the issue.
-        if app.instance_methods.include?('javascript_script_tag')
+        if app.instance_methods.include?(JAVASCRIPT_SCRIPT_TAG)
           app.class_eval do
             alias_method :javascript_include_tag, :javascript_script_tag
           end
         end
 
-        if (app.instance_methods & %w(stylesheet_link_tag javascript_include_tag)).any?
+        if (app.instance_methods & [STYLESHEET_LINK_TAG, JAVASCRIPT_INCLUDE_TAG]).any?
           app.class_eval { include ::Jammit::Helper }
         end
       end
