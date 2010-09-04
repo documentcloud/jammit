@@ -1,5 +1,8 @@
 require 'test_helper'
 
+class TestPackager < Jammit::Packager
+end
+
 class BrokenConfigurationTest < Test::Unit::TestCase
 
   def setup
@@ -75,6 +78,11 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   def test_jst_compilation
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
     assert packed == File.read('test/fixtures/jammed/jst_test.js')
+  end
+
+  def test_packager
+    Jammit.load_configuration('test/config/assets-packager.yml')
+    assert_instance_of TestPackager, Jammit.packager
   end
 
 end
