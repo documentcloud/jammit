@@ -69,7 +69,9 @@ module Jammit
       else
         js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
       end
-      Jammit.compress_assets ? @js_compressor.compress(js) : js
+      js = Jammit.compress_assets ? @js_compressor.compress(js) : js
+      js.force_encoding('BINARY') if defined?(Encoding)
+      js
     end
 
     # Concatenate and compress a list of CSS stylesheets. When compressing a
@@ -79,6 +81,7 @@ module Jammit
       @asset_contents = {}
       css = concatenate_and_tag_assets(paths, variant)
       css = @css_compressor.compress(css) if Jammit.compress_assets
+      css.force_encoding('BINARY') if defined?(Encoding)
       case variant
       when nil      then return css
       when :datauri then return with_data_uris(css)
