@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'active_support'
 require 'action_pack'
 require 'action_controller'
 require 'action_controller/base'
@@ -14,10 +15,18 @@ end
 
 class JammitControllerTest < ActionController::TestCase
 
+  CACHE_DIR = '/tmp/jammit_controller_test'
+
   def setup
+    FileUtils.mkdir_p CACHE_DIR
+    ActionController::Base.page_cache_directory = CACHE_DIR
     ActionController::Routing::Routes.draw do |map|
       Jammit::Routes.draw(map)
     end
+  end
+
+  def teardown
+    FileUtils.remove_entry_secure CACHE_DIR
   end
 
   def test_package_with_jst

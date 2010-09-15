@@ -1,3 +1,5 @@
+Encoding.default_external = 'ascii' if defined? Encoding
+
 require 'logger'
 
 ASSET_ROOT = File.expand_path(File.dirname(__FILE__))
@@ -8,7 +10,7 @@ RAILS_ENV = "test"
 RAILS_ROOT = File.expand_path(File.dirname(__FILE__))
 ENV["RAILS_ASSET_ID"] = "101"
 
-require 'lib/jammit'
+require './lib/jammit'
 Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH)
 
 def glob(g)

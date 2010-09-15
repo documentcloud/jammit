@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.5.1"
+  VERSION               = "0.5.2"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -168,9 +168,7 @@ module Jammit
 
   def self.warn(message)
     message = "Jammit Warning: #{message}"
-    @logger ||= (defined?(Rails) && Rails.logger ? Rails.logger :
-                 defined?(RAILS_DEFAULT_LOGGER) ? RAILS_DEFAULT_LOGGER : nil)
-    @logger ? @logger.warn(message) : STDERR.puts(message)
+    $stderr.puts message
   end
 
   # Clone of active_support's symbolize_keys, so that we don't have to depend
