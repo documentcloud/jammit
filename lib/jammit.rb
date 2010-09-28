@@ -58,8 +58,10 @@ module Jammit
   @package_path  = DEFAULT_PACKAGE_PATH
 
   # Load the complete asset configuration from the specified @config_path@.
-  def self.load_configuration(config_path)
+  # If we're loading softly, don't let missing configuration error out.
+  def self.load_configuration(config_path, soft=false)
     exists = config_path && File.exists?(config_path)
+    return false if soft && !exists
     raise ConfigurationNotFound, "could not find the \"#{config_path}\" configuration file" unless exists
     conf = YAML.load(ERB.new(File.read(config_path)).result)
     @config_path            = config_path
