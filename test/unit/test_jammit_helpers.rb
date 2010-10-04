@@ -6,6 +6,7 @@ require 'action_controller'
 require 'action_controller/base'
 require 'action_view/test_case'
 require 'jammit/controller'
+require 'jammit/helper'
 
 class ActionController::Base
   cattr_accessor :asset_host
