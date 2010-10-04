@@ -87,15 +87,15 @@
       <a href="http://github.com/documentcloud/jammit/">Jammit</a> is an
       industrial strength asset packaging library for <b>Rails</b>, providing
       both the CSS and JavaScript concatenation and compression
-      that you'd expect, as well as <b>YUI Compressor</b> and <b>Closure Compiler</b> 
+      that you'd expect, as well as <b>YUI Compressor</b> and <b>Closure Compiler</b>
       compatibility, ahead-of-time gzipping, built-in JavaScript template
       support, and optional <b>Data-URI / MHTML image and font embedding</b>.
     </p>
-    
+
     <p>
       <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.5.3</a>
     </p>
-    
+
     <p>
       <i>Jammit is an open-source component of <a href="http://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
@@ -113,7 +113,7 @@
       <a href="#jst">JavaScript Templates</a> |
       <a href="#changes">Changes</a>
     </p>
-    
+
     <h2>Links</h2>
 
     <p style="line-height: 30px;">
@@ -135,7 +135,7 @@
       </li>
       <li>
         If you're using <b>Rails 2</b>, edit <b>config/routes.rb</b> to give Jammit a route
-        ( <b>/assets</b> by default) for dynamic asset packaging and caching. 
+        ( <b>/assets</b> by default) for dynamic asset packaging and caching.
         In <b>Rails 3</b>, this route is loaded automatically.
         <br /><br />
 
@@ -147,9 +147,9 @@ ActionController::Routing::Routes.draw do |map|
 end</pre>
       </li>
     </ol>
-    
+
     <p>
-      <i>Note: If you don't already have the 
+      <i>Note: If you don't already have the
       <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a> or
       <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a>
       gems installed, downloading make take a minute &mdash; the jar files together
@@ -186,9 +186,9 @@ stylesheets:
 
     <p>
       There are a number of extra configuration options that you may add to the
-      <b>assets.yml</b> configuration file to customize the way Jammit behaves. 
+      <b>assets.yml</b> configuration file to customize the way Jammit behaves.
       Here's an <a href="http://gist.github.com/237848">example configuration file</a>
-      using all of the possible options. The meaning of the options and their 
+      using all of the possible options. The meaning of the options and their
       default values are listed below. Don't be bewildered by the length of the
       list &mdash; none of the options are required, they just give you fine-grained
       control over how your packages are generated.
@@ -218,7 +218,7 @@ stylesheets:
         <td><b>compress_assets</b></td>
         <td><tt>on&nbsp;|&nbsp;off</tt></td>
         <td class="definition">
-          Defaults to <b>on</b>. When <b>off</b>, JavaScript and CSS packages 
+          Defaults to <b>on</b>. When <b>off</b>, JavaScript and CSS packages
           will be left uncompressed (by YUI or Closure). Disabling compression is only recommended
           if you're packaging assets in development.
         </td>
@@ -239,7 +239,7 @@ stylesheets:
         <td class="definition">
           Defaults to <b>yui</b>. As of <b>0.2.0</b>, the Jammit gem can use either the
           <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>
-          or the 
+          or the
           <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
           to compress your JavaScript.
         </td>
@@ -292,9 +292,9 @@ stylesheets:
         <td><tt>...</tt></td>
         <td class="definition">
           Pass an options hash directly to the underlying JavaScript compressor
-          to configure it. See the 
+          to configure it. See the
           <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a> or
-          <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a> 
+          <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a>
           gem documentation for the full list of available options.
         </td>
       </tr>
@@ -302,24 +302,24 @@ stylesheets:
         <td><b>css_compressor_options</b></td>
         <td><tt>...</tt></td>
         <td class="definition">
-          Pass an options hash directly to the YUI CSS Compressor. 
+          Pass an options hash directly to the YUI CSS Compressor.
           <a href="http://yui.rubyforge.org/classes/YUI/CssCompressor.html">Available options</a>
           are <b>charset</b>, and <b>line_break</b>, which can be used to write
           out each CSS rule on a separate line.
         </td>
       </tr>
     </table>
-    
+
     <p>
       The contents of <tt>assets.yml</tt> are passed through <b>ERB</b> before
-      being loaded, in case you find the need to configure Jammit 
+      being loaded, in case you find the need to configure Jammit
       for different environments.
     </p>
-    
+
     <p>
-      <i>Warning: In <b>Rails 3</b>, static assets are not served by default. 
+      <i>Warning: In <b>Rails 3</b>, static assets are not served by default.
       You either have to configure your webserver to serve static assets out
-      of</i> <tt>public</tt> <i>(recommended), or set</i> 
+      of</i> <tt>public</tt> <i>(recommended), or set</i>
       <tt>config.serve_static_assets = true</tt>
     </p>
 
@@ -337,46 +337,53 @@ stylesheets:
     <p>
       In development, no packaging is performed, so you'll see a list of individual
       references to all of the JavaScript and CSS files. The <b>assets.yml</b>
-      configuration file is reloaded on every development request, so you can 
+      configuration file is reloaded on every development request, so you can
       change the contents of your packages without needing to restart Rails.
       In all other environments, or if <b>package_assets</b> is set to "<b>always</b>",
       you'll get tags for the merged packages.
     </p>
-      
+
     <p>
-      It's recommended to keep the default behavior of unpackaged assets in 
+      It's recommended to keep the default behavior of unpackaged assets in
       development, because it's so much easier to debug JavaScript that way.
-      But if you'd like to use fully packaged assets in development, while only rebuilding the packages whose 
+      But if you'd like to use fully packaged assets in development, while only rebuilding the packages whose
       sources have changed between requests, use "<b>always</b>" and add the following
-      <b>before_filter</b> to your <b>ApplicationController</b> to keep your 
+      <b>before_filter</b> to your <b>ApplicationController</b> to keep your
       packages fresh:
     </p>
-    
-<pre>before_filter { Jammit.packager.precache_all } if Rails.env.development?</pre>
-    
+
+    <pre>before_filter { Jammit.packager.precache_all } if Rails.env.development?</pre>
+
+    <p>
+      You can also easily use Jammit within your Rakefile, and other scripts:
+    </p>
+
+    <pre>require 'jammit'
+Jammit.package!</pre>
+
     <h2 id="compressors">YUI &amp; Closure</h2>
-    
+
     <p>
       Jammit can be configured to use either the
       <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a> or the
       <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
-      to compress and optimize your JavaScript. (CSS is always run through the 
+      to compress and optimize your JavaScript. (CSS is always run through the
       YUI Compressor.) Specify the <b>javascript_compressor</b> to choose either <b>yui</b>
       or <b>closure</b> backends. If left blank, Jammit defaults to <b>yui</b>.
     </p>
-    
+
     <p>
       You can configure the JavaScript compilation by adding <b>compressor_options</b>
       to your <b>assets.yml</b>. The <b>compressor_options</b>
-      will be passed directly to the Gem backend of your chosen compressor. See the 
+      will be passed directly to the Gem backend of your chosen compressor. See the
       <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a> or
-      <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a> 
+      <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a>
       gem documentation for all the available options. For example, to configure
-      the Closure Compiler to use its 
-      <a href="http://code.google.com/closure/compiler/docs/compilation_levels.html">advanced optimizations</a>, 
+      the Closure Compiler to use its
+      <a href="http://code.google.com/closure/compiler/docs/compilation_levels.html">advanced optimizations</a>,
       you would add the <b>compilation_level</b>:
     </p>
-    
+
 <pre>
 javascript_compressor: closure
 compressor_options:
@@ -388,7 +395,7 @@ compressor_options:
       <a href="http://yui.rubyforge.org/classes/YUI/CssCompressor.html">configure it</a>
       by specifying the <b>css_compressor_options</b>, in <b>assets.yml</b>.
     </p>
-    
+
     <p>
       <i>
         <b>Warning:</b> Google's Closure Compiler has been known to choke on certain
@@ -425,18 +432,18 @@ compressor_options:
       and source files: only the packages that have changed are rebuilt. If you'd
       like to force all packages to build, use <tt>jammit --force</tt>.
     </p>
-    
+
     <p>
       In production, you'll want to run Jammit during deployment, somewhere
       in between updating the source and symlinking to the new release. Whether you're
       using <a href="http://www.capify.org/index.php/Capistrano">Capistrano</a>,
-      <a href="http://rubyhitsquad.com/Vlad_the_Deployer.html">Vlad</a>, 
-      or just good 'ol <a href="http://rake.rubyforge.org/">Rake</a>, 
-      it shouldn't be too hard to add a step that calls the <tt>jammit</tt> command. 
-      For an example Jammit setup under Capistrano and Apache, see 
+      <a href="http://rubyhitsquad.com/Vlad_the_Deployer.html">Vlad</a>,
+      or just good 'ol <a href="http://rake.rubyforge.org/">Rake</a>,
+      it shouldn't be too hard to add a step that calls the <tt>jammit</tt> command.
+      For an example Jammit setup under Capistrano and Apache, see
       <a href="http://afreshcup.com/home/2010/1/18/notes-on-using-jammit-with-rails.html">Mike Gunderloy's blog post</a>.
     </p>
-    
+
     <h2 id="expires">Expires Headers</h2>
 
     <p>
@@ -444,14 +451,14 @@ compressor_options:
       to set the HTTP Expires header to a date far in the future. You don't need
       to worry about clearing the cached assets when you deploy a new release,
       because Rails will write out the asset's modification time as part of the URL,
-      causing browsers to fetch a fresh copy of the asset. 
+      causing browsers to fetch a fresh copy of the asset.
     </p>
-    
+
     <p>
-      If you're using an <b>Nginx</b> webserver, add the following snippet to the 
+      If you're using an <b>Nginx</b> webserver, add the following snippet to the
       <br /><tt>server { ... }</tt> block for your application:
     </p>
-    
+
     <pre>
 location ~ ^/assets/ {
   passenger_enabled on;
@@ -459,13 +466,13 @@ location ~ ^/assets/ {
 }</pre>
 
     <p>
-      If you're using <b>Apache</b>, make sure that 
+      If you're using <b>Apache</b>, make sure that
       <a href="http://httpd.apache.org/docs/1.3/mod/mod_expires.html">mod_expires</a>
       is enabled, and then add the following snippet to the
       appropriate <b>VirtualHost</b> section of your configuration,
       filling in the path to your deployed application:
     </p>
-    
+
     <pre>
 ExpiresActive On
 &lt;Directory "/path/to/public/assets"&gt;
@@ -474,7 +481,7 @@ ExpiresActive On
 
     <p>
       If for any reason (multiple physical servers, rsync-only deploys) you don't
-      wish to rely on modification times for cache expiry, Jammit uses the 
+      wish to rely on modification times for cache expiry, Jammit uses the
       standard Rails helpers to generate URLs, and will respect
       the <tt>RAILS_ASSET_ID</tt> environment variable.
     </p>
@@ -502,7 +509,7 @@ ExpiresActive On
       packaged, minified, gzipped CSS file, with the images coming in all at
       once instead of piecemeal, making just a single HTTP request.
     </p>
-    
+
     <p>
       Take a look at this example (especially on a slow connection or wifi):<br />
       <a href="http://jashkenas.s3.amazonaws.com/misc/jammit_example/normal.html">Normal Image Loading</a> vs.
@@ -515,7 +522,7 @@ ExpiresActive On
       you'll need to whitelist the images that you'd like to make embeddable.
       When processing CSS, Jammit will only embed images that have
       <b>.../embed/...</b> somewhere in their path &mdash; the other images will be
-      left untouched. You can make a single <b>public/images/embed</b> folder for 
+      left untouched. You can make a single <b>public/images/embed</b> folder for
       your embedded images, or organize them into directories however you
       prefer. It's not recommended to embed all of your site's images, just
       the ones that conform to the following three rules:
@@ -550,32 +557,32 @@ ExpiresActive On
       the cached file, and let Jammit automatically rebuild the file on the next
       request.
     </p>
-    
+
     <p>
       If the MHTML stylesheets sound too fragile, or if you encounter any problems
-      with them in Internet Explorer (such as mixed-mode warnings when serving 
+      with them in Internet Explorer (such as mixed-mode warnings when serving
       MHTML through SSL), we recommend setting <b>embed_assets</b> to "<b>datauri</b>".
       Using "<b>datauri</b>" will cause Internet Explorer 7 and below to receive
       plain versions of the packaged stylesheets, while all other browsers get the
       Data-URI flavor.
     </p>
-    
+
     <h3>... and Embedding Fonts</h3>
-    
+
     <p>
       Embedded fonts work in largely the same way as images, <b>TTF</b> and <b>OTF</b> files
       that are whitelisted within an "embed" folder will be inlined as Data-URIs.
       There is no MHTML variant for fonts, because Internet Explorer only supports
       unembeddable <b>EOT</b> files. Embedding is especially important
-      for fonts in general, because it helps avoid 
-      <a href="http://paulirish.com/2009/fighting-the-font-face-fout/">the flash of unstyled text</a> 
-      that the browser would otherwise display while waiting for the font to 
-      download. If you're looking to get started with web fonts, 
-      <a href="http://www.fontsquirrel.com/fontface/generator">FontSquirrel has a great tool</a> 
+      for fonts in general, because it helps avoid
+      <a href="http://paulirish.com/2009/fighting-the-font-face-fout/">the flash of unstyled text</a>
+      that the browser would otherwise display while waiting for the font to
+      download. If you're looking to get started with web fonts,
+      <a href="http://www.fontsquirrel.com/fontface/generator">FontSquirrel has a great tool</a>
       that can generate the proper fonts and styles you'll need. Here's an example
       of a CSS rule that would activate the proper Jammit embedding:
     </p>
-    
+
 <pre>
 @font-face {
   font-family: 'DroidSans';
@@ -590,7 +597,7 @@ ExpiresActive On
       you're probably using it to generate at least a little of your
       HTML. Traditionally, this has been accomplished by joining together strings
       and inserting them into the DOM. A far more agreeable way to generate HTML
-      on the client is to use JavaScript templates (referred to here as <b>JST</b>). 
+      on the client is to use JavaScript templates (referred to here as <b>JST</b>).
     </p>
 
     <p>
@@ -615,7 +622,7 @@ ExpiresActive On
 &lt;/div&gt;</pre>
 
     <p>
-      Including this template within a JavaScript asset package makes it 
+      Including this template within a JavaScript asset package makes it
       available within the browser as the <b>JST.license</b> function.
     </p>
 
@@ -623,21 +630,21 @@ ExpiresActive On
 JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});</pre>
 
     <p>
-      Since <b>0.5.0</b>, templates should be included in the appropriate 
+      Since <b>0.5.0</b>, templates should be included in the appropriate
       <tt>javascripts</tt> package. Here's an example of an <tt>assets.yml</tt>
       that uses templates, and shows the location at which they'll be available
-      on the client. When including templates from different directories, the 
+      on the client. When including templates from different directories, the
       common prefix is ignored, and the rest of the path becomes the name of the
       template:
     </p>
-    
+
 <pre>
 javascripts:
   workspace:
     - app/views/accounts/badge.jst
     - app/views/common/dialog.jst
     - app/views/common/menu.jst</pre>
-    
+
     <p>
       Then, from your JavaScript:
     </p>
@@ -656,7 +663,7 @@ JST['common/menu']</pre>
       you'll need
       <a href="http://gist.github.com/234982">a little extra setup</a>.
     </p>
-      
+
     <p>
       The default extension for template files is <tt>jst</tt>,
       but you can set <b>template_extension</b> in your <tt>assets.yml</tt> if you're
@@ -664,57 +671,57 @@ JST['common/menu']</pre>
     </p>
 
     <h2 id="changes">Change Log</h2>
-    
+
     <p>
       <b class="header">0.5.3</b><br />
-      You can now embed <b>WOFF</b>-formatted fonts. 
+      You can now embed <b>WOFF</b>-formatted fonts.
       Jammit warnings avoid use of <tt>Rails.logger</tt>.
       Bugfixes for Ruby 1.9.2 with asset files containing Unicode characters.
     </p>
-    
+
     <p>
       <b class="header">0.5.1</b><br />
       Included missing <tt>rails/routes.rb</tt> file in the Gem manifest for Rails 3.
     </p>
-    
+
     <p>
       <b class="header">0.5.0</b><br />
       The Jammit gem is now compatible with Rails 3. JST template packages are
       no longer specified separately. This is a backwards-incompatible change,
-      and you'll have to update your <tt>assets.yml</tt> file to simply include 
+      and you'll have to update your <tt>assets.yml</tt> file to simply include
       the JST in your existing JavaScript packages, as shown above. Alongside
       this change, template names are now better namespaced &mdash; see the
       section on <b>JavaScript Templates</b> for the details.
-      Bugfix for IE8 and Data-URIs slightly under 32kb in size, as well as 
-      for MHTML in IE7-mode in Vista.      
+      Bugfix for IE8 and Data-URIs slightly under 32kb in size, as well as
+      for MHTML in IE7-mode in Vista.
     </p>
-    
+
     <p>
       <b class="header">0.4.4</b><br />
-      Jammit will now add the <tt>RAILS_ASSET_ID</tt> timestamp to image URLs 
+      Jammit will now add the <tt>RAILS_ASSET_ID</tt> timestamp to image URLs
       within your CSS packages, if configured, for better cache-busting.
       <a href="http://github.com/ghazel/">Greg Hazel</a> contributed a series
       of Jammit/Windows bug fixes.
     </p>
-    
+
     <p>
       <b class="header">0.4.3</b><br />
       Bugfix for building on Windows with drive-letter absolute paths.
     </p>
-    
+
     <p>
       <b class="header">0.4.2</b><br />
       Added a logged warning when you have rules in <b>assets.yml</b> that don't
       match any files.
     </p>
-    
+
     <p>
       <b class="header">0.4.1</b><br />
       Jammit is now able to embed <tt>@font-face</tt> web fonts in <b>TTF</b> and
-      <b>OTF</b> formats. The <b>embed_images</b> option has been renamed to 
-      <b>embed_assets</b> for this change. The <b>assets.yml</b> file is now 
-      passed through ERB before being loaded, so you can configure 
-      environment-specific settings, just like you would with <b>database.yml</b>. 
+      <b>OTF</b> formats. The <b>embed_images</b> option has been renamed to
+      <b>embed_assets</b> for this change. The <b>assets.yml</b> file is now
+      passed through ERB before being loaded, so you can configure
+      environment-specific settings, just like you would with <b>database.yml</b>.
     </p>
 
     <p>
@@ -722,7 +729,7 @@ JST['common/menu']</pre>
       Added <tt>css_compressor_options</tt> to assets.yml, so you can
       set <tt>charset</tt> and <tt>line_break</tt> for the YUI CSS Compressor.
     </p>
-    
+
     <p>
       <b class="header">0.3.2</b><br />
       If Java isn't available on your machine, Jammit will now run in a graceful
@@ -736,51 +743,51 @@ JST['common/menu']</pre>
       Jammit now correctly rewrites relative image URLs within CSS, for easier
       integration with partial Rails apps deployed on sub-paths.
     </p>
-    
+
     <p>
       <b class="header">0.2.7</b><br />
       The <tt>jammit</tt> command has been enhanced to check the modification times of
-      your packages &mdash; if no source files have changed, the package isn't 
+      your packages &mdash; if no source files have changed, the package isn't
       rebuilt.
     </p>
-        
+
     <p>
       <b class="header">0.2.6</b><br />
       Jammit now raises an exception if Java isn't installed, or if the Java
       version is unsupported by your JavaScript compressor of choice.
     </p>
-    
+
     <p>
       <b class="header">0.2.5</b><br />
       When specifying your asset packages as directory globs, absolute globs are
       now absolute, and relative globs are relative to RAILS_ROOT.
     </p>
-    
+
     <p>
       <b class="header">0.2.4</b><br />
       Jammit now throws a <tt>ConfigurationNotFound</tt> error when attempting to load
       a nonexistent configuration file. Resolved an issue with asset caching from
       daemonized mongrels.
     </p>
-    
+
     <p>
       <b class="header">0.2.1</b><br />
-      The <tt>include_stylesheets</tt> helper now takes the same options as the 
+      The <tt>include_stylesheets</tt> helper now takes the same options as the
       Rails <tt>stylesheet_link_tag</tt> helper (such as <tt>:media => 'print'</tt>).
     </p>
-    
+
     <p>
       <b class="header">0.2.0</b><br />
       Jammit now supports the <b>Google Closure Compiler</b> as an alternative
       to the YUI compressor.
     </p>
-    
+
     <p>
       <b class="header">0.1.3</b><br />
-      Fixed a bug that conflicted with other plugins trying to alter 
+      Fixed a bug that conflicted with other plugins trying to alter
       ApplicationController in development.
     </p>
-    
+
     <p>
       <b class="header">0.1.1</b><br />
       Added support for embedding images with stylesheet-relative paths.
