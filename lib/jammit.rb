@@ -121,7 +121,7 @@ module Jammit
 
   # Turn asset packaging on or off, depending on configuration and environment.
   def self.set_package_assets(value)
-    package_env     = !defined?(Rails) || !Rails.env.development?
+    package_env     = !defined?(Rails) || (!Rails.env.development? && !Rails.env.test?)
     @package_assets = value == true || value.nil? ? package_env :
                       value == 'always'           ? true : false
   end
