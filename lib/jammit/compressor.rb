@@ -64,10 +64,14 @@ module Jammit
     # Concatenate together a list of JavaScript paths, and pass them through the
     # YUI Compressor (with munging enabled). JST can optionally be included.
     def compress_js(paths)
-      if (jst_paths = paths.grep(Jammit.template_extension_matcher)).empty?
+      jst_paths = paths.grep(Jammit.template_extension_matcher)
+      if jst_paths.empty?
         js = concatenate(paths)
       else
-        js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
+        fjst_idx = paths.index(jst_paths.first)
+        js_paths_a = (paths - jst_paths.drop(1)).shift(fjst_idx)
+        js_paths_b = (paths - jst_paths.drop(1)).drop(fjst_idx+1)
+        js = concatenate(js_paths_a) + compile_jst(jst_paths) + concatenate(js_paths_b)
       end
       Jammit.compress_assets ? @js_compressor.compress(js) : js
     end
