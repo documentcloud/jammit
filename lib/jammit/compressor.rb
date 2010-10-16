@@ -241,7 +241,8 @@ module Jammit
     def concatenate(paths)
       [paths].flatten.map {|p| read_binary_file(p) }.join("\n")
     end
-    
+
+    # `File.read`, but in "binary" mode.
     def read_binary_file(path)
       File.open(path, 'r:binary') {|f| f.read }
     end
