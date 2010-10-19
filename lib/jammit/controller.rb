@@ -17,9 +17,9 @@ module Jammit
       parse_request
       case @extension
       when :js
-        render :js => (@contents = Jammit.packager.pack_javascripts(@package))
+        render :js => (@contents = Jammit.packager.pack_javascripts(@package)), :content_type => 'text/javascript'
       when Jammit.template_extension.to_sym
-        render :js => (@contents = Jammit.packager.pack_templates(@package))
+        render :js => (@contents = Jammit.packager.pack_templates(@package)), :content_type => 'text/javascript'
       when :css
         render :text => generate_stylesheets, :content_type => 'text/css'
       end
