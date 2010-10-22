@@ -110,6 +110,19 @@ module Jammit
     "/#{package_path}/#{filename(package, extension, suffix)}#{timestamp}"
   end
 
+  # Helper method to easily Package up Jammit using default options
+  def self.package!(options = {})
+    options = {
+      :config_path    => Jammit::DEFAULT_CONFIG_PATH,
+      :output_folder  => nil,
+      :base_url       => nil,
+      :force          => false
+    }.merge(options)
+
+    load_configuration(options[:config_path])
+    packager.force = options[:force]
+    packager.precache_all(options[:output_folder], options[:base_url])
+  end
 
   private
 
