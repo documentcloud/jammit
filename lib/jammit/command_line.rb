@@ -1,8 +1,5 @@
 require 'optparse'
-
-$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../')
-
-require 'jammit'
+require File.expand_path(File.dirname(__FILE__) + '/../jammit')
 
 module Jammit
 
