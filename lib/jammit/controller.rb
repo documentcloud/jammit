@@ -53,7 +53,7 @@ module Jammit
     def generate_stylesheets
       return @contents = Jammit.packager.pack_stylesheets(@package, @variant) unless @variant == :mhtml
       @mtime      = Time.now
-      request_url = prefix_url(request.request_uri)
+      request_url = prefix_url(request.fullpath)
       cached_url  = prefix_url(Jammit.asset_url(@package, @extension, @variant, @mtime))
       css         = Jammit.packager.pack_stylesheets(@package, @variant, request_url)
       @contents   = css.gsub(request_url, cached_url) if perform_caching
