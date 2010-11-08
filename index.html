@@ -344,18 +344,7 @@ stylesheets:
     </p>
 
     <p>
-      It's recommended to keep the default behavior of unpackaged assets in
-      development, because it's so much easier to debug JavaScript that way.
-      But if you'd like to use fully packaged assets in development, while only rebuilding the packages whose
-      sources have changed between requests, use "<b>always</b>" and add the following
-      <b>before_filter</b> to your <b>ApplicationController</b> to keep your
-      packages fresh:
-    </p>
-
-    <pre>before_filter { Jammit.packager.precache_all } if Rails.env.development?</pre>
-
-    <p>
-      You can also easily use Jammit within your Rakefile, and other scripts:
+      You can easily use Jammit within your Rakefile, and other scripts:
     </p>
 
     <pre>require 'jammit'
