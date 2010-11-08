@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.5.3"
+  VERSION               = "0.5.4"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -58,8 +58,10 @@ module Jammit
   @package_path  = DEFAULT_PACKAGE_PATH
 
   # Load the complete asset configuration from the specified @config_path@.
-  def self.load_configuration(config_path)
+  # If we're loading softly, don't let missing configuration error out.
+  def self.load_configuration(config_path, soft=false)
     exists = config_path && File.exists?(config_path)
+    return false if soft && !exists
     raise ConfigurationNotFound, "could not find the \"#{config_path}\" configuration file" unless exists
     conf = YAML.load(ERB.new(File.read(config_path)).result)
     @config_path            = config_path
@@ -108,6 +110,18 @@ module Jammit
     "/#{package_path}/#{filename(package, extension, suffix)}#{timestamp}"
   end
 
+  # Convenience method for packaging up Jammit, using the default options.
+  def self.package!(options={})
+    options = {
+      :config_path    => Jammit::DEFAULT_CONFIG_PATH,
+      :output_folder  => nil,
+      :base_url       => nil,
+      :force          => false
+    }.merge(options)
+    load_configuration(options[:config_path])
+    packager.force = options[:force]
+    packager.precache_all(options[:output_folder], options[:base_url])
+  end
 
   private
 
@@ -119,7 +133,7 @@ module Jammit
 
   # Turn asset packaging on or off, depending on configuration and environment.
   def self.set_package_assets(value)
-    package_env     = !defined?(Rails) || !Rails.env.development?
+    package_env     = !defined?(Rails) || (!Rails.env.development? && !Rails.env.test?)
     @package_assets = value == true || value.nil? ? package_env :
                       value == 'always'           ? true : false
   end

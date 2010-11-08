@@ -122,4 +122,12 @@ class PackagerTest < Test::Unit::TestCase
     end
   end
 
+  def test_package_helper
+    FileUtils.rm_rf("test/public/assets/*")
+    Jammit.package! :config_file => "test/config/assets.yml"
+    assert File.exists?("test/public/assets/js_test.js")
+    assert File.exists?("test/public/assets/css_test.css")
+    FileUtils.rm_rf("test/public/assets")
+  end
+
 end

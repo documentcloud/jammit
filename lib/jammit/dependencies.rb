@@ -12,7 +12,7 @@ require 'yui/compressor'
 require 'closure-compiler'
 
 # Load initial configuration before the rest of Jammit.
-Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH) if defined?(Rails)
+Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH, true) if defined?(Rails)
 
 # Jammit Core:
 require 'jammit/compressor'
