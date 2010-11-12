@@ -22,7 +22,7 @@ module Jammit
 
     # Font extensions for which we allow embedding:
     EMBED_EXTS      = EMBED_MIME_TYPES.keys
-    EMBED_FONTS     = ['.ttf', '.otf']
+    EMBED_FONTS     = ['.ttf', '.otf', '.woff']
 
     # (32k - padding) maximum length for data-uri assets (an IE8 limitation).
     MAX_IMAGE_SIZE  = 32700
