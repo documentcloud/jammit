@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Jammit
 
   # The JammitController is added to your Rails application when the Gem is
