@@ -244,7 +244,7 @@ module Jammit
 
     # `File.read`, but in "binary" mode.
     def read_binary_file(path)
-      File.open(path, 'r:binary') {|f| f.read }
+      File.open(path, 'rb') {|f| f.read }
     end
   end
 
