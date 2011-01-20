@@ -28,7 +28,7 @@ class JammitHelpersTest < ActionView::TestCase
   end
 
   def params
-    @debug ? {:jammit_debug => true} : {}
+    @debug ? {:debug_assets => true} : {}
   end
 
   def test_include_stylesheets
