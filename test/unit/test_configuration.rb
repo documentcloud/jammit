@@ -17,21 +17,6 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     end
   end
 
-  def test_loading_a_nonexistent_java
-    Jammit.instance_variable_set('@checked_java_version', false)
-    Jammit.load_configuration('test/config/assets-no-java.yml')
-    assert !Jammit.compress_assets
-    @compressor = Compressor.new
-    # Should not compress js.
-    packed = @compressor.compress_js(glob('test/fixtures/src/*.js'))
-    assert packed == File.read('test/fixtures/jammed/js_test-uncompressed.js')
-    # Nothing should change with jst.
-    packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
-    assert packed == File.read('test/fixtures/jammed/jst_test.js')
-    packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
-    assert packed == File.open('test/fixtures/jammed/css_test-uncompressed.css', 'rb') {|f| f.read }
-  end
-
   def test_disabled_compression
     Jammit.load_configuration('test/config/assets-compression-disabled.yml')
     assert !Jammit.compress_assets
