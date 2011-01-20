@@ -624,7 +624,7 @@ ExpiresActive On
 
 <pre>
 JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});</pre>
-
+    
     <p>
       Since <b>0.5.0</b>, templates should be included in the appropriate
       <tt>javascripts</tt> package. Here's an example of an <tt>assets.yml</tt>
@@ -652,12 +652,14 @@ JST['common/menu']</pre>
 
     <p>
       To use <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>
-      templates, set <b>template_function</b> to "<b>_.template</b>".<br />
+      templates, set <b>template_function</b> to <tt>_.template</tt>.<br />
       To use <a href="http://www.prototypejs.org/">Prototype</a> templates, set
-      it to "<b>new Template</b>".<br />To use
+      it to <tt>new Template</tt>.<br />To use
       <a href="http://github.com/janl/mustache.js">Mustache.js</a> templates,
       you'll need
-      <a href="http://gist.github.com/234982">a little extra setup</a>.
+      <a href="http://gist.github.com/234982">a little extra setup</a>.<br />
+      If you'd rather leave your template strings as strings, and compile them later,
+      set <b>template_function</b> to <tt>off</tt>.
     </p>
 
     <p>
