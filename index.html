@@ -93,7 +93,7 @@
     </p>
 
     <p>
-      <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.5.4</a>
+      <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.6.0</a>
     </p>
     
     <p>
@@ -252,6 +252,15 @@ stylesheets:
         </td>
       </tr>
       <tr>
+        <td><b>allow_debugging</b></td>
+        <td><tt>on&nbsp;|&nbsp;off</tt></td>
+        <td class="definition">
+          Defaults to <b>on</b>. Leaving it on allows you to pass 
+          <tt>debug_assets=true</tt> as a query parameter, in order to load the
+          page with uncompressed, unpackaged assets in production.
+        </td>
+      </tr>
+      <tr>
         <td><b>template_function</b></td>
         <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;...</tt></td>
         <td class="definition">
@@ -348,6 +357,12 @@ stylesheets:
       change the contents of your packages without needing to restart Rails.
       In all other environments, or if <b>package_assets</b> is set to "<b>always</b>",
       you'll get tags for the merged packages.
+    </p>
+    
+    <p>
+      If <b>allow_debugging</b> is left on, you'll be able to request the development
+      version of the assets for any given page, by passing <tt>debug_assets=true</tt>
+      as a query parameter.
     </p>
 
     <p>
@@ -624,7 +639,7 @@ ExpiresActive On
 
 <pre>
 JST.license({name : "Moe", birthplace : "Brooklyn", bio : "Moe was always..."});</pre>
-
+    
     <p>
       Since <b>0.5.0</b>, templates should be included in the appropriate
       <tt>javascripts</tt> package. Here's an example of an <tt>assets.yml</tt>
@@ -652,12 +667,14 @@ JST['common/menu']</pre>
 
     <p>
       To use <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>
-      templates, set <b>template_function</b> to "<b>_.template</b>".<br />
+      templates, set <b>template_function</b> to <tt>_.template</tt>.<br />
       To use <a href="http://www.prototypejs.org/">Prototype</a> templates, set
-      it to "<b>new Template</b>".<br />To use
+      it to <tt>new Template</tt>.<br />To use
       <a href="http://github.com/janl/mustache.js">Mustache.js</a> templates,
       you'll need
-      <a href="http://gist.github.com/234982">a little extra setup</a>.
+      <a href="http://gist.github.com/234982">a little extra setup</a>.<br />
+      If you'd rather leave your template strings as strings, and compile them later,
+      set <b>template_function</b> to <tt>off</tt>.
     </p>
 
     <p>
@@ -667,6 +684,18 @@ JST['common/menu']</pre>
     </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.6.0</b><br />
+      You can now pass <tt>debug_assets=true</tt> as a query parameter to debug
+      the un-packaged versions of your assets in production ... and disable this
+      feature by specifying <tt>allow_debugging: off</tt>.
+      Fixes for relative URL rewriting when Regex-unsafe characters exist in the
+      base path.
+      Fixes binary-mode file reading for some versions of Ruby 1.8 on Windows.
+      It's now possible to embed <tt>.woff</tt>-formatted fonts in stylesheets,
+      along with the rest.
+    </p>
 
     <p>
       <b class="header">0.5.4</b><br />

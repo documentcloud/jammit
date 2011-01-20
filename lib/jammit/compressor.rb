@@ -22,7 +22,7 @@ module Jammit
 
     # Font extensions for which we allow embedding:
     EMBED_EXTS      = EMBED_MIME_TYPES.keys
-    EMBED_FONTS     = ['.ttf', '.otf']
+    EMBED_FONTS     = ['.ttf', '.otf', '.woff']
 
     # (32k - padding) maximum length for data-uri assets (an IE8 limitation).
     MAX_IMAGE_SIZE  = 32700
@@ -128,7 +128,7 @@ module Jammit
     # the namespaced prefix. Otherwise, simply use the filename.
     def template_name(path, base_path)
       return File.basename(path, ".#{Jammit.template_extension}") unless base_path
-      path.gsub(/\A#{base_path}\/(.*)\.#{Jammit.template_extension}\Z/, '\1')
+      path.gsub(/\A#{Regexp.escape(base_path)}\/(.*)\.#{Jammit.template_extension}\Z/, '\1')
     end
 
     # In order to support embedded assets from relative paths, we need to
@@ -244,7 +244,7 @@ module Jammit
 
     # `File.read`, but in "binary" mode.
     def read_binary_file(path)
-      File.open(path, 'r:binary') {|f| f.read }
+      File.open(path, 'rb') {|f| f.read }
     end
   end
 
