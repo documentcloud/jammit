@@ -128,7 +128,7 @@ module Jammit
     # the namespaced prefix. Otherwise, simply use the filename.
     def template_name(path, base_path)
       return File.basename(path, ".#{Jammit.template_extension}") unless base_path
-      path.gsub(/\A#{base_path}\/(.*)\.#{Jammit.template_extension}\Z/, '\1')
+      path.gsub(/\A#{Regexp.escape(base_path)}\/(.*)\.#{Jammit.template_extension}\Z/, '\1')
     end
 
     # In order to support embedded assets from relative paths, we need to
