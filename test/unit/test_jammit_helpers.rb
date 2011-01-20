@@ -27,6 +27,10 @@ class JammitHelpersTest < ActionView::TestCase
     end
   end
 
+  def params
+    @debug ? {:jammit_debug => true} : {}
+  end
+
   def test_include_stylesheets
     assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_includes.html')
   end
@@ -51,7 +55,7 @@ class JammitHelpersTest < ActionView::TestCase
     assert include_javascripts(:jst_test_diff_ext) == '<script src="/assets/jst_test_diff_ext.js?101" type="text/javascript"></script>'
   end
 
-  def test_individual_assets_in_development_do
+  def test_individual_assets_in_development
     Jammit.instance_variable_set(:@package_assets, false)
     assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_individual_includes.html')
     assert include_javascripts(:js_test_with_templates) == File.read('test/fixtures/tags/js_individual_includes.html')
@@ -62,6 +66,13 @@ class JammitHelpersTest < ActionView::TestCase
     assert include_javascripts(:jst_test_diff_ext) == '<script src="/assets/jst_test_diff_ext.html.mustache?101" type="text/javascript"></script>'
   ensure
     Jammit.reload!
+  end
+
+  def test_individual_assets_while_debugging
+    @debug = true
+    assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_individual_includes.html')
+    assert include_javascripts(:js_test_with_templates) == File.read('test/fixtures/tags/js_individual_includes.html')
+    @debug = false
   end
 
 end

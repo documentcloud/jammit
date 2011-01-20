@@ -252,6 +252,15 @@ stylesheets:
         </td>
       </tr>
       <tr>
+        <td><b>allow_debugging</b></td>
+        <td><tt>on&nbsp;|&nbsp;off</tt></td>
+        <td class="definition">
+          Defaults to <b>on</b>. Leaving it on allows you to pass 
+          <tt>jammit_debug=true</tt> as a query parameter, in order to load the
+          page with uncompressed, unpackaged assets in production.
+        </td>
+      </tr>
+      <tr>
         <td><b>template_function</b></td>
         <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;...</tt></td>
         <td class="definition">
@@ -348,6 +357,12 @@ stylesheets:
       change the contents of your packages without needing to restart Rails.
       In all other environments, or if <b>package_assets</b> is set to "<b>always</b>",
       you'll get tags for the merged packages.
+    </p>
+    
+    <p>
+      If <b>allow_debugging</b> is left on, you'll be able to request the development
+      version of the assets for any given page, by passing <tt>jammit_debug=true</tt>
+      as a query parameter.
     </p>
 
     <p>

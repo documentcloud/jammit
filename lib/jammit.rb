@@ -50,7 +50,7 @@ module Jammit
                 :embed_assets, :package_assets, :compress_assets, :gzip_assets,
                 :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                 :javascript_compressor, :compressor_options, :css_compressor_options,
-                :template_extension, :template_extension_matcher
+                :template_extension, :template_extension_matcher, :allow_debugging
   end
 
   # The minimal required configuration.
@@ -70,6 +70,7 @@ module Jammit
     @embed_assets           = conf[:embed_assets] || conf[:embed_images]
     @compress_assets        = !(conf[:compress_assets] == false)
     @gzip_assets            = !(conf[:gzip_assets] == false)
+    @allow_debugging        = !(conf[:allow_debugging] == false)
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
