@@ -684,6 +684,18 @@ JST['common/menu']</pre>
     </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.6.0</b><br />
+      You can now pass <tt>debug_assets=true</tt> as a query parameter to debug
+      the un-packaged versions of your assets in production ... and disable this
+      feature by specifying <tt>allow_debugging: off</tt>.
+      Fixes for relative URL rewriting when Regex-unsafe characters exist in the
+      base path.
+      Fixes binary-mode file reading for some versions of Ruby 1.8 on Windows.
+      It's now possible to embed <tt>.woff</tt>-formatted fonts in stylesheets,
+      along with the rest.
+    </p>
 
     <p>
       <b class="header">0.5.4</b><br />
