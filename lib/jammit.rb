@@ -159,8 +159,8 @@ module Jammit
   end
 
   # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.
-  def self.check_java_version
-    return true if @checked_java_version
+  def self.check_java_version(force=false)
+    return true if @checked_java_version and !force
     java = @compressor_options[:java] || 'java'
     @css_compressor_options[:java] ||= java if @compressor_options[:java]
     version = (`#{java} -version 2>&1`)[/\d+\.\d+/]
