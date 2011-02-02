@@ -68,7 +68,8 @@ module Jammit
     @configuration          = symbolize_keys(conf)
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_assets           = conf[:embed_assets] || conf[:embed_images]
-    @compress_assets        = !(conf[:compress_assets] == false)
+    #We need not to override compress_assets wrongly relying on the check_java_version cached value
+    @compress_assets        = !(conf[:compress_assets] == false) if @compress_assets.nil?
     @gzip_assets            = !(conf[:gzip_assets] == false)
     @allow_debugging        = !(conf[:allow_debugging] == false)
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
