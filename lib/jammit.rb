@@ -120,7 +120,8 @@ module Jammit
       :force          => false
     }.merge(options)
     load_configuration(options[:config_path])
-    packager.force = options[:force]
+    packager.force         = options[:force]
+    packager.package_names = options[:package_names]
     packager.precache_all(options[:output_folder], options[:base_url])
   end
 
@@ -184,6 +185,11 @@ module Jammit
   def self.warn(message)
     message = "Jammit Warning: #{message}"
     $stderr.puts message
+  end
+  
+  def self.log(message)
+    message = "Jammit: #{message}"
+    $stdout.puts message
   end
 
   # Clone of active_support's symbolize_keys, so that we don't have to depend

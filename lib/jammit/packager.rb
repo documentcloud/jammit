@@ -12,7 +12,7 @@ module Jammit
 
     # Set force to false to allow packages to only be rebuilt when their source
     # files have changed since the last time their package was built.
-    attr_accessor :force
+    attr_accessor :force, :package_names
 
     # Creating a new Packager will rebuild the list of assets from the
     # Jammit.configuration. When assets.yml is being changed on the fly,
@@ -20,6 +20,7 @@ module Jammit
     def initialize
       @compressor = Compressor.new
       @force = false
+      @package_names = nil
       @config = {
         :css => (Jammit.configuration[:stylesheets] || {}),
         :js  => (Jammit.configuration[:javascripts] || {})
@@ -112,6 +113,10 @@ module Jammit
       names = @packages[extension].keys
       return names if @force
       config_mtime = File.mtime(Jammit.config_path)
+      if @package_names
+        names = names.select {|n| @package_names.include? n }
+        Jammit.log("Only packaging: #{names.inspect}")
+      end
       return names.select do |name|
         pack        = package_for(name, extension)
         cached      = [Jammit.filename(name, extension)]
