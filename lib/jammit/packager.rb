@@ -111,12 +111,12 @@ module Jammit
     # or whose source files have changed since the last package build.
     def cacheable(extension, output_dir)
       names = @packages[extension].keys
-      return names if @force
       config_mtime = File.mtime(Jammit.config_path)
       if @package_names
         names = names.select {|n| @package_names.include? n }
         Jammit.log("Only packaging: #{names.inspect}")
       end
+      return names if @force
       return names.select do |name|
         pack        = package_for(name, extension)
         cached      = [Jammit.filename(name, extension)]
