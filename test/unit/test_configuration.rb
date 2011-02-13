@@ -62,4 +62,11 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     assert packed == File.read('test/fixtures/jammed/jst_test.js')
   end
 
+  def test_jst_compilation_with_newlines
+    Jammit.load_configuration('test/config/assets-jst-newlines.yml')
+    assert !Jammit.template_strip_newlines
+    packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
+    assert packed == File.read('test/fixtures/jammed/jst_test_newlines.js')
+  end
+
 end
