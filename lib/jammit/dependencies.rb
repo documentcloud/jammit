@@ -16,6 +16,7 @@ require 'uglifier'
 Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH, true) if defined?(Rails)
 
 # Jammit Core:
+require 'jammit/uglifier'
 require 'jammit/compressor'
 require 'jammit/packager'
 

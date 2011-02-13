@@ -44,7 +44,7 @@ module Jammit
     COMPRESSORS = {
       :yui      => YUI::JavaScriptCompressor,
       :closure  => Closure::Compiler,
-      :uglifier => ::Uglifier
+      :uglifier => Jammit::Uglifier
     }
 
     DEFAULT_OPTIONS = {
@@ -70,7 +70,7 @@ module Jammit
       else
         js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
       end
-      Jammit.compress_assets ? compressed_js(js) : js
+      Jammit.compress_assets ? @js_compressor.compress(js) : js
     end
 
     # Concatenate and compress a list of CSS stylesheets. When compressing a
@@ -110,11 +110,6 @@ module Jammit
 
 
     private
-    
-    # Returns a compressed javascript source using appropriate method of js compressor
-    def compressed_js(js)
-      @js_compressor.respond_to?(:compress) ? @js_compressor.compress(js) : @js_compressor.compile(js)
-    end
 
     # Given a set of paths, find a common prefix path.
     def find_base_path(paths)
