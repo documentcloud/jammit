@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'yui-compressor',    ['>= 0.9.3']
   s.add_dependency 'closure-compiler',  ['>= 0.1.0']
+  s.add_dependency 'uglifier',          ['>= 0.3.0']
 
   s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit.gemspec', 'LICENSE', 'README']
 end

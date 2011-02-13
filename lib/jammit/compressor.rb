@@ -42,18 +42,19 @@ module Jammit
     JST_END         = "})();"
 
     COMPRESSORS = {
-      :yui     => YUI::JavaScriptCompressor,
-      :closure => Closure::Compiler
+      :yui      => YUI::JavaScriptCompressor,
+      :closure  => Closure::Compiler,
+      :uglifier => ::Uglifier
     }
 
     DEFAULT_OPTIONS = {
-      :yui     => {:munge => true},
-      :closure => {}
+      :yui      => {:munge => true},
+      :closure  => {},
+      :uglifier => {}
     }
-
-    # Creating a compressor initializes the internal YUI Compressor from
-    # the "yui-compressor" gem, or the internal Closure Compiler from the
-    # "closure-compiler" gem.
+    
+    # The css comressor if always YUI Compressor. Js compression can be provided with
+    # YUI Compressor, Google Closure Compiler or UglifyJS
     def initialize
       @css_compressor = YUI::CssCompressor.new(Jammit.css_compressor_options || {})
       flavor          = Jammit.javascript_compressor || Jammit::DEFAULT_COMPRESSOR
@@ -69,7 +70,7 @@ module Jammit
       else
         js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
       end
-      Jammit.compress_assets ? @js_compressor.compress(js) : js
+      Jammit.compress_assets ? compressed_js(js) : js
     end
 
     # Concatenate and compress a list of CSS stylesheets. When compressing a
@@ -109,6 +110,11 @@ module Jammit
 
 
     private
+    
+    # Returns a compressed javascript source using appropriate method of js compressor
+    def compressed_js(js)
+      @js_compressor.respond_to?(:compress) ? @js_compressor.compress(js) : @js_compressor.compile(js)
+    end
 
     # Given a set of paths, find a common prefix path.
     def find_base_path(paths)

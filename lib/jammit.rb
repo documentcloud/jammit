@@ -22,7 +22,7 @@ module Jammit
 
   DEFAULT_JST_NAMESPACE = "window.JST"
 
-  AVAILABLE_COMPRESSORS = [:yui, :closure]
+  AVAILABLE_COMPRESSORS = [:yui, :closure, :uglifier]
 
   DEFAULT_COMPRESSOR    = :yui
 
