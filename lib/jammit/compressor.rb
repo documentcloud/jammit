@@ -50,7 +50,7 @@ module Jammit
     DEFAULT_OPTIONS = {
       :yui      => {:munge => true},
       :closure  => {},
-      :uglifier => {}
+      :uglifier => {:copyright => false}
     }
     
     # The css comressor if always YUI Compressor. Js compression can be provided with
