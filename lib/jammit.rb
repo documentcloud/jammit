@@ -66,8 +66,9 @@ module Jammit
     conf = YAML.load(ERB.new(File.read(config_path)).result)
 
     # Optionally overwrite configurations based on the environment
-    if conf.has_key?(RAILS_ENV) && conf[RAILS_ENV].is_a?(Hash)
-      conf.merge!(conf.delete(RAILS_ENV))
+    rails_env = defined?(Rails) ? Rails.env : RAILS_ENV
+    if conf.has_key?(rails_env) && conf[rails_env].is_a?(Hash)
+      conf.merge!(conf.delete(rails_env))
     end
 
     @config_path            = config_path
