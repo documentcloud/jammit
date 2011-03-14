@@ -16,6 +16,8 @@ module Jammit
 
   DEFAULT_PACKAGE_PATH  = "assets"
 
+  DEFAULT_HEADJS_PATH   = "head.min.js"
+
   DEFAULT_JST_SCRIPT    = File.join(ROOT, 'lib/jammit/jst.js')
 
   DEFAULT_JST_COMPILER  = "template"
@@ -50,7 +52,8 @@ module Jammit
                 :embed_assets, :package_assets, :compress_assets, :gzip_assets,
                 :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                 :javascript_compressor, :compressor_options, :css_compressor_options,
-                :template_extension, :template_extension_matcher, :allow_debugging
+                :template_extension, :template_extension_matcher, :allow_debugging,
+                :headjs_path
   end
 
   # The minimal required configuration.
@@ -74,6 +77,7 @@ module Jammit
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
+    @headjs_path            = conf[:headjs_path] || DEFAULT_HEADJS_PATH
     set_javascript_compressor(conf[:javascript_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])

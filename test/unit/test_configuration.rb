@@ -62,4 +62,13 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     assert packed == File.read('test/fixtures/jammed/jst_test.js')
   end
 
+  def test_headjs_path
+    Jammit.headjs_path == "head.min.js"
+  end
+
+  def test_headjs_custom_path
+    Jammit.load_configuration('test/config/assets-headjs.yml')
+    assert Jammit.headjs_path == "vendor/head.min.js"
+  end
+
 end
