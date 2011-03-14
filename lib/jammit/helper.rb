@@ -43,7 +43,7 @@ module Jammit
           end.join(", ")
         end.join(", ")
       end
-      scripts = [javascript_include_tag('head.min.js'), javascript_tag("head.js(#{head_js_args});")]
+      scripts = [javascript_include_tag(Jammit.headjs_path), javascript_tag("head.js(#{head_js_args});")]
       html_safe(scripts.join("\n"))
     end
 
