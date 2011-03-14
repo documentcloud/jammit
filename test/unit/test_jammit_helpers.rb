@@ -55,6 +55,11 @@ class JammitHelpersTest < ActionView::TestCase
     assert include_javascripts(:jst_test_diff_ext) == '<script src="/assets/jst_test_diff_ext.js?101" type="text/javascript"></script>'
   end
 
+  def test_include_javascripts_with_head_js_in_development
+    Jammit.instance_variable_set(:@package_assets, false)
+    assert_equal File.read('test/fixtures/tags/headjs_with_individual_includes.html').chomp, include_headjs_javascripts(:js_test_with_templates)
+  end
+
   def test_individual_assets_in_development
     Jammit.instance_variable_set(:@package_assets, false)
     assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_individual_includes.html')
@@ -74,5 +79,4 @@ class JammitHelpersTest < ActionView::TestCase
     assert include_javascripts(:js_test_with_templates) == File.read('test/fixtures/tags/js_individual_includes.html')
     @debug = false
   end
-
 end

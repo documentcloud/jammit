@@ -31,6 +31,22 @@ module Jammit
       html_safe(javascript_include_tag(tags.flatten))
     end
 
+    def include_headjs_javascripts(*packages)
+      head_js_args = if should_package?
+        packages.map do |pack|
+          "'#{Jammit.asset_url(pack, :js)}'"
+        end.join(", ")
+      else
+        packages.map do |pack|
+          Jammit.packager.individual_urls(pack, :js).map do |url|
+            "'#{url}'"
+          end.join(", ")
+        end.join(", ")
+      end
+      scripts = [javascript_include_tag('head.min.js'), javascript_tag("head.js(#{head_js_args});")]
+      html_safe(scripts.join("\n"))
+    end
+
     # Writes out the URL to the concatenated and compiled JST file -- we always
     # have to pre-process it, even in development.
     def include_templates(*packages)
