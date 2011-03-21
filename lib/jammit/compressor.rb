@@ -228,8 +228,7 @@ module Jammit
     # Return the Base64-encoded contents of an asset on a single line.
     def encoded_contents(asset_path)
       return @asset_contents[asset_path] if @asset_contents[asset_path]
-      data = read_binary_file(asset_path)
-      @asset_contents[asset_path] = Base64.encode64(data).gsub(/\n/, '')
+      @asset_contents[asset_path] = [IO.read(asset_path)].pack("m0")
     end
 
     # Grab the mime-type of an asset, by filename.
