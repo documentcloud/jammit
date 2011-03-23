@@ -1,0 +1,8 @@
+compress_assets: on
+gzip_assets: on
+
+development:
+  compress_assets: off
+
+test:
+  gzip_assets: off
