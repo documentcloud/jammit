@@ -86,7 +86,6 @@ module Jammit
     set_template_extension(conf[:template_extension])
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
-    check_java_version
     check_for_deprecations
     self
   end
@@ -184,7 +183,9 @@ module Jammit
 
   # Jammit 0.5+ no longer supports separate template packages.
   def self.check_for_deprecations
-    raise DeprecationError, "Jammit 0.5+ no longer supports separate packages for templates.\nPlease fold your templates into the appropriate 'javascripts' package instead." if @configuration[:templates]
+    if @configuration[:templates]
+      raise DeprecationError, "Jammit 0.5+ no longer supports separate packages for templates.\nPlease fold your templates into the appropriate 'javascripts' package instead."
+    end
   end
 
   def self.warn(message)
