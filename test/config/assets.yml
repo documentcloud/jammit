@@ -19,6 +19,11 @@ javascripts:
   jst_test_diff_ext_and_nested:
     - *jst_test_diff_ext
     - fixtures/src/nested/**/*.html.mustache
+  jst_test_with_template_base_path_and_single_path:
+    - fixtures/src/base_path/a/*.jst
+  jst_test_with_template_base_path_and_multiple_paths:
+    - fixtures/src/base_path/a/*.jst
+    - fixtures/src/base_path/b/*.jst
 
 stylesheets:
   css_test: &css_test

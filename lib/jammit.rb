@@ -50,7 +50,8 @@ module Jammit
                 :embed_assets, :package_assets, :compress_assets, :gzip_assets,
                 :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                 :javascript_compressor, :compressor_options, :css_compressor_options,
-                :template_extension, :template_extension_matcher, :allow_debugging
+                :template_extension, :template_extension_matcher, :allow_debugging,
+                :template_base_path
   end
 
   # The minimal required configuration.
@@ -79,6 +80,7 @@ module Jammit
     set_template_function(conf[:template_function])
     set_template_namespace(conf[:template_namespace])
     set_template_extension(conf[:template_extension])
+    set_template_base_path(conf[:template_base_path])
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_java_version
@@ -156,6 +158,13 @@ module Jammit
   def self.set_template_extension(value)
     @template_extension = (value == true || value.nil? ? DEFAULT_JST_EXTENSION : value.to_s).gsub(/\A\.?(.*)\Z/, '\1')
     @template_extension_matcher = /\.#{Regexp.escape(@template_extension)}\Z/
+  end
+
+  # Set the base path used for JS templates.
+  def self.set_template_base_path(value)
+    @template_base_path = if value
+      File.join(ASSET_ROOT, value)
+    end
   end
 
   # The YUI Compressor requires Java > 1.4, and Closure requires Java > 1.6.

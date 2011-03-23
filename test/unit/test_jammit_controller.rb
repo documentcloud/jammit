@@ -66,4 +66,23 @@ class JammitControllerTest < ActionController::TestCase
     Jammit.reload!
   end
 
+  def test_package_with_jst_with_template_base_path_and_single_path
+    Jammit.reload!
+    Jammit.set_template_base_path('fixtures/src/base_path')
+    get(:package, :package => 'jst_test_with_template_base_path_and_single_path', :extension => 'js')
+    assert @response.headers['Content-Type'] =~ /text\/javascript/
+    assert @response.body == File.read("#{ASSET_ROOT}/fixtures/jammed/jst_test_with_template_base_path_and_single_path.js")
+  ensure
+    Jammit.reload!
+  end
+
+  def test_package_with_jst_with_template_base_path_and_multiple_paths
+    Jammit.reload!
+    Jammit.set_template_base_path('fixtures/src/base_path')
+    get(:package, :package => 'jst_test_with_template_base_path_and_multiple_paths', :extension => 'js')
+    assert @response.headers['Content-Type'] =~ /text\/javascript/
+    assert @response.body == File.read("#{ASSET_ROOT}/fixtures/jammed/jst_test_with_template_base_path_and_multiple_paths.js")
+  ensure
+    Jammit.reload!
+  end
 end

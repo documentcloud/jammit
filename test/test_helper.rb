@@ -46,6 +46,10 @@ class Test::Unit::TestCase
     test/precache/jst_test_diff_ext_and_nested.js.gz
     test/precache/jst_test_nested.js
     test/precache/jst_test_nested.js.gz
+    test/precache/jst_test_with_template_base_path_and_multiple_paths.js
+    test/precache/jst_test_with_template_base_path_and_multiple_paths.js.gz
+    test/precache/jst_test_with_template_base_path_and_single_path.js
+    test/precache/jst_test_with_template_base_path_and_single_path.js.gz
   )
 
   PRECACHED_SOURCES = %w(

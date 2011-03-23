@@ -95,7 +95,7 @@ module Jammit
     def compile_jst(paths)
       namespace   = Jammit.template_namespace
       paths       = paths.grep(Jammit.template_extension_matcher).sort
-      base_path   = find_base_path(paths)
+      base_path   = Jammit.template_base_path || find_base_path(paths)
       compiled    = paths.map do |path|
         contents  = read_binary_file(path)
         contents  = contents.gsub(/\n/, '').gsub("'", '\\\\\'')
