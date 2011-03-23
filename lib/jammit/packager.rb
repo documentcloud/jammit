@@ -18,9 +18,9 @@ module Jammit
     # Jammit.configuration. When assets.yml is being changed on the fly,
     # create a new Packager.
     def initialize
-      @compressor = Compressor.new
-      @force = false
-      @package_names = nil
+      @compressor     = Compressor.new
+      @force          = false
+      @package_names  = nil
       @config = {
         :css => (Jammit.configuration[:stylesheets] || {}),
         :js  => (Jammit.configuration[:javascripts] || {})
@@ -111,11 +111,8 @@ module Jammit
     # or whose source files have changed since the last package build.
     def cacheable(extension, output_dir)
       names = @packages[extension].keys
+      names = names.select {|n| @package_names.include? n } if @package_names
       config_mtime = File.mtime(Jammit.config_path)
-      if @package_names
-        names = names.select {|n| @package_names.include? n }
-        Jammit.log("Only packaging: #{names.inspect}")
-      end
       return names if @force
       return names.select do |name|
         pack        = package_for(name, extension)

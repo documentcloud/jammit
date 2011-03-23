@@ -64,7 +64,7 @@ Options:
           @options[:force] = force
         end
         opts.on('-p', '--packages PACKAGE_NAMES', 'comma-separated list of packages (ex: "core,embed", default: all packages)') do |package_names|
-          @options[:package_names] = package_names.split(',').map {|n| n.to_sym }
+          @options[:package_names] = package_names.split(/,\s*/).map {|n| n.to_sym }
         end
         opts.on_tail('-v', '--version', 'display Jammit version') do
           puts "Jammit version #{Jammit::VERSION}"

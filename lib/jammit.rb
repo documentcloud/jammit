@@ -186,11 +186,6 @@ module Jammit
     message = "Jammit Warning: #{message}"
     $stderr.puts message
   end
-  
-  def self.log(message)
-    message = "Jammit: #{message}"
-    $stdout.puts message
-  end
 
   # Clone of active_support's symbolize_keys, so that we don't have to depend
   # on active_support in any fashion. Converts a hash's keys to all symbols.
