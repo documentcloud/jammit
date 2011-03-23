@@ -73,4 +73,5 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     Object.send(:remove_const, :RAILS_ENV)
     Object.const_set :RAILS_ENV, "test"
   end
+
 end

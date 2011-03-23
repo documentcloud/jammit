@@ -98,7 +98,7 @@ module Jammit
       base_path   = find_base_path(paths)
       compiled    = paths.map do |path|
         contents  = read_binary_file(path)
-        contents  = contents.gsub(/\n/, '').gsub("'", '\\\\\'')
+        contents  = contents.gsub(/\n/, "\\n").gsub("'", '\\\\\'')
         name      = template_name(path, base_path)
         "#{namespace}['#{name}'] = #{Jammit.template_function}('#{contents}');"
       end
