@@ -141,9 +141,15 @@
         <tt>config.gem "jammit"</tt>
       </li>
       <li>
-        <p>If you're using <b>Rails 3</b> you're done &mdash; Jammit routes are loaded automatically into your app.</p>
-        <p>If you're using <b>Rails 2</b>, edit <b>config/routes.rb</b> to give Jammit a route
-        ( <b>/assets</b> by default) for dynamic asset packaging and caching.</p>
+        <p>
+          If you're using <b>Rails 3</b>, you're done! Jammit routes 
+          (under <b>/assets</b> by default) will be loaded automatically into 
+          your app.
+        </p>
+        <p>
+          If you're using <b>Rails 2</b>, edit <b>config/routes.rb</b> to give 
+          Jammit routes for dynamic asset packaging and caching.
+        </p>
 <pre>
 ActionController::Routing::Routes.draw do |map|
   ...
