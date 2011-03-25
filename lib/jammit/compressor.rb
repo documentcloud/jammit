@@ -43,9 +43,10 @@ module Jammit
 
     COMPRESSORS = {
       :yui      => YUI::JavaScriptCompressor,
-      :closure  => Closure::Compiler,
-      :uglifier => Jammit::Uglifier
     }
+    
+    COMPRESSORS[:closure] = Closure::Compiler if Jammit.loaded_compressors.include? :closure
+    COMPRESSORS[:uglifier] = Jammit::Uglifier  if Jammit.loaded_compressors.include? :uglifier
 
     DEFAULT_OPTIONS = {
       :yui      => {:munge => true},

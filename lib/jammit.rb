@@ -51,11 +51,13 @@ module Jammit
                 :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                 :javascript_compressor, :compressor_options, :css_compressor_options,
                 :template_extension, :template_extension_matcher, :allow_debugging
+    attr_accessor :loaded_compressors
   end
 
   # The minimal required configuration.
   @configuration = {}
   @package_path  = DEFAULT_PACKAGE_PATH
+  @loaded_compressors = AVAILABLE_COMPRESSORS
 
   # Load the complete asset configuration from the specified @config_path@.
   # If we're loading softly, don't let missing configuration error out.
@@ -134,7 +136,7 @@ module Jammit
   # Ensure that the JavaScript compressor is a valid choice.
   def self.set_javascript_compressor(value)
     value = value && value.to_sym
-    @javascript_compressor = AVAILABLE_COMPRESSORS.include?(value) ? value : DEFAULT_COMPRESSOR
+    @javascript_compressor = loaded_compressors.include?(value) ? value : DEFAULT_COMPRESSOR
   end
 
   # Turn asset packaging on or off, depending on configuration and environment.
