@@ -28,8 +28,8 @@ Gem::Specification.new do |s|
                          '--all'
 
   s.add_dependency 'yui-compressor',    ['>= 0.9.3']
-  s.add_dependency 'closure-compiler',  ['>= 0.1.0']
-  s.add_dependency 'uglifier',          ['>= 0.4.0']
+  #s.add_dependency 'closure-compiler',  ['>= 0.1.0']
+  #s.add_dependency 'uglifier',          ['>= 0.4.0']
 
   s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit.gemspec', 'LICENSE', 'README']
 end
