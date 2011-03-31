@@ -40,10 +40,6 @@ class Test::Unit::TestCase
     test/precache/js_test_with_templates.js.gz
     test/precache/jst_test.js
     test/precache/jst_test.js.gz
-    test/precache/jst_test_diff_ext.js
-    test/precache/jst_test_diff_ext.js.gz
-    test/precache/jst_test_diff_ext_and_nested.js
-    test/precache/jst_test_diff_ext_and_nested.js.gz
     test/precache/jst_test_nested.js
     test/precache/jst_test_nested.js.gz
   )

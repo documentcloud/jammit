@@ -68,18 +68,6 @@ class PackagerTest < Test::Unit::TestCase
     assert jst == File.read('test/fixtures/jammed/jst_test_nested.js')
   end
 
-  def test_packaging_templates_with_different_extensions
-    Jammit.set_template_extension('html.mustache')
-    jst = Jammit.packager.pack_templates(:jst_test_diff_ext)
-    assert jst == File.read('test/fixtures/jammed/jst_test_diff_ext.js')
-  end
-
-  def test_packaging_templates_with_different_extensions_nested
-    Jammit.set_template_extension('html.mustache')
-    jst = Jammit.packager.pack_templates(:jst_test_diff_ext_and_nested)
-    assert jst == File.read('test/fixtures/jammed/jst_test_diff_ext_and_nested.js')
-  end
-
   def test_package_caching
     css = Jammit.packager.pack_stylesheets(:css_test, :mhtml, 'http://www.example.com')
     mtime = Time.now

@@ -59,11 +59,6 @@ class JammitHelpersTest < ActionView::TestCase
     Jammit.instance_variable_set(:@package_assets, false)
     assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_individual_includes.html')
     assert include_javascripts(:js_test_with_templates) == File.read('test/fixtures/tags/js_individual_includes.html')
-    # Test to make sure different extensions don't change things.
-    Jammit.reload!
-    Jammit.instance_variable_set(:@package_assets, false)
-    Jammit.set_template_extension('html.mustache')
-    assert include_javascripts(:jst_test_diff_ext) == '<script src="/assets/jst_test_diff_ext.html.mustache?101" type="text/javascript"></script>'
   ensure
     Jammit.reload!
   end

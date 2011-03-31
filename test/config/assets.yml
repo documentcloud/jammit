@@ -11,14 +11,9 @@ javascripts:
     - fixtures/src/nested/*.js
   jst_test: &jst_test
     - fixtures/src/*.jst
-  jst_test_diff_ext: &jst_test_diff_ext
-    - fixtures/src/*.html.mustache
   jst_test_nested:
     - *jst_test
     - fixtures/src/nested/**/*.jst
-  jst_test_diff_ext_and_nested:
-    - *jst_test_diff_ext
-    - fixtures/src/nested/**/*.html.mustache
 
 stylesheets:
   css_test: &css_test
