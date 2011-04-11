@@ -25,6 +25,8 @@ module Jammit
   COMPRESSORS           = [:yui, :closure, :uglifier]
 
   DEFAULT_COMPRESSOR    = :yui
+  
+  RAILS_ENV             = (defined?(Rails) ? Rails.env : ENV['RAILS_ENV'] || "development")
 
   # Extension matchers for JavaScript and JST, which need to be disambiguated.
   JS_EXTENSION          = /\.js\Z/
@@ -68,8 +70,7 @@ module Jammit
     conf = YAML.load(ERB.new(File.read(config_path)).result)
 
     # Optionally overwrite configuration based on the environment.
-    rails_env = defined?(Rails) ? Rails.env : RAILS_ENV
-    conf.merge! conf.delete rails_env if conf.has_key? rails_env
+    conf.merge! conf.delete RAILS_ENV if conf.has_key? RAILS_ENV
 
     @config_path            = config_path
     @configuration          = symbolize_keys(conf)
