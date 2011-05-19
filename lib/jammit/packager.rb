@@ -37,13 +37,13 @@ module Jammit
     # changed since their last package build.
     def precache_all(output_dir=nil, base_url=nil)
       output_dir ||= File.join(PUBLIC_ROOT, Jammit.package_path)
-      cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
+      cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir, nil, newest_mtime(p, :js)) }
       cacheable(:css, output_dir).each do |p|
-        cache(p, 'css', pack_stylesheets(p), output_dir)
+        mtime = newest_mtime(p, :css)
+        cache(p, 'css', pack_stylesheets(p), output_dir, nil, mtime)
         if Jammit.embed_assets
-          cache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
+          cache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri, mtime)
           if Jammit.mhtml_enabled && base_url
-            mtime = Time.now
             asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml, mtime)}"
             cache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
           end
@@ -70,6 +70,11 @@ module Jammit
     # Get the list of individual assets for a package.
     def individual_urls(package, extension)
       package_for(package, extension)[:urls]
+    end
+
+    # Return the modification time of the newest file in the package
+    def newest_mtime(package, extension)
+      package_for(package, extension)[:paths].map { |path| File.mtime(path) }.max
     end
 
     # Return the compressed contents of a stylesheet package.
