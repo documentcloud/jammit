@@ -63,15 +63,13 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   end
 
   def test_environment_specific_configuration
-    Object.send(:remove_const, :RAILS_ENV)
-    Object.const_set :RAILS_ENV, "development"
+    ENV['RAILS_ENV'] = 'development'
     Jammit.load_configuration('test/config/assets-environment.yml')
 
     assert !Jammit.compress_assets # Should override with environment specific configuration
     assert Jammit.gzip_assets # but keep the general configuration
 
-    Object.send(:remove_const, :RAILS_ENV)
-    Object.const_set :RAILS_ENV, "test"
+    ENV['RAILS_ENV'] = 'test'
   end
 
 end
