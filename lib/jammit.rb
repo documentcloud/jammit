@@ -34,9 +34,10 @@ module Jammit
   # requested by a browser -- rendering a 404.
   class PackageNotFound < NameError; end
 
-  # Jammit raises a ConfigurationNotFound exception when you try to load the
-  # configuration of an assets.yml file that doesn't exist.
-  class ConfigurationNotFound < NameError; end
+  # Jammit raises a MissingConfiguration exception when you try to load the
+  # configuration of an assets.yml file that doesn't exist, or are missing 
+  # a piece of required configuration.
+  class MissingConfiguration < NameError; end
 
   # Jammit raises an OutputNotWritable exception if the output directory for
   # cached packages is locked.
@@ -64,7 +65,7 @@ module Jammit
   def self.load_configuration(config_path, soft=false)
     exists = config_path && File.exists?(config_path)
     return false if soft && !exists
-    raise ConfigurationNotFound, "could not find the \"#{config_path}\" configuration file" unless exists
+    raise MissingConfiguration, "could not find the \"#{config_path}\" configuration file" unless exists
     conf = YAML.load(ERB.new(File.read(config_path)).result)
 
     # Optionally overwrite configuration based on the environment.

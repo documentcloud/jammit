@@ -12,7 +12,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   end
 
   def test_loading_a_nonexistent_file
-    assert_raises(ConfigurationNotFound) do
+    assert_raises(MissingConfiguration) do
       Jammit.load_configuration('nonexistent/assets.yml')
     end
   end
