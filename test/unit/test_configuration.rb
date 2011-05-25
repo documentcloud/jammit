@@ -12,7 +12,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   end
 
   def test_loading_a_nonexistent_file
-    assert_raises(ConfigurationNotFound) do
+    assert_raises(MissingConfiguration) do
       Jammit.load_configuration('nonexistent/assets.yml')
     end
   end
@@ -60,6 +60,16 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   def test_jst_compilation
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
     assert packed == File.read('test/fixtures/jammed/jst_test.js')
+  end
+
+  def test_environment_specific_configuration
+    ENV['RAILS_ENV'] = 'development'
+    Jammit.load_configuration('test/config/assets-environment.yml')
+
+    assert !Jammit.compress_assets # Should override with environment specific configuration
+    assert Jammit.gzip_assets # but keep the general configuration
+
+    ENV['RAILS_ENV'] = 'test'
   end
 
 end

@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name      = 'jammit'
-  s.version   = '0.6.0'         # Keep version in sync with jammit.rb
-  s.date      = '2010-11-8'
+  s.version   = '0.6.1'         # Keep version in sync with jammit.rb
+  s.date      = '2011-05-25'
 
   s.homepage    = "http://documentcloud.github.com/jammit/"
   s.summary     = "Industrial Strength Asset Packaging for Rails"
@@ -20,15 +20,13 @@ Gem::Specification.new do |s|
   s.require_paths     = ['lib']
   s.executables       = ['jammit']
 
-  s.has_rdoc          = true
   s.extra_rdoc_files  = ['README']
   s.rdoc_options      << '--title'    << 'Jammit' <<
                          '--exclude'  << 'test' <<
                          '--main'     << 'README' <<
                          '--all'
 
-  s.add_dependency 'yui-compressor',    ['>= 0.9.1']
-  s.add_dependency 'closure-compiler',  ['>= 0.1.0']
+  s.add_dependency 'yui-compressor',    ['>= 0.9.3']
 
   s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit.gemspec', 'LICENSE', 'README']
 end

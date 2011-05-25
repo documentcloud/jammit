@@ -12,14 +12,15 @@ module Jammit
 
     # Set force to false to allow packages to only be rebuilt when their source
     # files have changed since the last time their package was built.
-    attr_accessor :force
+    attr_accessor :force, :package_names
 
     # Creating a new Packager will rebuild the list of assets from the
     # Jammit.configuration. When assets.yml is being changed on the fly,
     # create a new Packager.
     def initialize
-      @compressor = Compressor.new
-      @force = false
+      @compressor     = Compressor.new
+      @force          = false
+      @package_names  = nil
       @config = {
         :css => (Jammit.configuration[:stylesheets] || {}),
         :js  => (Jammit.configuration[:javascripts] || {})
@@ -42,8 +43,9 @@ module Jammit
         cache(p, 'css', pack_stylesheets(p), output_dir)
         if Jammit.embed_assets
           cache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
-          if Jammit.mhtml_enabled && base_url
-            mtime = Time.now
+          if Jammit.mhtml_enabled
+            raise MissingConfiguration, "A --base-url option is required in order to generate MHTML." unless base_url
+            mtime = latest_mtime package_for(p, :css)[:paths]
             asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml, mtime)}"
             cache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
           end
@@ -54,9 +56,10 @@ module Jammit
     # Caches a single prebuilt asset package and gzips it at the highest
     # compression level. Ensures that the modification time of both both
     # variants is identical, for web server caching modules, as well as MHTML.
-    def cache(package, extension, contents, output_dir, suffix=nil, mtime=Time.now)
+    def cache(package, extension, contents, output_dir, suffix=nil, mtime=nil)
       FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
       raise OutputNotWritable, "Jammit doesn't have permission to write to \"#{output_dir}\"" unless File.writable?(output_dir)
+      mtime ||= latest_mtime package_for(package, extension.to_sym)[:paths]
       files = []
       files << file_name = File.join(output_dir, Jammit.filename(package, extension, suffix))
       File.open(file_name, 'wb+') {|f| f.write(contents) }
@@ -104,14 +107,21 @@ module Jammit
       Jammit.warn("No assets match '#{glob}'") if paths.empty?
       paths
     end
+    
+    # Get the latest mtime of a list of files (plus the config path).
+    def latest_mtime(paths)
+      paths += [Jammit.config_path]
+      paths.map {|p| File.mtime(p) }.max || Time.now
+    end
 
     # Return a list of all of the packages that should be cached. If "force" is
     # true, this is all of them -- otherwise only the packages that are missing
     # or whose source files have changed since the last package build.
     def cacheable(extension, output_dir)
       names = @packages[extension].keys
-      return names if @force
+      names = names.select {|n| @package_names.include? n } if @package_names
       config_mtime = File.mtime(Jammit.config_path)
+      return names if @force
       return names.select do |name|
         pack        = package_for(name, extension)
         cached      = [Jammit.filename(name, extension)]

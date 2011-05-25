@@ -87,13 +87,13 @@
       <a href="http://github.com/documentcloud/jammit/">Jammit</a> is an
       industrial strength asset packaging library for <b>Rails</b>, providing
       both the CSS and JavaScript concatenation and compression
-      that you'd expect, as well as <b>YUI Compressor</b> and <b>Closure Compiler</b>
+      that you'd expect, as well as <b>YUI Compressor</b>, <b>Closure Compiler</b>, and <b>UglifyJS</b>
       compatibility, ahead-of-time gzipping, built-in JavaScript template
       support, and optional <b>Data-URI / MHTML image and font embedding</b>.
     </p>
 
     <p>
-      <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.6.0</a>
+      <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.6.1</a>
     </p>
     
     <p>
@@ -113,7 +113,7 @@
       <a href="#installation">Installation</a>    |
       <a href="#configuration">Configuration</a>  |
       <a href="#usage">Usage</a>                  |
-      <a href="#compressors">YUI &amp; Closure</a> |
+      <a href="#compressors">YUI, Closure &amp; UglifyJS</a> |
       <a href="#precaching">Precaching Assets</a> <br />
       <a href="#expires">Expires Headers</a> |
       <a href="#embedding">Embedding Assets</a> |
@@ -141,11 +141,15 @@
         <tt>config.gem "jammit"</tt>
       </li>
       <li>
-        If you're using <b>Rails 2</b>, edit <b>config/routes.rb</b> to give Jammit a route
-        ( <b>/assets</b> by default) for dynamic asset packaging and caching.
-        In <b>Rails 3</b>, this route is loaded automatically.
-        <br /><br />
-
+        <p>
+          If you're using <b>Rails 3</b>, you're done! Jammit routes 
+          (under <b>/assets</b> by default) will be loaded automatically into 
+          your app.
+        </p>
+        <p>
+          If you're using <b>Rails 2</b>, edit <b>config/routes.rb</b> to give 
+          Jammit routes for dynamic asset packaging and caching.
+        </p>
 <pre>
 ActionController::Routing::Routes.draw do |map|
   ...
@@ -157,8 +161,9 @@ end</pre>
 
     <p>
       <i>Note: If you don't already have the
-      <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a> or
-      <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a>
+      <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a>,
+      <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a> or
+      <a href="https://github.com/lautis/uglifier">uglifier</a>
       gems installed, downloading make take a minute &mdash; the jar files together
       weigh in at 5 megabytes.</i>
     </p>
@@ -206,7 +211,8 @@ stylesheets:
         <td><b>package_assets</b></td>
         <td><tt>on&nbsp;|&nbsp;off&nbsp;|&nbsp;always</tt></td>
         <td class="definition">
-          Defaults to <b>on</b>, packaging and caching assets in every environment but development.
+          Defaults to <b>on</b>, packaging and caching assets in every environment 
+          but <tt>development</tt> and <tt>test</tt>.
           Never packages when <b>off</b>, always packages when <b>always</b>.
         </td>
       </tr>
@@ -226,7 +232,7 @@ stylesheets:
         <td><tt>on&nbsp;|&nbsp;off</tt></td>
         <td class="definition">
           Defaults to <b>on</b>. When <b>off</b>, JavaScript and CSS packages
-          will be left uncompressed (by YUI or Closure). Disabling compression is only recommended
+          will be left uncompressed (by YUI, Closure, or UglifyJS). Disabling compression is only recommended
           if you're packaging assets in development.
         </td>
       </tr>
@@ -242,12 +248,12 @@ stylesheets:
       </tr>
       <tr>
         <td><b>javascript_compressor</b></td>
-        <td><tt>yui&nbsp;|&nbsp;closure</tt></td>
+        <td><tt>yui&nbsp;|&nbsp;closure&nbsp;|&nbsp;uglifier</tt></td>
         <td class="definition">
-          Defaults to <b>yui</b>. As of <b>0.2.0</b>, the Jammit gem can use either the
-          <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>
-          or the
-          <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
+          Defaults to <b>yui</b>. The Jammit gem can use either the
+          <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>, the
+          <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>, or 
+          <a href="https://github.com/mishoo/UglifyJS/">UglifyJS</a>
           to compress your JavaScript.
         </td>
       </tr>
@@ -309,8 +315,9 @@ stylesheets:
         <td class="definition">
           Pass an options hash directly to the underlying JavaScript compressor
           to configure it. See the
-          <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a> or
-          <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a>
+          <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a>,
+          <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a>, or
+          <a href="https://github.com/lautis/uglifier">uglifier</a>
           gem documentation for the full list of available options.
         </td>
       </tr>
@@ -372,23 +379,25 @@ stylesheets:
     <pre>require 'jammit'
 Jammit.package!</pre>
 
-    <h2 id="compressors">YUI &amp; Closure</h2>
+    <h2 id="compressors">YUI, Closure &amp; UglifyJS</h2>
 
     <p>
-      Jammit can be configured to use either the
-      <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a> or the
-      <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
+      Jammit can be configured to use the
+      <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>, the
+      <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>, or
+      <a href="https://github.com/mishoo/UglifyJS/">UglifyJS</a>
       to compress and optimize your JavaScript. (CSS is always run through the
-      YUI Compressor.) Specify the <b>javascript_compressor</b> to choose either <b>yui</b>
-      or <b>closure</b> backends. If left blank, Jammit defaults to <b>yui</b>.
+      YUI Compressor.) Specify the <b>javascript_compressor</b> to choose either <b>yui</b>,
+      <b>closure</b>, or <b>uglifier</b> backends. If left blank, Jammit defaults to <b>yui</b>.
     </p>
 
     <p>
       You can configure the JavaScript compilation by adding <b>compressor_options</b>
       to your <b>assets.yml</b>. The <b>compressor_options</b>
       will be passed directly to the Gem backend of your chosen compressor. See the
-      <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a> or
-      <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a>
+      <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a>,
+      <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a>, or
+      <a href="https://github.com/lautis/uglifier">uglifier</a>
       gem documentation for all the available options. For example, to configure
       the Closure Compiler to use its
       <a href="http://code.google.com/closure/compiler/docs/compilation_levels.html">advanced optimizations</a>,
@@ -451,8 +460,6 @@ compressor_options:
       <a href="http://rubyhitsquad.com/Vlad_the_Deployer.html">Vlad</a>,
       or just good 'ol <a href="http://rake.rubyforge.org/">Rake</a>,
       it shouldn't be too hard to add a step that calls the <tt>jammit</tt> command.
-      For an example Jammit setup under Capistrano and Apache, see
-      <a href="http://afreshcup.com/home/2010/1/18/notes-on-using-jammit-with-rails.html">Mike Gunderloy's blog post</a>.
     </p>
 
     <h2 id="expires">Expires Headers</h2>
@@ -684,6 +691,17 @@ JST['common/menu']</pre>
     </p>
 
     <h2 id="changes">Change Log</h2>
+    
+    <p>
+      <b class="header">0.6.1</b> &mdash; <small><i>May 25, 2011</i></small><br />
+      Jammit now supports <b>UglifyJS</b> as a Java-free alternative to YUI and Closure,
+      for JavaScript compression.
+      You can now pass <tt>--packages core,embed,ui</tt> to the <tt>jammit</tt>
+      command, in order to only build a subset of your asset packages.
+      The built-in JS templating function has been upgraded to the equivalent of
+      the latest <tt>_.template</tt>.
+      Environment-specific settings are now supported in your <tt>assets.yml</tt> file.
+    </p>
     
     <p>
       <b class="header">0.6.0</b><br />

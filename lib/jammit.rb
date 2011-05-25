@@ -4,11 +4,11 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.6.0"
+  VERSION               = "0.6.1"
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  ASSET_ROOT            = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ".") unless defined?(ASSET_ROOT)
+  ASSET_ROOT            = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ENV['RAILS_ROOT'] || ".") unless defined?(ASSET_ROOT)
 
   PUBLIC_ROOT           = (defined?(Rails) && Rails.public_path.to_s.length > 0) ? Rails.public_path : File.join(ASSET_ROOT, 'public') unless defined?(PUBLIC_ROOT)
 
@@ -22,7 +22,7 @@ module Jammit
 
   DEFAULT_JST_NAMESPACE = "window.JST"
 
-  AVAILABLE_COMPRESSORS = [:yui, :closure]
+  COMPRESSORS           = [:yui, :closure, :uglifier]
 
   DEFAULT_COMPRESSOR    = :yui
 
@@ -34,9 +34,10 @@ module Jammit
   # requested by a browser -- rendering a 404.
   class PackageNotFound < NameError; end
 
-  # Jammit raises a ConfigurationNotFound exception when you try to load the
-  # configuration of an assets.yml file that doesn't exist.
-  class ConfigurationNotFound < NameError; end
+  # Jammit raises a MissingConfiguration exception when you try to load the
+  # configuration of an assets.yml file that doesn't exist, or are missing 
+  # a piece of required configuration.
+  class MissingConfiguration < NameError; end
 
   # Jammit raises an OutputNotWritable exception if the output directory for
   # cached packages is locked.
@@ -46,24 +47,31 @@ module Jammit
   class DeprecationError < StandardError; end
 
   class << self
-    attr_reader :configuration, :template_function, :template_namespace,
-                :embed_assets, :package_assets, :compress_assets, :gzip_assets,
-                :package_path, :mhtml_enabled, :include_jst_script, :config_path,
-                :javascript_compressor, :compressor_options, :css_compressor_options,
-                :template_extension, :template_extension_matcher, :allow_debugging
+    attr_reader   :configuration, :template_function, :template_namespace,
+                  :embed_assets, :package_assets, :compress_assets, :gzip_assets,
+                  :package_path, :mhtml_enabled, :include_jst_script, :config_path,
+                  :javascript_compressor, :compressor_options, :css_compressor_options,
+                  :template_extension, :template_extension_matcher, :allow_debugging
+    attr_accessor :compressors
   end
 
   # The minimal required configuration.
-  @configuration = {}
-  @package_path  = DEFAULT_PACKAGE_PATH
+  @configuration  = {}
+  @package_path   = DEFAULT_PACKAGE_PATH
+  @compressors    = COMPRESSORS
 
   # Load the complete asset configuration from the specified @config_path@.
   # If we're loading softly, don't let missing configuration error out.
   def self.load_configuration(config_path, soft=false)
     exists = config_path && File.exists?(config_path)
     return false if soft && !exists
-    raise ConfigurationNotFound, "could not find the \"#{config_path}\" configuration file" unless exists
+    raise MissingConfiguration, "could not find the \"#{config_path}\" configuration file" unless exists
     conf = YAML.load(ERB.new(File.read(config_path)).result)
+
+    # Optionally overwrite configuration based on the environment.
+    rails_env = defined?(Rails) ? Rails.env : ENV['RAILS_ENV']
+    conf.merge! conf.delete rails_env if conf.has_key? rails_env
+
     @config_path            = config_path
     @configuration          = symbolize_keys(conf)
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
@@ -81,7 +89,6 @@ module Jammit
     set_template_extension(conf[:template_extension])
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
-    check_java_version
     check_for_deprecations
     self
   end
@@ -120,7 +127,8 @@ module Jammit
       :force          => false
     }.merge(options)
     load_configuration(options[:config_path])
-    packager.force = options[:force]
+    packager.force         = options[:force]
+    packager.package_names = options[:package_names]
     packager.precache_all(options[:output_folder], options[:base_url])
   end
 
@@ -129,7 +137,7 @@ module Jammit
   # Ensure that the JavaScript compressor is a valid choice.
   def self.set_javascript_compressor(value)
     value = value && value.to_sym
-    @javascript_compressor = AVAILABLE_COMPRESSORS.include?(value) ? value : DEFAULT_COMPRESSOR
+    @javascript_compressor = compressors.include?(value) ? value : DEFAULT_COMPRESSOR
   end
 
   # Turn asset packaging on or off, depending on configuration and environment.
@@ -178,7 +186,9 @@ module Jammit
 
   # Jammit 0.5+ no longer supports separate template packages.
   def self.check_for_deprecations
-    raise DeprecationError, "Jammit 0.5+ no longer supports separate packages for templates.\nPlease fold your templates into the appropriate 'javascripts' package instead." if @configuration[:templates]
+    if @configuration[:templates]
+      raise DeprecationError, "Jammit 0.5+ no longer supports separate packages for templates.\nPlease fold your templates into the appropriate 'javascripts' package instead."
+    end
   end
 
   def self.warn(message)

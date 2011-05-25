@@ -41,29 +41,4 @@ class JammitControllerTest < ActionController::TestCase
     assert @response.body == File.read("#{ASSET_ROOT}/fixtures/jammed/jst_test.js")
   end
 
-  def test_route_with_jst_diff_ext
-    assert_generates('/assets/test.html.mustache', {
-      :controller => 'jammit',
-      :action => 'package',
-      :package => 'test',
-      :extension => 'html.mustache'
-    })
-    assert_recognizes({
-      :controller => 'jammit',
-      :action => 'package',
-      :package => 'test',
-      :extension => 'html.mustache'
-    }, '/assets/test.html.mustache')
-  end
-
-  def test_package_with_jst_diff_ext
-    Jammit.reload!
-    Jammit.set_template_extension('html.mustache')
-    get(:package, :package => 'jst_test_diff_ext', :extension => 'html.mustache')
-    assert @response.headers['Content-Type'] =~ /text\/javascript/
-    assert @response.body == File.read("#{ASSET_ROOT}/fixtures/jammed/jst_test_diff_ext.js")
-  ensure
-    Jammit.reload!
-  end
-
 end

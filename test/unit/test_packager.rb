@@ -68,18 +68,6 @@ class PackagerTest < Test::Unit::TestCase
     assert jst == File.read('test/fixtures/jammed/jst_test_nested.js')
   end
 
-  def test_packaging_templates_with_different_extensions
-    Jammit.set_template_extension('html.mustache')
-    jst = Jammit.packager.pack_templates(:jst_test_diff_ext)
-    assert jst == File.read('test/fixtures/jammed/jst_test_diff_ext.js')
-  end
-
-  def test_packaging_templates_with_different_extensions_nested
-    Jammit.set_template_extension('html.mustache')
-    jst = Jammit.packager.pack_templates(:jst_test_diff_ext_and_nested)
-    assert jst == File.read('test/fixtures/jammed/jst_test_diff_ext_and_nested.js')
-  end
-
   def test_package_caching
     css = Jammit.packager.pack_stylesheets(:css_test, :mhtml, 'http://www.example.com')
     mtime = Time.now
@@ -91,6 +79,7 @@ class PackagerTest < Test::Unit::TestCase
   end
 
   def test_precache_all
+    Jammit.load_configuration('test/config/assets.yml').reload!
     Jammit.packager.precache_all('test/precache', 'http://www.example.com')
     assert PRECACHED_FILES == glob('test/precache/*')
     assert Zlib::GzipReader.open('test/precache/css_test-datauri.css.gz') {|f| f.read } == File.read('test/fixtures/jammed/css_test-datauri.css')
@@ -124,9 +113,17 @@ class PackagerTest < Test::Unit::TestCase
 
   def test_package_helper
     FileUtils.rm_rf("test/public/assets/*")
-    Jammit.package! :config_file => "test/config/assets.yml"
+    Jammit.package! :config_file => "test/config/assets.yml", :base_url => "http://example.com/"
     assert File.exists?("test/public/assets/js_test.js")
     assert File.exists?("test/public/assets/css_test.css")
+    FileUtils.rm_rf("test/public/assets")
+  end
+
+  def test_packaging_javascripts_with_package_names
+    FileUtils.rm_rf("test/public/assets/*")
+    Jammit.package! :config_file => "test/config/assets.yml", :package_names => [:js_test]
+    assert File.exists?("test/public/assets/js_test.js")
+    assert File.read('test/public/assets/js_test.js') == File.read('test/fixtures/jammed/js_test_package_names.js')
     FileUtils.rm_rf("test/public/assets")
   end
 
