@@ -16,7 +16,7 @@ module Jammit
     # compressed CSS, and in development the stylesheet URLs are passed verbatim.
     def include_stylesheets(*packages)
       options = packages.extract_options!
-      return individual_stylesheets(packages, options) unless should_package?
+      return html_safe(individual_stylesheets(packages, options)) unless should_package?
       disabled = (options.delete(:embed_assets) == false) || (options.delete(:embed_images) == false)
       return html_safe(packaged_stylesheets(packages, options)) if disabled || !Jammit.embed_assets
       return html_safe(embedded_image_stylesheets(packages, options))
