@@ -8,11 +8,7 @@ require 'pathname'
 require 'fileutils'
 
 # Include YUI as the default
-begin
-  require 'yui/compressor'
-rescue LoadError
-  Jammit.compressors.delete :yui
-end
+require 'yui/compressor'
 
 # Try Closure.
 begin
