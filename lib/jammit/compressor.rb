@@ -71,7 +71,13 @@ module Jammit
       else
         js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
       end
-      Jammit.compress_assets ? @js_compressor.compress(js) : js
+      if Jammit.compress_assets
+        @js_compressor.compress(js)
+      elsif @js_compressor.is_a?(Jammit::Uglifier) and Jammit.java_disabled # FIXME UGLY HACK
+        @js_compressor.compress(js)
+      else
+        js
+      end
     end
 
     # Concatenate and compress a list of CSS stylesheets. When compressing a

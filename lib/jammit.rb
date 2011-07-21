@@ -51,7 +51,8 @@ module Jammit
                   :embed_assets, :package_assets, :compress_assets, :gzip_assets,
                   :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                   :javascript_compressor, :compressor_options, :css_compressor_options,
-                  :template_extension, :template_extension_matcher, :allow_debugging
+                  :template_extension, :template_extension_matcher, :allow_debugging,
+                  :java_disabled
     attr_accessor :compressors
   end
 
@@ -181,6 +182,7 @@ module Jammit
   # complain loudly.
   def self.disable_compression
     @compress_assets = false
+    @java_disabled = true
     warn("Asset compression disabled -- Java unavailable.")
   end
 
