@@ -26,6 +26,8 @@ class PackagerTest < Test::Unit::TestCase
     assert urls == ['/fixtures/src/test1.css', '/fixtures/src/test2.css', '/fixtures/src/test_fonts.css', '/fixtures/src/nested/nested1.css', '/fixtures/src/nested/nested2.css']
     urls = Jammit.packager.individual_urls(:js_test_nested, :js)
     assert urls == ['/fixtures/src/test1.js', '/fixtures/src/test2.js', '/fixtures/src/nested/nested1.js', '/fixtures/src/nested/nested2.js']
+    urls = Jammit.packager.individual_urls(:js_test_nested2, :js)
+    assert urls == ['/fixtures/src/test1.js', '/fixtures/src/test2.js', '/fixtures/src/nested/nested1.js', '/fixtures/src/nested/nested2.js']
     urls = Jammit.packager.individual_urls(:jst_test_nested, :js)
     assert urls == ['/assets/jst_test_nested.jst']
   end

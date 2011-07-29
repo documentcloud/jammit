@@ -103,9 +103,24 @@ module Jammit
     # Print a warning if no files were found that match the glob.
     def glob_files(glob)
       absolute = Pathname.new(glob).absolute?
-      paths = Dir[absolute ? glob : File.join(ASSET_ROOT, glob)].sort
+      paths = Dir[absolute ? glob : File.join(ASSET_ROOT, glob)].sort(&method(:glob_comparator))
       Jammit.warn("No assets match '#{glob}'") if paths.empty?
       paths
+    end
+
+    # Compares two paths, sorting files in parent directories before
+    # files in their subdirectories.
+    #  a/a.js
+    #  a/b.js
+    #  a/a/a.js
+    def glob_comparator(path1, path2)
+      dir1 = File.dirname(path1)
+      dir2 = File.dirname(path2)
+
+      return path1 <=> path2 if dir1 == dir2
+      return 1 if dir1.start_with?(dir2)
+      return -1 if dir2.start_with?(dir1)
+      dir1 <=> dir2
     end
     
     # Get the latest mtime of a list of files (plus the config path).
