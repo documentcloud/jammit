@@ -1,0 +1,9 @@
+compress_css: false
+
+javascripts:
+  js_test:
+    - fixtures/src/*.js
+
+stylesheets:
+  css_test:
+    - fixtures/src/*.css

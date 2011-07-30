@@ -20,6 +20,8 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   def test_disabled_compression
     Jammit.load_configuration('test/config/assets-compression-disabled.yml')
     assert !Jammit.compress_assets
+    assert !Jammit.compress_js
+    assert !Jammit.compress_css
     assert !Jammit.gzip_assets
     @compressor = Compressor.new
     # Should not compress js.
@@ -32,8 +34,17 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     assert packed == File.open('test/fixtures/jammed/css_test-uncompressed.css', 'rb') {|f| f.read }
   end
 
+  def test_individually_disabled_compression
+    Jammit.load_configuration('test/config/assets-compression-config.yml')
+    assert Jammit.compress_assets
+    assert Jammit.compress_js
+    assert !Jammit.compress_css
+  end
+
   def test_css_compression
     assert Jammit.compress_assets
+    assert Jammit.compress_js
+    assert Jammit.compress_css
     assert Jammit.gzip_assets
     packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
     assert packed == File.read('test/fixtures/jammed/css_test.css')
