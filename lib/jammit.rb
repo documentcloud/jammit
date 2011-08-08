@@ -8,9 +8,9 @@ module Jammit
 
   ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  ASSET_ROOT            = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ENV['RAILS_ROOT'] || ".") unless defined?(ASSET_ROOT)
+  ASSET_ROOT            = File.expand_path((defined?(::Rails) && ::Rails.root.to_s.length > 0) ? ::Rails.root : ENV['RAILS_ROOT'] || ".") unless defined?(ASSET_ROOT)
 
-  PUBLIC_ROOT           = (defined?(Rails) && Rails.public_path.to_s.length > 0) ? Rails.public_path : File.join(ASSET_ROOT, 'public') unless defined?(PUBLIC_ROOT)
+  PUBLIC_ROOT           = (defined?(::Rails) && ::Rails.public_path.to_s.length > 0) ? ::Rails.public_path : File.join(ASSET_ROOT, 'public') unless defined?(PUBLIC_ROOT)
 
   DEFAULT_CONFIG_PATH   = File.join(ASSET_ROOT, 'config', 'assets.yml')
 
@@ -69,7 +69,7 @@ module Jammit
     conf = YAML.load(ERB.new(File.read(config_path)).result)
 
     # Optionally overwrite configuration based on the environment.
-    rails_env = defined?(Rails) ? Rails.env : ENV['RAILS_ENV']
+    rails_env = defined?(::Rails) ? ::Rails.env : ENV['RAILS_ENV']
     conf.merge! conf.delete rails_env if conf.has_key? rails_env
 
     @config_path            = config_path
@@ -142,7 +142,7 @@ module Jammit
 
   # Turn asset packaging on or off, depending on configuration and environment.
   def self.set_package_assets(value)
-    package_env     = !defined?(Rails) || (!Rails.env.development? && !Rails.env.test?)
+    package_env     = !defined?(::Rails) || (!::Rails.env.development? && !::Rails.env.test?)
     @package_assets = value == true || value.nil? ? package_env :
                       value == 'always'           ? true : false
   end
