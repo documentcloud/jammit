@@ -16,7 +16,7 @@ module Jammit
     # compressed CSS, and in development the stylesheet URLs are passed verbatim.
     def include_stylesheets(*packages)
       options = packages.extract_options!
-      return individual_stylesheets(packages, options) unless should_package?
+      return html_safe(individual_stylesheets(packages, options)) unless should_package?
       disabled = (options.delete(:embed_assets) == false) || (options.delete(:embed_images) == false)
       return html_safe(packaged_stylesheets(packages, options)) if disabled || !Jammit.embed_assets
       return html_safe(embedded_image_stylesheets(packages, options))
@@ -25,10 +25,11 @@ module Jammit
     # Writes out the URL to the bundled and compressed javascript package,
     # except in development, where it references the individual scripts.
     def include_javascripts(*packages)
-      tags = packages.map do |pack|
+      html_safe packages.map {|pack|
         should_package? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
-      end
-      html_safe(javascript_include_tag(tags.flatten))
+      }.flatten.map {|pack|
+        javascript_include_tag pack
+      }.join("\n")
     end
 
     # Writes out the URL to the concatenated and compiled JST file -- we always
@@ -71,10 +72,11 @@ module Jammit
     # Generate the stylesheet tags for a batch of packages, with options, by
     # yielding each package to a block.
     def tags_with_options(packages, options)
-      packages = packages.dup
-      packages.map! {|package| yield package }.flatten!
-      packages.push(options) unless options.empty?
-      stylesheet_link_tag(*packages)
+      packages.dup.map {|package| 
+        yield package 
+      }.flatten.map {|package|
+        stylesheet_link_tag package, options
+      }.join("\n")
     end
 
   end
