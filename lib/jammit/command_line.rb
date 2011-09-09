@@ -66,6 +66,10 @@ Options:
         opts.on('-p', '--packages LIST', 'list of packages to build (ex: "core,ui", default: all)') do |package_names|
           @options[:package_names] = package_names.split(/,\s*/).map {|n| n.to_sym }
         end
+        opts.on('-P', '--public-root PATH', 'path to public assets (default: "public")') do |public_root|
+          puts "Option for PUBLIC_ROOT"
+          @options[:public_root] = public_root
+        end
         opts.on_tail('-v', '--version', 'display Jammit version') do
           puts "Jammit version #{Jammit::VERSION}"
           exit
