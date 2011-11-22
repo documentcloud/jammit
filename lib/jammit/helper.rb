@@ -25,10 +25,11 @@ module Jammit
     # Writes out the URL to the bundled and compressed javascript package,
     # except in development, where it references the individual scripts.
     def include_javascripts(*packages)
+      options = packages.extract_options!
       html_safe packages.map {|pack|
         should_package? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       }.flatten.map {|pack|
-        javascript_include_tag pack
+        javascript_include_tag pack, options
       }.join("\n")
     end
 
@@ -72,8 +73,8 @@ module Jammit
     # Generate the stylesheet tags for a batch of packages, with options, by
     # yielding each package to a block.
     def tags_with_options(packages, options)
-      packages.dup.map {|package| 
-        yield package 
+      packages.dup.map {|package|
+        yield package
       }.flatten.map {|package|
         stylesheet_link_tag package, options
       }.join("\n")
