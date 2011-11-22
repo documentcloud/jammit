@@ -30,6 +30,10 @@ module Jammit
   JS_EXTENSION          = /\.js\Z/
   DEFAULT_JST_EXTENSION = "jst"
 
+  # Extension matchers for CoffeeScript
+  COFFEE_EXTENSION_MATCHER = /\.coffee\Z/
+  COFFEE_EXTENSION         = "coffee"
+
   # Jammit raises a @PackageNotFound@ exception when a non-existent package is
   # requested by a browser -- rendering a 404.
   class PackageNotFound < NameError; end

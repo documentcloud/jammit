@@ -7,7 +7,7 @@ module Jammit
   # missing or uncached asset packages.
   class Controller < ActionController::Base
 
-    VALID_FORMATS   = [:css, :js]
+    VALID_FORMATS   = [:css, :js, :coffee]
 
     SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
 
@@ -19,6 +19,8 @@ module Jammit
       parse_request
       template_ext = Jammit.template_extension.to_sym
       case @extension
+      when :coffee
+        render :js => (@contents = Jammit.packager.pack_coffeescripts(@package))
       when :js
         render :js => (@contents = Jammit.packager.pack_javascripts(@package))
       when template_ext

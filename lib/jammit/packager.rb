@@ -86,6 +86,11 @@ module Jammit
       @compressor.compress_js(package_for(package, :js)[:paths])
     end
 
+    # Return the compiled and compressed contents of a coffeescript package
+    def pack_coffeescripts(package)
+      @compressor.compile_coffee(package_for(package, :js)[:paths])
+    end
+
     # Return the compiled contents of a JST package.
     def pack_templates(package)
       @compressor.compile_jst(package_for(package, :js)[:paths])
@@ -153,11 +158,19 @@ module Jammit
         packages[name]         = {}
         paths                  = globs.flatten.uniq.map {|glob| glob_files(glob) }.flatten.uniq
         packages[name][:paths] = paths
-        if !paths.grep(Jammit.template_extension_matcher).empty?
-          packages[name][:urls] = paths.grep(JS_EXTENSION).map {|path| path.sub(@path_to_url, '') }
+
+        coffee_paths = paths.grep(Jammit::COFFEE_EXTENSION_MATCHER)
+        jst_paths    = paths.grep(Jammit.template_extension_matcher)
+        plain_paths  = paths - coffee_paths - jst_paths
+
+        packages[name][:urls] = plain_paths.map { |path| path.sub(@path_to_url, '') }
+
+        unless coffee_paths.empty?
+          packages[name][:urls] += [Jammit.asset_url(name, Jammit::COFFEE_EXTENSION)]
+        end
+
+        unless jst_paths.empty?
           packages[name][:urls] += [Jammit.asset_url(name, Jammit.template_extension)]
-        else
-          packages[name][:urls] = paths.map {|path| path.sub(@path_to_url, '') }
         end
       end
       packages
