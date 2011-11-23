@@ -7,7 +7,7 @@ module Jammit
   # missing or uncached asset packages.
   class Controller < ActionController::Base
 
-    VALID_FORMATS   = [:css, :js]
+    VALID_FORMATS   = [:css, :js, :coffee]
 
     SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
 
@@ -19,6 +19,8 @@ module Jammit
       parse_request
       template_ext = Jammit.template_extension.to_sym
       case @extension
+      when :coffee
+        render :js => (@contents = Jammit.packager.pack_coffeescripts(@package))
       when :js
         render :js => (@contents = Jammit.packager.pack_javascripts(@package))
       when template_ext
@@ -31,6 +33,20 @@ module Jammit
       package_not_found
     end
 
+    # The "asset" action will serve an invididual asset inside a defined package.
+    # The asset will be compiled if it's a CoffeeScript or JST template.
+    def asset
+      parse_request
+      contents = Jammit.packager.pack_individual_asset(@package, @extension, @asset)
+      case @extension
+      when :js
+        render :js => contents
+      when :css
+        render :text => contents, :content_type => 'text/css'
+      end
+    rescue Jammit::PackageNotFound
+      package_not_found
+    end
 
     private
 
@@ -75,6 +91,7 @@ module Jammit
         pack.sub!(SUFFIX_STRIPPER, '')
       end
       @package = pack.to_sym
+      @asset = params[:asset]
     end
 
     # Render the 404 page, if one exists, for any packages that don't.

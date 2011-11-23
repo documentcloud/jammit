@@ -10,6 +10,13 @@ require 'fileutils'
 # Include YUI as the default
 require 'yui/compressor'
 
+# Try CoffeeScript
+begin
+  require 'coffee-script'
+rescue LoadError
+  #ignored
+end
+
 # Try Closure.
 begin
   require 'closure-compiler'
