@@ -33,6 +33,20 @@ module Jammit
       package_not_found
     end
 
+    # The "asset" action will serve an invididual asset inside a defined package.
+    # The asset will be compiled if it's a CoffeeScript or JST template.
+    def asset
+      parse_request
+      contents = Jammit.packager.pack_individual_asset(@package, @extension, @asset)
+      case @extension
+      when :js
+        render :js => contents
+      when :css
+        render :text => contents, :content_type => 'text/css'
+      end
+    rescue Jammit::PackageNotFound
+      package_not_found
+    end
 
     private
 
@@ -77,6 +91,7 @@ module Jammit
         pack.sub!(SUFFIX_STRIPPER, '')
       end
       @package = pack.to_sym
+      @asset = params[:asset]
     end
 
     # Render the 404 page, if one exists, for any packages that don't.

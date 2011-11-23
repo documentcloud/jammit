@@ -1,6 +1,9 @@
 if defined?(Rails::Application)
   # Rails3 routes
   Rails.application.routes.draw do
+    match "/#{Jammit.package_path}/:package.:extension/*asset",
+      :to => 'jammit#asset', :as => :jammit_asset
+
     match "/#{Jammit.package_path}/:package.:extension",
       :to => 'jammit#package', :as => :jammit, :constraints => {
         # A hack to allow extension to include "."

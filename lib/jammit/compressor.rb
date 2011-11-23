@@ -66,13 +66,16 @@ module Jammit
     # Concatenate together a list of JavaScript paths, and pass them through the
     # YUI Compressor (with munging enabled). JST can optionally be included.
     def compress_js(paths)
-      coffee_paths = paths.grep(Jammit::COFFEE_EXTENSION_MATCHER)
-      jst_paths    = paths.grep(Jammit.template_extension_matcher)
-      js_paths     = paths - coffee_paths - jst_paths
-
-      js = concatenate(js_paths)
-      js += compile_coffee(coffee_paths) unless coffee_paths.empty?
-      js += compile_jst(jst_paths) unless jst_paths.empty?
+      js = paths.map do |path|
+        case path
+        when Jammit::COFFEE_EXTENSION_MATCHER
+          compile_coffee([path])
+        when Jammit.template_extension_matcher
+          compile_jst([path], paths)
+        else
+          read_binary_file(path)
+        end
+      end.join("\n")
 
       Jammit.compress_assets ? @js_compressor.compress(js) : js
     end
@@ -111,10 +114,10 @@ module Jammit
     # JST-compilation function to the top of the package, unless you've
     # specified your own preferred function, or turned it off.
     # JST templates are named with the basename of their file.
-    def compile_jst(paths)
+    def compile_jst(paths, group = nil)
       namespace   = Jammit.template_namespace
       paths       = paths.grep(Jammit.template_extension_matcher).sort
-      base_path   = find_base_path(paths)
+      base_path   = find_base_path(group || paths)
       compiled    = paths.map do |path|
         contents  = read_binary_file(path)
         contents  = contents.gsub(/\r?\n/, "\\n").gsub("'", '\\\\\'')
@@ -124,6 +127,11 @@ module Jammit
       compiler = Jammit.include_jst_script ? read_binary_file(DEFAULT_JST_SCRIPT) : '';
       setup_namespace = "#{namespace} = #{namespace} || {};"
       [JST_START, setup_namespace, compiler, compiled, JST_END].flatten.join("\n")
+    end
+
+    # Concatenate together a list of asset files.
+    def concatenate(paths)
+      [paths].flatten.map {|p| read_binary_file(p) }.join("\n")
     end
 
 
@@ -254,11 +262,6 @@ module Jammit
     # Grab the mime-type of an asset, by filename.
     def mime_type(asset_path)
       EMBED_MIME_TYPES[File.extname(asset_path)]
-    end
-
-    # Concatenate together a list of asset files.
-    def concatenate(paths)
-      [paths].flatten.map {|p| read_binary_file(p) }.join("\n")
     end
 
     # `File.read`, but in "binary" mode.
