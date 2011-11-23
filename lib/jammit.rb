@@ -56,7 +56,7 @@ module Jammit
                   :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                   :javascript_compressor, :compressor_options, :css_compressor_options,
                   :template_extension, :template_extension_matcher, :allow_debugging,
-                  :public_root
+                  :public_root, :pack_templates_in_order
     attr_accessor :compressors
   end
 
@@ -78,16 +78,17 @@ module Jammit
     rails_env = defined?(Rails) ? Rails.env : ENV['RAILS_ENV']
     conf.merge! conf.delete rails_env if conf.has_key? rails_env
 
-    @config_path            = config_path
-    @configuration          = symbolize_keys(conf)
-    @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
-    @embed_assets           = conf[:embed_assets] || conf[:embed_images]
-    @compress_assets        = !(conf[:compress_assets] == false)
-    @gzip_assets            = !(conf[:gzip_assets] == false)
-    @allow_debugging        = !(conf[:allow_debugging] == false)
-    @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
-    @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
-    @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
+    @config_path             = config_path
+    @configuration           = symbolize_keys(conf)
+    @package_path            = conf[:package_path] || DEFAULT_PACKAGE_PATH
+    @embed_assets            = conf[:embed_assets] || conf[:embed_images]
+    @compress_assets         = !(conf[:compress_assets] == false)
+    @gzip_assets             = !(conf[:gzip_assets] == false)
+    @allow_debugging         = !(conf[:allow_debugging] == false)
+    @mhtml_enabled           = @embed_assets && @embed_assets != "datauri"
+    @compressor_options      = symbolize_keys(conf[:compressor_options] || {})
+    @css_compressor_options  = symbolize_keys(conf[:css_compressor_options] || {})
+    @pack_templates_in_order = !!conf[:pack_templates_in_order]
     set_javascript_compressor(conf[:javascript_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])

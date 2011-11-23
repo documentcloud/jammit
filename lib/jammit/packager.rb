@@ -181,12 +181,15 @@ module Jammit
         paths                  = globs.flatten.uniq.map {|glob| glob_files(glob) }.flatten.uniq
         packages[name][:paths] = paths
         packages[name][:urls] = paths.map do |path|
-          case path
-          when Jammit::COFFEE_EXTENSION_MATCHER, Jammit.template_extension_matcher
+          if Jammit::COFFEE_EXTENSION_MATCHER =~ path or (Jammit.pack_templates_in_order and Jammit.template_extension_matcher =~ path)
             "/#{Jammit.package_path}/#{name}.#{extension}#{path.sub(@path_to_url, '')}"
-          else
+          elsif not Jammit.template_extension_matcher =~ path
             path.sub(@path_to_url, '')
           end
+        end.compact
+
+        unless Jammit.pack_templates_in_order
+          packages[name][:urls] << Jammit.asset_url(name, Jammit.template_extension)
         end
       end
       packages
