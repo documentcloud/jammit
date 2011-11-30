@@ -9,6 +9,8 @@ javascripts:
   js_test_nested:
     - *js_test
     - fixtures/src/nested/*.js
+  js_test_nested2:
+    - fixtures/src/**/*.js
   jst_test: &jst_test
     - fixtures/src/*.jst
   jst_test_nested:
