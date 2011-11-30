@@ -11,7 +11,7 @@ module Jammit
 
     SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
 
-    NOT_FOUND_PATH  = "#{PUBLIC_ROOT}/404.html"
+    NOT_FOUND_PATH  = "#{Jammit.public_root}/404.html"
 
     # The "package" action receives all requests for asset packages that haven't
     # yet been cached. The package will be built, cached, and gzipped.

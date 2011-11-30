@@ -125,8 +125,10 @@ module Jammit
       return names.select do |name|
         pack        = package_for(name, extension)
         cached      = [Jammit.filename(name, extension)]
-        cached.push Jammit.filename(name, extension, :datauri) if Jammit.embed_assets
-        cached.push Jammit.filename(name, extension, :mhtml) if Jammit.mhtml_enabled
+        if extension == :css
+          cached.push Jammit.filename(name, extension, :datauri) if Jammit.embed_assets
+          cached.push Jammit.filename(name, extension, :mhtml) if Jammit.mhtml_enabled
+        end
         cached.map! {|file| File.join(output_dir, file) }
         if cached.any? {|file| !File.exists?(file) }
           true

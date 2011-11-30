@@ -93,7 +93,7 @@
     </p>
 
     <p>
-      <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.6.2</a>
+      <b>Current Version:</b> <a href="http://rubygems.org/gems/jammit/">0.6.4</a>
     </p>
     
     <p>
@@ -693,7 +693,13 @@ JST['common/menu']</pre>
     <h2 id="changes">Change Log</h2>
     
     <p>
-      <b class="header">0.6.2</b> &mdash; <small><i>May 26, 2011</i></small><br />
+      <b class="header">0.6.4</b> &mdash; <small><i>Nov 30, 2011</i></small><br />
+      Added the ability to pass HTML tag options to <tt>include_javascripts</tt>.
+      Fixed a bug that would always cause JS to be recompiled, regardless of mtimes.
+    </p>
+    
+    <p>
+      <b class="header">0.6.3</b> &mdash; <small><i>May 26, 2011</i></small><br />
       Quick bugfix release for Rails 3.1 compatibility, which changes the method
       signatures of <tt>javascript_include_tag</tt> and <tt>stylesheet_link_tag</tt>
       in a backwards-incompatible fashion.
