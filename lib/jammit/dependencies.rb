@@ -14,21 +14,29 @@ require 'yui/compressor'
 begin
   require 'closure-compiler'
 rescue LoadError
-  Jammit.compressors.delete :closure
+  Jammit.javascript_compressors.delete :closure
 end
 
 # Try Uglifier.
 begin
   require 'uglifier'
 rescue LoadError
-  Jammit.compressors.delete :uglifier
+  Jammit.javascript_compressors.delete :uglifier
+end
+
+# Try Sass
+begin
+  require 'sass'
+rescue LoadError
+  Jammit.css_compressors.delete :sass
 end
 
 # Load initial configuration before the rest of Jammit.
 Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH, true) if defined?(Rails)
 
 # Jammit Core:
-require 'jammit/uglifier' if Jammit.compressors.include? :uglifier
+require 'jammit/uglifier' if Jammit.javascript_compressors.include? :uglifier
+require 'jammit/sass_compressor' if Jammit.css_compressors.include? :sass
 require 'jammit/compressor'
 require 'jammit/packager'
 

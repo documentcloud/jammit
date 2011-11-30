@@ -41,10 +41,15 @@ module Jammit
     JST_START       = "(function(){"
     JST_END         = "})();"
 
-    COMPRESSORS = {
+    JAVASCRIPT_COMPRESSORS = {
       :yui      => YUI::JavaScriptCompressor,
-      :closure  => Jammit.compressors.include?(:closure)  ? Closure::Compiler : nil,
-      :uglifier => Jammit.compressors.include?(:uglifier) ? Jammit::Uglifier  : nil
+      :closure  => Jammit.javascript_compressors.include?(:closure)  ? Closure::Compiler : nil,
+      :uglifier => Jammit.javascript_compressors.include?(:uglifier) ? Jammit::Uglifier  : nil
+    }
+
+    CSS_COMPRESSORS = {
+      :yui      => YUI::CssCompressor,
+      :sass     => Jammit.css_compressors.include?(:sass) ? Jammit::SassCompressor : nil,
     }
 
     DEFAULT_OPTIONS = {
@@ -53,14 +58,16 @@ module Jammit
       :uglifier => {:copyright => false}
     }
 
-    # The css compressor is always the YUI Compressor. JS compression can be
-    # provided with YUI Compressor, Google Closure Compiler or UglifyJS.
+    # CSS compression can be provided with YUI Compressor or sass. JS
+    # compression can be provided with YUI Compressor, Google Closure
+    # Compiler or UglifyJS.
     def initialize
       Jammit.check_java_version
-      @css_compressor = YUI::CssCompressor.new(Jammit.css_compressor_options || {})
-      flavor          = Jammit.javascript_compressor || Jammit::DEFAULT_COMPRESSOR
-      @options        = DEFAULT_OPTIONS[flavor].merge(Jammit.compressor_options || {})
-      @js_compressor  = COMPRESSORS[flavor].new(@options)
+      css_flavor      = Jammit.css_compressor || Jammit::DEFAULT_CSS_COMPRESSOR
+      @css_compressor = CSS_COMPRESSORS[css_flavor].new(Jammit.css_compressor_options || {})
+      js_flavor       = Jammit.javascript_compressor || Jammit::DEFAULT_JAVASCRIPT_COMPRESSOR
+      @options        = DEFAULT_OPTIONS[js_flavor].merge(Jammit.compressor_options || {})
+      @js_compressor  = JAVASCRIPT_COMPRESSORS[js_flavor].new(@options)
     end
 
     # Concatenate together a list of JavaScript paths, and pass them through the
