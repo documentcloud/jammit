@@ -27,7 +27,7 @@ module Jammit
     def include_javascripts(*packages)
       options = packages.extract_options!
       html_safe packages.map {|pack|
-        should_package? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
+        should_package? ? Jammit.asset_url(pack, :js, nil, Time.now) : Jammit.packager.individual_urls(pack.to_sym, :js)
       }.flatten.map {|pack|
         javascript_include_tag pack, options
       }.join("\n")
