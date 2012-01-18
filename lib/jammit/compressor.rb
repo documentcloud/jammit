@@ -67,9 +67,9 @@ module Jammit
     # YUI Compressor (with munging enabled). JST can optionally be included.
     def compress_js(paths)
       if (jst_paths = paths.grep(Jammit.template_extension_matcher)).empty?
-        js = concatenate(paths)
+        js = concatenate(paths, ";\n")
       else
-        js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
+        js = concatenate(paths - jst_paths, ";\n") + compile_jst(jst_paths)
       end
       Jammit.compress_assets ? @js_compressor.compress(js) : js
     end
@@ -240,8 +240,8 @@ module Jammit
     end
 
     # Concatenate together a list of asset files.
-    def concatenate(paths)
-      [paths].flatten.map {|p| read_binary_file(p) }.join("\n")
+    def concatenate(paths, separator="\n")
+      [paths].flatten.map {|p| read_binary_file(p) }.join(separator)
     end
 
     # `File.read`, but in "binary" mode.
