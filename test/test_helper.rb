@@ -5,9 +5,7 @@ require 'logger'
 ASSET_ROOT = File.expand_path(File.dirname(__FILE__))
 
 devnull = RUBY_PLATFORM =~ /mswin|mingw|bccwin|wince|emx/ ? 'nul' : '/dev/null'
-RAILS_DEFAULT_LOGGER = Logger.new(devnull)
-RAILS_ENV = "test"
-RAILS_ROOT = File.expand_path(File.dirname(__FILE__))
+ENV['RAILS_ENV'] ||= "test"
 ENV["RAILS_ASSET_ID"] = "101"
 
 require './lib/jammit'

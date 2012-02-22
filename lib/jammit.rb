@@ -25,7 +25,7 @@ module Jammit
   COMPRESSORS           = [:yui, :closure, :uglifier]
 
   DEFAULT_COMPRESSOR    = :yui
-
+  
   # Extension matchers for JavaScript and JST, which need to be disambiguated.
   JS_EXTENSION          = /\.js\Z/
   DEFAULT_JST_EXTENSION = "jst"
@@ -35,7 +35,7 @@ module Jammit
   class PackageNotFound < NameError; end
 
   # Jammit raises a MissingConfiguration exception when you try to load the
-  # configuration of an assets.yml file that doesn't exist, or are missing 
+  # configuration of an assets.yml file that doesn't exist, or are missing
   # a piece of required configuration.
   class MissingConfiguration < NameError; end
 
@@ -52,7 +52,7 @@ module Jammit
                   :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                   :javascript_compressor, :compressor_options, :css_compressor_options,
                   :template_extension, :template_extension_matcher, :allow_debugging,
-                  :public_root
+                  :rewrite_relative_paths, :public_root
     attr_accessor :compressors
   end
 
@@ -71,7 +71,7 @@ module Jammit
     conf = YAML.load(ERB.new(File.read(config_path)).result)
 
     # Optionally overwrite configuration based on the environment.
-    rails_env = defined?(Rails) ? Rails.env : ENV['RAILS_ENV']
+    rails_env = (defined?(Rails) ? ::Rails.env : ENV['RAILS_ENV'] || "development")
     conf.merge! conf.delete rails_env if conf.has_key? rails_env
 
     @config_path            = config_path
@@ -79,6 +79,7 @@ module Jammit
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_assets           = conf[:embed_assets] || conf[:embed_images]
     @compress_assets        = !(conf[:compress_assets] == false)
+    @rewrite_relative_paths = !(conf[:rewrite_relative_paths] == false)
     @gzip_assets            = !(conf[:gzip_assets] == false)
     @allow_debugging        = !(conf[:allow_debugging] == false)
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"

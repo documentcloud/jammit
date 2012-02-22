@@ -1,4 +1,6 @@
-embed_assets: <%= ENV['RAILS_ENV'] == 'test' %>
+javascript_compressor: yui
+embed_assets: on
+rewrite_relative_paths: off
 
 javascripts:
   js_test:
