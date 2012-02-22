@@ -172,14 +172,14 @@ module Jammit
       end
       [MHTML_START, mhtml, MHTML_END, css].flatten.join('')
     end
-
+    
     # Return a rewritten asset URL for a new stylesheet -- the asset should
     # be tagged for embedding if embeddable, and referenced at the correct level
     # if relative.
     def construct_asset_path(asset_path, css_path, variant)
       public_path = absolute_path(asset_path, css_path)
       return "__EMBED__#{public_path}" if embeddable?(public_path, variant)
-      source = asset_path.absolute? ? asset_path.to_s : relative_path(public_path)
+      source = asset_path.absolute? || ! Jammit.rewrite_relative_paths ? asset_path.to_s : relative_path(public_path)
       rewrite_asset_path(source, public_path)
     end
 
