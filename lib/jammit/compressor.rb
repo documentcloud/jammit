@@ -187,14 +187,14 @@ module Jammit
     # not be relative, given the path of the stylesheet that contains it.
     def absolute_path(asset_pathname, css_pathname)
       (asset_pathname.absolute? ?
-        Pathname.new(File.join(PUBLIC_ROOT, asset_pathname)) :
+        Pathname.new(File.join(Jammit.public_root, asset_pathname)) :
         css_pathname.dirname + asset_pathname).cleanpath
     end
 
     # CSS assets that are referenced by relative paths, and are *not* being
     # embedded, must be rewritten relative to the newly-merged stylesheet path.
     def relative_path(absolute_path)
-      File.join('../', absolute_path.sub(PUBLIC_ROOT, ''))
+      File.join('../', absolute_path.sub(Jammit.public_root, ''))
     end
 
     # Similar to the AssetTagHelper's method of the same name, this will
@@ -246,7 +246,7 @@ module Jammit
 
     # `File.read`, but in "binary" mode.
     def read_binary_file(path)
-      File.open(path, 'rb') {|f| f.read }
+      File.open(path, 'rb:UTF-8') {|f| f.read }
     end
   end
 
