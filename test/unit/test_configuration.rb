@@ -72,4 +72,11 @@ class BrokenConfigurationTest < Test::Unit::TestCase
     ENV['RAILS_ENV'] = 'test'
   end
 
+  def test_no_rewrite_relative_paths
+    Jammit.load_configuration('test/config/assets-no-rewrite-relative-paths.yml')
+    assert !Jammit.rewrite_relative_paths
+    packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
+    assert_equal packed, File.read('test/fixtures/jammed/css_test-no-rewrite-relative-paths.css')
+  end
+
 end
