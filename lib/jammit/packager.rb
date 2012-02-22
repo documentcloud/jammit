@@ -6,10 +6,6 @@ module Jammit
   # with the correct timestamps.
   class Packager
 
-    # In Rails, the difference between a path and an asset URL is "public".
-    PATH_DIFF   = PUBLIC_ROOT.sub(ASSET_ROOT, '')
-    PATH_TO_URL = /\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(PATH_DIFF)})?/
-
     # Set force to false to allow packages to only be rebuilt when their source
     # files have changed since the last time their package was built.
     attr_accessor :force, :package_names
@@ -37,7 +33,7 @@ module Jammit
     # Unless forced, will only rebuild assets whose source files have been
     # changed since their last package build.
     def precache_all(output_dir=nil, base_url=nil)
-      output_dir ||= File.join(PUBLIC_ROOT, Jammit.package_path)
+      output_dir ||= File.join(Jammit.public_root, Jammit.package_path)
       cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
       cacheable(:css, output_dir).each do |p|
         cache(p, 'css', pack_stylesheets(p), output_dir)
@@ -89,6 +85,7 @@ module Jammit
     def pack_templates(package)
       @compressor.compile_jst(package_for(package, :js)[:paths])
     end
+  
 
     private
 
@@ -106,6 +103,11 @@ module Jammit
       paths = Dir[absolute ? glob : File.join(ASSET_ROOT, glob)].sort
       Jammit.warn("No assets match '#{glob}'") if paths.empty?
       paths
+    end
+
+    # In Rails, the difference between a path and an asset URL is "public".    
+    def path_to_url
+      @path_to_url ||= /\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(Jammit.public_root.sub(ASSET_ROOT, ''))})?/
     end
     
     # Get the latest mtime of a list of files (plus the config path).
@@ -125,8 +127,10 @@ module Jammit
       return names.select do |name|
         pack        = package_for(name, extension)
         cached      = [Jammit.filename(name, extension)]
-        cached.push Jammit.filename(name, extension, :datauri) if Jammit.embed_assets
-        cached.push Jammit.filename(name, extension, :mhtml) if Jammit.mhtml_enabled
+        if extension == :css
+          cached.push Jammit.filename(name, extension, :datauri) if Jammit.embed_assets
+          cached.push Jammit.filename(name, extension, :mhtml) if Jammit.mhtml_enabled
+        end
         cached.map! {|file| File.join(output_dir, file) }
         if cached.any? {|file| !File.exists?(file) }
           true
@@ -153,10 +157,10 @@ module Jammit
         paths                  = globs.flatten.uniq.map {|glob| glob_files(glob) }.flatten.uniq
         packages[name][:paths] = paths
         if !paths.grep(Jammit.template_extension_matcher).empty?
-          packages[name][:urls] = paths.grep(JS_EXTENSION).map {|path| path.sub(PATH_TO_URL, '') }
+          packages[name][:urls] = paths.grep(JS_EXTENSION).map {|path| path.sub(path_to_url, '') }
           packages[name][:urls] += [Jammit.asset_url(name, Jammit.template_extension)]
         else
-          packages[name][:urls] = paths.map {|path| path.sub(PATH_TO_URL, '') }
+          packages[name][:urls] = paths.map {|path| path.sub(path_to_url, '') }
         end
       end
       packages

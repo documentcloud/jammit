@@ -1,4 +1,4 @@
-embed_assets: <%= RAILS_ENV == 'test' %>
+embed_assets: <%= ENV['RAILS_ENV'] == 'test' %>
 
 javascripts:
   js_test:
