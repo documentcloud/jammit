@@ -52,7 +52,7 @@ module Jammit
                   :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                   :javascript_compressor, :compressor_options, :css_compressor_options,
                   :template_extension, :template_extension_matcher, :allow_debugging,
-                  :rewrite_relative_paths, :public_root, :asset_host
+                  :rewrite_relative_paths, :public_root, :asset_host, :ignore_asset_host_for_extensions
     attr_accessor :compressors
   end
 
@@ -74,14 +74,15 @@ module Jammit
     rails_env = (defined?(Rails) ? ::Rails.env : ENV['RAILS_ENV'] || "development")
     conf.merge! conf.delete rails_env if conf.has_key? rails_env
 
-    @config_path            = config_path
-    @configuration          = symbolize_keys(conf)
-    @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
-    @embed_assets           = conf[:embed_assets] || conf[:embed_images]
-    @compress_assets        = !(conf[:compress_assets] == false)
-    @rewrite_relative_paths = !(conf[:rewrite_relative_paths] == false)
-    @gzip_assets            = !(conf[:gzip_assets] == false)
-    @allow_debugging        = !(conf[:allow_debugging] == false)
+    @config_path                      = config_path
+    @configuration                    = symbolize_keys(conf)
+    @package_path                     = conf[:package_path] || DEFAULT_PACKAGE_PATH
+    @embed_assets                     = conf[:embed_assets] || conf[:embed_images]
+    @compress_assets                  = !(conf[:compress_assets] == false)
+    @rewrite_relative_paths           = !(conf[:rewrite_relative_paths] == false)
+    @gzip_assets                      = !(conf[:gzip_assets] == false)
+    @allow_debugging                  = !(conf[:allow_debugging] == false)
+    @ignore_asset_host_for_extensions = conf[:ignore_asset_host_for_extensions] || []
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})

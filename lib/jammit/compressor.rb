@@ -200,15 +200,17 @@ module Jammit
     # Similar to the AssetTagHelper's method of the same name, this will
     # append the RAILS_ASSET_ID cache-buster to URLs, if it's defined.
     def rewrite_asset_path(path, file_path)
-      path = asset_host + path if asset_host
+      path = asset_path_with_host(path)
       asset_id = rails_asset_id(file_path)
       (!asset_id || asset_id == '') ? path : "#{path}?#{asset_id}"
     end
     
     # Adds a asset url to the url in the stylesheet. Which makes it possible
     # to keep absolute paths on a different domain.
-    def asset_host
-      Jammit.asset_host
+    def asset_path_with_host(path)
+      return path unless Jammit.asset_host
+      return path if Jammit.ignore_asset_host_for_extensions.any? { |extension| path.match /\.#{extension}$/ }
+      Jammit.asset_host + path
     end
 
     # Similar to the AssetTagHelper's method of the same name, this will
