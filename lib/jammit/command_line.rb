@@ -60,6 +60,9 @@ Options:
         opts.on('-u', '--base-url URL', 'base URL for MHTML (ex: "http://example.com")') do |base_url|
           @options[:base_url] = base_url
         end
+        opts.on('-a', '--asset-host HOST', 'a Host to the the assets. (ex: http://assets.example.com) ') do |asset_host|
+          @options[:asset_host] = asset_host
+        end
         opts.on('-f', '--force', 'force a rebuild of all assets') do |force|
           @options[:force] = force
         end

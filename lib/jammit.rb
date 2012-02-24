@@ -52,7 +52,7 @@ module Jammit
                   :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                   :javascript_compressor, :compressor_options, :css_compressor_options,
                   :template_extension, :template_extension_matcher, :allow_debugging,
-                  :rewrite_relative_paths, :public_root
+                  :rewrite_relative_paths, :public_root, :asset_host
     attr_accessor :compressors
   end
 
@@ -91,6 +91,7 @@ module Jammit
     set_template_namespace(conf[:template_namespace])
     set_template_extension(conf[:template_extension])
     set_public_root(conf[:public_root]) if conf[:public_root]
+    set_asset_host(conf[:asset_host]) if conf[:asset_host]
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_for_deprecations
@@ -129,10 +130,12 @@ module Jammit
       :output_folder  => nil,
       :base_url       => nil,
       :public_root    => nil,
-      :force          => false
+      :force          => false,
+      :asset_host     => nil,
     }.merge(options)
     load_configuration(options[:config_path])
     set_public_root(options[:public_root]) if options[:public_root]
+    set_asset_host(options[:asset_host]) if options[:asset_host]
     packager.force         = options[:force]
     packager.package_names = options[:package_names]
     packager.precache_all(options[:output_folder], options[:base_url])
@@ -144,6 +147,12 @@ module Jammit
   # outside of Rails.
   def self.set_public_root(public_root=nil)
     @public_root = public_root if public_root
+  end
+  
+  # Allows to specify from what URL assets should be loaded from.
+  # Useful for absolute CSS paths.
+  def self.set_asset_host(asset_host=nil)
+    @asset_host = asset_host if asset_host
   end
 
   # Ensure that the JavaScript compressor is a valid choice.
