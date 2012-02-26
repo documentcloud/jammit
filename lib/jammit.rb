@@ -52,7 +52,8 @@ module Jammit
                   :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                   :javascript_compressor, :compressor_options, :css_compressor_options,
                   :template_extension, :template_extension_matcher, :allow_debugging,
-                  :rewrite_relative_paths, :public_root
+                  :rewrite_relative_paths, :public_root, :asset_host, :ignore_asset_host_for_extensions,
+                  :web_host
     attr_accessor :compressors
   end
 
@@ -74,14 +75,15 @@ module Jammit
     rails_env = (defined?(Rails) ? ::Rails.env : ENV['RAILS_ENV'] || "development")
     conf.merge! conf.delete rails_env if conf.has_key? rails_env
 
-    @config_path            = config_path
-    @configuration          = symbolize_keys(conf)
-    @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
-    @embed_assets           = conf[:embed_assets] || conf[:embed_images]
-    @compress_assets        = !(conf[:compress_assets] == false)
-    @rewrite_relative_paths = !(conf[:rewrite_relative_paths] == false)
-    @gzip_assets            = !(conf[:gzip_assets] == false)
-    @allow_debugging        = !(conf[:allow_debugging] == false)
+    @config_path                      = config_path
+    @configuration                    = symbolize_keys(conf)
+    @package_path                     = conf[:package_path] || DEFAULT_PACKAGE_PATH
+    @embed_assets                     = conf[:embed_assets] || conf[:embed_images]
+    @compress_assets                  = !(conf[:compress_assets] == false)
+    @rewrite_relative_paths           = !(conf[:rewrite_relative_paths] == false)
+    @gzip_assets                      = !(conf[:gzip_assets] == false)
+    @allow_debugging                  = !(conf[:allow_debugging] == false)
+    @ignore_asset_host_for_extensions = conf[:ignore_asset_host_for_extensions] || []
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
@@ -91,6 +93,8 @@ module Jammit
     set_template_namespace(conf[:template_namespace])
     set_template_extension(conf[:template_extension])
     set_public_root(conf[:public_root]) if conf[:public_root]
+    set_asset_host(conf[:asset_host]) if conf[:asset_host]
+    set_web_host(conf[:web_host]) if conf[:web_host]
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_for_deprecations
@@ -129,10 +133,14 @@ module Jammit
       :output_folder  => nil,
       :base_url       => nil,
       :public_root    => nil,
-      :force          => false
+      :force          => false,
+      :asset_host     => nil,
+      :web_host       => nil
     }.merge(options)
     load_configuration(options[:config_path])
     set_public_root(options[:public_root]) if options[:public_root]
+    set_asset_host(options[:asset_host]) if options[:asset_host]
+    set_web_host(options[:web_host]) if options[:web_host]
     packager.force         = options[:force]
     packager.package_names = options[:package_names]
     packager.precache_all(options[:output_folder], options[:base_url])
@@ -144,6 +152,18 @@ module Jammit
   # outside of Rails.
   def self.set_public_root(public_root=nil)
     @public_root = public_root if public_root
+  end
+  
+  # Allows to specify from what URL assets should be loaded from.
+  # Useful for absolute CSS paths.
+  def self.set_asset_host(asset_host=nil)
+    @asset_host = asset_host if asset_host
+  end
+  
+  # Allows to specify from what URL the site is on
+  # Useful for absolute CSS paths.
+  def self.set_web_host(web_host=nil)
+    @web_host = web_host if web_host
   end
 
   # Ensure that the JavaScript compressor is a valid choice.
