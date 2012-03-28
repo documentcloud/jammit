@@ -31,6 +31,10 @@ class JammitHelpersTest < ActionView::TestCase
     @debug ? {:debug_assets => true} : {}
   end
 
+  def setup
+    Jammit.load_configuration('test/config/assets.yml').reload!
+  end
+
   def test_include_stylesheets
     assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_includes.html')
   end
