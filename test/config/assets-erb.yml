@@ -1,3 +1,5 @@
+javascript_compressor: yui
+css_compressor: yui
 embed_assets: <%= ENV['RAILS_ENV'] == 'test' %>
 
 javascripts:

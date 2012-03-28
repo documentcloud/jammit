@@ -1,4 +1,7 @@
+javascript_compressor: yui
+css_compressor: yui
 embed_assets: on
+compress_assets: true
 
 javascripts:
   js_test: &js_test

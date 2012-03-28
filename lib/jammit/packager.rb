@@ -14,7 +14,6 @@ module Jammit
     # Jammit.configuration. When assets.yml is being changed on the fly,
     # create a new Packager.
     def initialize
-      @compressor     = Compressor.new
       @force          = false
       @package_names  = nil
       @config = {
@@ -71,21 +70,25 @@ module Jammit
       package_for(package, extension)[:urls]
     end
 
+    def compressor
+      @compressor ||= Compressor.new
+    end
+
     # Return the compressed contents of a stylesheet package.
     def pack_stylesheets(package, variant=nil, asset_url=nil)
-      @compressor.compress_css(package_for(package, :css)[:paths], variant, asset_url)
+      compressor.compress_css(package_for(package, :css)[:paths], variant, asset_url)
     end
 
     # Return the compressed contents of a javascript package.
     def pack_javascripts(package)
-      @compressor.compress_js(package_for(package, :js)[:paths])
+      compressor.compress_js(package_for(package, :js)[:paths])
     end
 
     # Return the compiled contents of a JST package.
     def pack_templates(package)
-      @compressor.compile_jst(package_for(package, :js)[:paths])
+      compressor.compile_jst(package_for(package, :js)[:paths])
     end
-  
+
 
     private
 
@@ -109,7 +112,7 @@ module Jammit
     def path_to_url
       @path_to_url ||= /\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(Jammit.public_root.sub(ASSET_ROOT, ''))})?/
     end
-    
+
     # Get the latest mtime of a list of files (plus the config path).
     def latest_mtime(paths)
       paths += [Jammit.config_path]

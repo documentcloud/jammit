@@ -1,4 +1,5 @@
 javascript_compressor: yui
+css_compressor: yui
 embed_assets: on
 rewrite_relative_paths: off
 
