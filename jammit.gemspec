@@ -26,7 +26,8 @@ Gem::Specification.new do |s|
                          '--main'     << 'README' <<
                          '--all'
 
-  s.add_dependency 'yui-compressor',    ['>= 0.9.3']
+  s.add_dependency 'cssmin', ['>= 1.0.2']
+  s.add_dependency 'jsmin',  ['>= 1.0.1']
 
   s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit.gemspec', 'LICENSE', 'README']
 end
