@@ -43,14 +43,14 @@ module Jammit
 
     JAVASCRIPT_COMPRESSORS = {
       :jsmin    => Jammit.javascript_compressors.include?(:jsmin)  ? Jammit::JsminCompressor : nil,
-      :yui      => Jammit.javascript_compressors.include?(:yui)  ? Jammit::YUIJavaScriptCompressor : nil,
+      :yui      => Jammit.javascript_compressors.include?(:yui)  ? YUI::JavaScriptCompressor : nil,
       :closure  => Jammit.javascript_compressors.include?(:closure)  ? Closure::Compiler : nil,
       :uglifier => Jammit.javascript_compressors.include?(:uglifier) ? Jammit::Uglifier  : nil
     }
 
     CSS_COMPRESSORS = {
       :cssmin   => Jammit.css_compressors.include?(:cssmin) ? Jammit::CssminCompressor : nil,
-      :yui      => Jammit.css_compressors.include?(:yui) ? Jammit::YUICssCompressor : nil,
+      :yui      => Jammit.css_compressors.include?(:yui) ? YUI::CssCompressor : nil,
       :sass     => Jammit.css_compressors.include?(:sass) ? Jammit::SassCompressor : nil
      }
 

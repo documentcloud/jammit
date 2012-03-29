@@ -18,8 +18,6 @@ end
 # Try YUI
 begin
   require 'yui/compressor'
-  require 'jammit/yui_css_compressor'
-  require 'jammit/yui_javascript_compressor'
 rescue LoadError
   Jammit.javascript_compressors.delete :yui
   Jammit.css_compressors.delete :yui
