@@ -23,6 +23,7 @@ class JammitControllerTest < ActionController::TestCase
     ActionController::Routing::Routes.draw do |map|
       Jammit::Routes.draw(map)
     end
+    Jammit.load_configuration('test/config/assets.yml').reload!
   end
 
   def teardown

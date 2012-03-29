@@ -4,28 +4,32 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION               = "0.6.5"
+  VERSION                       = "0.6.5"
 
-  ROOT                  = File.expand_path(File.dirname(__FILE__) + '/..')
+  ROOT                          = File.expand_path(File.dirname(__FILE__) + '/..')
 
-  ASSET_ROOT            = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ENV['RAILS_ROOT'] || ".") unless defined?(ASSET_ROOT)
+  ASSET_ROOT                    = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ENV['RAILS_ROOT'] || ".") unless defined?(ASSET_ROOT)
 
-  DEFAULT_PUBLIC_ROOT   = (defined?(Rails) && Rails.public_path.to_s.length > 0) ? Rails.public_path : File.join(ASSET_ROOT, 'public') unless defined?(PUBLIC_ROOT)
+  DEFAULT_PUBLIC_ROOT           = (defined?(Rails) && Rails.public_path.to_s.length > 0) ? Rails.public_path : File.join(ASSET_ROOT, 'public') unless defined?(PUBLIC_ROOT)
 
-  DEFAULT_CONFIG_PATH   = File.join(ASSET_ROOT, 'config', 'assets.yml')
+  DEFAULT_CONFIG_PATH           = File.join(ASSET_ROOT, 'config', 'assets.yml')
 
-  DEFAULT_PACKAGE_PATH  = "assets"
+  DEFAULT_PACKAGE_PATH          = "assets"
 
-  DEFAULT_JST_SCRIPT    = File.join(ROOT, 'lib/jammit/jst.js')
+  DEFAULT_JST_SCRIPT            = File.join(ROOT, 'lib/jammit/jst.js')
 
-  DEFAULT_JST_COMPILER  = "template"
+  DEFAULT_JST_COMPILER          = "template"
 
-  DEFAULT_JST_NAMESPACE = "window.JST"
+  DEFAULT_JST_NAMESPACE         = "window.JST"
 
-  COMPRESSORS           = [:yui, :closure, :uglifier]
+  JAVASCRIPT_COMPRESSORS        = [:jsmin, :yui, :closure, :uglifier]
 
-  DEFAULT_COMPRESSOR    = :yui
-  
+  DEFAULT_JAVASCRIPT_COMPRESSOR = :jsmin
+
+  CSS_COMPRESSORS               = [:cssmin, :yui, :sass]
+
+  DEFAULT_CSS_COMPRESSOR        = :cssmin
+
   # Extension matchers for JavaScript and JST, which need to be disambiguated.
   JS_EXTENSION          = /\.js\Z/
   DEFAULT_JST_EXTENSION = "jst"
@@ -50,17 +54,20 @@ module Jammit
     attr_reader   :configuration, :template_function, :template_namespace,
                   :embed_assets, :package_assets, :compress_assets, :gzip_assets,
                   :package_path, :mhtml_enabled, :include_jst_script, :config_path,
-                  :javascript_compressor, :compressor_options, :css_compressor_options,
-                  :template_extension, :template_extension_matcher, :allow_debugging,
+                  :javascript_compressor, :compressor_options, :css_compressor,
+                  :css_compressor_options, :template_extension,
+                  :template_extension_matcher, :allow_debugging,
                   :rewrite_relative_paths, :public_root
-    attr_accessor :compressors
+    attr_accessor :javascript_compressors, :css_compressors
   end
 
   # The minimal required configuration.
   @configuration  = {}
   @public_root    = DEFAULT_PUBLIC_ROOT
   @package_path   = DEFAULT_PACKAGE_PATH
-  @compressors    = COMPRESSORS
+
+  @javascript_compressors = JAVASCRIPT_COMPRESSORS
+  @css_compressors        = CSS_COMPRESSORS
 
   # Load the complete asset configuration from the specified @config_path@.
   # If we're loading softly, don't let missing configuration error out.
@@ -86,6 +93,7 @@ module Jammit
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
     set_javascript_compressor(conf[:javascript_compressor])
+    set_css_compressor(conf[:css_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
     set_template_namespace(conf[:template_namespace])
@@ -149,7 +157,13 @@ module Jammit
   # Ensure that the JavaScript compressor is a valid choice.
   def self.set_javascript_compressor(value)
     value = value && value.to_sym
-    @javascript_compressor = compressors.include?(value) ? value : DEFAULT_COMPRESSOR
+    @javascript_compressor = javascript_compressors.include?(value) ? value : DEFAULT_JAVASCRIPT_COMPRESSOR
+  end
+
+  # Ensure that the CSS compressor is a valid choice.
+  def self.set_css_compressor(value)
+    value = value && value.to_sym
+    @css_compressor = css_compressors.include?(value) ? value : DEFAULT_CSS_COMPRESSOR
   end
 
   # Turn asset packaging on or off, depending on configuration and environment.
