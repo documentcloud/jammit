@@ -24,11 +24,11 @@ module Jammit
 
   JAVASCRIPT_COMPRESSORS        = [:jsmin, :yui, :closure, :uglifier]
 
-  DEFAULT_JAVASCRIPT_COMPRESSOR = :yui
+  DEFAULT_JAVASCRIPT_COMPRESSOR = :jsmin
 
   CSS_COMPRESSORS               = [:cssmin, :yui, :sass]
 
-  DEFAULT_CSS_COMPRESSOR        = :yui
+  DEFAULT_CSS_COMPRESSOR        = :cssmin
 
   # Extension matchers for JavaScript and JST, which need to be disambiguated.
   JS_EXTENSION          = /\.js\Z/
@@ -93,6 +93,7 @@ module Jammit
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
     set_javascript_compressor(conf[:javascript_compressor])
+    set_css_compressor(conf[:css_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
     set_template_namespace(conf[:template_namespace])
