@@ -1,0 +1,8 @@
+css_compressor: sass
+
+stylesheets:
+  css_test: &css_test
+    - fixtures/src/*.css
+  css_test_nested:
+    - *css_test
+    - fixtures/src/nested/*.css

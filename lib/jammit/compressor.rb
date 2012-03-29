@@ -41,26 +41,39 @@ module Jammit
     JST_START       = "(function(){"
     JST_END         = "})();"
 
-    COMPRESSORS = {
-      :yui      => YUI::JavaScriptCompressor,
-      :closure  => Jammit.compressors.include?(:closure)  ? Closure::Compiler : nil,
-      :uglifier => Jammit.compressors.include?(:uglifier) ? Jammit::Uglifier  : nil
+    JAVASCRIPT_COMPRESSORS = {
+      :jsmin    => Jammit.javascript_compressors.include?(:jsmin)  ? Jammit::JsminCompressor : nil,
+      :yui      => Jammit.javascript_compressors.include?(:yui)  ? YUI::JavaScriptCompressor : nil,
+      :closure  => Jammit.javascript_compressors.include?(:closure)  ? Closure::Compiler : nil,
+      :uglifier => Jammit.javascript_compressors.include?(:uglifier) ? Jammit::Uglifier  : nil
     }
 
-    DEFAULT_OPTIONS = {
+    CSS_COMPRESSORS = {
+      :cssmin   => Jammit.css_compressors.include?(:cssmin) ? Jammit::CssminCompressor : nil,
+      :yui      => Jammit.css_compressors.include?(:yui) ? YUI::CssCompressor : nil,
+      :sass     => Jammit.css_compressors.include?(:sass) ? Jammit::SassCompressor : nil
+     }
+
+    JAVASCRIPT_DEFAULT_OPTIONS = {
+      :jsmin    => {},
       :yui      => {:munge => true},
       :closure  => {},
       :uglifier => {:copyright => false}
     }
 
-    # The css compressor is always the YUI Compressor. JS compression can be
-    # provided with YUI Compressor, Google Closure Compiler or UglifyJS.
+    # CSS compression can be provided with YUI Compressor or sass. JS
+    # compression can be provided with YUI Compressor, Google Closure
+    # Compiler or UglifyJS.
     def initialize
-      Jammit.check_java_version
-      @css_compressor = YUI::CssCompressor.new(Jammit.css_compressor_options || {})
-      flavor          = Jammit.javascript_compressor || Jammit::DEFAULT_COMPRESSOR
-      @options        = DEFAULT_OPTIONS[flavor].merge(Jammit.compressor_options || {})
-      @js_compressor  = COMPRESSORS[flavor].new(@options)
+      if Jammit.javascript_compressors.include?(:yui) || Jammit.javascript_compressors.include?(:closure) || Jammit.css_compressors.include?(:yui)
+        Jammit.check_java_version
+      end
+
+      css_flavor      = Jammit.css_compressor || Jammit::DEFAULT_CSS_COMPRESSOR
+      @css_compressor = CSS_COMPRESSORS[css_flavor].new(Jammit.css_compressor_options || {})
+      js_flavor       = Jammit.javascript_compressor || Jammit::DEFAULT_JAVASCRIPT_COMPRESSOR
+      @options        = JAVASCRIPT_DEFAULT_OPTIONS[js_flavor].merge(Jammit.compressor_options || {})
+      @js_compressor  = JAVASCRIPT_COMPRESSORS[js_flavor].new(@options)
     end
 
     # Concatenate together a list of JavaScript paths, and pass them through the
@@ -172,7 +185,7 @@ module Jammit
       end
       [MHTML_START, mhtml, MHTML_END, css].flatten.join('')
     end
-    
+
     # Return a rewritten asset URL for a new stylesheet -- the asset should
     # be tagged for embedding if embeddable, and referenced at the correct level
     # if relative.
