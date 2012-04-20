@@ -145,6 +145,13 @@ module Jammit
     packager.precache_all(options[:output_folder], options[:base_url])
   end
 
+  def self.custom_assets
+    @configuration.select { |key, val|
+      lambda{ |val| val.respond_to?(:keys) rescue false}.call(val) &&
+      ![:javascripts, :stylesheets].include?(key)
+    }
+  end
+
   private
 
   # Allows command-line definition of `PUBLIC_ROOT`, for those using Jammit

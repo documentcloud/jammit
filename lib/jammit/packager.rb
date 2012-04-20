@@ -19,11 +19,11 @@ module Jammit
       @config = {
         :css => (Jammit.configuration[:stylesheets] || {}),
         :js  => (Jammit.configuration[:javascripts] || {})
-      }
+      }.merge!(Jammit.custom_assets)
       @packages = {
         :css => create_packages(@config[:css]),
         :js  => create_packages(@config[:js])
-      }
+      }.merge!(create_custom_packages(Jammit.custom_assets))
     end
 
     # Ask the packager to precache all defined assets, along with their gzip'd
@@ -45,6 +45,9 @@ module Jammit
             cache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
           end
         end
+      end
+      @packages.keys.keep_if{|extension| ![:js, :css].include?(extension)}.each do |extension|
+        cacheable(extension, output_dir).each {|p| cache(p, extension.to_s, self.send(:"pack_#{extension}", p), output_dir)}
       end
     end
 
@@ -167,6 +170,12 @@ module Jammit
         end
       end
       packages
+    end
+
+    def create_custom_packages(custom_assets)
+      results = {}
+      custom_assets.each { |key, val| results[key] = create_packages(val)}
+      results
     end
 
     # Raise a PackageNotFound exception for missing packages...
