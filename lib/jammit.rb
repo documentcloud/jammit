@@ -99,8 +99,7 @@ module Jammit
     set_template_namespace(conf[:template_namespace])
     set_template_extension(conf[:template_extension])
     set_public_root(conf[:public_root]) if conf[:public_root]
-    symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
-    symbolize_keys(conf[:javascripts]) if conf[:javascripts]
+    conf.keys.each {|key| symbolize_keys(conf[key]) rescue nil}
     check_for_deprecations
     self
   end

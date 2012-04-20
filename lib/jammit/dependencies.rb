@@ -57,3 +57,6 @@ if defined?(Rails)
   require 'jammit/routes'
 end
 
+# Load user extentions
+require 'jammit/extensions'
+
