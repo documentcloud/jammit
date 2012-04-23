@@ -47,7 +47,7 @@ module Jammit
         end
       end
       @packages.keys.keep_if{|extension| ![:js, :css].include?(extension)}.each do |extension|
-        cacheable(extension, output_dir).each {|p| cache(p, extension.to_s, self.send(:"pack_#{extension}", p), output_dir)}
+        cacheable(extension, output_dir).each {|p| cache(p, extension.to_s, self.send(:"pack_#{extension}s", p), output_dir)}
       end
     end
 
@@ -174,7 +174,7 @@ module Jammit
 
     def create_custom_packages(custom_assets)
       results = {}
-      custom_assets.each { |key, val| results[key] = create_packages(val)}
+      custom_assets.each { |key, val| results[:"#{key.to_s.singularize}"] = create_packages(val)}
       results
     end
 
