@@ -1,5 +1,8 @@
 require 'test_helper'
 
+class TestPackager < Jammit::Packager
+end
+
 class BrokenConfigurationTest < Test::Unit::TestCase
 
   def setup
@@ -78,6 +81,11 @@ class ConfigurationTest < Test::Unit::TestCase
     assert !Jammit.rewrite_relative_paths
     packed = Compressor.new.compress_css(glob('test/fixtures/src/*.css'))
     assert_equal packed, File.read('test/fixtures/jammed/css_test-no-rewrite-relative-paths.css')
+  end
+
+  def test_packager
+    Jammit.load_configuration('test/config/assets-packager.yml')
+    assert_instance_of TestPackager, Jammit.packager
   end
 
 end

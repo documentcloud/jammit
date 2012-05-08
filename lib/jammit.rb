@@ -115,7 +115,8 @@ module Jammit
   # Keep a global (thread-local) reference to a @Jammit::Packager@, to avoid
   # recomputing asset lists unnecessarily.
   def self.packager
-    Thread.current[:jammit_packager] ||= Packager.new
+    packager_class = @configuration[:packager_class].nil? ? Packager : @configuration[:packager_class].constantize
+    Thread.current[:jammit_packager] ||= packager_class.new
   end
 
   # Generate the base filename for a version of a given package.
