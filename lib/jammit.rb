@@ -92,6 +92,8 @@ module Jammit
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
+    css_source_directory    = conf[:css_source_directory]
+    js_source_directory     = conf[:js_source_directory]
     set_javascript_compressor(conf[:javascript_compressor])
     set_css_compressor(conf[:css_compressor])
     set_package_assets(conf[:package_assets])
@@ -99,8 +101,34 @@ module Jammit
     set_template_namespace(conf[:template_namespace])
     set_template_extension(conf[:template_extension])
     set_public_root(conf[:public_root]) if conf[:public_root]
+
+
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
+
+    # Add prefix to all CSS files if one is defined
+    if css_source_directory && conf[:stylesheets]
+      check_for_prefix = /^#{Regexp.escape(css_source_directory)}/
+      conf[:stylesheets].each do |name, paths|
+        paths.flatten!
+        paths.collect! do |path|
+          path =~ check_for_prefix ? path : File.join(css_source_directory, path)
+        end
+      end
+    end
+
+    # Add prefix to all JS files (except templates) if one is defined
+    if js_source_directory && conf[:javascripts]
+      check_for_prefix_and_template = /^#{Regexp.escape(js_source_directory)}|#{Regexp.escape(conf[:template_extension])}$/
+      conf[:javascripts].each do |name, paths|
+        paths.flatten!
+        paths.collect! do |path|
+          path =~ check_for_prefix_and_template ? path : File.join(js_source_directory, path)
+        end
+      end
+    end
+
+
     check_for_deprecations
     self
   end
