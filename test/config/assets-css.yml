@@ -1,3 +1,5 @@
+css_compressor: yui
+
 css_compressor_options:
   line_break: 0
 

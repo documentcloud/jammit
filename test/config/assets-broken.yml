@@ -1,4 +1,5 @@
 javascript_compressor: undefined
+css_compressor: yui
 embed_assets: nope
 package_assets: 42
 package_path:           /dev/null
