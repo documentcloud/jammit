@@ -2,6 +2,6 @@
 require 'pathname'
 
 APP_ROOT = File.dirname(Pathname.new(__FILE__).realpath)
-require File.join(APP_ROOT,'../lib/jammit/command_line.rb')
+require File.join(APP_ROOT, '../lib/jammit/command_line.rb')
 
 Jammit::CommandLine.new
