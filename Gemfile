@@ -15,4 +15,5 @@ end
 
 group :development do
   gem "RedCloth", "4.2.9"
+  gem "redgreen", "1.2.2"
 end

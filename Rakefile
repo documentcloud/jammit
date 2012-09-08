@@ -1,12 +1,16 @@
 require 'rake/testtask'
 
 desc 'Run all tests'
-task :test do
+task :test, [:path] do |task, args|
   ENV['RAILS_ENV'] = 'test'
   $LOAD_PATH.unshift(File.expand_path('test'))
-  require 'redgreen' if Gem.available?('redgreen')
+  require 'redgreen' unless Gem::Specification.find_all_by_name('redgreen').empty?
   require 'test/unit'
-  Dir['test/*/**/test_*.rb'].each {|test| require "./#{test}" }
+  if args[:path]
+    require args[:path]
+  else
+    Dir['test/*/**/test_*.rb'].each {|test| require "./#{test}" }
+  end
 end
 
 desc 'Generate YARD Documentation'
