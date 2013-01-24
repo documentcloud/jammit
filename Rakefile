@@ -5,8 +5,6 @@ task :test, [:path] do |task, args|
   ENV['RAILS_ENV'] = 'test'
   $LOAD_PATH.unshift(File.expand_path('test'))
 
-  require 'redgreen'
-
   if args[:path]
     require args[:path]
   else
