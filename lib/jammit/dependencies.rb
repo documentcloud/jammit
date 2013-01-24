@@ -7,6 +7,11 @@ require 'base64'
 require 'pathname'
 require 'fileutils'
 
+# Pretty dependent on gems
+unless defined? Gem
+  require 'rubygems'
+end
+
 # Try Uglifier.
 begin
   require 'uglifier'

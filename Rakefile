@@ -4,8 +4,9 @@ desc 'Run all tests'
 task :test, [:path] do |task, args|
   ENV['RAILS_ENV'] = 'test'
   $LOAD_PATH.unshift(File.expand_path('test'))
-  require 'redgreen' unless Gem::Specification.find_all_by_name('redgreen').empty?
-  require 'test/unit'
+
+  require 'redgreen'
+
   if args[:path]
     require args[:path]
   else
@@ -26,12 +27,12 @@ namespace :gem do
   desc 'Build and install the jammit gem'
   task :install do
     sh "gem build jammit.gemspec"
-    sh "sudo gem install #{Dir['*.gem'].join(' ')} --local --no-ri --no-rdoc"
+    sh "gem install #{Dir['*.gem'].join(' ')} --local --no-ri --no-rdoc"
   end
 
   desc 'Uninstall the jammit gem'
   task :uninstall do
-    sh "sudo gem uninstall -x jammit"
+    sh "gem uninstall -x jammit"
   end
 
 end
