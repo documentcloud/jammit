@@ -1,4 +1,4 @@
-require 'test_helper'
+$: << File.expand_path(File.dirname(__FILE__) + "/..") ; require 'test_helper'
 
 class BrokenConfigurationTest < Test::Unit::TestCase
 
@@ -26,8 +26,15 @@ class ConfigurationTest < Test::Unit::TestCase
     # Nothing should change with jst.
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
     assert_equal packed, File.read('test/fixtures/jammed/jst_test.js')
+    # CSS
     packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
-    assert_equal packed, File.open('test/fixtures/jammed/css_test-uncompressed.css', 'rb') {|f| f.read }
+    uncompressed_css = File.read('test/fixtures/jammed/css_test-uncompressed.css')
+
+    # fun with unicode
+    if uncompressed_css.respond_to?(:encoding)
+      uncompressed_css.force_encoding("UTF-8")
+    end
+    assert_equal packed, uncompressed_css
   end
 
   def test_css_compression

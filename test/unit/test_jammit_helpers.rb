@@ -1,9 +1,13 @@
-require 'test_helper'
+$: << File.expand_path(File.dirname(__FILE__) + "/..") ; require 'test_helper'
 require 'action_pack'
 require 'action_view'
 require 'action_view/base'
 require 'action_controller'
 require 'action_controller/base'
+
+# fix for ruby 1.9.3 compatibility with rails 2.3.14
+MissingSourceFile::REGEXPS << [/^cannot load such file -- (.+)$/i, 1]
+
 require 'action_view/test_case'
 require 'jammit/controller'
 require 'jammit/helper'

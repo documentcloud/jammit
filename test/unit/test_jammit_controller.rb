@@ -1,4 +1,4 @@
-require 'test_helper'
+$: << File.expand_path(File.dirname(__FILE__) + "/..") ; require 'test_helper'
 require 'active_support'
 require 'action_pack'
 require 'action_controller'
