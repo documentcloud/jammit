@@ -28,7 +28,7 @@ class CommandLineTest < Test::Unit::TestCase
       File.read('test/fixtures/jammed/css_test-datauri.css')
 
     assert_equal zlib_read('test/precache/jst_test.js.gz'),
-      File.read('test/fixtures/jammed/jst_test.js')
+      File.read('test/fixtures/jammed/jst_test_from_cli.js')
 
     assert_equal zlib_read('test/precache/js_test_with_templates.js.gz'),
       File.read('test/fixtures/jammed/js_test_with_templates.js')
@@ -41,7 +41,9 @@ class CommandLineTest < Test::Unit::TestCase
     system("#{ JAMMIT } -c test/config/assets.yml -o test/precache -u http://www.example.com")
     assert_equal File.mtime(PRECACHED_FILES.first), mtime
     system("#{ JAMMIT } -c test/config/assets.yml -o test/precache -u http://www.example.com --force")
-    assert File.mtime(PRECACHED_FILES.first) > mtime
+    new_mtime = File.mtime(PRECACHED_FILES.first)
+    assert new_mtime > mtime,
+      "#{ PRECACHED_FILES.first } mtime - #{ new_mtime } - greater than #{ mtime }"
   end
 
   def zlib_read(filename)

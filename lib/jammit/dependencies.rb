@@ -49,6 +49,7 @@ Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH, true) if defined?(Rails)
 # Jammit Core:
 require 'jsmin'
 require 'cssmin'
+require 'jammit/version'
 require 'jammit/jsmin_compressor'
 require 'jammit/cssmin_compressor'
 require 'jammit/compressor'
