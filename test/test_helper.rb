@@ -1,5 +1,6 @@
 Encoding.default_external = 'ascii' if defined? Encoding
 
+require 'test/unit'
 require 'logger'
 
 ASSET_ROOT = File.expand_path(File.dirname(__FILE__))

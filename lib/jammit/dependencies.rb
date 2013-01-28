@@ -7,6 +7,11 @@ require 'base64'
 require 'pathname'
 require 'fileutils'
 
+# Pretty dependent on gems
+unless defined? Gem
+  require 'rubygems'
+end
+
 # Try Uglifier.
 begin
   require 'uglifier'
@@ -44,6 +49,7 @@ Jammit.load_configuration(Jammit::DEFAULT_CONFIG_PATH, true) if defined?(Rails)
 # Jammit Core:
 require 'jsmin'
 require 'cssmin'
+require 'jammit/version'
 require 'jammit/jsmin_compressor'
 require 'jammit/cssmin_compressor'
 require 'jammit/compressor'

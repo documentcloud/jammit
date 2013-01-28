@@ -1,6 +1,11 @@
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+
+require 'jammit/version'
+
 Gem::Specification.new do |s|
   s.name      = 'jammit'
-  s.version   = '0.6.5'         # Keep version in sync with jammit.rb
+  s.version   = Jammit::VERSION
   s.date      = '2011-11-30'
 
   s.homepage    = "http://documentcloud.github.com/jammit/"
