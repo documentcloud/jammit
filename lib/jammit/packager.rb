@@ -70,6 +70,12 @@ module Jammit
       package_for(package, extension)[:urls]
     end
 
+    def asset_defined?(package, extension)
+      !!package_for(package, extension)
+    rescue PackageNotFound
+      false
+    end
+
     def compressor
       @compressor ||= Compressor.new
     end
