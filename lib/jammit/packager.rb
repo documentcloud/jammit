@@ -70,8 +70,9 @@ module Jammit
       package_for(package, extension)[:urls]
     end
 
-    def asset_defined?(package, extension)
-      !!package_for(package, extension)
+    # Determines the existence of a packaged asset in the assets.yml file.
+    def includes?(package, extension)
+      !!package_for(package.to_sym, extension.to_sym)
     rescue PackageNotFound
       false
     end

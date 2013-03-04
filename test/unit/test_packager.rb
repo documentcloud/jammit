@@ -33,6 +33,19 @@ class PackagerTest < Test::Unit::TestCase
     assert urls == ['/assets/jst_test_nested.jst']
   end
 
+  def test_package_includes
+    assert Jammit.packager.includes?(:css_test, :css)
+    assert Jammit.packager.includes?("css_test_nested", "css")
+    assert Jammit.packager.includes?(:js_test, :js)
+    assert Jammit.packager.includes?("js_test_nested", "js")
+    assert Jammit.packager.includes?(:jst_test, :js)
+    assert Jammit.packager.includes?("jst_test_nested", "js")
+
+    assert !Jammit.packager.includes?(:not_included_file, :js)
+    assert !Jammit.packager.includes?(:test1, :css)
+    assert !Jammit.packager.includes?(:"nested/nested1", :js)
+  end
+
   def test_packaging_stylesheets
     css = Jammit.packager.pack_stylesheets(:css_test)
     assert css == File.read('test/fixtures/jammed/css_test.css')
@@ -129,5 +142,4 @@ class PackagerTest < Test::Unit::TestCase
     assert File.read('test/public/assets/js_test.js') == File.read('test/fixtures/jammed/js_test_package_names.js')
     FileUtils.rm_rf("test/public/assets")
   end
-
 end
