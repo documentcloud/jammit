@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION                       = "0.6.5"
+  VERSION                       = "0.6.6"
 
   ROOT                          = File.expand_path(File.dirname(__FILE__) + '/..')
 
