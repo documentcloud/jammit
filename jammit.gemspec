@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'cssmin', ['>= 1.0.3']
   s.add_dependency 'jsmin',  ['>= 1.0.1']
+  s.add_dependency "rack", ">= 1.0"
 
   s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit.gemspec', 'LICENSE', 'README']
 end
