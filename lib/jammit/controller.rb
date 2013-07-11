@@ -69,8 +69,8 @@ module Jammit
       template_ext = Jammit.template_extension.to_sym
       case @extension
       when :js
-         # (@contents = Jammit.packager.pack_javascripts(@package))
-         'foo_case1.js'
+        puts @package.inspect
+         (@contents = Jammit.packager.pack_javascripts(@package))
       when template_ext
          # (@contents = Jammit.packager.pack_templates(@package))
          'foo_case2.js'

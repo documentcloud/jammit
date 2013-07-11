@@ -22,3 +22,14 @@ RSpec.configure do |config|
   #   end
   # end
 end
+
+def test_html_head(body, tag, keys)
+  html = Nokogiri::HTML(body)
+  html.css("head #{tag}").text.should == keys 
+end
+
+def test_html_head_attributes(body, tag, keys)
+  html = Nokogiri::HTML(body)
+  attributes = html.css("head #{tag}").map(&:attributes)
+  # .... should
+end
