@@ -73,7 +73,7 @@ module Jammit
          (@contents = Jammit.packager.pack_javascripts(@package))
       when template_ext
          # (@contents = Jammit.packager.pack_templates(@package))
-         'foo_case2.js'
+         'foo_case2.jst'
       when :css
           [generate_stylesheets, :content_type => 'text/css']
       end
@@ -169,7 +169,12 @@ module Jammit
       if (@request = Request.new(env.dup.freeze)).for_jammit?
         Response.new(env.dup.freeze, @request.package).to_rack
       else
-        @app.call(env)
+        status, headers, body = @app.call(env)
+
+        processor = HeaderProcessor.new(body)
+        processor.process!(env)
+
+       [ status, headers, processor.new_body ]
       end
     end
   end

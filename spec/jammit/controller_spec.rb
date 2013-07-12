@@ -7,7 +7,6 @@ describe Jammit::Controller do
   def test_html
     '<html>
         <head>
-        <meta charset="utf-8">
         <title>test page</title>
         </head>
         <body><h1>FunkyBoss</h1></body>
@@ -15,7 +14,7 @@ describe Jammit::Controller do
   end
 
   def index_app
-    lambda { |e| [200, {'Content-Type' => 'text/plain'}, test_html] }
+    lambda { |e| [200, {'Content-Type' => 'text/html'}, test_html.split("\n")] }
   end
 
   it "inserts Jammit into the rack env" do
@@ -36,8 +35,7 @@ describe Jammit::Controller do
     it "includes script tag" do
       env = env_with_params("/index.html", {})
       result = setup_rack(index_app).call(env)
-      test_html_head(result.last, 'title', 'test page')
-      test_html_head_attributes(result.last, 'meta', 'charset=utf-8')
+      test_html_head_script(result.last.join, '/assets/app.js')
     end
   end
 

@@ -1,5 +1,6 @@
 $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 
+require 'jammit/header_processor'
 require 'jammit/controller'
 
 # @Jammit@ is the central namespace for all Jammit classes, and provides access

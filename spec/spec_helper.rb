@@ -28,8 +28,8 @@ def test_html_head(body, tag, keys)
   html.css("head #{tag}").text.should == keys 
 end
 
-def test_html_head_attributes(body, tag, keys)
+def test_html_head_script(body, str)
   html = Nokogiri::HTML(body)
-  attributes = html.css("head #{tag}").map(&:attributes)
-  # .... should
+  script = html.at_css("script")
+  script.attributes.first.last.text.should == str
 end
