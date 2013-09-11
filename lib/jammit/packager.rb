@@ -22,7 +22,8 @@ module Jammit
       }
       @packages = {
         :css => create_packages(@config[:css]),
-        :js  => create_packages(@config[:js])
+        :js  => create_packages(@config[:js]),
+        :'js.map' => create_packages(@config[:js])
       }
     end
 
@@ -33,7 +34,11 @@ module Jammit
     # changed since their last package build.
     def precache_all(output_dir=nil, base_url=nil)
       output_dir ||= File.join(Jammit.public_root, Jammit.package_path)
-      cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
+      cacheable(:js, output_dir).each  {|p|
+        javascripts, source_maps = pack_javascripts(p)
+        cache(p, 'js',  javascripts, output_dir)
+        cache(p, 'js.map', source_maps, output_dir) if source_maps
+      }
       cacheable(:css, output_dir).each do |p|
         cache(p, 'css', pack_stylesheets(p), output_dir)
         if Jammit.embed_assets
