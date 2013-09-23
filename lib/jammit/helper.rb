@@ -26,10 +26,15 @@ module Jammit
     # except in development, where it references the individual scripts.
     def include_javascripts(*packages)
       options = packages.extract_options!
+      options.merge!(:extname=>false)
       html_safe packages.map {|pack|
         should_package? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       }.flatten.map {|pack|
-        javascript_include_tag pack, options
+#        tag = javascript_include_tag pack, options
+        tag = "<script src='#{pack}'></script>"
+        # Rails.logger.warn tag
+        # Rails.logger.warn
+        tag
       }.join("\n")
     end
 
