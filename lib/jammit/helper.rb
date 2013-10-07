@@ -30,11 +30,7 @@ module Jammit
       html_safe packages.map {|pack|
         should_package? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       }.flatten.map {|pack|
-#        tag = javascript_include_tag pack, options
-        tag = "<script src='#{pack}'></script>"
-        # Rails.logger.warn tag
-        # Rails.logger.warn
-        tag
+        "<script src='#{pack}'></script>"
       }.join("\n")
     end
 
