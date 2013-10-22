@@ -159,6 +159,7 @@ module Jammit
     list = []
     if `git --version` =~ /[\d\.]+/
       list = `git ls-files -m`.split(/\r?\n/)
+      list = list.map{ |f|  Pathname.new(f).absolute? ? f : File.join(ASSET_ROOT, f) }
     else
       Jammit.warn('Please check that Git is installed and available in your PATH')
     end
