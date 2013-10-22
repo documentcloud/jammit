@@ -1,0 +1,12 @@
+javascript_compressor: yui
+css_compressor: yui
+embed_assets: on
+compress_assets: true
+build_assets: true
+javascript_builder: shifter
+
+javascripts:
+  workspace:
+    - fixtures/src/test1.js
+    - fixtures/src/test2.js
+    - fixtures/build/test3/test3.js  # Missing asset to try to build

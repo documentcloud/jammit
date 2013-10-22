@@ -74,6 +74,10 @@ module Jammit
       @compressor ||= Compressor.new
     end
 
+    def builder
+      @builder ||= Builder.new
+    end
+
     # Return the compressed contents of a stylesheet package.
     def pack_stylesheets(package, variant=nil, asset_url=nil)
       compressor.compress_css(package_for(package, :css)[:paths], variant, asset_url)
@@ -103,8 +107,16 @@ module Jammit
     # Print a warning if no files were found that match the glob.
     def glob_files(glob)
       absolute = Pathname.new(glob).absolute?
-      paths = Dir[absolute ? glob : File.join(ASSET_ROOT, glob)].sort
-      Jammit.warn("No assets match '#{glob}'") if paths.empty?
+      glob_f = absolute ? glob : File.join(ASSET_ROOT, glob)
+      paths = Dir[glob_f].sort
+      # For a javascript asset which doesnt contain a '*' wildcard
+      if glob =~ /\/[^*^\/]+\.js$/ and (paths.empty? or builder.changed?(glob_f))
+          Jammit.warn("File '#{glob_f}' missing") if paths.empty?
+          Jammit.warn("File '#{glob_f}' changed") if builder.changed?(glob_f)
+          builder.build_js(glob_f)
+      else
+        Jammit.warn("No assets match '#{glob}'") if paths.empty?
+      end
       paths
     end
 
