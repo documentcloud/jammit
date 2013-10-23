@@ -4,11 +4,10 @@ class Jammit::ShifterBuilder
     js.map { |p| build_file_2_src_dir p}.each { |j| shift(j) }
   end
 
-  # Replace the build/ dir name to src/ and remove filename from the path
+  # Get the dir name to src/
   def build_file_2_src_dir(glob)
-    src_glob = glob.gsub(/build/,"src")
-    src_dir = src_glob.gsub(/\/[^\/]*\.js$/, "")
-    src_dir
+    build_root = glob[/(.*)\/build\/(.*)/,1]
+    build_root+'/src/' if build_root
   end
 
   private
@@ -18,7 +17,11 @@ class Jammit::ShifterBuilder
     src_dir = glob
     Jammit.warn("Trying to shift #{src_dir}")
     FileUtils.cd(src_dir) do
-      `shifter`
+      Dir.glob('*').select {|f| File.directory? f}.each do |mod|
+        FileUtils.cd(mod) do
+          `shifter`
+        end
+      end
     end
   end
 end
