@@ -77,6 +77,14 @@ module Jammit
     raise MissingConfiguration, "could not find the \"#{config_path}\" configuration file" unless exists
     conf = YAML.load(ERB.new(File.read(config_path)).result)
 
+    conf["root_paths"] ||= []
+    conf["root_paths"] << ASSET_ROOT
+    (conf["includes"] || []).map do |include_path|
+      new_config = YAML.load(ERB.new(File.read(include_path)).result)
+      conf = new_config.deep_merge(conf)
+      conf["root_paths"] << new_config["root_path"]
+    end
+
     # Optionally overwrite configuration based on the environment.
     rails_env = (defined?(Rails) ? ::Rails.env : ENV['RAILS_ENV'] || "development")
     conf.merge! conf.delete rails_env if conf.has_key? rails_env

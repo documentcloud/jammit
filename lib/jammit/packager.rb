@@ -108,9 +108,25 @@ module Jammit
       paths
     end
 
+    # In case we have assets in gems, we may want to pack them from there.
+    # This adds support for additional root paths through :root_path definition in included assets YAML files
+    #
+    # File assets1.yml:
+    #
+    # includes:
+    #    - "/foo/bar/config/assets2.yml"
+    #
+    # File assets2.yml
+    #
+    # root_path: /foo/bar
+    #
+    # javascripts:
+    #    something:
+    #      - "/foo/bar/public/javascripts/shomething.js"
+    #
     # In Rails, the difference between a path and an asset URL is "public".    
     def path_to_url
-      @path_to_url ||= /\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(Jammit.public_root.sub(ASSET_ROOT, ''))})?/
+      @path_to_url ||= /\A(#{Array.wrap(Jammit.configuration[:root_paths]).map { |path| Regexp.escape(path) }.join("|")})(.*public)?/
     end
 
     # Get the latest mtime of a list of files (plus the config path).
