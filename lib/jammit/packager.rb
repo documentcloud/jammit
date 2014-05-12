@@ -33,10 +33,14 @@ module Jammit
     # changed since their last package build.
     def precache_all(output_dir=nil, base_url=nil)
       output_dir ||= File.join(Jammit.public_root, Jammit.package_path)
-      cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
+      fingerprints_by_types = {"js" => {}, "css" => {}}
+      cacheable(:js, output_dir).each do |p|
+        fingerprints_by_types["js"][p.to_s] = cache(p, 'js',  pack_javascripts(p), output_dir)
+      end
       cacheable(:css, output_dir).each do |p|
-        cache(p, 'css', pack_stylesheets(p), output_dir)
+        fingerprints_by_types["css"][p.to_s] = cache(p, 'css', pack_stylesheets(p), output_dir)
         if Jammit.embed_assets
+          # Don't support fingerprinting for embedded assets for now
           cache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
           if Jammit.mhtml_enabled
             raise MissingConfiguration, "A --base-url option is required in order to generate MHTML." unless base_url
@@ -44,6 +48,11 @@ module Jammit
             asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml, mtime)}"
             cache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
           end
+        end
+      end
+      if Jammit.fingerprints_enabled?
+        File.open(Jammit.config_path + ".lock", 'w') do |file|
+          file.puts(fingerprints_by_types.to_yaml)
         end
       end
     end
@@ -56,13 +65,16 @@ module Jammit
       raise OutputNotWritable, "Jammit doesn't have permission to write to \"#{output_dir}\"" unless File.writable?(output_dir)
       mtime ||= latest_mtime package_for(package, extension.to_sym)[:paths]
       files = []
-      files << file_name = File.join(output_dir, Jammit.filename(package, extension, suffix))
+      fingerprint = Digest::MD5.hexdigest(contents)
+      name = Jammit.fingerprints_enabled? ? "#{package}-#{fingerprint}" : package
+      files << file_name = File.join(output_dir, Jammit.filename(name, extension, suffix))
       File.open(file_name, 'wb+') {|f| f.write(contents) }
       if Jammit.gzip_assets
         files << zip_name = "#{file_name}.gz"
         Zlib::GzipWriter.open(zip_name, Zlib::BEST_COMPRESSION) {|f| f.write(contents) }
       end
       File.utime(mtime, mtime, *files)
+      fingerprint
     end
 
     # Get the list of individual assets for a package.
@@ -108,9 +120,25 @@ module Jammit
       paths
     end
 
+    # In case we have assets in gems, we may want to pack them from there.
+    # This adds support for additional root paths through :root_path definition in included assets YAML files
+    #
+    # File assets1.yml:
+    #
+    # includes:
+    #    - "/foo/bar/config/assets2.yml"
+    #
+    # File assets2.yml
+    #
+    # root_path: /foo/bar
+    #
+    # javascripts:
+    #    something:
+    #      - "/foo/bar/public/javascripts/shomething.js"
+    #
     # In Rails, the difference between a path and an asset URL is "public".    
     def path_to_url
-      @path_to_url ||= /\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(Jammit.public_root.sub(ASSET_ROOT, ''))})?/
+      @path_to_url ||= /\A(#{Array.wrap(Jammit.configuration[:root_paths]).map { |path| Regexp.escape(path) }.join("|")})(.*public)?/
     end
 
     # Get the latest mtime of a list of files (plus the config path).

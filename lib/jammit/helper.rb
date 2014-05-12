@@ -39,8 +39,21 @@ module Jammit
       raise DeprecationError, "Jammit 0.5+ no longer supports separate packages for templates.\nYou can include your JST alongside your JS, and use include_javascripts."
     end
 
+    def javascripts_packaged(*packages)
+      assets_packaged(packages, :js)
+    end
+
+    def stylesheets_packaged(*packages)
+      assets_packaged(packages, :css)
+    end
 
     private
+
+    def assets_packaged(packages, format)
+      packages.map do |package|
+        should_package? ? Jammit.asset_url(package, format) : Jammit.packager.individual_urls(package.to_sym, format)
+      end.flatten
+    end
 
     def should_package?
       Jammit.package_assets && !(Jammit.allow_debugging && params[:debug_assets])
