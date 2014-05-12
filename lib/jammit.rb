@@ -57,7 +57,7 @@ module Jammit
                   :javascript_compressor, :compressor_options, :css_compressor,
                   :css_compressor_options, :template_extension,
                   :template_extension_matcher, :allow_debugging,
-                  :rewrite_relative_paths, :public_root
+                  :rewrite_relative_paths, :public_root, :fingerprints
     attr_accessor :javascript_compressors, :css_compressors
   end
 
@@ -110,7 +110,17 @@ module Jammit
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_for_deprecations
+    @are_fingerprints_enabled = conf[:fingerprints_enabled]
+    @fingerprints = begin
+      YAML.load_file(config_path + ".lock")
+    rescue Errno::ENOENT
+      {}
+    end
     self
+  end
+
+  def self.fingerprints_enabled?
+    !!@are_fingerprints_enabled
   end
 
   # Force a reload by resetting the Packager and reloading the configuration.
@@ -135,7 +145,10 @@ module Jammit
   # Generates the server-absolute URL to an asset package.
   def self.asset_url(package, extension, suffix=nil, mtime=nil)
     timestamp = mtime ? "?#{mtime.to_i}" : ''
-    "/#{package_path}/#{filename(package, extension, suffix)}#{timestamp}"
+    fingerprint = if Jammit.fingerprints_enabled?
+      fingerprints[extension.to_s] && fingerprints[extension.to_s][package.to_s]
+    end
+    "/#{package_path}/#{filename("#{package}#{fingerprint ? "-#{fingerprint}" : ""}", extension, suffix)}#{timestamp}"
   end
 
   # Convenience method for packaging up Jammit, using the default options.
