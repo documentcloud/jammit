@@ -75,7 +75,9 @@ module Jammit
     exists = config_path && File.exists?(config_path)
     return false if soft && !exists
     raise MissingConfiguration, "could not find the \"#{config_path}\" configuration file" unless exists
-    conf = YAML.load(ERB.new(File.read(config_path)).result)
+    erb = ERB.new(File.read(config_path))
+    erb.filename = config_path
+    conf = YAML.load(erb.result)
 
     # Optionally overwrite configuration based on the environment.
     rails_env = (defined?(Rails) ? ::Rails.env : ENV['RAILS_ENV'] || "development")
