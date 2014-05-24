@@ -1,5 +1,8 @@
 $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 
+require 'jammit/header_processor'
+require 'jammit/controller'
+
 # @Jammit@ is the central namespace for all Jammit classes, and provides access
 # to all of the configuration options.
 module Jammit
@@ -55,7 +58,7 @@ module Jammit
                   :embed_assets, :package_assets, :compress_assets, :gzip_assets,
                   :package_path, :mhtml_enabled, :include_jst_script, :config_path,
                   :javascript_compressor, :compressor_options, :css_compressor,
-                  :css_compressor_options, :template_extension,
+                  :css_compressor_options, # :template_extension, # <<--- TODO: activate later
                   :template_extension_matcher, :allow_debugging,
                   :rewrite_relative_paths, :public_root
     attr_accessor :javascript_compressors, :css_compressors

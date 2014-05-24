@@ -1,11 +1,19 @@
-require 'action_controller'
+require 'rack'
 
 module Jammit
 
-  # The JammitController is added to your Rails application when the Gem is
-  # loaded. It takes responsibility for /assets, and dynamically packages any
-  # missing or uncached asset packages.
-  class Controller < ActionController::Base
+  # defined somewhere else
+  # but for temporarily development
+  def self.public_root
+    '/public'
+  end
+
+  def self.template_extension
+    'js'
+  end
+
+
+  class Request < Rack::Request
 
     VALID_FORMATS   = [:css, :js]
 
@@ -13,26 +21,38 @@ module Jammit
 
     NOT_FOUND_PATH  = "#{Jammit.public_root}/404.html"
 
-    # The "package" action receives all requests for asset packages that haven't
-    # yet been cached. The package will be built, cached, and gzipped.
-    def package
-      parse_request
-      template_ext = Jammit.template_extension.to_sym
-      case @extension
-      when :js
-        render :js => (@contents = Jammit.packager.pack_javascripts(@package))
-      when template_ext
-        render :js => (@contents = Jammit.packager.pack_templates(@package))
-      when :css
-        render :text => generate_stylesheets, :content_type => 'text/css'
-      end
-      cache_package if perform_caching && (@extension != template_ext)
-    rescue Jammit::PackageNotFound
-      package_not_found
+    def asset_path?
+      path_info =~ /^\/assets/
     end
 
+    def asset_from_path
+      path_info =~ /^\/assets\/([\w\.]+)/
+      $1
+    end
 
-    private
+    def extension_from_path
+      path_info =~ /\.([\w\.]+)$/
+      $1
+    end
+
+    def path_info
+      @env['PATH_INFO']
+    end
+
+    # Extracts the package name, extension (:css, :js), and variant (:datauri,
+    # :mhtml) from the incoming URL.
+    def parse_request
+      pack       = asset_from_path
+      @extension = extension_from_path.to_sym
+      puts @extension.inspect
+      raise PackageNotFound unless (VALID_FORMATS + [Jammit.template_extension.to_sym]).include?(@extension)
+      if Jammit.embed_assets
+        suffix_match = pack.match(SUFFIX_STRIPPER)
+        @variant = Jammit.embed_assets && suffix_match && suffix_match[1].to_sym
+        pack.sub!(SUFFIX_STRIPPER, '')
+      end
+      @package = pack.to_sym
+    end
 
     # Tells the Jammit::Packager to cache and gzip an asset package. We can't
     # just use the built-in "cache_page" because we need to ensure that
@@ -42,6 +62,59 @@ module Jammit
       Jammit.packager.cache(@package, @extension, @contents, dir, @variant, @mtime)
     end
 
+    # The "package" action receives all requests for asset packages that haven't
+    # yet been cached. The package will be built, cached, and gzipped.
+    def package
+      parse_request
+      template_ext = Jammit.template_extension.to_sym
+      case @extension
+      when :js
+        puts @package.inspect
+         (@contents = Jammit.packager.pack_javascripts(@package))
+      when template_ext
+         # (@contents = Jammit.packager.pack_templates(@package))
+         'foo_case2.jst'
+      when :css
+          [generate_stylesheets, :content_type => 'text/css']
+      end
+      # cache_package if perform_caching && (@extension != template_ext)
+    rescue Jammit::PackageNotFound
+      package_not_found
+    end
+
+    def for_jammit?
+      get? &&               # GET on js resource in :hosted_at (fast, check first)
+      asset_path?
+    end
+  end
+
+  class Response < Rack::Response
+ 
+    # Rack response tuple accessors.
+    attr_accessor :status, :headers, :body
+
+    def initialize(env, asset)
+      @env = env
+      @body = asset
+      @status = 200 # OK
+      @headers = Rack::Utils::HeaderHash.new
+    
+      headers["Content-Length"] = self.class.content_length(body).to_s
+    end
+
+    class << self
+
+      # Calculate appropriate content_length
+      def content_length(body)
+        if body.respond_to?(:bytesize)
+          body.bytesize
+        else
+          body.size
+        end
+      end
+
+    end
+    
     # Generate the complete, timestamped, MHTML url -- if we're rendering a
     # dynamic MHTML package, we'll need to put one URL in the response, and a
     # different one into the cached package.
@@ -63,19 +136,6 @@ module Jammit
       css
     end
 
-    # Extracts the package name, extension (:css, :js), and variant (:datauri,
-    # :mhtml) from the incoming URL.
-    def parse_request
-      pack       = params[:package]
-      @extension = params[:extension].to_sym
-      raise PackageNotFound unless (VALID_FORMATS + [Jammit.template_extension.to_sym]).include?(@extension)
-      if Jammit.embed_assets
-        suffix_match = pack.match(SUFFIX_STRIPPER)
-        @variant = Jammit.embed_assets && suffix_match && suffix_match[1].to_sym
-        pack.sub!(SUFFIX_STRIPPER, '')
-      end
-      @package = pack.to_sym
-    end
 
     # Render the 404 page, if one exists, for any packages that don't.
     def package_not_found
@@ -83,15 +143,40 @@ module Jammit
       render :text => "<h1>404: \"#{@package}\" asset package not found.</h1>", :status => 404
     end
 
+    def to_rack
+      [status, headers.to_hash, [body]]
+    end
   end
 
-end
+  # The JammitController is added to your Rails application when the Gem is
+  # loaded. It takes responsibility for /assets, and dynamically packages any
+  # missing or uncached asset packages.
+  class Controller
 
-# Make the Jammit::Controller available to Rails as a top-level controller.
-::JammitController = Jammit::Controller
+    def initialize(app, options={})
+      @app = app
+      # yield self if block_given?
+      # validate_options
+    end
 
-if defined?(Rails) && Rails.env.development?
-  ActionController::Base.class_eval do
-    append_before_filter { Jammit.reload! }
+    def call(env)
+      dup.call!(env)
+    end
+    
+    def call!(env)
+      env['jammit'] = self
+      
+      if (@request = Request.new(env.dup.freeze)).for_jammit?
+        Response.new(env.dup.freeze, @request.package).to_rack
+      else
+        status, headers, body = @app.call(env)
+
+        processor = HeaderProcessor.new(body)
+        processor.process!(env)
+
+       [ status, headers, processor.new_body ]
+      end
+    end
   end
+
 end
