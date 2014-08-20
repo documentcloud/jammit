@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'zlib'
 
-class PackagerTest < Test::Unit::TestCase
+class PackagerTest < MiniTest::Test
   def setup
     Jammit.load_configuration('test/config/assets.yml').reload!
   end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CompressorTest < Test::Unit::TestCase
+class CompressorTest < MiniTest::Test
 
   def setup
     Jammit.load_configuration('test/config/assets.yml')

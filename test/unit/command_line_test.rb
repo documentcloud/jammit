@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'zlib'
 
-class CommandLineTest < Test::Unit::TestCase
+class CommandLineTest < MiniTest::Test
 
   def teardown
     begin

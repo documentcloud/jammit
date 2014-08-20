@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BrokenConfigurationTest < Test::Unit::TestCase
+class BrokenConfigurationTest < Minitest::Test
 
   def setup
     Jammit.load_configuration('test/config/assets-broken.yml').reload!
@@ -14,7 +14,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   end
 end
 
-class ConfigurationTest < Test::Unit::TestCase
+class ConfigurationTest < MiniTest::Test
   def test_disabled_compression
     Jammit.load_configuration('test/config/assets-compression-disabled.yml')
     assert !Jammit.compress_assets

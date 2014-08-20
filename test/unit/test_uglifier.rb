@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UglifierText < Test::Unit::TestCase
+class UglifierText < MiniTest::Test
 
   def setup
     Jammit.load_configuration('test/config/assets-uglifier.yml').reload!

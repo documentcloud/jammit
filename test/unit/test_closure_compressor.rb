@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ClosureCompressorTest < Test::Unit::TestCase
+class ClosureCompressorTest < MiniTest::Test
 
   def setup
     Jammit.load_configuration('test/config/assets-closure.yml').reload!
