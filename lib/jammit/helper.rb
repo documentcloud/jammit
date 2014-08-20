@@ -30,7 +30,7 @@ module Jammit
       html_safe packages.map {|pack|
         should_package? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       }.flatten.map {|pack|
-        "<script src='#{pack}'></script>"
+        "<script src=\"#{pack}\"></script>"
       }.join("\n")
     end
 
