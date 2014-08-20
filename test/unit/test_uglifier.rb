@@ -18,7 +18,7 @@ class UglifierText < MiniTest::Test
 
   def test_jst_compilation
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
-    assert packed == File.read('test/fixtures/jammed/jst_test.js')
+    assert_equal packed, File.read('test/fixtures/jammed/jst_test.js')
   end
 
 end

@@ -36,41 +36,46 @@ class JammitHelpersTest < ActionView::TestCase
   end
 
   def test_include_stylesheets
-    assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_includes.html')
+    File.write('test/fixtures/tags/css_includes.html', include_stylesheets(:css_test) )
+    assert_equal File.read('test/fixtures/tags/css_includes.html'), include_stylesheets(:css_test)
   end
 
   def test_include_stylesheets_with_options
-    assert include_stylesheets(:css_test, :media => 'print') == File.read('test/fixtures/tags/css_print.html')
+    assert_equal File.read('test/fixtures/tags/css_print.html'), include_stylesheets(:css_test, :media => 'print')
   end
 
   def test_include_stylesheets_forcing_embed_assets_off
-    assert include_stylesheets(:css_test, :embed_assets => false) == File.read('test/fixtures/tags/css_plain_includes.html')
+    assert_equal File.read('test/fixtures/tags/css_plain_includes.html'), include_stylesheets(:css_test, :embed_assets => false)
   end
 
   def test_include_javascripts
-    assert include_javascripts(:js_test) == '<script src="/assets/js_test.js?101" type="text/javascript"></script>'
+    assert_equal '<script src="/assets/js_test.js"></script>', include_javascripts(:js_test)
   end
 
   def test_include_templates
-    assert include_javascripts(:jst_test) == '<script src="/assets/jst_test.js?101" type="text/javascript"></script>'
+    assert_equal '<script src="/assets/jst_test.js"></script>', include_javascripts(:jst_test)
   end
 
   def test_include_templates_with_diff_ext
-    assert include_javascripts(:jst_test_diff_ext) == '<script src="/assets/jst_test_diff_ext.js?101" type="text/javascript"></script>'
+    assert_equal '<script src="/assets/jst_test_diff_ext.js"></script>', include_javascripts(:jst_test_diff_ext)
   end
 
   def test_individual_assets_in_development
     Jammit.instance_variable_set(:@package_assets, false)
-    assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_individual_includes.html')
-    assert include_javascripts(:js_test_with_templates) == File.read('test/fixtures/tags/js_individual_includes.html')
+    asset = File.read('test/fixtures/tags/css_individual_includes.html')
+    assert_equal asset, include_stylesheets(:css_test)
+    asset = File.read('test/fixtures/tags/js_individual_includes.html')
+    assert_equal asset, include_javascripts(:js_test_with_templates)
   ensure
     Jammit.reload!
   end
 
   def test_individual_assets_while_debugging
     @debug = true
-    assert include_stylesheets(:css_test) == File.read('test/fixtures/tags/css_individual_includes.html')
-    assert include_javascripts(:js_test_with_templates) == File.read('test/fixtures/tags/js_individual_includes.html')
+    asset = File.read('test/fixtures/tags/css_individual_includes.html')
+    assert_equal asset, include_stylesheets(:css_test)
+    asset = File.read('test/fixtures/tags/js_individual_includes.html')
+    assert_equal asset, include_javascripts(:js_test_with_templates)
     @debug = false
   end
 
