@@ -44,9 +44,9 @@ module Jammit
     private
 
     def timestamped_url(file, ext)
-      path = File.join(Jammit.public_root, Jammit.filename(file, ext))
-      mtime = File.exist?(path) ? File.mtime(path).to_i.to_s : 'xxxx'
-      Jammit.asset_url(file, :js, nil, mtime)
+      path = File.join(Jammit.public_root, Jammit.package_path, Jammit.filename(file, ext))
+      mtime = File.exist?(path) ? File.mtime(path).to_i.to_s : 'xxx'
+      Jammit.asset_url(file, ext, nil, mtime)
     end
 
     
@@ -65,7 +65,7 @@ module Jammit
 
     # HTML tags for the stylesheet packages.
     def packaged_stylesheets(packages, options)
-      tags_with_options(packages, options) {|p| Jammit.asset_url(p, :css) }
+      tags_with_options(packages, options) {|p| timestamped_url(p, :css) }
     end
 
     # HTML tags for the 'datauri', and 'mhtml' versions of the packaged
@@ -82,7 +82,7 @@ module Jammit
     # yielding each package to a block.
     def tags_with_options(packages, options)
       packages.dup.map {|package|
-        yield timestamped_url(package, :css)
+        yield package
       }.flatten.map {|package|
         stylesheet_link_tag package, options
       }.join("\n")
