@@ -45,8 +45,8 @@ module Jammit
 
     def timestamped_url(file, ext)
       path = File.join(Jammit.public_root, Jammit.filename(file, ext))
-      mtime = File.exist?(path) ? File.mtime(path).to_i.to_s : ''
-      Jammit.asset_url(pack, :js, nil, mtime)
+      mtime = File.exist?(path) ? File.mtime(path).to_i.to_s : 'xxxx'
+      Jammit.asset_url(file, :js, nil, mtime)
     end
 
     
