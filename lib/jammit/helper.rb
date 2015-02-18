@@ -28,7 +28,7 @@ module Jammit
       options = packages.extract_options!
       options.merge!(:extname=>false)
       html_safe packages.map {|pack|
-        should_package? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
+        should_package? ? timestamped_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
       }.flatten.map {|pack|
         "<script src=\"#{pack}\"></script>"
       }.join("\n")
@@ -43,6 +43,13 @@ module Jammit
 
     private
 
+    def timestamped_url(file, ext)
+      path = File.join(Jammit.public_root, Jammit.package_path, Jammit.filename(file, ext))
+      mtime = File.exist?(path) ? File.mtime(path).to_i.to_s : 'xxx'
+      Jammit.asset_url(file, ext, nil, mtime)
+    end
+
+    
     def should_package?
       Jammit.package_assets && !(Jammit.allow_debugging && params[:debug_assets])
     end
@@ -58,7 +65,7 @@ module Jammit
 
     # HTML tags for the stylesheet packages.
     def packaged_stylesheets(packages, options)
-      tags_with_options(packages, options) {|p| Jammit.asset_url(p, :css) }
+      tags_with_options(packages, options) {|p| timestamped_url(p, :css) }
     end
 
     # HTML tags for the 'datauri', and 'mhtml' versions of the packaged
