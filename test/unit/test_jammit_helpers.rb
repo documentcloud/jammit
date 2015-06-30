@@ -56,10 +56,6 @@ class JammitHelpersTest < ActionView::TestCase
     assert_equal '<script src="/assets/jst_test.js"></script>', include_javascripts(:jst_test)
   end
 
-  def test_include_templates_with_diff_ext
-    assert_equal '<script src="/assets/jst_test_diff_ext.js"></script>', include_javascripts(:jst_test_diff_ext)
-  end
-
   def test_individual_assets_in_development
     Jammit.instance_variable_set(:@package_assets, false)
     asset = File.read('test/fixtures/tags/css_individual_includes.html')
