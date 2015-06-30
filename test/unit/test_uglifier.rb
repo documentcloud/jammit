@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UglifierText < Test::Unit::TestCase
+class UglifierText < MiniTest::Test
 
   def setup
     Jammit.load_configuration('test/config/assets-uglifier.yml').reload!
@@ -18,7 +18,7 @@ class UglifierText < Test::Unit::TestCase
 
   def test_jst_compilation
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
-    assert packed == File.read('test/fixtures/jammed/jst_test.js')
+    assert_equal packed, File.read('test/fixtures/jammed/jst_test.js')
   end
 
 end

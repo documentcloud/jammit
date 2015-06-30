@@ -4,10 +4,8 @@ desc 'Run all tests'
 task :test, [:path] do |task, args|
   ENV['RAILS_ENV'] = 'test'
   $LOAD_PATH.unshift(File.expand_path('test'))
-  require 'redgreen' unless Gem::Specification.find_all_by_name('redgreen').empty?
-  require 'test/unit'
   if args[:path]
-    require args[:path]
+    require_relative args[:path]
   else
     Dir['test/*/**/test_*.rb'].each {|test| require "./#{test}" }
   end

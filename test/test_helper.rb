@@ -15,7 +15,10 @@ def glob(g)
   Dir.glob(g).sort
 end
 
-class Test::Unit::TestCase
+require 'minitest/autorun'
+
+
+class MiniTest::Test
 
   PRECACHED_FILES = %w(
     test/precache/css_test-datauri.css

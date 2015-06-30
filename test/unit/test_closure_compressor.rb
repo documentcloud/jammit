@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ClosureCompressorTest < Test::Unit::TestCase
+class ClosureCompressorTest < MiniTest::Test
 
   def setup
     Jammit.load_configuration('test/config/assets-closure.yml').reload!
@@ -13,12 +13,12 @@ class ClosureCompressorTest < Test::Unit::TestCase
 
   def test_javascript_compression
     packed = @compressor.compress_js(glob('test/fixtures/src/*.js'))
-    assert packed == File.read('test/fixtures/jammed/js_test-closure.js')
+    assert_equal File.read('test/fixtures/jammed/js_test-closure.js'), packed
   end
 
   def test_jst_compilation
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
-    assert packed == File.read('test/fixtures/jammed/jst_test.js')
+    assert_equal File.read('test/fixtures/jammed/jst_test.js'), packed
   end
 
 end

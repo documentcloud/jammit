@@ -1,1 +1,1 @@
-var myself={sayHi:function(e){console.log("hello, "+e)}},mandelay={name:function(){return this.constructor.prototype}};myself.sayHi(mandelay.name());
+var myself={sayHi:function(n){console.log("hello, "+n)}},mandelay={name:function(){return this.constructor.prototype}};myself.sayHi(mandelay.name());

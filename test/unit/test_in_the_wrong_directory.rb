@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WrongDirectoryTest < Test::Unit::TestCase
+class WrongDirectoryTest < MiniTest::Test
 
   def setup
     Jammit.load_configuration('test/config/assets.yml').reload!

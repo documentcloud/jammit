@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BrokenConfigurationTest < Test::Unit::TestCase
+class BrokenConfigurationTest < Minitest::Test
 
   def setup
     Jammit.load_configuration('test/config/assets-broken.yml').reload!
@@ -14,7 +14,7 @@ class BrokenConfigurationTest < Test::Unit::TestCase
   end
 end
 
-class ConfigurationTest < Test::Unit::TestCase
+class ConfigurationTest < MiniTest::Test
   def test_disabled_compression
     Jammit.load_configuration('test/config/assets-compression-disabled.yml')
     assert !Jammit.compress_assets
@@ -22,12 +22,12 @@ class ConfigurationTest < Test::Unit::TestCase
     @compressor = Compressor.new
     # Should not compress js.
     packed = @compressor.compress_js(glob('test/fixtures/src/*.js'))
-    assert_equal packed, File.read('test/fixtures/jammed/js_test-uncompressed.js')
+    assert_equal File.read('test/fixtures/jammed/js_test-uncompressed.js'), packed
     # Nothing should change with jst.
     packed = @compressor.compile_jst(glob('test/fixtures/src/*.jst'))
-    assert_equal packed, File.read('test/fixtures/jammed/jst_test.js')
+    assert_equal File.read('test/fixtures/jammed/jst_test.js'), packed
     packed = @compressor.compress_css(glob('test/fixtures/src/*.css'))
-    assert_equal packed, File.open('test/fixtures/jammed/css_test-uncompressed.css', 'rb') {|f| f.read }
+    assert_equal packed, File.read('test/fixtures/jammed/css_test-uncompressed.css', { encoding: 'UTF-8'})
   end
 
   def test_css_compression

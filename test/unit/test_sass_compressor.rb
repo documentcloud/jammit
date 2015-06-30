@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SassCompressorTest < Test::Unit::TestCase
+class SassCompressorTest < MiniTest::Test
   def test_css_compression
     Jammit.load_configuration('test/config/assets-sass.yml')
     packed = Compressor.new.compress_css(glob('test/fixtures/src/*.css'))
