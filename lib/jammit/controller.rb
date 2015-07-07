@@ -1,3 +1,4 @@
+require 'rails'
 require 'action_controller'
 
 module Jammit
