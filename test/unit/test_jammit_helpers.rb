@@ -32,6 +32,7 @@ class JammitHelpersTest < ActionView::TestCase
   end
 
   def setup
+    Rails.env = "pretend_this_isnt_test"
     Jammit.load_configuration('test/config/assets.yml').reload!
   end
 
