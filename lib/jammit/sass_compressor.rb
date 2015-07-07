@@ -10,8 +10,6 @@ class Jammit::SassCompressor
   # Compresses +css+ using sass' CSS parser, and returns the
   # compressed css.
   def compress(css)
-    root_node = ::Sass::SCSS::CssParser.new(css, 'jammit-combined-input', "jammit").parse
-    root_node.options = {:style => :compressed}
-    root_node.render.strip
+    ::Sass::Engine.new(css, :syntax => :scss, :style => :compressed).render.strip
   end
 end

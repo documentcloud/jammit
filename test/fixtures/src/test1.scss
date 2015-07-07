@@ -1,0 +1,16 @@
+$primary: #FF0000;
+$secondary: #00FF00;
+
+html {
+  background: $primary;
+
+  body {
+    background: $secondary;
+  }
+}
+
+$primary: #0000FF;
+
+#thing {
+  background: $primary;
+}

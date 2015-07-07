@@ -3,6 +3,8 @@ css_compressor: sass
 stylesheets:
   css_test: &css_test
     - fixtures/src/*.css
+  scss_test:
+    - fixtures/src/*.scss
   css_test_nested:
     - *css_test
     - fixtures/src/nested/*.css
