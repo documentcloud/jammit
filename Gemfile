@@ -11,6 +11,7 @@ group :development, :test do
   gem "closure-compiler", "~>1.1"
   gem "uglifier", "~>2.5"
   gem "sass", "~>3.4"
+  gem "pry"
 end
 
 group :development do
