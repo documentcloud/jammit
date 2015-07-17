@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path(File.dirname(__FILE__))
 # to all of the configuration options.
 module Jammit
 
-  VERSION                       = "0.6.6"
+  VERSION                       = "0.6.6clic"
 
   ROOT                          = File.expand_path(File.dirname(__FILE__) + '/..')
 
@@ -25,6 +25,10 @@ module Jammit
   JAVASCRIPT_COMPRESSORS        = [:jsmin, :yui, :closure, :uglifier]
 
   DEFAULT_JAVASCRIPT_COMPRESSOR = :jsmin
+
+  JAVASCRIPT_BUILDERS           = [:shifter]
+
+  DEFAULT_JAVASCRIPT_BUILDER    = :shifter
 
   CSS_COMPRESSORS               = [:cssmin, :yui, :sass]
 
@@ -52,13 +56,13 @@ module Jammit
 
   class << self
     attr_reader   :configuration, :template_function, :template_namespace,
-                  :embed_assets, :package_assets, :compress_assets, :gzip_assets,
-                  :package_path, :mhtml_enabled, :include_jst_script, :config_path,
-                  :javascript_compressor, :compressor_options, :css_compressor,
+                  :embed_assets, :package_assets, :compress_assets, :build_assets, :gzip_assets,
+                  :files_changed, :package_path, :mhtml_enabled, :include_jst_script, :config_path,
+                  :javascript_compressor, :javascript_builder, :compressor_options, :css_compressor,
                   :css_compressor_options, :template_extension,
                   :template_extension_matcher, :allow_debugging,
                   :rewrite_relative_paths, :public_root
-    attr_accessor :javascript_compressors, :css_compressors
+    attr_accessor :javascript_compressors, :javascript_builders, :css_compressors
   end
 
   # The minimal required configuration.
@@ -67,6 +71,7 @@ module Jammit
   @package_path   = DEFAULT_PACKAGE_PATH
 
   @javascript_compressors = JAVASCRIPT_COMPRESSORS
+  @javascript_builders    = JAVASCRIPT_BUILDERS
   @css_compressors        = CSS_COMPRESSORS
 
   # Load the complete asset configuration from the specified @config_path@.
@@ -86,13 +91,16 @@ module Jammit
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
     @embed_assets           = conf[:embed_assets] || conf[:embed_images]
     @compress_assets        = !(conf[:compress_assets] == false)
+    @build_assets           = !(conf[:build_assets] == false)
     @rewrite_relative_paths = !(conf[:rewrite_relative_paths] == false)
     @gzip_assets            = !(conf[:gzip_assets] == false)
     @allow_debugging        = !(conf[:allow_debugging] == false)
     @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
+    @files_changed     = list_git_changes
     set_javascript_compressor(conf[:javascript_compressor])
+    set_javascript_builder(conf[:javascript_builder])
     set_css_compressor(conf[:css_compressor])
     set_package_assets(conf[:package_assets])
     set_template_function(conf[:template_function])
@@ -146,6 +154,18 @@ module Jammit
     packager.precache_all(options[:output_folder], options[:base_url])
   end
 
+  # Lists the files that were changed
+  def self.list_git_changes
+    list = []
+    if `git --version` =~ /[\d\.]+/
+      list = `git ls-files -m`.split(/\r?\n/)
+      list = list.map{ |f|  Pathname.new(f).absolute? ? f : File.join(ASSET_ROOT, f) }
+    else
+      Jammit.warn('Please check that Git is installed and available in your PATH')
+    end
+    list
+  end
+
   private
 
   # Allows command-line definition of `PUBLIC_ROOT`, for those using Jammit
@@ -158,6 +178,12 @@ module Jammit
   def self.set_javascript_compressor(value)
     value = value && value.to_sym
     @javascript_compressor = javascript_compressors.include?(value) ? value : DEFAULT_JAVASCRIPT_COMPRESSOR
+  end
+
+  # Ensure that the JavaScript builder is a valid choice.
+  def self.set_javascript_builder(value)
+    value = value && value.to_sym
+    @javascript_builder = javascript_builders.include?(value) ? value : DEFAULT_JAVASCRIPT_BUILDER
   end
 
   # Ensure that the CSS compressor is a valid choice.
@@ -203,11 +229,25 @@ module Jammit
     @checked_java_version = true
   end
 
+  def self.check_shifter
+    return true if @checked_shifter_version
+    version = (`shifter -v 2>&1`)
+    disable_build if !version
+    @checked_shifter_version = true
+  end
+
   # If we don't have a working Java VM, then disable asset compression and
   # complain loudly.
   def self.disable_compression
     @compress_assets = false
     warn("Asset compression disabled -- Java unavailable.")
+  end
+
+  # If we don't have a working Shifter, then disable YUI module build and
+  # complain loudly.
+  def self.disable_build
+    @build_assets = false
+    warn("Asset build disabled -- Shifter unavailable.")
   end
 
   # Jammit 0.5+ no longer supports separate template packages.
