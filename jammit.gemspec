@@ -20,14 +20,14 @@ Gem::Specification.new do |s|
   s.require_paths     = ['lib']
   s.executables       = ['jammit']
 
-  s.extra_rdoc_files  = ['README']
+  s.extra_rdoc_files  = ['README.md']
   s.rdoc_options      << '--title'    << 'Jammit' <<
                          '--exclude'  << 'test' <<
-                         '--main'     << 'README' <<
+                         '--main'     << 'README.md' <<
                          '--all'
 
   s.add_dependency 'cssmin', ['>= 1.0.3']
   s.add_dependency 'jsmin',  ['>= 1.0.1']
 
-  s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit.gemspec', 'LICENSE', 'README']
+  s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit.gemspec', 'LICENSE', 'README.md']
 end

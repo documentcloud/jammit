@@ -13,10 +13,10 @@ end
 
 desc 'Generate YARD Documentation'
 task :doc do
-  sh "mv README TEMPME"
+  sh "mv README.md TEMPREADME"
   sh "rm -rf doc"
   sh "yardoc"
-  sh "mv TEMPME README"
+  sh "mv TEMPREADME README.md"
 end
 
 namespace :gem do
