@@ -15,5 +15,6 @@ group :development, :test do
 end
 
 group :development do
+  gem "yard",             "~> 0.8"
   gem "RedCloth",         "~> 4.2"
 end

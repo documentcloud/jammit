@@ -113,6 +113,7 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    yard (0.8.7.6)
     yui-compressor (0.12.0)
 
 PLATFORMS
@@ -129,4 +130,5 @@ DEPENDENCIES
   rake (~> 10.3)
   sass (~> 3.4)
   uglifier (~> 2.5)
+  yard (~> 0.8)
   yui-compressor (~> 0.12)
