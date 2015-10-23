@@ -2,47 +2,67 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Jammit::CommandLine</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Jammit::CommandLine
+  
+    &mdash; Jammit
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!Jammit/CommandLine.html";
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../_index.html">Index (C)</a> &raquo; 
-    <span class='title'><a href="../Jammit.html" title="Jammit (module)">Jammit</a></span>
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jammit.html" title="Jammit (module)">Jammit</a></span></span>
      &raquo; 
     <span class="title">CommandLine</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Jammit::CommandLine
   
   
@@ -89,6 +109,7 @@ round of slow requests after a fresh deployment.</p>
 </div>
 <div class="tags">
   
+
 </div>
   <h2>Constant Summary</h2>
   
@@ -97,11 +118,26 @@ round of slow requests after a fresh deployment.</p>
         <dt id="BANNER-constant" class="">BANNER =
           
         </dt>
-        <dd><pre class="code"><span class='string val'>&quot;\nUsage: jammit OPTIONS\n\nRun jammit inside a Rails application to compresses all JS, CSS,\nand JST according to config/assets.yml, saving the packaged\nfiles and corresponding gzipped versions.\n\nIf you're using \&quot;embed_assets\&quot;, and you wish to precompile the\nMHTML stylesheet variants, you must specify the \&quot;base-url\&quot;.\n\nOptions:\n&quot;</span>
-</pre></dd>
+        <dd><pre class="code"><span class='heredoc_beg'>&lt;&lt;-EOS</span>
+<span class='tstring_content'>
+Usage: jammit OPTIONS
+
+Run jammit inside a Rails application to compresses all JS, CSS,
+and JST according to config/assets.yml, saving the packaged
+files and corresponding gzipped versions.
+
+If you&#39;re using &quot;embed_assets&quot;, and you wish to precompile the
+MHTML stylesheet variants, you must specify the &quot;base-url&quot;.
+
+Options:
+</span><span class='heredoc_end'>EOS</span></pre></dd>
       
     </dl>
   
+
+
+
+
 
 
 
@@ -123,6 +159,7 @@ round of slow requests after a fresh deployment.</p>
   </span>
   
   
+  
   <span class="note title private">private</span>
   
   
@@ -142,6 +179,7 @@ round of slow requests after a fresh deployment.</p>
 
     
   </span>
+  
   
     <span class="note title constructor">constructor</span>
   
@@ -167,14 +205,14 @@ round of slow requests after a fresh deployment.</p>
   </span>
   
   
+  
   <span class="note title private">private</span>
   
   
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Uses <code>OptionParser</code> to grab the options: <strong>&#8212;output</strong>, <strong>&#8212;config</strong>, and
-<strong>&#8212;base-url</strong>&#8230;</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Uses <code>OptionParser</code> to grab the options: <strong>&#8212;output</strong>, <strong>&#8212;config</strong>, and <strong>&#8212;base-url</strong>&#8230;</p></div></span>
   
 </li>
 
@@ -186,13 +224,15 @@ round of slow requests after a fresh deployment.</p>
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
-  <p class="signature first" id="initialize-instance_method">
+  <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><a href="" title="Jammit::CommandLine (class)">CommandLine</a></tt>) <strong>initialize</strong> 
+    - (<tt><span class='object_link'><a href="" title="Jammit::CommandLine (class)">CommandLine</a></span></tt>) <strong>initialize</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     <p>The <code>Jammit::CommandLine</code> runs from the contents of <code>ARGV</code>.</p>
 
@@ -200,31 +240,27 @@ round of slow requests after a fresh deployment.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+26
 27
 28
 29
-30
-31
-32
-33</pre>
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/command_line.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/command_line.rb', line 26</span>
 
-<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span>
-  <span class='parse_options identifier id'>parse_options</span>
-  <span class='ensure_configuration_file identifier id'>ensure_configuration_file</span>
-  <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='load_configuration identifier id'>load_configuration</span><span class='lparen token'>(</span><span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:config_path</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='force identifier id'>force</span> <span class='assign token'>=</span> <span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:force</span><span class='rbrack token'>]</span>
-  <span class='Jammit constant id'>Jammit</span><span class='dot token'>.</span><span class='packager identifier id'>packager</span><span class='dot token'>.</span><span class='precache_all identifier id'>precache_all</span><span class='lparen token'>(</span><span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:output_folder</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:base_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-<span class='end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+  <span class='id identifier rubyid_parse_options'>parse_options</span>
+  <span class='id identifier rubyid_ensure_configuration_file'>ensure_configuration_file</span>
+  <span class='const'>Jammit</span><span class='period'>.</span><span class='id identifier rubyid_package!'>package!</span><span class='lparen'>(</span><span class='ivar'>@options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -235,16 +271,18 @@ round of slow requests after a fresh deployment.</p>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="ensure_configuration_file-instance_method">
+  <h3 class="signature first" id="ensure_configuration_file-instance_method">
   
     - (<tt>Object</tt>) <strong>ensure_configuration_file</strong>  <span class="extras">(private)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     <p>Make sure that we have a readable configuration file. The <code>jammit</code>
 command can&#8217;t run without one.</p>
@@ -253,42 +291,44 @@ command can&#8217;t run without one.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+37
+38
+39
 40
 41
-42
-43
-44
-45</pre>
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/command_line.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/command_line.rb', line 37</span>
 
-<span class='def def kw'>def</span> <span class='ensure_configuration_file identifier id'>ensure_configuration_file</span>
-  <span class='config identifier id'>config</span> <span class='assign token'>=</span> <span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:config_path</span><span class='rbrack token'>]</span>
-  <span class='return return kw'>return</span> <span class='true true kw'>true</span> <span class='if if_mod kw'>if</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='config identifier id'>config</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='readable? fid id'>readable?</span><span class='lparen token'>(</span><span class='config identifier id'>config</span><span class='rparen token'>)</span>
-  <span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;Could not find the asset configuration file \&quot;#{config}\&quot;&quot;</span>
-  <span class='exit identifier id'>exit</span><span class='lparen token'>(</span><span class='integer val'>1</span><span class='rparen token'>)</span>
-<span class='end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_ensure_configuration_file'>ensure_configuration_file</span>
+  <span class='id identifier rubyid_config'>config</span> <span class='op'>=</span> <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:config_path</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_readable?'>readable?</span><span class='lparen'>(</span><span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Could not find the asset configuration file \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_config'>config</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_exit'>exit</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="parse_options-instance_method">
+  <h3 class="signature " id="parse_options-instance_method">
   
     - (<tt>Object</tt>) <strong>parse_options</strong>  <span class="extras">(private)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     <p>Uses <code>OptionParser</code> to grab the options: <strong>&#8212;output</strong>, <strong>&#8212;config</strong>, and
 <strong>&#8212;base-url</strong>&#8230;</p>
@@ -297,12 +337,16 @@ command can&#8217;t run without one.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+46
+47
+48
 49
 50
 51
@@ -330,40 +374,50 @@ command can&#8217;t run without one.</p>
 73
 74
 75
-76</pre>
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jammit/command_line.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/jammit/command_line.rb', line 46</span>
 
-<span class='def def kw'>def</span> <span class='parse_options identifier id'>parse_options</span>
-  <span class='@options ivar id'>@options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
-    <span class='symbol val'>:config_path</span>    <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='Jammit constant id'>Jammit</span><span class='colon2 op'>::</span><span class='DEFAULT_CONFIG_PATH constant id'>DEFAULT_CONFIG_PATH</span><span class='comma token'>,</span>
-    <span class='symbol val'>:output_folder</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='nil nil kw'>nil</span><span class='comma token'>,</span>
-    <span class='symbol val'>:base_url</span>       <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='nil nil kw'>nil</span><span class='comma token'>,</span>
-    <span class='symbol val'>:force</span>          <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='false false kw'>false</span>
-  <span class='rbrace token'>}</span>
-  <span class='@option_parser ivar id'>@option_parser</span> <span class='assign token'>=</span> <span class='OptionParser constant id'>OptionParser</span><span class='dot token'>.</span><span class='new identifier id'>new</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='opts identifier id'>opts</span><span class='bitor op'>|</span>
-    <span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='on identifier id'>on</span><span class='lparen token'>(</span><span class='string val'>'-o'</span><span class='comma token'>,</span> <span class='string val'>'--output PATH'</span><span class='comma token'>,</span> <span class='string val'>'output folder for packages (default: &quot;public/assets&quot;)'</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='output_folder identifier id'>output_folder</span><span class='bitor op'>|</span>
-      <span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:output_folder</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='output_folder identifier id'>output_folder</span>
-    <span class='end end kw'>end</span>
-    <span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='on identifier id'>on</span><span class='lparen token'>(</span><span class='string val'>'-c'</span><span class='comma token'>,</span> <span class='string val'>'--config PATH'</span><span class='comma token'>,</span> <span class='string val'>'path to assets.yml (default: &quot;config/assets.yml&quot;)'</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='config_path identifier id'>config_path</span><span class='bitor op'>|</span>
-      <span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:config_path</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='config_path identifier id'>config_path</span>
-    <span class='end end kw'>end</span>
-    <span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='on identifier id'>on</span><span class='lparen token'>(</span><span class='string val'>'-u'</span><span class='comma token'>,</span> <span class='string val'>'--base-url URL'</span><span class='comma token'>,</span> <span class='string val'>'base URL for MHTML (ex: &quot;http://example.com&quot;)'</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='base_url identifier id'>base_url</span><span class='bitor op'>|</span>
-      <span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:base_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='base_url identifier id'>base_url</span>
-    <span class='end end kw'>end</span>
-    <span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='on identifier id'>on</span><span class='lparen token'>(</span><span class='string val'>'-f'</span><span class='comma token'>,</span> <span class='string val'>'--force'</span><span class='comma token'>,</span> <span class='string val'>'force a rebuild of all assets'</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='force identifier id'>force</span><span class='bitor op'>|</span>
-      <span class='@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='symbol val'>:force</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='force identifier id'>force</span>
-    <span class='end end kw'>end</span>
-    <span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='on_tail identifier id'>on_tail</span><span class='lparen token'>(</span><span class='string val'>'-v'</span><span class='comma token'>,</span> <span class='string val'>'--version'</span><span class='comma token'>,</span> <span class='string val'>'display Jammit version'</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
-      <span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;Jammit version #{Jammit::VERSION}&quot;</span>
-      <span class='exit identifier id'>exit</span>
-    <span class='end end kw'>end</span>
-  <span class='end end kw'>end</span>
-  <span class='@option_parser ivar id'>@option_parser</span><span class='dot token'>.</span><span class='banner identifier id'>banner</span> <span class='assign token'>=</span> <span class='BANNER constant id'>BANNER</span>
-  <span class='@option_parser ivar id'>@option_parser</span><span class='dot token'>.</span><span class='parse! fid id'>parse!</span><span class='lparen token'>(</span><span class='ARGV constant id'>ARGV</span><span class='rparen token'>)</span>
-<span class='end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_options'>parse_options</span>
+  <span class='ivar'>@options</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='symbol'>:config_path</span>    <span class='op'>=&gt;</span> <span class='const'>Jammit</span><span class='op'>::</span><span class='const'>DEFAULT_CONFIG_PATH</span><span class='comma'>,</span>
+    <span class='symbol'>:output_folder</span>  <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span>
+    <span class='symbol'>:base_url</span>       <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span>
+    <span class='symbol'>:force</span>          <span class='op'>=&gt;</span> <span class='kw'>false</span>
+  <span class='rbrace'>}</span>
+  <span class='ivar'>@option_parser</span> <span class='op'>=</span> <span class='const'>OptionParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>|</span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-o</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--output PATH</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>output folder for packages (default: &quot;public/assets&quot;)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_output_folder'>output_folder</span><span class='op'>|</span>
+      <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:output_folder</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_output_folder'>output_folder</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-c</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--config PATH</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>path to assets.yml (default: &quot;config/assets.yml&quot;)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config_path'>config_path</span><span class='op'>|</span>
+      <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:config_path</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_config_path'>config_path</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-u</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--base-url URL</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>base URL for MHTML (ex: &quot;http://example.com&quot;)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_base_url'>base_url</span><span class='op'>|</span>
+      <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:base_url</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_base_url'>base_url</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-f</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--force</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>force a rebuild of all assets</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_force'>force</span><span class='op'>|</span>
+      <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:force</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_force'>force</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--packages LIST</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>list of packages to build (ex: &quot;core,ui&quot;, default: all)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_package_names'>package_names</span><span class='op'>|</span>
+      <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:package_names</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_package_names'>package_names</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>,\s*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-P</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--public-root PATH</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>path to public assets (default: &quot;public&quot;)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_public_root'>public_root</span><span class='op'>|</span>
+      <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Option for PUBLIC_ROOT</span><span class='tstring_end'>&quot;</span></span>
+      <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:public_root</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_public_root'>public_root</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on_tail'>on_tail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-v</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--version</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>display Jammit version</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Jammit version </span><span class='embexpr_beg'>#{</span><span class='const'>Jammit</span><span class='op'>::</span><span class='const'>VERSION</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_exit'>exit</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@option_parser</span><span class='period'>.</span><span class='id identifier rubyid_banner'>banner</span> <span class='op'>=</span> <span class='const'>BANNER</span>
+  <span class='ivar'>@option_parser</span><span class='period'>.</span><span class='id identifier rubyid_parse!'>parse!</span><span class='lparen'>(</span><span class='const'>ARGV</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -372,11 +426,11 @@ command can&#8217;t run without one.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Wed Jul 14 10:39:50 2010 by 
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
-  0.5.8 (ruby-1.8.7).
+  Generated on Fri Oct 23 15:24:30 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.3).
 </div>
 
   </body>

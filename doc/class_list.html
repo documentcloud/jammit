@@ -2,16 +2,29 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="css/full_list.css" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
-    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/full_list.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+      <link rel="stylesheet" href="css/full_list.css" type="text/css" media="screen" charset="utf-8" />
+    
+      <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+    
+
+    
+      <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    
+      <script type="text/javascript" charset="utf-8" src="js/full_list.js"></script>
+    
+
+    <title>Class List</title>
     <base id="base_target" target="_parent" />
   </head>
   <body>
     <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) {
+      var hasFrames = false;
+      try {
+        hasFrames = window.top.frames.main ? true : false;
+      } catch (e) { }
+      if (hasFrames) {
         document.getElementById('base_target').target = 'main';
         document.body.className = 'frames';
       }
@@ -19,18 +32,27 @@
     <div id="content">
       <h1 id="full_list_header">Class List</h1>
       <div id="nav">
-        <a target="_self" href="class_list.html">Classes</a> | 
-        <a target="_self" href="method_list.html">Methods</a> |
-        <a target="_self" href="file_list.html">Files</a>
+        
+          <span><a target="_self" href="class_list.html">
+            Classes
+          </a></span>
+        
+          <span><a target="_self" href="method_list.html">
+            Methods
+          </a></span>
+        
+          <span><a target="_self" href="file_list.html">
+            Files
+          </a></span>
+        
       </div>
       <div id="search">Search: <input type="text" /></div>
 
       <ul id="full_list" class="class">
-        <li><a href="top-level-namespace.html" title=" (root)">Top Level Namespace</a></li>
-<li><a class='toggle'></a> <a href="Jammit.html" title="Jammit (module)">Jammit</a><small class='search_info'>Top Level Namespace</small></li><ul><li><a href="Jammit/CommandLine.html" title="Jammit::CommandLine (class)">CommandLine</a> &lt; Object<small class='search_info'>Jammit</small></li><li><a href="Jammit/Compressor.html" title="Jammit::Compressor (class)">Compressor</a> &lt; Object<small class='search_info'>Jammit</small></li><li><a href="Jammit/ConfigurationNotFound.html" title="Jammit::ConfigurationNotFound (class)">ConfigurationNotFound</a> &lt; NameError<small class='search_info'>Jammit</small></li><li><a href="Jammit/Controller.html" title="Jammit::Controller (class)">Controller</a> &lt; Base<small class='search_info'>Jammit</small></li><li><a href="Jammit/DeprecationError.html" title="Jammit::DeprecationError (class)">DeprecationError</a> &lt; StandardError<small class='search_info'>Jammit</small></li><li><a href="Jammit/Helper.html" title="Jammit::Helper (module)">Helper</a><small class='search_info'>Jammit</small></li><li><a href="Jammit/OutputNotWritable.html" title="Jammit::OutputNotWritable (class)">OutputNotWritable</a> &lt; StandardError<small class='search_info'>Jammit</small></li><li><a href="Jammit/PackageNotFound.html" title="Jammit::PackageNotFound (class)">PackageNotFound</a> &lt; NameError<small class='search_info'>Jammit</small></li><li><a href="Jammit/Packager.html" title="Jammit::Packager (class)">Packager</a> &lt; Object<small class='search_info'>Jammit</small></li><li><a href="Jammit/Railtie.html" title="Jammit::Railtie (class)">Railtie</a> &lt; Railtie<small class='search_info'>Jammit</small></li><li><a href="Jammit/Routes.html" title="Jammit::Routes (module)">Routes</a><small class='search_info'>Jammit</small></li></ul>
+        <li><span class='object_link'><a href="top-level-namespace.html" title="Top Level Namespace (root)">Top Level Namespace</a></span></li>
+<li><a class='toggle'></a> <span class='object_link'><a href="Jammit.html" title="Jammit (module)">Jammit</a></span><small class='search_info'>Top Level Namespace</small></li><ul><li><span class='object_link'><a href="Jammit/CommandLine.html" title="Jammit::CommandLine (class)">CommandLine</a></span> &lt; Object<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/Compressor.html" title="Jammit::Compressor (class)">Compressor</a></span> &lt; Object<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/Controller.html" title="Jammit::Controller (class)">Controller</a></span> &lt; Base<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/CssminCompressor.html" title="Jammit::CssminCompressor (class)">CssminCompressor</a></span> &lt; Object<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/DeprecationError.html" title="Jammit::DeprecationError (class)">DeprecationError</a></span> &lt; StandardError<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/Helper.html" title="Jammit::Helper (module)">Helper</a></span><small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/JsminCompressor.html" title="Jammit::JsminCompressor (class)">JsminCompressor</a></span> &lt; Object<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/MissingConfiguration.html" title="Jammit::MissingConfiguration (class)">MissingConfiguration</a></span> &lt; NameError<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/OutputNotWritable.html" title="Jammit::OutputNotWritable (class)">OutputNotWritable</a></span> &lt; StandardError<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/PackageNotFound.html" title="Jammit::PackageNotFound (class)">PackageNotFound</a></span> &lt; NameError<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/Packager.html" title="Jammit::Packager (class)">Packager</a></span> &lt; Object<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/Railtie.html" title="Jammit::Railtie (class)">Railtie</a></span> &lt; Railtie<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/Routes.html" title="Jammit::Routes (module)">Routes</a></span><small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/SassCompressor.html" title="Jammit::SassCompressor (class)">SassCompressor</a></span> &lt; Object<small class='search_info'>Jammit</small></li><li><span class='object_link'><a href="Jammit/Uglifier.html" title="Jammit::Uglifier (class)">Uglifier</a></span> &lt; Uglifier<small class='search_info'>Jammit</small></li></ul>
 
       </ul>
     </div>
   </body>
 </html>
-

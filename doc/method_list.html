@@ -2,16 +2,29 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="css/full_list.css" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
-    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/full_list.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+      <link rel="stylesheet" href="css/full_list.css" type="text/css" media="screen" charset="utf-8" />
+    
+      <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+    
+
+    
+      <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    
+      <script type="text/javascript" charset="utf-8" src="js/full_list.js"></script>
+    
+
+    <title>Method List</title>
     <base id="base_target" target="_parent" />
   </head>
   <body>
     <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) {
+      var hasFrames = false;
+      try {
+        hasFrames = window.top.frames.main ? true : false;
+      } catch (e) { }
+      if (hasFrames) {
         document.getElementById('base_target').target = 'main';
         document.body.className = 'frames';
       }
@@ -19,652 +32,628 @@
     <div id="content">
       <h1 id="full_list_header">Method List</h1>
       <div id="nav">
-        <a target="_self" href="class_list.html">Classes</a> | 
-        <a target="_self" href="method_list.html">Methods</a> |
-        <a target="_self" href="file_list.html">Files</a>
+        
+          <span><a target="_self" href="class_list.html">
+            Classes
+          </a></span>
+        
+          <span><a target="_self" href="method_list.html">
+            Methods
+          </a></span>
+        
+          <span><a target="_self" href="file_list.html">
+            Files
+          </a></span>
+        
       </div>
       <div id="search">Search: <input type="text" /></div>
 
-      <ul id="full_list" class="methods">
+      <ul id="full_list" class="method">
         
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#absolute_path-instance_method" title="Jammit::Compressor#absolute_path (method)">#absolute_path</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#absolute_path-instance_method" title="Jammit::Compressor#absolute_path (method)">#absolute_path</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#asset_url-class_method" title="Jammit.asset_url (method)">asset_url</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#allow_debugging-class_method" title="Jammit.allow_debugging (method)">allow_debugging</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Packager.html#cache-instance_method" title="Jammit::Packager#cache (method)">#cache</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit.html#asset_url-class_method" title="Jammit.asset_url (method)">asset_url</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Controller.html#cache_package-instance_method" title="Jammit::Controller#cache_package (method)">#cache_package</a> 
-    
-      <small>Jammit::Controller</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#cache-instance_method" title="Jammit::Packager#cache (method)">#cache</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Packager.html#cacheable-instance_method" title="Jammit::Packager#cacheable (method)">#cacheable</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit/Controller.html#cache_package-instance_method" title="Jammit::Controller#cache_package (method)">#cache_package</a></span>
+    <small>Jammit::Controller</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#check_for_deprecations-class_method" title="Jammit.check_for_deprecations (method)">check_for_deprecations</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#cacheable-instance_method" title="Jammit::Packager#cacheable (method)">#cacheable</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#check_java_version-class_method" title="Jammit.check_java_version (method)">check_java_version</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#check_for_deprecations-class_method" title="Jammit.check_for_deprecations (method)">check_for_deprecations</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#compile_jst-instance_method" title="Jammit::Compressor#compile_jst (method)">#compile_jst</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit.html#check_java_version-class_method" title="Jammit.check_java_version (method)">check_java_version</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#compress_assets-class_method" title="Jammit.compress_assets (method)">compress_assets</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#compile_jst-instance_method" title="Jammit::Compressor#compile_jst (method)">#compile_jst</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#compress_css-instance_method" title="Jammit::Compressor#compress_css (method)">#compress_css</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/JsminCompressor.html#compress-instance_method" title="Jammit::JsminCompressor#compress (method)">#compress</a></span>
+    <small>Jammit::JsminCompressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#compress_js-instance_method" title="Jammit::Compressor#compress_js (method)">#compress_js</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/SassCompressor.html#compress-instance_method" title="Jammit::SassCompressor#compress (method)">#compress</a></span>
+    <small>Jammit::SassCompressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#compressor_options-class_method" title="Jammit.compressor_options (method)">compressor_options</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/CssminCompressor.html#compress-instance_method" title="Jammit::CssminCompressor#compress (method)">#compress</a></span>
+    <small>Jammit::CssminCompressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#concatenate-instance_method" title="Jammit::Compressor#concatenate (method)">#concatenate</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit.html#compress_assets-class_method" title="Jammit.compress_assets (method)">compress_assets</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#concatenate_and_tag_assets-instance_method" title="Jammit::Compressor#concatenate_and_tag_assets (method)">#concatenate_and_tag_assets</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#compress_css-instance_method" title="Jammit::Compressor#compress_css (method)">#compress_css</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#config_path-class_method" title="Jammit.config_path (method)">config_path</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#compress_js-instance_method" title="Jammit::Compressor#compress_js (method)">#compress_js</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#configuration-class_method" title="Jammit.configuration (method)">configuration</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#compressor-instance_method" title="Jammit::Packager#compressor (method)">#compressor</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#construct_asset_path-instance_method" title="Jammit::Compressor#construct_asset_path (method)">#construct_asset_path</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit.html#compressor_options-class_method" title="Jammit.compressor_options (method)">compressor_options</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Packager.html#create_packages-instance_method" title="Jammit::Packager#create_packages (method)">#create_packages</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#concatenate-instance_method" title="Jammit::Compressor#concatenate (method)">#concatenate</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#css_compressor_options-class_method" title="Jammit.css_compressor_options (method)">css_compressor_options</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#concatenate_and_tag_assets-instance_method" title="Jammit::Compressor#concatenate_and_tag_assets (method)">#concatenate_and_tag_assets</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#disable_compression-class_method" title="Jammit.disable_compression (method)">disable_compression</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#config_path-class_method" title="Jammit.config_path (method)">config_path</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Routes.html#draw-class_method" title="Jammit::Routes.draw (method)">draw</a> 
-    
-      <small>Jammit::Routes</small>
-    
+    <span class='object_link'><a href="Jammit.html#configuration-class_method" title="Jammit.configuration (method)">configuration</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#embed_assets-class_method" title="Jammit.embed_assets (method)">embed_assets</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#construct_asset_path-instance_method" title="Jammit::Compressor#construct_asset_path (method)">#construct_asset_path</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#embeddable%3F-instance_method" title="Jammit::Compressor#embeddable? (method)">#embeddable?</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#create_packages-instance_method" title="Jammit::Packager#create_packages (method)">#create_packages</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Helper.html#embedded_image_stylesheets-instance_method" title="Jammit::Helper#embedded_image_stylesheets (method)">#embedded_image_stylesheets</a> 
-    
-      <small>Jammit::Helper</small>
-    
+    <span class='object_link'><a href="Jammit.html#css_compressor-class_method" title="Jammit.css_compressor (method)">css_compressor</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#encoded_contents-instance_method" title="Jammit::Compressor#encoded_contents (method)">#encoded_contents</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit.html#css_compressor_options-class_method" title="Jammit.css_compressor_options (method)">css_compressor_options</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/CommandLine.html#ensure_configuration_file-instance_method" title="Jammit::CommandLine#ensure_configuration_file (method)">#ensure_configuration_file</a> 
-    
-      <small>Jammit::CommandLine</small>
-    
+    <span class='object_link'><a href="Jammit.html#css_compressors-class_method" title="Jammit.css_compressors (method)">css_compressors</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#filename-class_method" title="Jammit.filename (method)">filename</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#disable_compression-class_method" title="Jammit.disable_compression (method)">disable_compression</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#find_base_path-instance_method" title="Jammit::Compressor#find_base_path (method)">#find_base_path</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Routes.html#draw-class_method" title="Jammit::Routes.draw (method)">draw</a></span>
+    <small>Jammit::Routes</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Packager.html#force-instance_method" title="Jammit::Packager#force (method)">#force</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit.html#embed_assets-class_method" title="Jammit.embed_assets (method)">embed_assets</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Controller.html#generate_stylesheets-instance_method" title="Jammit::Controller#generate_stylesheets (method)">#generate_stylesheets</a> 
-    
-      <small>Jammit::Controller</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#embeddable%3F-instance_method" title="Jammit::Compressor#embeddable? (method)">#embeddable?</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Packager.html#glob_files-instance_method" title="Jammit::Packager#glob_files (method)">#glob_files</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit/Helper.html#embedded_image_stylesheets-instance_method" title="Jammit::Helper#embedded_image_stylesheets (method)">#embedded_image_stylesheets</a></span>
+    <small>Jammit::Helper</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#gzip_assets-class_method" title="Jammit.gzip_assets (method)">gzip_assets</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#encoded_contents-instance_method" title="Jammit::Compressor#encoded_contents (method)">#encoded_contents</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Helper.html#html_safe-instance_method" title="Jammit::Helper#html_safe (method)">#html_safe</a> 
-    
-      <small>Jammit::Helper</small>
-    
+    <span class='object_link'><a href="Jammit/CommandLine.html#ensure_configuration_file-instance_method" title="Jammit::CommandLine#ensure_configuration_file (method)">#ensure_configuration_file</a></span>
+    <small>Jammit::CommandLine</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Helper.html#include_javascripts-instance_method" title="Jammit::Helper#include_javascripts (method)">#include_javascripts</a> 
-    
-      <small>Jammit::Helper</small>
-    
+    <span class='object_link'><a href="Jammit.html#filename-class_method" title="Jammit.filename (method)">filename</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#include_jst_script-class_method" title="Jammit.include_jst_script (method)">include_jst_script</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#find_base_path-instance_method" title="Jammit::Compressor#find_base_path (method)">#find_base_path</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Helper.html#include_stylesheets-instance_method" title="Jammit::Helper#include_stylesheets (method)">#include_stylesheets</a> 
-    
-      <small>Jammit::Helper</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#force-instance_method" title="Jammit::Packager#force (method)">#force</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Helper.html#include_templates-instance_method" title="Jammit::Helper#include_templates (method)">#include_templates</a> 
-    
-      <small>Jammit::Helper</small>
-    
+    <span class='object_link'><a href="Jammit/Controller.html#generate_stylesheets-instance_method" title="Jammit::Controller#generate_stylesheets (method)">#generate_stylesheets</a></span>
+    <small>Jammit::Controller</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Helper.html#individual_stylesheets-instance_method" title="Jammit::Helper#individual_stylesheets (method)">#individual_stylesheets</a> 
-    
-      <small>Jammit::Helper</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#glob_files-instance_method" title="Jammit::Packager#glob_files (method)">#glob_files</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Packager.html#individual_urls-instance_method" title="Jammit::Packager#individual_urls (method)">#individual_urls</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit.html#gzip_assets-class_method" title="Jammit.gzip_assets (method)">gzip_assets</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#initialize-instance_method" title="Jammit::Compressor#initialize (method)">#initialize</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Helper.html#html_safe-instance_method" title="Jammit::Helper#html_safe (method)">#html_safe</a></span>
+    <small>Jammit::Helper</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/CommandLine.html#initialize-instance_method" title="Jammit::CommandLine#initialize (method)">#initialize</a> 
-    
-      <small>Jammit::CommandLine</small>
-    
+    <span class='object_link'><a href="Jammit/Helper.html#include_javascripts-instance_method" title="Jammit::Helper#include_javascripts (method)">#include_javascripts</a></span>
+    <small>Jammit::Helper</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Packager.html#initialize-instance_method" title="Jammit::Packager#initialize (method)">#initialize</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit.html#include_jst_script-class_method" title="Jammit.include_jst_script (method)">include_jst_script</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#javascript_compressor-class_method" title="Jammit.javascript_compressor (method)">javascript_compressor</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Helper.html#include_stylesheets-instance_method" title="Jammit::Helper#include_stylesheets (method)">#include_stylesheets</a></span>
+    <small>Jammit::Helper</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#load_configuration-class_method" title="Jammit.load_configuration (method)">load_configuration</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Helper.html#include_templates-instance_method" title="Jammit::Helper#include_templates (method)">#include_templates</a></span>
+    <small>Jammit::Helper</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#mhtml_enabled-class_method" title="Jammit.mhtml_enabled (method)">mhtml_enabled</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Helper.html#individual_stylesheets-instance_method" title="Jammit::Helper#individual_stylesheets (method)">#individual_stylesheets</a></span>
+    <small>Jammit::Helper</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#mime_type-instance_method" title="Jammit::Compressor#mime_type (method)">#mime_type</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#individual_urls-instance_method" title="Jammit::Packager#individual_urls (method)">#individual_urls</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Packager.html#not_found-instance_method" title="Jammit::Packager#not_found (method)">#not_found</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit/CommandLine.html#initialize-instance_method" title="Jammit::CommandLine#initialize (method)">#initialize</a></span>
+    <small>Jammit::CommandLine</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Packager.html#pack_javascripts-instance_method" title="Jammit::Packager#pack_javascripts (method)">#pack_javascripts</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit/CssminCompressor.html#initialize-instance_method" title="Jammit::CssminCompressor#initialize (method)">#initialize</a></span>
+    <small>Jammit::CssminCompressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Packager.html#pack_stylesheets-instance_method" title="Jammit::Packager#pack_stylesheets (method)">#pack_stylesheets</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#initialize-instance_method" title="Jammit::Compressor#initialize (method)">#initialize</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Packager.html#pack_templates-instance_method" title="Jammit::Packager#pack_templates (method)">#pack_templates</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit/SassCompressor.html#initialize-instance_method" title="Jammit::SassCompressor#initialize (method)">#initialize</a></span>
+    <small>Jammit::SassCompressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Controller.html#package-instance_method" title="Jammit::Controller#package (method)">#package</a> 
-    
-      <small>Jammit::Controller</small>
-    
+    <span class='object_link'><a href="Jammit/JsminCompressor.html#initialize-instance_method" title="Jammit::JsminCompressor#initialize (method)">#initialize</a></span>
+    <small>Jammit::JsminCompressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#package_assets-class_method" title="Jammit.package_assets (method)">package_assets</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#initialize-instance_method" title="Jammit::Packager#initialize (method)">#initialize</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Packager.html#package_for-instance_method" title="Jammit::Packager#package_for (method)">#package_for</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit.html#javascript_compressor-class_method" title="Jammit.javascript_compressor (method)">javascript_compressor</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Controller.html#package_not_found-instance_method" title="Jammit::Controller#package_not_found (method)">#package_not_found</a> 
-    
-      <small>Jammit::Controller</small>
-    
+    <span class='object_link'><a href="Jammit.html#javascript_compressors-class_method" title="Jammit.javascript_compressors (method)">javascript_compressors</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#package_path-class_method" title="Jammit.package_path (method)">package_path</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#latest_mtime-instance_method" title="Jammit::Packager#latest_mtime (method)">#latest_mtime</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Helper.html#packaged_stylesheets-instance_method" title="Jammit::Helper#packaged_stylesheets (method)">#packaged_stylesheets</a> 
-    
-      <small>Jammit::Helper</small>
-    
+    <span class='object_link'><a href="Jammit.html#load_configuration-class_method" title="Jammit.load_configuration (method)">load_configuration</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#packager-class_method" title="Jammit.packager (method)">packager</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#mhtml_enabled-class_method" title="Jammit.mhtml_enabled (method)">mhtml_enabled</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/CommandLine.html#parse_options-instance_method" title="Jammit::CommandLine#parse_options (method)">#parse_options</a> 
-    
-      <small>Jammit::CommandLine</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#mime_type-instance_method" title="Jammit::Compressor#mime_type (method)">#mime_type</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Controller.html#parse_request-instance_method" title="Jammit::Controller#parse_request (method)">#parse_request</a> 
-    
-      <small>Jammit::Controller</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#not_found-instance_method" title="Jammit::Packager#not_found (method)">#not_found</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Packager.html#precache_all-instance_method" title="Jammit::Packager#precache_all (method)">#precache_all</a> 
-    
-      <small>Jammit::Packager</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#pack_javascripts-instance_method" title="Jammit::Packager#pack_javascripts (method)">#pack_javascripts</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Controller.html#prefix_url-instance_method" title="Jammit::Controller#prefix_url (method)">#prefix_url</a> 
-    
-      <small>Jammit::Controller</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#pack_stylesheets-instance_method" title="Jammit::Packager#pack_stylesheets (method)">#pack_stylesheets</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#rails_asset_id-instance_method" title="Jammit::Compressor#rails_asset_id (method)">#rails_asset_id</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#pack_templates-instance_method" title="Jammit::Packager#pack_templates (method)">#pack_templates</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#relative_path-instance_method" title="Jammit::Compressor#relative_path (method)">#relative_path</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Controller.html#package-instance_method" title="Jammit::Controller#package (method)">#package</a></span>
+    <small>Jammit::Controller</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#reload%21-class_method" title="Jammit.reload! (method)">reload!</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#package%21-class_method" title="Jammit.package! (method)">package!</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#rewrite_asset_path-instance_method" title="Jammit::Compressor#rewrite_asset_path (method)">#rewrite_asset_path</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit.html#package_assets-class_method" title="Jammit.package_assets (method)">package_assets</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#set_javascript_compressor-class_method" title="Jammit.set_javascript_compressor (method)">set_javascript_compressor</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#package_for-instance_method" title="Jammit::Packager#package_for (method)">#package_for</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#set_package_assets-class_method" title="Jammit.set_package_assets (method)">set_package_assets</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#package_names-instance_method" title="Jammit::Packager#package_names (method)">#package_names</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#set_template_extension-class_method" title="Jammit.set_template_extension (method)">set_template_extension</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Controller.html#package_not_found-instance_method" title="Jammit::Controller#package_not_found (method)">#package_not_found</a></span>
+    <small>Jammit::Controller</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#set_template_function-class_method" title="Jammit.set_template_function (method)">set_template_function</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#package_path-class_method" title="Jammit.package_path (method)">package_path</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#set_template_namespace-class_method" title="Jammit.set_template_namespace (method)">set_template_namespace</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Helper.html#packaged_stylesheets-instance_method" title="Jammit::Helper#packaged_stylesheets (method)">#packaged_stylesheets</a></span>
+    <small>Jammit::Helper</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#symbolize_keys-class_method" title="Jammit.symbolize_keys (method)">symbolize_keys</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#packager-class_method" title="Jammit.packager (method)">packager</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Helper.html#tags_with_options-instance_method" title="Jammit::Helper#tags_with_options (method)">#tags_with_options</a> 
-    
-      <small>Jammit::Helper</small>
-    
+    <span class='object_link'><a href="Jammit/CommandLine.html#parse_options-instance_method" title="Jammit::CommandLine#parse_options (method)">#parse_options</a></span>
+    <small>Jammit::CommandLine</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#template_extension-class_method" title="Jammit.template_extension (method)">template_extension</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Controller.html#parse_request-instance_method" title="Jammit::Controller#parse_request (method)">#parse_request</a></span>
+    <small>Jammit::Controller</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#template_extension_matcher-class_method" title="Jammit.template_extension_matcher (method)">template_extension_matcher</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#path_to_url-instance_method" title="Jammit::Packager#path_to_url (method)">#path_to_url</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#template_function-class_method" title="Jammit.template_function (method)">template_function</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Packager.html#precache_all-instance_method" title="Jammit::Packager#precache_all (method)">#precache_all</a></span>
+    <small>Jammit::Packager</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#template_name-instance_method" title="Jammit::Compressor#template_name (method)">#template_name</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Controller.html#prefix_url-instance_method" title="Jammit::Controller#prefix_url (method)">#prefix_url</a></span>
+    <small>Jammit::Controller</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit.html#template_namespace-class_method" title="Jammit.template_namespace (method)">template_namespace</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit.html#public_root-class_method" title="Jammit.public_root (method)">public_root</a></span>
+    <small>Jammit</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit.html#warn-class_method" title="Jammit.warn (method)">warn</a> 
-    
-      <small>Jammit</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#rails_asset_id-instance_method" title="Jammit::Compressor#rails_asset_id (method)">#rails_asset_id</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r1 ">
-    <a href="Jammit/Compressor.html#with_data_uris-instance_method" title="Jammit::Compressor#with_data_uris (method)">#with_data_uris</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#read_binary_file-instance_method" title="Jammit::Compressor#read_binary_file (method)">#read_binary_file</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
   <li class="r2 ">
-    <a href="Jammit/Compressor.html#with_mhtml-instance_method" title="Jammit::Compressor#with_mhtml (method)">#with_mhtml</a> 
-    
-      <small>Jammit::Compressor</small>
-    
+    <span class='object_link'><a href="Jammit/Compressor.html#relative_path-instance_method" title="Jammit::Compressor#relative_path (method)">#relative_path</a></span>
+    <small>Jammit::Compressor</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit.html#reload%21-class_method" title="Jammit.reload! (method)">reload!</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit/Compressor.html#rewrite_asset_path-instance_method" title="Jammit::Compressor#rewrite_asset_path (method)">#rewrite_asset_path</a></span>
+    <small>Jammit::Compressor</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit.html#rewrite_relative_paths-class_method" title="Jammit.rewrite_relative_paths (method)">rewrite_relative_paths</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit.html#set_css_compressor-class_method" title="Jammit.set_css_compressor (method)">set_css_compressor</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit.html#set_javascript_compressor-class_method" title="Jammit.set_javascript_compressor (method)">set_javascript_compressor</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit.html#set_package_assets-class_method" title="Jammit.set_package_assets (method)">set_package_assets</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit.html#set_public_root-class_method" title="Jammit.set_public_root (method)">set_public_root</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit.html#set_template_extension-class_method" title="Jammit.set_template_extension (method)">set_template_extension</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit.html#set_template_function-class_method" title="Jammit.set_template_function (method)">set_template_function</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit.html#set_template_namespace-class_method" title="Jammit.set_template_namespace (method)">set_template_namespace</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit/Helper.html#should_package%3F-instance_method" title="Jammit::Helper#should_package? (method)">#should_package?</a></span>
+    <small>Jammit::Helper</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit.html#symbolize_keys-class_method" title="Jammit.symbolize_keys (method)">symbolize_keys</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit/Helper.html#tags_with_options-instance_method" title="Jammit::Helper#tags_with_options (method)">#tags_with_options</a></span>
+    <small>Jammit::Helper</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit.html#template_extension-class_method" title="Jammit.template_extension (method)">template_extension</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit.html#template_extension_matcher-class_method" title="Jammit.template_extension_matcher (method)">template_extension_matcher</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit.html#template_function-class_method" title="Jammit.template_function (method)">template_function</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit/Compressor.html#template_name-instance_method" title="Jammit::Compressor#template_name (method)">#template_name</a></span>
+    <small>Jammit::Compressor</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit.html#template_namespace-class_method" title="Jammit.template_namespace (method)">template_namespace</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit.html#warn-class_method" title="Jammit.warn (method)">warn</a></span>
+    <small>Jammit</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="Jammit/Compressor.html#with_data_uris-instance_method" title="Jammit::Compressor#with_data_uris (method)">#with_data_uris</a></span>
+    <small>Jammit::Compressor</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="Jammit/Compressor.html#with_mhtml-instance_method" title="Jammit::Compressor#with_mhtml (method)">#with_mhtml</a></span>
+    <small>Jammit::Compressor</small>
   </li>
   
 
@@ -672,4 +661,3 @@
     </div>
   </body>
 </html>
-
