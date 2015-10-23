@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     jammit (0.6.6)
-      cssmin (>= 1.0.3)
-      jsmin (>= 1.0.1)
+      cssmin (~> 1.0)
+      jsmin (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -124,7 +124,7 @@ DEPENDENCIES
   closure-compiler (~> 1.1)
   cssmin (~> 1.0)
   jammit!
-  jsmin (~> 1.0.1)
+  jsmin (~> 1.0)
   pry
   rails (~> 4.0)
   rake (~> 10.3)
