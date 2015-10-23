@@ -1,10 +1,11 @@
 Gem::Specification.new do |s|
   s.name      = 'jammit'
   s.version   = '0.6.6'         # Keep version in sync with jammit.rb
+  s.license   = 'MIT'
   s.date      = '2013-03-20'
 
   s.homepage    = "http://documentcloud.github.com/jammit/"
-  s.summary     = "Industrial Strength Asset Packaging for Rails"
+  s.summary     = "Industrial strength asset packaging for Rails."
   s.description = <<-EOS
     Jammit is an industrial strength asset packaging library for Rails,
     providing both the CSS and JavaScript concatenation and compression that
@@ -14,8 +15,7 @@ Gem::Specification.new do |s|
   EOS
 
   s.authors           = ['Jeremy Ashkenas']
-  s.email             = 'jeremy@documentcloud.org'
-  s.rubyforge_project = 'jammit'
+  s.email             = ['jeremy@documentcloud.org']
 
   s.require_paths     = ['lib']
   s.executables       = ['jammit']
@@ -26,8 +26,8 @@ Gem::Specification.new do |s|
                          '--main'     << 'README.md' <<
                          '--all'
 
-  s.add_dependency 'cssmin', ['>= 1.0.3']
-  s.add_dependency 'jsmin',  ['>= 1.0.1']
+  s.add_dependency 'cssmin', ['~> 1.0']
+  s.add_dependency 'jsmin',  ['~> 1.0']
 
   s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit.gemspec', 'LICENSE', 'README.md']
 end
