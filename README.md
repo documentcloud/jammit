@@ -5,15 +5,13 @@
     
 Jammit is an industrial strength asset packaging library for Rails, providing both the CSS and JavaScript concatenation and compression that you'd expect, as well as ahead-of-time gzipping, built-in JavaScript template support, and optional Data-URI / MHTML image embedding.
 
-## Installation:
-
-`gem install jammit`
-
-## More
-
 - For documentation, usage, and examples, see: http://documentcloud.github.com/jammit/
 - To suggest a feature or report a bug: http://github.com/documentcloud/jammit/issues/
 - For internal source docs, see: http://documentcloud.github.com/jammit/doc/
+
+## Installation
+
+`gem install jammit`
 
 ## License
 
