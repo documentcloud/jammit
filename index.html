@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <title>Jammit: Industrial-strength asset packaging for Rails</title>
   <style>
@@ -80,11 +80,11 @@
   <div class="container">
 
     <p>
-      <img src="http://jashkenas.s3.amazonaws.com/images/jammit/jammit.png" alt="Jammit" />
+      <img src="jammit-logo.png" width="276" height="84" alt="Jammit">
     </p>
 
     <p>
-      <a href="http://github.com/documentcloud/jammit/">Jammit</a> is an
+      <a href="https://github.com/documentcloud/jammit/">Jammit</a> is an
       industrial-strength asset packaging library for <b>Rails</b>, providing
       both the CSS and JavaScript concatenation and compression
       that you'd expect, as well as <b>YUI Compressor</b>, <b>Closure Compiler</b>, and <b>UglifyJS</b>
@@ -98,13 +98,13 @@
     
     <p>
       You can report bugs and discuss features on the
-      <a href="http://github.com/documentcloud/jammit/issues">issues page</a>,
+      <a href="https://github.com/documentcloud/jammit/issues">issues page</a>,
       on Freenode in the <tt>#documentcloud</tt> channel,
-      or send tweets to <a href="http://twitter.com/documentcloud">@documentcloud</a>.
+      or send tweets to <a href="https://twitter.com/documentcloud">@documentcloud</a>.
     </p>
 
     <p>
-      <i>Jammit is an open-source component of <a href="http://documentcloud.org/">DocumentCloud</a>.</i>
+      <i>Jammit is an open-source component of <a href="https://www.documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
     <h2>Table of Contents</h2>
@@ -114,7 +114,7 @@
       <a href="#configuration">Configuration</a>  |
       <a href="#usage">Usage</a>                  |
       <a href="#compressors">YUI, Closure &amp; UglifyJS</a> |
-      <a href="#precaching">Precaching Assets</a> <br />
+      <a href="#precaching">Precaching Assets</a> <br>
       <a href="#expires">Expires Headers</a> |
       <a href="#embedding">Embedding Assets</a> |
       <a href="#jst">JavaScript Templates</a> |
@@ -124,8 +124,8 @@
     <h2>Links</h2>
 
     <p style="line-height: 30px;">
-      <a href="http://github.com/documentcloud/jammit">Source Code</a> |
-      <a href="http://documentcloud.github.com/jammit/doc/">Internal Docs</a> |
+      <a href="https://github.com/documentcloud/jammit">Source Code</a> |
+      <a href="https://documentcloud.github.io/jammit/doc/">Internal Docs</a> |
       <a href="http://jashkenas.s3.amazonaws.com/misc/jammit_example/normal.html">Image Embedding Example</a>
     </p>
 
@@ -133,11 +133,11 @@
 
     <ol>
       <li>
-        Grab the gem:<br />
+        Grab the gem:<br>
         <tt>gem install jammit</tt>
       </li>
       <li>
-        Add the gem to Rails' <b>environment.rb</b> inside of the initializer:<br />
+        Add the gem to Rails' <b>environment.rb</b> inside of the initializer:<br>
         <tt>config.gem "jammit"</tt>
       </li>
       <li>
@@ -161,8 +161,8 @@ end</pre>
 
     <p>
       <i>Note: If you don't already have the
-      <a href="http://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a>,
-      <a href="http://github.com/documentcloud/closure-compiler">closure-compiler</a> or
+      <a href="https://github.com/sstephenson/ruby-yui-compressor">ruby-yui-compressor</a>,
+      <a href="https://github.com/documentcloud/closure-compiler">closure-compiler</a> or
       <a href="https://github.com/lautis/uglifier">uglifier</a>
       gems installed, downloading may take a minute &mdash; the jar files together
       weigh in at 5 megabytes.</i>
@@ -259,7 +259,7 @@ stylesheets:
         <td class="definition">
           Defaults to <b>yui</b>. The Jammit gem can use either the
           <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>, the
-          <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>, or 
+          <a href="https://developers.google.com/closure/compiler/">Google Closure Compiler</a>, or 
           <a href="https://github.com/mishoo/UglifyJS/">UglifyJS</a>
           to compress your JavaScript.
         </td>
@@ -281,9 +281,9 @@ stylesheets:
           Defaults to <b>on</b>, which uses a bundled variant of
           <a href="http://ejohn.org/blog/javascript-micro-templating/">Micro-Templating</a>.
           Set it to <b>_.template</b> if you use
-          <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>,
+          <a href="http://jashkenas.github.io/underscore/">Underscore.js</a>,
           or <b>new&nbsp;Template</b> for
-          <a href="http://www.prototypejs.org/">Prototype</a>. Turn it <b>off</b>
+          <a href="http://prototypejs.org/">Prototype</a>. Turn it <b>off</b>
           to pass through the template strings unaltered.
         </td>
       </tr>
@@ -481,7 +481,7 @@ compressor_options:
 
     <p>
       If you're using an <b>Nginx</b> webserver, add the following snippet to the
-      <br /><tt>server { ... }</tt> block for your application:
+      <br><tt>server { ... }</tt> block for your application:
     </p>
 
     <pre>
@@ -536,9 +536,9 @@ ExpiresActive On
     </p>
 
     <p>
-      Take a look at this example (especially on a slow connection or wifi):<br />
+      Take a look at this example (especially on a slow connection or wifi):<br>
       <a href="http://jashkenas.s3.amazonaws.com/misc/jammit_example/normal.html">Normal Image Loading</a> vs.
-      <a href="http://jashkenas.s3.amazonaws.com/misc/jammit_example/jammit.html">Jammit Image Embedding</a><br />
+      <a href="http://jashkenas.s3.amazonaws.com/misc/jammit_example/jammit.html">Jammit Image Embedding</a><br>
     </p>
 
     <p>
@@ -681,12 +681,12 @@ JST['common/menu']</pre>
 
     <p>
       To use <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>
-      templates, set <b>template_function</b> to <tt>_.template</tt>.<br />
+      templates, set <b>template_function</b> to <tt>_.template</tt>.<br>
       To use <a href="http://www.prototypejs.org/">Prototype</a> templates, set
-      it to <tt>new Template</tt>.<br />To use
+      it to <tt>new Template</tt>.<br>To use
       <a href="http://github.com/janl/mustache.js">Mustache.js</a> templates,
       you'll need
-      <a href="http://gist.github.com/234982">a little extra setup</a>.<br />
+      <a href="http://gist.github.com/234982">a little extra setup</a>.<br>
       If you'd rather leave your template strings as strings, and compile them later,
       set <b>template_function</b> to <tt>off</tt>.
     </p>
@@ -700,32 +700,32 @@ JST['common/menu']</pre>
     <h2 id="changes">Changelog</h2>
     
     <p>
-      <b class="header">0.7.0</b> &mdash; <small><i>Oct 28, 2015</i></small><br />
+      <b class="header">0.7.0</b> &mdash; <small><i>Oct 28, 2015</i></small><br>
       Added Rails 4 compatibility. (It's been compatible for a while, but only if you installed from GitHub.)
       Fixed Sass/SCSS compilation, but not yet compatible with the Rails development cycle since the SCSS won't be compiled to CSS in dev.
     </p>
     
     <p>
-      <b class="header">0.6.6</b> &mdash; <small><i>Mar 20, 2013</i></small><br />
+      <b class="header">0.6.6</b> &mdash; <small><i>Mar 20, 2013</i></small><br>
       <b>Significant internal refactor.</b>
       Added ability to customize CSS compressor. Defaulted to JSMin and CSSMin.
     </p>
     
     <p>
-      <b class="header">0.6.5</b> &mdash; <small><i>Nov 30, 2011</i></small><br />
+      <b class="header">0.6.5</b> &mdash; <small><i>Nov 30, 2011</i></small><br>
       Added the ability to pass HTML tag options to <tt>include_javascripts</tt>.
       Fixed a bug that would always cause JS to be recompiled, regardless of mtimes.
     </p>
     
     <p>
-      <b class="header">0.6.3</b> &mdash; <small><i>May 26, 2011</i></small><br />
+      <b class="header">0.6.3</b> &mdash; <small><i>May 26, 2011</i></small><br>
       Quick bugfix release for Rails 3.1 compatibility, which changes the method
       signatures of <tt>javascript_include_tag</tt> and <tt>stylesheet_link_tag</tt>
       in a backwards-incompatible fashion.
     </p>
     
     <p>
-      <b class="header">0.6.1</b> &mdash; <small><i>May 25, 2011</i></small><br />
+      <b class="header">0.6.1</b> &mdash; <small><i>May 25, 2011</i></small><br>
       Jammit now supports <b>UglifyJS</b> as a Java-free alternative to YUI and Closure,
       for JavaScript compression.
       You can now pass <tt>--packages core,embed,ui</tt> to the <tt>jammit</tt>
@@ -736,7 +736,7 @@ JST['common/menu']</pre>
     </p>
     
     <p>
-      <b class="header">0.6.0</b><br />
+      <b class="header">0.6.0</b><br>
       You can now pass <tt>debug_assets=true</tt> as a query parameter to debug
       the un-packaged versions of your assets in production ... and disable this
       feature by specifying <tt>allow_debugging: off</tt>.
@@ -748,26 +748,26 @@ JST['common/menu']</pre>
     </p>
 
     <p>
-      <b class="header">0.5.4</b><br />
+      <b class="header">0.5.4</b><br>
       Added a <tt>Jammit.package!</tt> helper function, for use in Rake tasks.
       Fixed a <tt>request_uri</tt> deprecation warning for Rails 3.
       Bugfix to allow <tt>template_extension</tt> to include periods.
     </p>
 
     <p>
-      <b class="header">0.5.3</b><br />
+      <b class="header">0.5.3</b><br>
       You can now embed <b>WOFF</b>-formatted fonts.
       Jammit warnings avoid use of <tt>Rails.logger</tt>.
       Bugfixes for Ruby 1.9.2 with asset files containing Unicode characters.
     </p>
 
     <p>
-      <b class="header">0.5.1</b><br />
+      <b class="header">0.5.1</b><br>
       Included missing <tt>rails/routes.rb</tt> file in the Gem manifest for Rails 3.
     </p>
 
     <p>
-      <b class="header">0.5.0</b><br />
+      <b class="header">0.5.0</b><br>
       The Jammit gem is now compatible with Rails 3. JST template packages are
       no longer specified separately. This is a backwards-incompatible change,
       and you'll have to update your <tt>assets.yml</tt> file to simply include
@@ -779,7 +779,7 @@ JST['common/menu']</pre>
     </p>
 
     <p>
-      <b class="header">0.4.4</b><br />
+      <b class="header">0.4.4</b><br>
       Jammit will now add the <tt>RAILS_ASSET_ID</tt> timestamp to image URLs
       within your CSS packages, if configured, for better cache-busting.
       <a href="http://github.com/ghazel/">Greg Hazel</a> contributed a series
@@ -787,18 +787,18 @@ JST['common/menu']</pre>
     </p>
 
     <p>
-      <b class="header">0.4.3</b><br />
+      <b class="header">0.4.3</b><br>
       Bugfix for building on Windows with drive-letter absolute paths.
     </p>
 
     <p>
-      <b class="header">0.4.2</b><br />
+      <b class="header">0.4.2</b><br>
       Added a logged warning when you have rules in <b>assets.yml</b> that don't
       match any files.
     </p>
 
     <p>
-      <b class="header">0.4.1</b><br />
+      <b class="header">0.4.1</b><br>
       Jammit is now able to embed <tt>@font-face</tt> web fonts in <b>TTF</b> and
       <b>OTF</b> formats. The <b>embed_images</b> option has been renamed to
       <b>embed_assets</b> for this change. The <b>assets.yml</b> file is now
@@ -807,13 +807,13 @@ JST['common/menu']</pre>
     </p>
 
     <p>
-      <b class="header">0.3.3</b><br />
+      <b class="header">0.3.3</b><br>
       Added <tt>css_compressor_options</tt> to assets.yml, so you can
       set <tt>charset</tt> and <tt>line_break</tt> for the YUI CSS Compressor.
     </p>
 
     <p>
-      <b class="header">0.3.2</b><br />
+      <b class="header">0.3.2</b><br>
       If Java isn't available on your machine, Jammit will now run in a graceful
       degraded mode, where assets are packaged but not compressed. You can now
       pass <tt>:embed_assets => false</tt> to the <tt>include_stylesheets</tt>
@@ -821,68 +821,68 @@ JST['common/menu']</pre>
     </p>
 
     <p>
-      <b class="header">0.2.8</b><br />
+      <b class="header">0.2.8</b><br>
       Jammit now correctly rewrites relative image URLs within CSS, for easier
       integration with partial Rails apps deployed on sub-paths.
     </p>
 
     <p>
-      <b class="header">0.2.7</b><br />
+      <b class="header">0.2.7</b><br>
       The <tt>jammit</tt> command has been enhanced to check the modification times of
       your packages &mdash; if no source files have changed, the package isn't
       rebuilt.
     </p>
 
     <p>
-      <b class="header">0.2.6</b><br />
+      <b class="header">0.2.6</b><br>
       Jammit now raises an exception if Java isn't installed, or if the Java
       version is unsupported by your JavaScript compressor of choice.
     </p>
 
     <p>
-      <b class="header">0.2.5</b><br />
+      <b class="header">0.2.5</b><br>
       When specifying your asset packages as directory globs, absolute globs are
       now absolute, and relative globs are relative to RAILS_ROOT.
     </p>
 
     <p>
-      <b class="header">0.2.4</b><br />
+      <b class="header">0.2.4</b><br>
       Jammit now throws a <tt>ConfigurationNotFound</tt> error when attempting to load
       a nonexistent configuration file. Resolved an issue with asset caching from
       daemonized mongrels.
     </p>
 
     <p>
-      <b class="header">0.2.1</b><br />
+      <b class="header">0.2.1</b><br>
       The <tt>include_stylesheets</tt> helper now takes the same options as the
       Rails <tt>stylesheet_link_tag</tt> helper (such as <tt>:media => 'print'</tt>).
     </p>
 
     <p>
-      <b class="header">0.2.0</b><br />
+      <b class="header">0.2.0</b><br>
       Jammit now supports the <b>Google Closure Compiler</b> as an alternative
       to the YUI compressor.
     </p>
 
     <p>
-      <b class="header">0.1.3</b><br />
+      <b class="header">0.1.3</b><br>
       Fixed a bug that conflicted with other plugins trying to alter
       ApplicationController in development.
     </p>
 
     <p>
-      <b class="header">0.1.1</b><br />
+      <b class="header">0.1.1</b><br>
       Added support for embedding images with stylesheet-relative paths.
       Shortened the MHTML identifiers.
     </p>
 
     <p>
-      <b class="header">0.1.0</b><br />
+      <b class="header">0.1.0</b><br>
       Initial Jammit release.
     </p>
 
     <p>
-      <br />
+      <br>
       <a href="http://documentcloud.org/" title="A DocumentCloud Project" style="background:none;">
         <img src="http://jashkenas.s3.amazonaws.com/images/a_documentcloud_project.png" alt="A DocumentCloud Project" style="position:relative;left:-10px;" />
       </a>
