@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name      = 'jammit'
-  s.version   = '0.7.0'         # Keep version in sync with jammit.rb
+  s.version   = '0.7.1'         # Keep version in sync with jammit.rb
   s.license   = 'MIT'
   s.date      = '2015-10-28'
 
