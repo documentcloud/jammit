@@ -83,13 +83,19 @@ module Jammit
 
     @config_path            = config_path
     @configuration          = symbolize_keys(conf)
+
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
+
+    # These default false
     @embed_assets           = conf[:embed_assets] || conf[:embed_images]
+    @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
+
+    # These default true, as `!(nil == false) # => true`
     @compress_assets        = !(conf[:compress_assets] == false)
     @rewrite_relative_paths = !(conf[:rewrite_relative_paths] == false)
     @gzip_assets            = !(conf[:gzip_assets] == false)
     @allow_debugging        = !(conf[:allow_debugging] == false)
-    @mhtml_enabled          = @embed_assets && @embed_assets != "datauri"
+
     @compressor_options     = symbolize_keys(conf[:compressor_options] || {})
     @css_compressor_options = symbolize_keys(conf[:css_compressor_options] || {})
     set_javascript_compressor(conf[:javascript_compressor])
