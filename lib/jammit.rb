@@ -105,8 +105,7 @@ module Jammit
     set_template_namespace(conf[:template_namespace])
     set_template_extension(conf[:template_extension])
     set_public_root(conf[:public_root]) if conf[:public_root]
-    symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
-    symbolize_keys(conf[:javascripts]) if conf[:javascripts]
+    conf.keys.each {|key| symbolize_keys(conf[key]) rescue nil}
     check_for_deprecations
     self
   end
@@ -150,6 +149,13 @@ module Jammit
     packager.force         = options[:force]
     packager.package_names = options[:package_names]
     packager.precache_all(options[:output_folder], options[:base_url])
+  end
+
+  def self.custom_assets
+    @configuration.select { |key, val|
+      lambda{ |val| val.respond_to?(:keys) rescue false}.call(val) &&
+      ![:javascripts, :stylesheets].include?(key)
+    }
   end
 
   private
