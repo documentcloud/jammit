@@ -109,7 +109,7 @@ module Jammit
     set_template_namespace(conf[:template_namespace])
     set_template_extension(conf[:template_extension])
     set_public_root(conf[:public_root]) if conf[:public_root]
-    set_asset_roots(conf[:asset_roots]) if conf[:asset_roots]
+    set_asset_roots(conf[:asset_roots])
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_for_deprecations
@@ -166,7 +166,7 @@ module Jammit
   end
   
   def self.set_asset_roots(*roots)
-    @asset_roots = [ASSET_ROOT, roots].compact.flatten.uniq
+    @asset_roots = ([ASSET_ROOT, roots].flatten.compact.uniq || [])
   end
 
   # Ensure that the JavaScript compressor is a valid choice.

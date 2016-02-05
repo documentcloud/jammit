@@ -106,7 +106,7 @@ module Jammit
       paths = if Pathname.new(glob).absolute?
         Dir[glob].sort
       else
-        search_paths = Jammit.asset_roots.map{ |path| File.join(path, glob) }
+        search_paths = (Jammit.asset_roots).map{ |path| File.join(path, glob) }
         Dir[*search_paths].sort
       end
       Jammit.warn("No assets match '#{glob}'") if paths.empty?
