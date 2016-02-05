@@ -71,17 +71,21 @@ module Jammit
 
   # Load the complete asset configuration from the specified @config_path@.
   # If we're loading softly, don't let missing configuration error out.
-  def self.load_configuration(config_path, soft=false)
-    exists = config_path && File.exists?(config_path)
-    return false if soft && !exists
-    raise MissingConfiguration, "could not find the \"#{config_path}\" configuration file" unless exists
-    conf = YAML.load(ERB.new(File.read(config_path)).result)
+  def self.load_configuration(config, soft=false)
+    conf = if config.kind_of? Hash
+      config
+    else
+      exists = config && File.exists?(config)
+      return false if soft && !exists
+      raise MissingConfiguration, "could not find the \"#{config}\" configuration file" unless exists
+      YAML.load(ERB.new(File.read(config)).result)
+    end
 
     # Optionally overwrite configuration based on the environment.
     rails_env = (defined?(Rails) ? ::Rails.env : ENV['RAILS_ENV'] || "development")
     conf.merge! conf.delete rails_env if conf.has_key? rails_env
 
-    @config_path            = config_path
+    @config_path            = config
     @configuration          = symbolize_keys(conf)
 
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
