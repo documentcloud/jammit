@@ -120,8 +120,8 @@ module Jammit
     end
 
     # Get the latest mtime of a list of files (plus the config path).
-    def latest_mtime(paths)
-      paths += [Jammit.config_path]
+    def latest_mtime(paths=[])
+      paths += Jammit.config_paths
       paths.map {|p| File.mtime(p) }.max || Time.now
     end
 
@@ -131,7 +131,7 @@ module Jammit
     def cacheable(extension, output_dir)
       names = @packages[extension].keys
       names = names.select {|n| @package_names.include? n } if @package_names
-      config_mtime = File.mtime(Jammit.config_path)
+      config_mtime = latest_mtime
       return names if @force
       return names.select do |name|
         pack        = package_for(name, extension)

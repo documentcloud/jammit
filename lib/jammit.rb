@@ -53,7 +53,7 @@ module Jammit
   class << self
     attr_reader   :configuration, :template_function, :template_namespace,
                   :embed_assets, :package_assets, :compress_assets, :gzip_assets,
-                  :package_path, :mhtml_enabled, :include_jst_script, :config_path,
+                  :package_path, :mhtml_enabled, :include_jst_script, :config_paths,
                   :javascript_compressor, :compressor_options, :css_compressor,
                   :css_compressor_options, :template_extension,
                   :template_extension_matcher, :allow_debugging,
@@ -68,24 +68,43 @@ module Jammit
 
   @javascript_compressors = JAVASCRIPT_COMPRESSORS
   @css_compressors        = CSS_COMPRESSORS
+  
+  def self.merge_configs(paths, soft=false)
+    merged_conf = {}
+    paths.each do |path|
+      exists = File.exists?(path)
+      return false if soft && !exists
+      raise MissingConfiguration, "could not find the \"#{path}\" configuration file" unless exists
+      conf = YAML.load(ERB.new(File.read(path)).result)
+      javascripts = (merged_conf["javascripts"] || {})
+      javascripts = javascripts.merge(conf["javascripts"]) if conf["javascripts"]
+      stylesheets = (merged_conf["stylesheets"] || {})
+      stylesheets = stylesheets.merge(conf["stylesheets"]) if conf["stylesheets"]
+      asset_roots = (merged_conf["asset_roots"] || [])
+      asset_roots.push(conf["asset_roots"]) if conf["asset_roots"]
+      deep_merged_attributes = { 
+        "javascripts" => javascripts, 
+        "stylesheets" => stylesheets, 
+        "asset_roots" => asset_roots
+      }
+      merged_conf = (merged_conf.merge(conf)).merge(deep_merged_attributes)
+      merged_conf
+    end
+    merged_conf
+  end
 
   # Load the complete asset configuration from the specified @config_path@.
   # If we're loading softly, don't let missing configuration error out.
   def self.load_configuration(config, soft=false)
-    conf = if config.kind_of? Hash
-      config
-    else
-      exists = config && File.exists?(config)
-      return false if soft && !exists
-      raise MissingConfiguration, "could not find the \"#{config}\" configuration file" unless exists
-      YAML.load(ERB.new(File.read(config)).result)
-    end
-
+    config_paths = [config].flatten
+    conf = merge_configs(config_paths, soft)
+    return false if soft and not conf
+    
     # Optionally overwrite configuration based on the environment.
     rails_env = (defined?(Rails) ? ::Rails.env : ENV['RAILS_ENV'] || "development")
     conf.merge! conf.delete rails_env if conf.has_key? rails_env
 
-    @config_path            = config
+    @config_paths           = config_paths
     @configuration          = symbolize_keys(conf)
 
     @package_path           = conf[:package_path] || DEFAULT_PACKAGE_PATH
@@ -120,7 +139,7 @@ module Jammit
   # In development, this will be called as a before_filter before every request.
   def self.reload!
     Thread.current[:jammit_packager] = nil
-    load_configuration(@config_path)
+    load_configuration(@config_paths)
   end
 
   # Keep a global (thread-local) reference to a @Jammit::Packager@, to avoid
@@ -144,13 +163,13 @@ module Jammit
   # Convenience method for packaging up Jammit, using the default options.
   def self.package!(options={})
     options = {
-      :config_path    => Jammit::DEFAULT_CONFIG_PATH,
+      :config_paths   => Jammit::DEFAULT_CONFIG_PATH,
       :output_folder  => nil,
       :base_url       => nil,
       :public_root    => nil,
       :force          => false
     }.merge(options)
-    load_configuration(options[:config_path])
+    load_configuration(options[:config_paths])
     set_public_root(options[:public_root]) if options[:public_root]
     packager.force         = options[:force]
     packager.package_names = options[:package_names]

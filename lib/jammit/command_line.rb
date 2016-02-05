@@ -35,7 +35,7 @@ Options:
     # Make sure that we have a readable configuration file. The @jammit@
     # command can't run without one.
     def ensure_configuration_file
-      config = @options[:config_path]
+      config = @options[:config_paths]
       return true if File.exists?(config) && File.readable?(config)
       puts "Could not find the asset configuration file \"#{config}\""
       exit(1)
@@ -45,7 +45,7 @@ Options:
     # *--base-url*...
     def parse_options
       @options = {
-        :config_path    => Jammit::DEFAULT_CONFIG_PATH,
+        :config_paths    => Jammit::DEFAULT_CONFIG_PATH,
         :output_folder  => nil,
         :base_url       => nil,
         :force          => false
@@ -55,7 +55,7 @@ Options:
           @options[:output_folder] = output_folder
         end
         opts.on('-c', '--config PATH', 'path to assets.yml (default: "config/assets.yml")') do |config_path|
-          @options[:config_path] = config_path
+          @options[:config_paths] = config_path
         end
         opts.on('-u', '--base-url URL', 'base URL for MHTML (ex: "http://example.com")') do |base_url|
           @options[:base_url] = base_url
