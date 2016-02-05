@@ -57,7 +57,7 @@ module Jammit
                   :javascript_compressor, :compressor_options, :css_compressor,
                   :css_compressor_options, :template_extension,
                   :template_extension_matcher, :allow_debugging,
-                  :rewrite_relative_paths, :public_root
+                  :rewrite_relative_paths, :public_root, :asset_roots
     attr_accessor :javascript_compressors, :css_compressors
   end
 
@@ -109,6 +109,7 @@ module Jammit
     set_template_namespace(conf[:template_namespace])
     set_template_extension(conf[:template_extension])
     set_public_root(conf[:public_root]) if conf[:public_root]
+    set_asset_roots(conf[:asset_roots]) if conf[:asset_roots]
     symbolize_keys(conf[:stylesheets]) if conf[:stylesheets]
     symbolize_keys(conf[:javascripts]) if conf[:javascripts]
     check_for_deprecations
@@ -162,6 +163,10 @@ module Jammit
   # outside of Rails.
   def self.set_public_root(public_root=nil)
     @public_root = public_root if public_root
+  end
+  
+  def self.set_asset_roots(*roots)
+    @asset_roots = [ASSET_ROOT, roots].compact.flatten.uniq
   end
 
   # Ensure that the JavaScript compressor is a valid choice.

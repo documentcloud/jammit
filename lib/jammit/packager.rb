@@ -102,15 +102,21 @@ module Jammit
     # Absolute globs are absolute -- relative globs are relative to ASSET_ROOT.
     # Print a warning if no files were found that match the glob.
     def glob_files(glob)
-      absolute = Pathname.new(glob).absolute?
-      paths = Dir[absolute ? glob : File.join(ASSET_ROOT, glob)].sort
+      absolute = 
+      paths = if Pathname.new(glob).absolute?
+        Dir[glob].sort
+      else
+        search_paths = Jammit.asset_roots.map{ |path| File.join(path, glob) }
+        Dir[*search_paths].sort
+      end
       Jammit.warn("No assets match '#{glob}'") if paths.empty?
       paths
     end
 
     # In Rails, the difference between a path and an asset URL is "public".    
     def path_to_url
-      @path_to_url ||= /\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(Jammit.public_root.sub(ASSET_ROOT, ''))})?/
+      prefix = Jammit.asset_roots.map{ |path| Regexp.escape(path) }.uniq.join("|")
+      @path_to_url ||= /\A(#{prefix})(\/?#{Regexp.escape(Jammit.public_root.sub(/#{prefix}/, ''))})?/
     end
 
     # Get the latest mtime of a list of files (plus the config path).
