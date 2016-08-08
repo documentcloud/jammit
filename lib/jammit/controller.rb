@@ -1,5 +1,5 @@
-require 'rails'
-require 'action_controller'
+autoload :Rails, 'rails'
+autoload :ActionController, 'action_controller'
 
 module Jammit
 
