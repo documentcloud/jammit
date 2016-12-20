@@ -28,7 +28,7 @@ module Jammit
       options = packages.extract_options!
       options.merge!(:extname=>false)
       html_safe packages.map {|pack|
-        should_package? ? Jammit.asset_url(pack, :js) : Jammit.packager.individual_urls(pack.to_sym, :js)
+        should_package? ? Jammit.asset_url(pack, :js, nil, Time.now) : Jammit.packager.individual_urls(pack.to_sym, :js)
       }.flatten.map {|pack|
         "<script src=\"#{pack}\"></script>"
       }.join("\n")
