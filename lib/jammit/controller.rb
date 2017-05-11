@@ -93,6 +93,6 @@ end
 
 if defined?(Rails) && Rails.env.development?
   ActionController::Base.class_eval do
-    append_before_filter { Jammit.reload! }
+    append_before_action { Jammit.reload! }
   end
 end
