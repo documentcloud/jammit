@@ -4,7 +4,7 @@ gemspec
 
 group :development, :test do
   gem "rake",             "~> 10.3"
-  gem "rails",            "~> 4.0"
+  gem "rails",            "~> 5.0"
   gem "cssmin",           "~> 1.0"
   gem "jsmin",            "~> 1.0"
   gem "yui-compressor",   "~> 0.12"
@@ -15,6 +15,5 @@ group :development, :test do
 end
 
 group :development do
-  gem "yard",             "~> 0.8"
   gem "RedCloth",         "~> 4.2"
 end
