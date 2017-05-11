@@ -17,5 +17,5 @@ if defined?(Rails::Application)
         # A hack to allow extension to include "."
         :extension => /.+/
       }
-  end if major == 4
+  end if major >= 4
 end

@@ -29,21 +29,19 @@ class JammitControllerTest < ActionController::TestCase
     # Perform the routing setup that Rails needs to test the controller
     @routes = ::ActionDispatch::Routing::RouteSet.new
     @routes.draw do
-      get "/package/:package.:extension",
-            :to => 'jammit#package', :as => :jammit, :constraints => {
-              :extension => /.+/
-          }
+      get "/package/:package.:extension", to: 'jammit#package', as: :jammit, 
+      constraints: { extension: /.+/ }
     end
   end
 
   def test_package_with_jst
-    get(:package, :package => 'jst_test', :extension => 'jst')
+    get(:package, params: {package: 'jst_test', extension: 'jst'})
     assert_equal( File.read("#{ASSET_ROOT}/fixtures/jammed/jst_test.js"), @response.body )
     assert_match( /text\/javascript/, @response.headers['Content-Type'] )
   end
 
   def test_package_with_jst_mixed
-    get(:package, :package => 'js_test_with_templates', :extension => 'jst')
+    get(:package, params: {package: 'js_test_with_templates', extension: 'jst'})
     assert_equal( File.read("#{ASSET_ROOT}/fixtures/jammed/jst_test.js"), @response.body )
     assert_match( /text\/javascript/, @response.headers['Content-Type'] )
   end
