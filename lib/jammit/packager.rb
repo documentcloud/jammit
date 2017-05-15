@@ -70,6 +70,13 @@ module Jammit
       package_for(package, extension)[:urls]
     end
 
+    # Determines the existence of a packaged asset in the assets.yml file.
+    def includes?(package, extension)
+      !!package_for(package.to_sym, extension.to_sym)
+    rescue PackageNotFound
+      false
+    end
+
     def compressor
       @compressor ||= Compressor.new
     end
