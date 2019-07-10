@@ -22,7 +22,8 @@ module Jammit
       }
       @packages = {
         :css => create_packages(@config[:css]),
-        :js  => create_packages(@config[:js])
+        :js => create_packages(@config[:js]),
+        :'js.map' => create_packages(@config[:js])
       }
     end
 
@@ -33,16 +34,23 @@ module Jammit
     # changed since their last package build.
     def precache_all(output_dir=nil, base_url=nil)
       output_dir ||= File.join(Jammit.public_root, Jammit.package_path)
-      cacheable(:js, output_dir).each  {|p| cache(p, 'js',  pack_javascripts(p), output_dir) }
-      cacheable(:css, output_dir).each do |p|
-        cache(p, 'css', pack_stylesheets(p), output_dir)
+
+      cacheable(:js, output_dir).each do |pack_name|
+        output = pack_javascripts(pack_name, output_dir)
+
+        cache(pack_name, 'js', output["code"], output_dir)
+        cache(pack_name, 'js.map', output["map"], output_dir) if output["map"]
+      end
+
+      cacheable(:css, output_dir).each do |pack_name|
+        cache(pack_name, 'css', pack_stylesheets(pack_name), output_dir)
         if Jammit.embed_assets
-          cache(p, 'css', pack_stylesheets(p, :datauri), output_dir, :datauri)
+          cache(pack_name, 'css', pack_stylesheets(pack_name, :datauri), output_dir, :datauri)
           if Jammit.mhtml_enabled
             raise MissingConfiguration, "A --base-url option is required in order to generate MHTML." unless base_url
-            mtime = latest_mtime package_for(p, :css)[:paths]
-            asset_url = "#{base_url}#{Jammit.asset_url(p, :css, :mhtml, mtime)}"
-            cache(p, 'css', pack_stylesheets(p, :mhtml, asset_url), output_dir, :mhtml, mtime)
+            mtime = latest_mtime package_for(pack_name, :css)[:paths]
+            asset_url = "#{base_url}#{Jammit.asset_url(pack_name, :css, :mhtml, mtime)}"
+            cache(pack_name, 'css', pack_stylesheets(pack_name, :mhtml, asset_url), output_dir, :mhtml, mtime)
           end
         end
       end
@@ -80,8 +88,8 @@ module Jammit
     end
 
     # Return the compressed contents of a javascript package.
-    def pack_javascripts(package)
-      compressor.compress_js(package_for(package, :js)[:paths])
+    def pack_javascripts(package, output_dir)
+      compressor.compress_js(package_for(package, :js)[:paths], package, output_dir)
     end
 
     # Return the compiled contents of a JST package.
@@ -108,7 +116,7 @@ module Jammit
       paths
     end
 
-    # In Rails, the difference between a path and an asset URL is "public".    
+    # In Rails, the difference between a path and an asset URL is "public".
     def path_to_url
       @path_to_url ||= /\A#{Regexp.escape(ASSET_ROOT)}(\/?#{Regexp.escape(Jammit.public_root.sub(ASSET_ROOT, ''))})?/
     end

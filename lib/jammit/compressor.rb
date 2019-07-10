@@ -1,3 +1,5 @@
+require "pathname"
+
 module Jammit
 
   # Uses the YUI Compressor or Closure Compiler to compress JavaScript.
@@ -58,7 +60,7 @@ module Jammit
       :jsmin    => {},
       :yui      => {:munge => true},
       :closure  => {},
-      :uglifier => {:copyright => false}
+      :uglifier => {}
     }
 
     # CSS compression can be provided with YUI Compressor or sass. JS
@@ -78,13 +80,36 @@ module Jammit
 
     # Concatenate together a list of JavaScript paths, and pass them through the
     # YUI Compressor (with munging enabled). JST can optionally be included.
-    def compress_js(paths)
-      if (jst_paths = paths.grep(Jammit.template_extension_matcher)).empty?
-        js = concatenate(paths)
+    def compress_js(paths, pack_name, output_dir)
+      jst_paths = paths.grep(Jammit.template_extension_matcher)
+      js_paths = paths - jst_paths
+
+      if Jammit.compress_assets
+        base_dir = Pathname.new(output_dir)
+        context = @js_compressor.instance_variable_get(:@context)
+
+        files = js_paths.each_with_object({}) do |path, files|
+          relative_path = Pathname.new(path).relative_path_from(base_dir)
+          files[relative_path] = read_binary_file(path)
+        end
+
+        result = context.call("UglifyJS.minify", files, {
+          sourceMap: {
+            filename: "#{pack_name}.js",
+            url: "#{pack_name}.js.map"
+          }
+        })
+
+        if result.has_key?('error')
+          raise Uglifier::Error, result['error']['message']
+        end
+
+        result
+      elsif jst_paths.any?
+        { "code" => concatenate(js_paths) + compile_jst(jst_paths) }
       else
-        js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
+        { "code" => concatenate(js_paths) }
       end
-      Jammit.compress_assets ? @js_compressor.compress(js) : js
     end
 
     # Concatenate and compress a list of CSS stylesheets. When compressing a
