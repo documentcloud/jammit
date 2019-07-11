@@ -96,7 +96,7 @@ module Jammit
         result = context.call("UglifyJS.minify", files, {
           sourceMap: {
             filename: "#{pack_name}.js",
-            url: "#{pack_name}.js.map"
+            url: "#{pack_name}.js.map?#{Time.now.to_i}"
           }
         })
 
