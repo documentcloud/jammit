@@ -93,11 +93,24 @@ module Jammit
           files[relative_path] = read_binary_file(path)
         end
 
+        sourcemap_opts = {
+          filename: "#{pack_name}.js",
+          url: "#{pack_name}.js.map?#{Time.now.to_i}"
+        }
+
+        # Single-file bundles may require an input sourcemap too
+        if files.length == 1
+          path, content = files.first
+          sourcemap_url = content.match(/sourceMappingURL=(.*)/)
+
+          if sourcemap_url
+            sourcemap_path = base_dir.join(path.dirname.join(sourcemap_url[1]))
+            sourcemap_opts[:content] = read_binary_file(sourcemap_path)
+          end
+        end
+
         result = context.call("UglifyJS.minify", files, {
-          sourceMap: {
-            filename: "#{pack_name}.js",
-            url: "#{pack_name}.js.map?#{Time.now.to_i}"
-          }
+          sourceMap: sourcemap_opts
         })
 
         if result.has_key?('error')
