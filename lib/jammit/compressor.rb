@@ -30,7 +30,7 @@ module Jammit
     MAX_IMAGE_SIZE  = 32700
 
     # CSS asset-embedding regexes for URL rewriting.
-    EMBED_DETECTOR  = /url\(['"]?([^\s)]+\.[a-z]+)(\?\d+)?['"]?\)/
+    EMBED_DETECTOR  = /url\(['"]?(?<path>[^\s)]+\.[a-z]+)(\?\d+)?(?<anchor>#\w+)?['"]?\)/
     EMBEDDABLE      = /[\A\/]embed\//
     EMBED_REPLACER  = /url\(__EMBED__(.+?)(\?\d+)?\)/
 
@@ -192,9 +192,10 @@ module Jammit
       stylesheets = [paths].flatten.map do |css_path|
         contents = read_binary_file(css_path)
         contents.gsub(EMBED_DETECTOR) do |url|
-          ipath, cpath = Pathname.new($1), Pathname.new(File.expand_path(css_path))
-          is_url = URI.parse($1).absolute?
-          is_url ? url : "url(#{construct_asset_path(ipath, cpath, variant)})"
+          path, anchor = url.match(EMBED_DETECTOR).values_at(:path, :anchor)
+          ipath, cpath = Pathname.new(path), Pathname.new(File.expand_path(css_path))
+          is_url = URI.parse(path).absolute?
+          is_url ? url : "url(#{construct_asset_path(ipath, cpath, variant)}#{anchor})"
         end
       end
       stylesheets.join("\n")
