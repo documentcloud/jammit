@@ -93,9 +93,11 @@ module Jammit
           files[relative_path] = read_binary_file(path)
         end
 
+        hash = Digest::MD5.hexdigest(files.values.inject(:+))
+
         sourcemap_opts = {
           filename: "#{pack_name}.js",
-          url: "#{pack_name}.js.map?#{Time.now.to_i}"
+          url: "#{pack_name}.js.map?#{hash}"
         }
 
         # Single-file bundles may require an input sourcemap too
