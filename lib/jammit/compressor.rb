@@ -30,7 +30,7 @@ module Jammit
     MAX_IMAGE_SIZE  = 32700
 
     # CSS asset-embedding regexes for URL rewriting.
-    EMBED_DETECTOR  = /url\(['"]?(?<path>[^\s)]+\.\w+)(\?\d*)?(?<anchor>#.+)?['"]?\)/
+    EMBED_DETECTOR  = /url\(['"]?(?<path>[^\s)]+\.\w+)(\?\d*)?(?<anchor>#[^'"]+)?['"]?\)/
     EMBEDDABLE      = /[\A\/]embed\//
     EMBED_REPLACER  = /url\(__EMBED__(.+?)(\?\d+)?\)/
 
