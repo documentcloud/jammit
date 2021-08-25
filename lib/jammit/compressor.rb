@@ -86,14 +86,14 @@ module Jammit
 
       if Jammit.compress_assets
         base_dir = Pathname.new(output_dir)
-        context = @js_compressor.instance_variable_get(:@context)
 
         files = js_paths.each_with_object({}) do |path, files|
           relative_path = Pathname.new(path).relative_path_from(base_dir)
           files[relative_path] = read_binary_file(path)
         end
 
-        hash = Digest::MD5.hexdigest(files.values.inject(:+))
+        js = files.values.inject(:+)
+        hash = Digest::MD5.hexdigest(js)
 
         sourcemap_opts = {
           filename: "#{pack_name}.js",
@@ -107,19 +107,15 @@ module Jammit
 
           if sourcemap_url
             sourcemap_path = base_dir.join(path.dirname.join(sourcemap_url[1]))
-            sourcemap_opts[:content] = read_binary_file(sourcemap_path)
+            sourcemap_opts[:input_source_map] = read_binary_file(sourcemap_path)
           end
         end
 
-        result = context.call("UglifyJS.minify", files, {
-          sourceMap: sourcemap_opts
+        code, map = @js_compressor.compress(js, {
+          source_map: sourcemap_opts
         })
 
-        if result.has_key?('error')
-          raise Uglifier::Error, result['error']['message']
-        end
-
-        result
+        { "code" => code, "map" => map }
       elsif jst_paths.any?
         { "code" => concatenate(js_paths) + compile_jst(jst_paths) }
       else
