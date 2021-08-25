@@ -96,8 +96,8 @@ module Jammit
         hash = Digest::MD5.hexdigest(js)
 
         sourcemap_opts = {
-          filename: "#{pack_name}.js",
-          url: "#{pack_name}.js.map?#{hash}"
+          output_filename: "#{pack_name}.js",
+          map_url: "#{pack_name}.js.map?#{hash}"
         }
 
         # Single-file bundles may require an input sourcemap too
